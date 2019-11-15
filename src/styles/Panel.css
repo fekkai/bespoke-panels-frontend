@@ -1,0 +1,94 @@
+.dashboard {
+  font-size: 40px;
+  margin: 0 auto;
+  width: 90%;
+}
+
+@media only screen and (min-width: 1025px) {
+  .dashboard {
+    font-size: 15px;
+    margin: 0 auto;
+    width: 95%;
+    padding-bottom: 3%;
+  }
+  .section-1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+  }
+  .column {
+    width: 33%;
+    border-bottom: 1px solid lightgrey;
+    border-left: 1px solid lightgrey;
+  }
+  .section-2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .section-2 .selfie {
+    width: 29.7%;
+  }
+  .section-2 .selfie img {
+    width: 90%;
+  }
+  .section-2 .skeleton {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100%;
+  }
+  .section-2 .skeleton .skeleton-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  .section-3 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    width: 100%;
+  }
+  .column-name {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    background: lightgrey;
+    margin-top: 0;
+  }
+  .column-name select {
+    display: none;
+    /*hide original SELECT element: */
+  }
+  .list {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+/*# sourceMappingURL=Panel.css.map */

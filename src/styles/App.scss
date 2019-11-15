@@ -1,0 +1,190 @@
+//mobile
+
+.App {
+  width: 1028px;
+  margin: 0 auto;
+  .fekkai-logo {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  nav {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    // font-size: 40px;
+    .nav {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .nav-links {
+      font-size: 50px;
+      color: black;
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.login-form {
+  padding: 15px;
+  width: 400px;
+  border: 1px #eee solid;
+}
+
+.form {
+  width: 80%;
+  margin: 0 auto;
+  input {
+    font-size: 75px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 3px;
+    padding: 5px;
+    display: block;
+    width: 100%;
+  }
+  label {
+    font-size: 75px;
+  }
+}
+
+.form label {
+  font-size: 20px;
+}
+
+.form button {
+  font-size: 50px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5%;
+}
+
+.nav-section {
+  min-width: 250px;
+  display: flex;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav-section button {
+  border: none;
+  font-weight: bold;
+  padding: 0;
+  text-decoration: none;
+  font-size: inherit;
+}
+
+nav button,
+nav a {
+  color: grey;
+}
+
+nav button:hover,
+nav a:hover {
+  background-color: #eee;
+}
+
+nav button:visited,
+nav a:visited {
+  background-color: #ccc;
+}
+
+nav button:hover {
+  cursor: pointer;
+}
+
+//desktop
+@media only screen and (min-width: 1025px) {
+  .App {
+    width: 100%;
+    margin: 0 auto;
+    .img-container {
+      padding-top: 20px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 50%;
+      .img {
+        margin: 0 auto;
+        margin-top: 20px;
+      }
+    }
+    nav {
+      width: 50%;
+      margin: 0 auto;
+      display: flex;
+      font-weight: bold;
+      padding: 20px;
+      .nav-links {
+        font-size: 20px;
+        color: black;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 5px;
+      }
+      .nav-links-signed-in {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        div {
+          font-size: 20px;
+          color: red;
+        }
+      }
+    }
+  }
+
+  .form {
+    width: 30%;
+    margin: 0 auto;
+
+    input {
+      font-size: 25px;
+      margin-bottom: 10px;
+      margin-top: 5px;
+      border-radius: 3px;
+      padding: 5px;
+      display: block;
+      width: 100%;
+    }
+    button {
+      font-size: 25px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5%;
+    }
+  }
+  .content {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .home {
+    width: 50%;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,14 @@
+.dashboard {
+  font-size: 40px;
+  margin: 0 auto;
+  width: 90%;
+}
+
+@media only screen and (min-width: 1025px) {
+  .dashboard {
+    font-size: 15px;
+    margin: 0 auto;
+    width: 50%;
+  }
+}
+/*# sourceMappingURL=Dashboard.css.map */
