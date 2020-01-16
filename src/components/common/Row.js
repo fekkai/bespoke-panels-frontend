@@ -10,17 +10,16 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import { Paper } from "@material-ui/core";
 
+
+
 const useStyles = makeStyles({
-  card: {
-    minWidth: 275
-  },
   bullet: {
     display: "inline-block",
     margin: "0 2px",
     transform: "scale(0.8)"
   },
   title: {
-    fontSize: 14
+    fontSize: 15
   },
   pos: {
     marginBottom: 12
@@ -83,13 +82,12 @@ export const Row = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            padding: '0'
+            padding: "0"
           }}
         >
           <Typography
-            // className={classes.title}
+            className={classes.title}
             color="textSecondary"
-            gutterBottom
             style={{
               width: `${20}%`
             }}
@@ -103,45 +101,41 @@ export const Row = ({
             }
           </Typography>
           <Typography
-          style={{
-            width: `${20}%`
-          }}
-            // className={classes.title}
+            style={{
+              width: `${20}%`
+            }}
+            className={classes.title}
             color="textSecondary"
-            gutterBottom
           >
             {orderId}
           </Typography>
           <Typography
-          style={{
-            width: `${20}%`
-          }}
-            // className={classes.title}
+            style={{
+              width: `${20}%`
+            }}
+            className={classes.title}
             color="textSecondary"
-            gutterBottom
           >
             {" "}
             {customerName}
           </Typography>
           <Typography
-          style={{
-            width: `${20}%`
-          }}
-            // className={classes.title}
+            style={{
+              width: `${20}%`
+            }}
+            className={classes.title}
             color="textSecondary"
-            gutterBottom
           >
             {" "}
             {`${product1}, ${product2}, ${product3}`}
             <br />
           </Typography>
           <Typography
-          style={{
-            width: `${20}%`
-          }}
-            // className={classes.title}
+            style={{
+              width: `${20}%`
+            }}
+            className={classes.title}
             color="textSecondary"
-            gutterBottom
           >
             {" "}
             {status}

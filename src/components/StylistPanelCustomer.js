@@ -9,11 +9,12 @@ import axios from "axios";
 import aws4 from "aws4";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 import { Carousel } from "react-responsive-carousel";
 import { RingLoader } from "react-spinners";
 import { Paper } from "@material-ui/core";
 
-import "../styles/Panel.scss";
+// import "../styles/Panel.scss";
 
 // import OrderInfoStatus from "./OrderInfoStatus";
 
@@ -43,7 +44,9 @@ export default class StylistPanelCustomer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
+      photoIndex: 0,
+      isOpen: false
     };
   }
 
@@ -56,6 +59,8 @@ export default class StylistPanelCustomer extends Component {
   render() {
     const {
       name,
+      shampooFormula,
+      conditionerFormula,
       address,
       orderId,
       thickness,
@@ -70,11 +75,18 @@ export default class StylistPanelCustomer extends Component {
       frontSelfie,
       sideSelfie
     } = this.props.location.state;
+
+    console.log(shampooFormula, conditionerFormula)
+
+    const { photoIndex, isOpen } = this.state;
+    const images = [frontSelfie, sideSelfie];
+
     return (
       <div>
         <Link to="/stylist-panel-list">
           <button id="list-view-btn">← LIST VIEW</button>
         </Link>
+
         <Fade big>
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
@@ -82,10 +94,10 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Order</div>
               <div className="column-title">Status</div>
               <div className="info-container-1">
-                <span>
-                  NAME: {name}
-                  {address}
-                </span>
+                NAME: <br />
+                {name}
+                <br />
+                {address}
               </div>
               <div className="info-container-1">ID: {orderId}</div>
               <div className="info-container-1">

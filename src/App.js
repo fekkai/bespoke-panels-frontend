@@ -24,6 +24,9 @@ import "./styles/App.scss";
 import authService from "./services/authService";
 import { css } from "@emotion/core";
 
+import Lightbox from "react-image-lightbox";
+import "./styles/Lightbox.scss";
+
 //AWS4 auth
 let request = {
   hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
@@ -70,7 +73,9 @@ class App extends React.Component {
       afterwash: null,
       hairGoals2: null,
       conditionerFormula: null,
-      shampooFormula: null
+      shampooFormula: null,
+      photoIndex: 0,
+      isOpen: false
     };
   }
 
@@ -264,16 +269,46 @@ class App extends React.Component {
       frontSelfie,
       shampooFormula,
       conditionerFormula,
-      isLoading
+      isLoading,
+      photoIndex,
+      isOpen,
+      
+      
     } = this.state;
-
+    // const images = [frontSelfie, sideSelfie];
     return (
       <div className="app">
+       {/* {isOpen && (
+                  <Lightbox
+                    mainSrc={images[photoIndex]}
+                    nextSrc={images[(photoIndex + 1) % images.length]}
+                    prevSrc={
+                      images[(photoIndex + images.length - 1) % images.length]
+                    }
+                    onCloseRequest={() => this.setState({ isOpen: false })}
+                    onMovePrevRequest={() =>
+                      this.setState({
+                        photoIndex:
+                          (photoIndex + images.length - 1) % images.length
+                      })
+                    }
+                    onMoveNextRequest={() =>
+                      this.setState({
+                        photoIndex: (photoIndex + 1) % images.length
+                      })
+                    }
+                  />
+                )} */}
         <div id='header'>
           <Fade big>
             <header className="img-container">
               <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
               <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
+
+              {/* <button type="button" onClick={() => this.setState({ isOpen: true })}>
+          Open Lightbox
+        </button> */}
+
             </header>
           </Fade>
           {this.state.isSignedIn === true ? (
