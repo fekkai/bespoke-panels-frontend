@@ -1,83 +1,78 @@
-.App {
-  width: 1028px;
-  margin: 0 auto;
+@font-face {
+  font-family: "urwdin-regular";
+  font-style: normal;
+  src: local("urwdin-regular-webfont"), local("urwdin-regular-webfont"), url("../assets/urwdin-regular-webfont.woff") format("woff");
 }
 
-.App .fekkai-logo {
-  display: block;
-  width: 80%;
-  margin: 0 auto;
-  margin-top: 20px;
+.btn,
+button {
+  font-family: "urwdin-regular";
+  background: transparent;
+  color: #545454;
+  height: 3%;
+  font-size: 1.2em;
+  margin: 2% 3% 0 auto;
+  border: 2px solid #545454;
 }
 
-.App nav {
-  width: 80%;
-  margin: 0 auto;
+.btn:hover,
+button:hover {
+  background: rgba(0, 0, 0, 0);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.btn:active,
+button:active {
+  background: rgba(0, 0, 0, 0);
+}
+
+.app {
+  font-family: "urwdin-regular";
+  padding: 3%;
+}
+
+.app .img-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  font-weight: bold;
-  padding: 20px;
 }
 
-.App nav .nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+.app .img-container img {
+  width: 20%;
 }
 
-.App nav .nav-links {
-  font-size: 50px;
-  color: black;
+.app .img-container #bespoke-logo {
+  padding: 0;
+  margin-left: auto;
+  padding-right: 3%;
 }
 
-.App nav .nav-links ul {
-  list-style: none;
-  padding-left: 0;
+.app .img-container #fekkai-logo {
+  margin-left: 0;
+  padding-left: 3%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+.app #logout-approve-btn {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-right: 3%;
 }
 
-.App-link {
-  color: #61dafb;
+.app #logout-approve-btn div {
+  margin-left: auto;
 }
 
-.login-form {
-  padding: 15px;
-  width: 400px;
-  border: 1px #eee solid;
+.app #welcome {
+  font-size: 26px;
 }
 
 .form {
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
 }
 
@@ -99,112 +94,130 @@
   font-size: 20px;
 }
 
-.form button {
-  font-size: 50px;
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 5%;
+.signup-login {
+  padding-left: 3%;
 }
 
-.nav-section {
-  min-width: 250px;
+.order:hover {
+  background: #e8e8e8;
+}
+
+li {
+  padding: 2px 2px 2px 2px;
+}
+
+.order-info {
+  font-family: "urwdin-regular";
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.order-info .header {
+  padding: 3%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-a {
-  text-decoration: none;
+.order-info .header .header-subcontainer span {
+  margin: 50px 0;
 }
 
-.nav-section button {
-  border: none;
-  font-weight: bold;
+.order-info .header .header-subcontainer img {
+  width: 60%;
+}
+
+.order-info .header .btn {
+  font-family: "urwdin-regular";
+  background: transparent;
+  color: #545454;
+  height: 3%;
+  font-size: 1.2em;
+  margin: 2% 3% 0 auto;
+  border: 2px solid #545454;
+}
+
+.order-info .header .btn:hover {
+  background: rgba(0, 0, 0, 0);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.order-info .header .btn:active {
+  background: rgba(0, 0, 0, 0);
+}
+
+.tab-list {
+  border-bottom: 1px solid #444444;
+  padding-left: 0;
+  font-size: 25px;
+  background: #444444;
+  color: white;
+}
+
+.table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   padding: 0;
-  text-decoration: none;
-  font-size: inherit;
 }
 
-nav button,
-nav a {
-  color: grey;
+table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-nav button:hover,
-nav a:hover {
-  background-color: #eee;
+th {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: 1px solid #ddd;
+  width: 60%;
+  /* padding: 10px; */
+  color: #888888;
+  background-color: white;
+  font-size: 15px;
+  margin-top: 5px;
 }
 
-nav button:visited,
-nav a:visited {
-  background-color: #ccc;
+tr {
+  border: 1px solid #ddd;
+  color: #000000;
+  background: white;
+  text-align: left;
+  width: 100%;
+  padding: 5px;
 }
 
-nav button:hover {
-  cursor: pointer;
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
-@media only screen and (min-width: 1025px) {
-  .App {
-    width: 100%;
-    margin: 0 auto;
-  }
-  .App .fekkai-logo {
-    display: block;
-    width: 50%;
-    margin: 0 auto;
-    margin-top: 20px;
-  }
-  .App nav {
-    width: 50%;
-    margin: 0 auto;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    font-weight: bold;
-    padding: 20px;
-  }
-  .App nav .nav-links {
-    font-size: 20px;
-    color: black;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: space-evenly;
-        -ms-flex-pack: space-evenly;
-            justify-content: space-evenly;
-  }
-  .App nav .nav-links-signed-in span {
-    font-size: 20px;
-    color: red;
-    padding: 0px 35px 0px 35px;
-  }
-  .form {
-    width: 30%;
-    margin: 0 auto;
-  }
-  .form input {
-    font-size: 25px;
-    margin-bottom: 10px;
-    margin-top: 5px;
-    border-radius: 3px;
-    padding: 5px;
-    display: block;
-    width: 100%;
-  }
-  .form button {
-    font-size: 25px;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 5%;
-  }
-  .content {
-    width: 50%;
-    margin: 0 auto;
-  }
-  .home {
-    width: 50%;
-    margin: 0 auto;
-  }
+tr:hover {
+  background-color: #ddd;
+}
+
+.MuiButton-label {
+  font-size: 15px;
+}
+
+h2 {
+  font-weight: 600;
 }
 /*# sourceMappingURL=App.css.map */

@@ -1,10 +1,12 @@
 module.exports = [
   {
-    name: "James Kim",
-    address: "747 Third Ave, New York, NY 10001",
-    email: "jkim@fekkai.com",
-    mobile: "917-777-7777",
+    name: "CERSEI LANNISTER",
+    address: "666 RED KEEP CT KINGS LANDING, NY 69696",
+    email: "shamegrrl@casterlyrock.com",
+    mobile: "917-310-211",
+    order: 12345,
     order_date: "3/15/2020 19:42",
+    type: 'RUSH 1-DAY',
     quiz_results: {
       thickness: "Fine",
       texture: "Straight",

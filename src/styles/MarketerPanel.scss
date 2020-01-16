@@ -1,0 +1,35 @@
+//desktop
+@media only screen and (min-width: 1025px) {
+  .tab-list {
+    width: 95%;
+    margin: 0 auto;
+  }
+  .tab-list-item {
+    background: lightgrey;
+    font-size: 20px;
+  }
+  .tab-list-active {
+    background: lightgrey;
+    font-size: 20px;
+  }
+  .marketing-panel-section-1 {
+    display: flex;
+
+    width: 95%;
+    margin: 0 auto;
+    .column {
+      width: 100%;
+      padding: 0px;
+      margin: 0px;
+      .column-name {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+      }
+    }
+  }
+  ul {
+    list-style: none;
+    padding-left: 7px;
+  }
+}

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Container } from "./common";
+import { Container } from "../components/common";
 import "../styles/Panel.scss";
 import dummyData from "../services/dummydata";
-import OrderInfoStatus from "./OrderInfoStatus";
+import OrderInfoStatus from "../components/OrderInfoStatus";
 
 export default class ChemistPanel extends Component {
   constructor(props) {
@@ -41,6 +41,15 @@ export default class ChemistPanel extends Component {
     this.setState({
       value: event.target.value
     });
+  };
+
+  handleSelect = event => {
+    this.setState({
+      value: event.target.value
+    });
+    setTimeout(() => {
+      console.log(this.state.value);
+    }, 500);
   };
 
   renderOrderData = () => {

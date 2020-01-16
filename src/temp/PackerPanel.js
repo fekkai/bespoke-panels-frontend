@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Container } from "./common";
-import OrderInfoStatus from "./OrderInfoStatus";
+import { Container } from "../components/common";
+import OrderInfoStatus from "../components/OrderInfoStatus";
 import "../styles/Panel.scss";
 import dummyData from "../services/dummydata";
 
@@ -37,6 +37,15 @@ export default class PackerPanel extends Component {
 
   renderCustomerData = () => {};
 
+  handleSelect = event => {
+    this.setState({
+      value: event.target.value
+    });
+    setTimeout(() => {
+      console.log(this.state.value);
+    }, 500);
+  };
+
   renderOrderData = () => {
     let data = this.state.data;
     return data.map(element => {
@@ -64,18 +73,16 @@ export default class PackerPanel extends Component {
           </div>
           <div className="column">
             <h3 className="column-name">LABEL STATUS</h3>
-            <select>
-              <option>READY</option>
-              <option>IN PROGRESS</option>
-              <option>READY</option>
+            <select onChange={this.handleSelect}>
+              <option value="ready">READY</option>
+              <option value="inProgress">IN PROGRESS</option>
             </select>
           </div>
           <div className="column">
             <h3 className="column-name">PACKING STATUS</h3>
-            <select>
-              <option>READY</option>
-              <option>IN PROGRESS</option>
-              <option>READY</option>
+            <select onChange={this.handleSelect}>
+              <option value="ready">READY</option>
+              <option value="inProgress">IN PROGRESS</option>
             </select>
           </div>
         </Container>

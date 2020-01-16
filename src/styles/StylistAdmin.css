@@ -1,0 +1,7 @@
+.wrapper {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 200px 200px 200px;
+      grid-template-columns: 200px 200px 200px;
+}
+/*# sourceMappingURL=StylistAdmin.css.map */

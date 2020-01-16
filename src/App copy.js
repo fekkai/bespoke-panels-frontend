@@ -19,8 +19,7 @@ import axios from "axios";
 // Css
 import "./styles/App.scss";
 import authService from "./services/authService";
-import { css } from "@emotion/core";
-import ReactTable from "react-table";
+
 
 // const override = css`
 //   display: block;
@@ -142,7 +141,6 @@ class App extends React.Component {
   loginUser = async credentials => {
     try {
       const user = await login(credentials);
-      console.log(user)
       this.setState(state => {
         return {
           isSignedIn: true,
@@ -279,7 +277,7 @@ class App extends React.Component {
           <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
         </div>
         {this.state.isSignedIn === true ? (
-          <div id="logout-approve-btn">
+          <div id="logout-btn">
             <div>
               <button className="btn" onClick={this.signOutUser}>
                 LOGOUT
@@ -294,7 +292,7 @@ class App extends React.Component {
               <button>SIGN UP</button>
             </Link>
 
-            <Link to="/login">
+            <Link to="/">
               <button>LOGIN</button>
             </Link>
           </div>
@@ -304,10 +302,8 @@ class App extends React.Component {
         {this.state.isSignedIn === true ? null : (
           <p id="welcome">WELCOME TO BESPOKE ADMIN LOGIN</p>
         )}
-        <main id='main-page'>
-          <Route exact path="/" component={Home} />
-          {/* <Route exact path="/" component={Login} /> */}
-
+        <main>
+          <Route exact path="/" component={Login} />
 
           {/* <ProtectedRoute path="/dashboard" user={user} component={Dashboard} /> */}
           <ProtectedRoute

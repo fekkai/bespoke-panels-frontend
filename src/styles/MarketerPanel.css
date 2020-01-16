@@ -1,0 +1,36 @@
+@media only screen and (min-width: 1025px) {
+  .tab-list {
+    width: 95%;
+    margin: 0 auto;
+  }
+  .tab-list-item {
+    background: lightgrey;
+    font-size: 20px;
+  }
+  .tab-list-active {
+    background: lightgrey;
+    font-size: 20px;
+  }
+  .marketing-panel-section-1 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+  }
+  .marketing-panel-section-1 .column {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+  }
+  .marketing-panel-section-1 .column .column-name {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+  }
+  ul {
+    list-style: none;
+    padding-left: 7px;
+  }
+}
+/*# sourceMappingURL=MarketerPanel.css.map */

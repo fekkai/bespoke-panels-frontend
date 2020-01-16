@@ -1,6 +1,4 @@
-export * from './Card'
 export * from './Container'
 export * from './Button'
 export * from './Header'
-export * from './Image'
-export * from './Input'
+export * from './Row'

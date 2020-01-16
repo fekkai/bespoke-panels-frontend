@@ -2,6 +2,8 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 // Redirect renders a component that renders a component
 
+import '../styles/LoginForm.scss'
+
 export default class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -51,7 +53,7 @@ export default class LoginForm extends React.Component {
 
     if (isSignedIn) {
       // console.log(isSignedIn);
-      return <Redirect to="/stylist-panel" />;
+      return <Redirect to="/stylist-panel-list" />;
     }
 
     return (
@@ -77,7 +79,7 @@ export default class LoginForm extends React.Component {
               value={this.state.password}
             />
           </div>
-          <button>Login</button>
+          <button>LOGIN</button>
         </form>
       </div>
     );

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,QAAQ,CAAC;EACL,OAAO,EAAE,IAAI;EACb,qBAAqB,EAAE,iBAAiB;CACzC",
+    "sources": [
+        "StylistAdmin.scss"
+    ],
+    "names": [],
+    "file": "StylistAdmin.css"
+}
