@@ -1,6 +1,8 @@
 // Packages and Libraries
 import React from "react";
 import { Route, Link } from "react-router-dom";
+import Fade from "react-reveal/Fade";
+
 // Components
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -8,6 +10,7 @@ import SignUp from "./components/SignUp";
 import StylistPanelList from "./components/StylistPanelList";
 import StylistPanelCustomer from "./components/StylistPanelCustomer";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 // Assets
 import bespokeImg from "./assets/bespoke-beta.svg";
 import fekkaiLogo from "./assets/fekkai-logo.svg";
@@ -20,14 +23,6 @@ import axios from "axios";
 import "./styles/App.scss";
 import authService from "./services/authService";
 import { css } from "@emotion/core";
-import ReactTable from "react-table";
-
-// const override = css`
-//   display: block;
-//   margin: 0 auto;
-//   border-color: red;
-//   margin-top: ${7}%;
-// `;
 
 //AWS4 auth
 let request = {
@@ -142,7 +137,7 @@ class App extends React.Component {
   loginUser = async credentials => {
     try {
       const user = await login(credentials);
-      console.log(user)
+      console.log(user);
       this.setState(state => {
         return {
           isSignedIn: true,
@@ -274,40 +269,47 @@ class App extends React.Component {
 
     return (
       <div className="app">
-        <div className="img-container">
-          <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
-          <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
-        </div>
-        {this.state.isSignedIn === true ? (
-          <div id="logout-approve-btn">
-            <div>
-              <button className="btn" onClick={this.signOutUser}>
-                LOGOUT
-              </button>
+        <div id='header'>
+          <Fade big>
+            <header className="img-container">
+              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
+              <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
+            </header>
+          </Fade>
+          {this.state.isSignedIn === true ? (
+            <div id="logout-approve-btn">
+              <div>
+                <button className="btn" onClick={this.signOutUser}>
+                  LOGOUT
+                </button>
+              </div>
             </div>
-          </div>
-        ) : null}
+          ) : null}
+        </div>
         {isSignedIn && <div className="nav-links-signed-in"></div>}
         {!isSignedIn ? (
-          <div className="signup-login">
-            <Link to="/signup">
-              <button>SIGN UP</button>
-            </Link>
+          <Fade big>
+            <div className="signup-login">
+              <Link to="/signup">
+                <button>SIGN UP</button>
+              </Link>
 
-            <Link to="/login">
-              <button>LOGIN</button>
-            </Link>
-          </div>
+              <Link to="/login">
+                <button>LOGIN</button>
+              </Link>
+            </div>
+          </Fade>
         ) : (
           ""
         )}
         {this.state.isSignedIn === true ? null : (
-          <p id="welcome">WELCOME TO BESPOKE ADMIN LOGIN</p>
+          <Fade big>
+            <p id="welcome">WELCOME TO BESPOKE ADMIN LOGIN</p>
+          </Fade>
         )}
-        <main id='main-page'>
+        <main id="main-page">
           <Route exact path="/" component={Home} />
           {/* <Route exact path="/" component={Login} /> */}
-
 
           {/* <ProtectedRoute path="/dashboard" user={user} component={Dashboard} /> */}
           <ProtectedRoute
@@ -369,17 +371,18 @@ class App extends React.Component {
             user={user}
             component={StylistPanelCustomer}
           />
-
-          <Route
-            path="/login"
-            render={props => (
-              <Login
-                {...props}
-                handleLogin={this.loginUser}
-                isSignedIn={isSignedIn}
-              />
-            )}
-          />
+          <Fade big>
+            <Route
+              path="/login"
+              render={props => (
+                <Login
+                  {...props}
+                  handleLogin={this.loginUser}
+                  isSignedIn={isSignedIn}
+                />
+              )}
+            />
+          </Fade>
           <Route
             path="/signup"
             render={props => (

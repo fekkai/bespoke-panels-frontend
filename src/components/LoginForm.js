@@ -18,7 +18,7 @@ export default class LoginForm extends React.Component {
     event.preventDefault();
     // console.log("submit form");
     const { email, password } = this.state;
-    const { handleLogin } = this.props;
+const { handleLogin } = this.props;
 
     try {
       await handleLogin({ email, password });

@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { Container } from "./common";
-import { Button } from "./common";
-import { Loading } from "./common";
+
+//components
 import { Row } from "./common";
+
+
 import { Link } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
+import Fade from "react-reveal/Fade";
 
 import "../styles/Panel.scss";
 import { css } from "@emotion/core";
+import { Paper } from "@material-ui/core";
 
 import { RingLoader } from "react-spinners";
 
@@ -157,7 +159,7 @@ export default class StylistPanelList extends Component {
           age,
           diet,
           zip,
-          // humidity,
+          humidity,
           frontSelfie,
           sideSelfie
         });
@@ -247,72 +249,77 @@ export default class StylistPanelList extends Component {
     });
     return (
       <div className="dashboard">
-        <div className="table">
-          <label>
-            Search:{" "}
-            <input type="text" name="name" onChange={this.handleChange} />
-            <br />
-          </label>
-          <div className="list-header">
-            <div onClick={() => this.sortBy("date")}>
-              DUE DATE {descending ? "▼" : "▲"}
+        <Fade big>
+        <Paper elevation={0}>
+          <div className="table">
+            <label>
+              Search:{" "}
+              <input type="text" name="name" onChange={this.handleChange} />
+              <br />
+            </label>
+            <div className="list-header">
+              <div onClick={() => this.sortBy("date")}>
+                DUE DATE {descending ? "▼" : "▲"}
+              </div>
+              <div onClick={() => this.sortBy("orderId")}>
+                ORDER ID {descending ? "▼" : "▲"}
+              </div>
+              <div onClick={() => this.sortBy("customerName")}>
+                NAME {descending ? "▼" : "▲"}
+              </div>
+              <div onClick={() => this.sortBy("product")}>
+                PRODUCT {descending ? "▼" : "▲"}
+              </div>
+              <div onClick={() => this.sortBy("status")}>
+                STATUS {descending ? "▼" : "▲"}
+              </div>
             </div>
-            <div onClick={() => this.sortBy("orderId")}>
-              ORDER ID {descending ? "▼" : "▲"}
-            </div>
-            <div onClick={() => this.sortBy("customerName")}>
-              NAME {descending ? "▼" : "▲"}
-            </div>
-            <div onClick={() => this.sortBy("product")}>
-              PRODUCT {descending ? "▼" : "▲"}
-            </div>
-            <div onClick={() => this.sortBy("status")}>
-              STATUS {descending ? "▼" : "▲"}
+            <div className="body">
+              {filteredData.map(rowData => {
+                let response;
+                console.log(rowData)
+                return (
+                  <Link
+                    // onClick={async () => {
+                    //   // const userCode = rowData.userCode.value;
+                    //   // console.log(userCode)
+                    //   // response = await this.fetchUserCode(userCode);
+                    // }}
+                    to={{
+                      pathname: "/stylist-panel-customer",
+                      state: {
+                        name: rowData.customerName,
+                        address: rowData.address,
+                        orderId: rowData.orderId,
+                        thickness: rowData.thickness,
+                        texture: rowData.texture,
+                        condition: rowData.condition,
+                        hairGoals: rowData.hairGoals,
+                        hairGoals2: rowData.hairGoals2,
+                        age: rowData.age,
+                        diet: rowData.diet,
+                        zip: rowData.zip,
+                        humidity: rowData.humidity,
+                        frontSelfie: rowData.frontSelfie,
+                        sideSelfie: rowData.sideSelfie
+                      }
+                    }}
+                  >
+                    <Row {...rowData} />
+                  </Link>
+                );
+              })}
+              <RingLoader
+                css={override}
+                size={150}
+                // size={"150px"} this also works
+                color={"#545454"}
+                loading={this.state.loading}
+              />
             </div>
           </div>
-          <div className="body">
-            {filteredData.map(rowData => {
-              let response;
-              return (
-                <Link
-                  // onClick={async () => {
-                  //   // const userCode = rowData.userCode.value;
-                  //   // console.log(userCode)
-                  //   // response = await this.fetchUserCode(userCode);
-                  // }}
-                  to={{
-                    pathname: "/stylist-panel-customer",
-                    state: {
-                      name: rowData.customerName,
-                      address: rowData.address,
-                      orderId: rowData.orderId,
-                      thickness: rowData.thickness,
-                      texture: rowData.texture,
-                      condition: rowData.condition,
-                      hairGoals: rowData.hairGoals,
-                      hairGoals2: rowData.hairGoals2,
-                      age: rowData.age,
-                      diet: rowData.diet,
-                      zip: rowData.zip,
-                      humidity: rowData.humidity,
-                      frontSelfie: rowData.frontSelfie,
-                      sideSelfie: rowData.sideSelfie
-                    }
-                  }}
-                >
-                  <Row {...rowData} />
-                </Link>
-              );
-            })}
-            <RingLoader
-              css={override}
-              size={150}
-              //size={"150px"} this also works
-              color={"#000000"}
-              loading={this.state.loading}
-            />
-          </div>
-        </div>
+        </Paper>
+        </Fade>
       </div>
     );
   }
