@@ -46,23 +46,50 @@ export default class StylistPanelCustomer extends Component {
     this.state = {
       loading: true,
       photoIndex: 0,
-      isOpen: false
+      isOpen: false,
+      userCode: ""
     };
   }
 
   componentDidMount() {
     this.setState({
       loading: false
+      // userCode: this.props.location.state.userCode
     });
+    this.fetchUserCode();
   }
+
+  fetchUserCode = async () => {
+    let userResponse = await axios.get(
+      `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
+    );
+    console.log(userResponse);
+    this.setState({
+      shampooFormula: userResponse.data.user_data.answers.hair_thickness,
+      texture: userResponse.data.user_data.answers.hair_texture,
+      condition: userResponse.data.user_data.answers["hair-condition"],
+      hairGoals: userResponse.data.user_data.answers["hair-goals"],
+      hairGoals2: userResponse.data.user_data.answers["hair-goals-2"],
+      age: userResponse.data.user_data.answers.age,
+      diet: userResponse.data.user_data.answers.diet,
+      //     zip: (typepeof userResponse.data.user_data.answers.zipcode === "string"
+      // ? userResponse.data.user_data.answers.zipcode
+      // : userResponse.data.user_data.answers.zipcode.zip),
+      city: userResponse.data.user_data.weather,
+      frontSelfie: userResponse.data.user_data.front_selfie,
+      sideSelfie: userResponse.data.user_data.side_selfie,
+      afterwash: userResponse.data.user_data.answers.afterwash
+    });
+  };
+  // renderKeys = () => {
+
+  // };
 
   render() {
     const {
-      name,
       shampooFormula,
       conditionerFormula,
       address,
-      orderId,
       thickness,
       texture,
       condition,
@@ -70,17 +97,30 @@ export default class StylistPanelCustomer extends Component {
       hairGoals2,
       age,
       diet,
-      zip,
-      humidity,
+      // zip,
+      // city,
       frontSelfie,
-      sideSelfie
-    } = this.props.location.state;
+      sideSelfie,
+      afterwash
+    } = this.state;
 
-    console.log(shampooFormula, conditionerFormula)
+    const { name, orderId } = this.props.location.state;
 
     const { photoIndex, isOpen } = this.state;
     const images = [frontSelfie, sideSelfie];
+    // console.log(shampooFormula);
 
+    const formulaKeys = () => {
+      const scores = [];
+      for (let key of Object.keys(shampooFormula)) {
+        scores.push(parseInt(shampooFormula[key]));
+        console.log(scores.sort((a, b) => b - a));
+        return scores[0] === shampooFormula[key] ? console.log(key) : "";
+      }
+      // console.log(scores);
+      //sort the array of values of skeleton scores
+    };
+    // formulaKeys();
     return (
       <div>
         <Link to="/stylist-panel-list">
@@ -183,12 +223,17 @@ export default class StylistPanelCustomer extends Component {
                 DIET: {diet}
                 <br />
                 <br />
-                ZIP: {zip}
+                {/* ZIP: {zip} */}
                 <br />
                 <br />
-                HUMIDITY:
+                {/* CITY: {city.city} */}
+                {/* (UV: {city.scores.uv_risk.score}; AIR QUALITY:{" "}
+                {city.scores.air_quality.score}; WATER PH:{" "}
+                {city.scores.water_hardness.score}; HUMIDITY:{" "}
+                {city.scores.humidity.score}; WIND:{" "}
+                {city.scores.wind_speed.score}) */}
                 <br />
-                <br /># AFTERWASH PRODUCTS:
+                <br /># AFTERWASH PRODUCTS: {afterwash}
               </div>
 
               <div className="selfie-container">
@@ -208,8 +253,8 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Shampoo</div>
               <div className="column-title">Conditioner</div>
               <div className="info-container"></div>
-              <div className="info-container">Placeholder</div>
-              <div className="info-container">Placeholder</div>
+              <div className="info-container">SKELETON:</div>
+              <div className="info-container">SKELETON</div>
               <div id="logout-approve-btn">
                 <div style={{ paddingRight: `${5}%` }}>
                   <button>APPROVE</button>

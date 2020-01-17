@@ -114,30 +114,31 @@ export default class StylistPanelList extends Component {
         let product3 = !line_items[2].title ? "" : line_items[2].title;
         let userCode = !note_attributes[0] ? "" : note_attributes[0].value;
 
-        if (userCode) {
-          let userResponse = await axios.get(
-            `https://fekk.ai/backend/get_formula?user_code=${userCode}`
-          );
+        // if (userCode) {
+        //   let userResponse = await axios.get(
+        //     `https://fekk.ai/backend/get_formula?user_code=${userCode}`
+        //   );
 
-          var shampooFormula = userResponse.data.ingredients.shampoo.formula;
-          var conditionerFormula =
-            userResponse.data.ingredients.shampoo.formula;
-          var thickness = userResponse.data.user_data.answers.hair_thickness;
-          var texture = userResponse.data.user_data.answers.hair_texture;
-          var condition = userResponse.data.user_data.answers["hair-condition"];
-          var hairGoals = userResponse.data.user_data.answers["hair-goals"];
-          var hairGoals2 = userResponse.data.user_data.answers["hair-goals-2"];
-          var age = userResponse.data.user_data.answers.age;
-          var diet = userResponse.data.user_data.answers.diet;
-          var zip =
-            typeof userResponse.data.user_data.answers.zipcode === "string"
-              ? userResponse.data.user_data.answers.zipcode
-              : userResponse.data.user_data.answers.zipcode.zip;
-          var humidity = userResponse.data.user_data.weather;
-          var frontSelfie = userResponse.data.user_data.front_selfie;
-          var sideSelfie = userResponse.data.user_data.side_selfie;
-        }
-
+        //   var shampooFormula = userResponse.data.ingredients.shampoo.formula;
+        //   var conditionerFormula =
+        //     userResponse.data.ingredients.shampoo.formula;
+        //   var thickness = userResponse.data.user_data.answers.hair_thickness;
+        //   var texture = userResponse.data.user_data.answers.hair_texture;
+        //   var condition = userResponse.data.user_data.answers["hair-condition"];
+        //   var hairGoals = userResponse.data.user_data.answers["hair-goals"];
+        //   var hairGoals2 = userResponse.data.user_data.answers["hair-goals-2"];
+        //   var age = userResponse.data.user_data.answers.age;
+        //   var diet = userResponse.data.user_data.answers.diet;
+        //   var zip =
+        //     typeof userResponse.data.user_data.answers.zipcode === "string"
+        //       ? userResponse.data.user_data.answers.zipcode
+        //       : userResponse.data.user_data.answers.zipcode.zip;
+        //   var city = userResponse.data.user_data.weather;
+        //   var frontSelfie = userResponse.data.user_data.front_selfie;
+        //   var sideSelfie = userResponse.data.user_data.side_selfie;
+        //   var afterwash = userResponse.data.user_data.answers.afterwash
+        // }
+        // console.log(afterwash)
         await data.push({
           date,
           customerName,
@@ -147,24 +148,27 @@ export default class StylistPanelList extends Component {
           product1,
           product2,
           product3,
-          shampooFormula,
-          conditionerFormula,
-          thickness,
-          texture,
-          condition,
-          hairGoals,
-          hairGoals2,
-          age,
-          diet,
-          zip,
-          humidity,
-          frontSelfie,
-          sideSelfie
+          // shampooFormula,
+          // conditionerFormula,
+          // thickness,
+          // texture,
+          // condition,
+          // hairGoals,
+          // hairGoals2,
+          // age,
+          // diet,
+          // zip,
+          // city,
+          // frontSelfie,
+          // sideSelfie,
+          // afterwash,
+          userCode
         });
+        // console.log(city)
       });
       await this.setState({
-        data
-      });
+        data,
+              });
     } catch (error) {
       console.error(error);
     }
@@ -253,21 +257,23 @@ export default class StylistPanelList extends Component {
                         pathname: "/stylist-panel-customer",
                         state: {
                           name: rowData.customerName,
-                          shampooFormula: rowData.shampooFormula,
-                          conditionerFormula: rowData.conditionerFormula,
-                          address: rowData.address,
+                          // shampooFormula: rowData.shampooFormula,
+                          // conditionerFormula: rowData.conditionerFormula,
+                          // address: rowData.address,
                           orderId: rowData.orderId,
-                          thickness: rowData.thickness,
-                          texture: rowData.texture,
-                          condition: rowData.condition,
-                          hairGoals: rowData.hairGoals,
-                          hairGoals2: rowData.hairGoals2,
-                          age: rowData.age,
-                          diet: rowData.diet,
-                          zip: rowData.zip,
-                          humidity: rowData.humidity,
-                          frontSelfie: rowData.frontSelfie,
-                          sideSelfie: rowData.sideSelfie
+                          // thickness: rowData.thickness,
+                          // texture: rowData.texture,
+                          // condition: rowData.condition,
+                          // hairGoals: rowData.hairGoals,
+                          // hairGoals2: rowData.hairGoals2,
+                          // age: rowData.age,
+                          // diet: rowData.diet,
+                          // zip: rowData.zip,
+                          // city: rowData.city,
+                          // frontSelfie: rowData.frontSelfie,
+                          // sideSelfie: rowData.sideSelfie,
+                          // afterwash: rowData.afterwash,
+                          userCode: rowData.userCode,
                         }
                       }}
                     >

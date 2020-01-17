@@ -302,7 +302,7 @@ class App extends React.Component {
         <div id='header'>
           <Fade big>
             <header className="img-container">
-              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
+              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} /> 
               <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
 
               {/* <button type="button" onClick={() => this.setState({ isOpen: true })}>
