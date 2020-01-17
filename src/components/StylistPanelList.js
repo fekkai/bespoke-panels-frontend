@@ -81,7 +81,6 @@ export default class StylistPanelList extends Component {
     await this.setState({
       loading: false
     });
-    // this.setState
   }
 
   fetchOrders = async () => {
@@ -176,12 +175,9 @@ export default class StylistPanelList extends Component {
       ascending: true
     });
     return function(a, b) {
-      // if (a[key] < b[key]) return -1;
       if (a[key] < b[key]) {
         return -1;
       }
-
-      // return 0;
     };
   };
 
@@ -190,17 +186,14 @@ export default class StylistPanelList extends Component {
       ascending: false
     });
     return function(a, b) {
-      // if (a[key] < b[key]) return -1;
       if (a[key] > b[key]) {
         return -1;
       }
-      // return 0;
     };
   };
 
   sortBy = key => {
     let arrayCopy = [...this.state.data];
-    // arrayCopy.sort(this.compareBy(key));
     if (this.state.ascending === false) {
       arrayCopy.sort(this.compareAsc(key));
       this.setState({ data: arrayCopy });
@@ -237,19 +230,19 @@ export default class StylistPanelList extends Component {
               </label>
               <div className="list-header">
                 <div onClick={() => this.sortBy("date")}>
-                  DUE DATE {ascending ? "▲" : "▼"}
+                  DUE DATE <span>{ascending ? "▲" : "▼"}</span>
                 </div>
                 <div onClick={() => this.sortBy("orderId")}>
-                  ORDER ID {ascending ? "▲" : "▼"}
+                  ORDER ID <span>{ascending ? "▲" : "▼"}</span>
                 </div>
                 <div onClick={() => this.sortBy("customerName")}>
-                  NAME {ascending ? "▲" : "▼"}
+                  NAME <span>{ascending ? "▲" : "▼"}</span>
                 </div>
                 <div onClick={() => this.sortBy("product")}>
-                  PRODUCT {ascending ? "▲" : "▼"}
+                  PRODUCT <span>{ascending ? "▲" : "▼"}</span>
                 </div>
                 <div onClick={() => this.sortBy("status")}>
-                  STATUS {ascending ? "▲" : "▼"}
+                  STATUS <span>{ascending ? "▲" : "▼"}</span>
                 </div>
               </div>
               <div className="body">
