@@ -257,22 +257,10 @@ export default class StylistPanelList extends Component {
                         pathname: "/stylist-panel-customer",
                         state: {
                           name: rowData.customerName,
-                          // shampooFormula: rowData.shampooFormula,
-                          // conditionerFormula: rowData.conditionerFormula,
-                          // address: rowData.address,
+                         
+                          address: rowData.address,
                           orderId: rowData.orderId,
-                          // thickness: rowData.thickness,
-                          // texture: rowData.texture,
-                          // condition: rowData.condition,
-                          // hairGoals: rowData.hairGoals,
-                          // hairGoals2: rowData.hairGoals2,
-                          // age: rowData.age,
-                          // diet: rowData.diet,
-                          // zip: rowData.zip,
-                          // city: rowData.city,
-                          // frontSelfie: rowData.frontSelfie,
-                          // sideSelfie: rowData.sideSelfie,
-                          // afterwash: rowData.afterwash,
+                        
                           userCode: rowData.userCode,
                         }
                       }}

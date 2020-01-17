@@ -16,8 +16,6 @@ import { Paper } from "@material-ui/core";
 
 // import "../styles/Panel.scss";
 
-// import OrderInfoStatus from "./OrderInfoStatus";
-
 const override = css`
   display: block;
   margin: 0 auto;
@@ -52,10 +50,6 @@ export default class StylistPanelCustomer extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      loading: false
-      // userCode: this.props.location.state.userCode
-    });
     this.fetchUserCode();
   }
 
@@ -65,6 +59,7 @@ export default class StylistPanelCustomer extends Component {
     );
     console.log(userResponse);
     this.setState({
+      loading: false,
       shampooFormula: userResponse.data.user_data.answers.hair_thickness,
       texture: userResponse.data.user_data.answers.hair_texture,
       condition: userResponse.data.user_data.answers["hair-condition"],
@@ -75,7 +70,13 @@ export default class StylistPanelCustomer extends Component {
       //     zip: (typepeof userResponse.data.user_data.answers.zipcode === "string"
       // ? userResponse.data.user_data.answers.zipcode
       // : userResponse.data.user_data.answers.zipcode.zip),
-      city: userResponse.data.user_data.weather,
+      city: userResponse.data.user_data.weather.city,
+      uvRisk: userResponse.data.user_data.weather.scores.uv_risk.score,
+      airQuality: userResponse.data.user_data.weather.scores.air_quality.score,
+      waterHardness:
+        userResponse.data.user_data.weather.scores.water_hardness.score,
+      humidity: userResponse.data.user_data.weather.scores.humidity.score,
+      windSpeed: userResponse.data.user_data.weather.scores.wind_speed.score,
       frontSelfie: userResponse.data.user_data.front_selfie,
       sideSelfie: userResponse.data.user_data.side_selfie,
       afterwash: userResponse.data.user_data.answers.afterwash
@@ -89,7 +90,7 @@ export default class StylistPanelCustomer extends Component {
     const {
       shampooFormula,
       conditionerFormula,
-      address,
+      // address,
       thickness,
       texture,
       condition,
@@ -97,14 +98,19 @@ export default class StylistPanelCustomer extends Component {
       hairGoals2,
       age,
       diet,
-      // zip,
-      // city,
+      zip,
+      city,
       frontSelfie,
       sideSelfie,
-      afterwash
+      afterwash,
+      uvRisk,
+      airQuality,
+      waterHardness,
+      humidity,
+      windSpeed
     } = this.state;
-
-    const { name, orderId } = this.props.location.state;
+    console.log(city);
+    const { name, address, orderId } = this.props.location.state;
 
     const { photoIndex, isOpen } = this.state;
     const images = [frontSelfie, sideSelfie];
@@ -126,7 +132,13 @@ export default class StylistPanelCustomer extends Component {
         <Link to="/stylist-panel-list">
           <button id="list-view-btn">← LIST VIEW</button>
         </Link>
-
+        <RingLoader
+          css={override}
+          size={150}
+          //size={"150px"} this also works
+          color={"#000000"}
+          loading={this.state.loading}
+        />
         <Fade big>
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
@@ -147,6 +159,7 @@ export default class StylistPanelCustomer extends Component {
               </div>
             </div>
           </Paper>
+
           <Paper elevation={1}>
             {/* <div className="section">CUSTOMER RESPONSE</div> */}
             <div className="stylist-panel-customer">
@@ -223,15 +236,12 @@ export default class StylistPanelCustomer extends Component {
                 DIET: {diet}
                 <br />
                 <br />
-                {/* ZIP: {zip} */}
+                ZIP: {zip}
                 <br />
                 <br />
-                {/* CITY: {city.city} */}
-                {/* (UV: {city.scores.uv_risk.score}; AIR QUALITY:{" "}
-                {city.scores.air_quality.score}; WATER PH:{" "}
-                {city.scores.water_hardness.score}; HUMIDITY:{" "}
-                {city.scores.humidity.score}; WIND:{" "}
-                {city.scores.wind_speed.score}) */}
+                CITY: {city}
+                (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
+                {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})
                 <br />
                 <br /># AFTERWASH PRODUCTS: {afterwash}
               </div>
@@ -263,14 +273,6 @@ export default class StylistPanelCustomer extends Component {
             </div>
           </Paper>
         </Fade>
-
-        <RingLoader
-          css={override}
-          size={150}
-          //size={"150px"} this also works
-          color={"#000000"}
-          loading={this.state.loading}
-        />
       </div>
     );
   }
