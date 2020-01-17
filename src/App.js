@@ -324,7 +324,7 @@ class App extends React.Component {
         {isSignedIn && <div className="nav-links-signed-in"></div>}
         {!isSignedIn ? (
           <Fade big>
-            <div className="signup-login">
+            {/* <div className="signup-login">
               <Link to="/signup">
                 <button>SIGN UP</button>
               </Link>
@@ -332,22 +332,22 @@ class App extends React.Component {
               <Link to="/login">
                 <button>LOGIN</button>
               </Link>
-            </div>
+            </div> */}
           </Fade>
         ) : (
           ""
         )}
         {this.state.isSignedIn === true ? null : (
           <Fade big>
-            <p id="welcome">WELCOME TO BESPOKE ADMIN LOGIN</p>
+            {/* <p id="welcome">WELCOME TO BESPOKE ADMIN LOGIN</p> */}
           </Fade>
         )}
         <main id="main-page">
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={StylistPanelList} />
           {/* <Route exact path="/" component={Login} /> */}
 
           {/* <ProtectedRoute path="/dashboard" user={user} component={Dashboard} /> */}
-          <ProtectedRoute
+          <Route
             path="/stylist-panel-list"
             user={user}
             component={StylistPanelList}
@@ -356,7 +356,7 @@ class App extends React.Component {
             name={name}
           />
 
-          <ProtectedRoute
+          <Route
             thickness={
               thickness
                 ? thickness === 1

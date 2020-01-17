@@ -30,7 +30,9 @@ button {
 .app {
   font-family: "urwdin-regular";
   padding: 3%;
- 
+ header {
+   margin-bottom: 30px
+ }
   .signup-login {
     padding-left: 3%;
   }
@@ -84,8 +86,13 @@ button {
 }
 
 
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
 
+header {
+  margin-bottom: 30px
+}
 
+}
 
 
 
