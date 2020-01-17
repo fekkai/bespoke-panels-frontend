@@ -47,8 +47,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSignedIn: false,
-      isSignedUp: false,
+      // isSignedIn: false,
+      // isSignedUp: false,
       user: {},
 
       orders: null,
@@ -139,43 +139,43 @@ class App extends React.Component {
     }
   };
 
-  loginUser = async credentials => {
-    try {
-      const user = await login(credentials);
-      console.log(user);
-      this.setState(state => {
-        return {
-          isSignedIn: true,
-          user: user
-        };
-      });
-    } catch (e) {
-      throw e;
-    }
-  };
+  // loginUser = async credentials => {
+  //   try {
+  //     const user = await login(credentials);
+  //     console.log(user);
+  //     this.setState(state => {
+  //       return {
+  //         isSignedIn: true,
+  //         user: user
+  //       };
+  //     });
+  //   } catch (e) {
+  //     throw e;
+  //   }
+  // };
 
-  signOutUser = () => {
-    authService.signOut();
-    this.setState(state => {
-      return {
-        isSignedIn: false,
-        user: {}
-      };
-    });
-  };
+  // signOutUser = () => {
+  //   authService.signOut();
+  //   this.setState(state => {
+  //     return {
+  //       isSignedIn: false,
+  //       user: {}
+  //     };
+  //   });
+  // };
 
-  signUpUser = async credentials => {
-    try {
-      const user = await signUp(credentials);
-      this.setState({
-        isSignedIn: true,
-        isSignedUp: true,
-        user: user
-      });
-    } catch (error) {
-      throw error;
-    }
-  };
+  // signUpUser = async credentials => {
+  //   try {
+  //     const user = await signUp(credentials);
+  //     this.setState({
+  //       isSignedIn: true,
+  //       isSignedUp: true,
+  //       user: user
+  //     });
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
 
   renderOrders = () => {
     return (
@@ -248,8 +248,8 @@ class App extends React.Component {
 
   render() {
     const {
-      isSignedIn,
-      isSignedUp,
+      // isSignedIn,
+      // isSignedUp,
       user,
       thickness,
       texture,
@@ -272,9 +272,7 @@ class App extends React.Component {
       isLoading,
       photoIndex,
       isOpen,
-      
-      
-    } = this.state;
+      } = this.state;
     // const images = [frontSelfie, sideSelfie];
     return (
       <div className="app">
@@ -311,7 +309,7 @@ class App extends React.Component {
 
             </header>
           </Fade>
-          {this.state.isSignedIn === true ? (
+          {/* {this.state.isSignedIn === true ? (
             <div id="logout-approve-btn">
               <div>
                 <button className="btn" onClick={this.signOutUser}>
@@ -319,29 +317,9 @@ class App extends React.Component {
                 </button>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
         </div>
-        {isSignedIn && <div className="nav-links-signed-in"></div>}
-        {!isSignedIn ? (
-          <Fade big>
-            {/* <div className="signup-login">
-              <Link to="/signup">
-                <button>SIGN UP</button>
-              </Link>
-
-              <Link to="/login">
-                <button>LOGIN</button>
-              </Link>
-            </div> */}
-          </Fade>
-        ) : (
-          ""
-        )}
-        {this.state.isSignedIn === true ? null : (
-          <Fade big>
-            {/* <p id="welcome">WELCOME TO BESPOKE ADMIN LOGIN</p> */}
-          </Fade>
-        )}
+    
         <main id="main-page">
           <Route exact path="/" component={StylistPanelList} />
           {/* <Route exact path="/" component={Login} /> */}
@@ -406,7 +384,7 @@ class App extends React.Component {
             user={user}
             component={StylistPanelCustomer}
           />
-          <Fade big>
+          {/* <Fade big>
             <Route
               path="/login"
               render={props => (
@@ -428,7 +406,7 @@ class App extends React.Component {
                 isSignedIn={isSignedIn}
               />
             )}
-          />
+          /> */}
         </main>
         <footer></footer>
       </div>
