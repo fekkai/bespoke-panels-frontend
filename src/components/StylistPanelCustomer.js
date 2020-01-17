@@ -208,8 +208,8 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Shampoo</div>
               <div className="column-title">Conditioner</div>
               <div className="info-container"></div>
-              <div className="info-container">Status</div>
-              <div className="info-container">Status</div>
+              <div className="info-container">Placeholder</div>
+              <div className="info-container">Placeholder</div>
               <div id="logout-approve-btn">
                 <div style={{ paddingRight: `${5}%` }}>
                   <button>APPROVE</button>

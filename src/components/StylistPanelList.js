@@ -47,7 +47,7 @@ export default class StylistPanelList extends Component {
       filter: "",
 
       data: [],
-      descending: true,
+      ascending: true,
       loading: true,
 
       orders: null,
@@ -76,8 +76,12 @@ export default class StylistPanelList extends Component {
     };
   }
 
-  componentDidMount() {
-    this.fetchOrders();
+  async componentDidMount() {
+    await this.fetchOrders();
+    await this.setState({
+      loading: false
+    });
+    // this.setState
   }
 
   fetchOrders = async () => {
@@ -85,6 +89,7 @@ export default class StylistPanelList extends Component {
       let response = await axios(signedRequest);
 
       const data = [];
+
       response.data.orders.map(async element => {
         const {
           created_at,
@@ -111,9 +116,10 @@ export default class StylistPanelList extends Component {
         let userCode = !note_attributes[0] ? "" : note_attributes[0].value;
 
         if (userCode) {
-          const userResponse = await axios.get(
+          let userResponse = await axios.get(
             `https://fekk.ai/backend/get_formula?user_code=${userCode}`
           );
+
           var shampooFormula = userResponse.data.ingredients.shampoo.formula;
           var conditionerFormula =
             userResponse.data.ingredients.shampoo.formula;
@@ -132,7 +138,7 @@ export default class StylistPanelList extends Component {
           var frontSelfie = userResponse.data.user_data.front_selfie;
           var sideSelfie = userResponse.data.user_data.side_selfie;
         }
-        console.log(conditionerFormula);
+
         await data.push({
           date,
           customerName,
@@ -156,73 +162,52 @@ export default class StylistPanelList extends Component {
           frontSelfie,
           sideSelfie
         });
-        console.log(data);
       });
-      this.setState({
-        data,
-        loading: false
+      await this.setState({
+        data
       });
     } catch (error) {
       console.error(error);
     }
   };
 
-  // fetchUserCode = async code => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://fekk.ai/backend/get_formula?user_code=${code}`
-  //     );
-  //     return response;
-  //     // this.setState({
-  //     //   csv: res.data,
-  //     //   thickness: res.data.user_data.answers.hair_thickness,
-  //     //   texture: res.data.user_data.answers.hair_texture,
-  //     //   hairCondition: res.data.user_data.answers["hair-condition"],
-  //     //   hairGoals: res.data.user_data.answers["hair-goals"],
-  //     //   age: res.data.user_data.answers.age,
-  //     //   diet: res.data.user_data.answers.diet,
-  //     //   zip: res.data.user_data.answers.zipcode.zip,
-  //     //   //zips are populating differently each time
-  //     //   city: res.data.user_data.weather.city,
-  //     //   wash: res.data.user_data.answers.wash_frequency,
-  //     //   afterwash: res.data.user_data.answers.afterwash,
-  //     //   hairGoals2: res.data.user_data.answers["hair-goals-2"],
-  //     //   sideSelfie: res.data.user_data["side_selfie"],
-  //     //   frontSelfie: res.data.user_data["front_selfie"],
-  //     //   shampooFormula: res.data.ingredients.shampoo.formula,
-  //     //   conditionerFormula: res.data.ingredients.conditioner.formula
-  //     // });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  compareBy = key => {
-    const { descending } = this.state;
-
+  compareAsc = key => {
+    this.setState({
+      ascending: true
+    });
     return function(a, b) {
-      if (a[key] < b[key]) return -1;
-      if (a[key] > b[key]) return 1;
-      return 0;
+      // if (a[key] < b[key]) return -1;
+      if (a[key] < b[key]) {
+        return -1;
+      }
+
+      // return 0;
+    };
+  };
+
+  compareDsc = key => {
+    this.setState({
+      ascending: false
+    });
+    return function(a, b) {
+      // if (a[key] < b[key]) return -1;
+      if (a[key] > b[key]) {
+        return -1;
+      }
+      // return 0;
     };
   };
 
   sortBy = key => {
-    if (this.state.descending === true) {
-      this.setState({
-        descending: false
-      });
-    } else {
-      this.setState({
-        descending: true
-      });
-    }
     let arrayCopy = [...this.state.data];
     // arrayCopy.sort(this.compareBy(key));
-    arrayCopy.sort(this.compareBy(key));
-
-    this.setState({ data: arrayCopy });
-    console.log(this.state.descending);
+    if (this.state.ascending === false) {
+      arrayCopy.sort(this.compareAsc(key));
+      this.setState({ data: arrayCopy });
+    } else if (this.state.ascending === true) {
+      arrayCopy.sort(this.compareDsc(key));
+      this.setState({ data: arrayCopy });
+    }
   };
 
   handleChange = e => {
@@ -230,7 +215,7 @@ export default class StylistPanelList extends Component {
   };
 
   render() {
-    const { filter, data, descending } = this.state;
+    const { filter, data, ascending } = this.state;
 
     const filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
@@ -252,32 +237,25 @@ export default class StylistPanelList extends Component {
               </label>
               <div className="list-header">
                 <div onClick={() => this.sortBy("date")}>
-                  DUE DATE {descending ? "▼" : "▲"}
+                  DUE DATE {ascending ? "▲" : "▼"}
                 </div>
                 <div onClick={() => this.sortBy("orderId")}>
-                  ORDER ID {descending ? "▼" : "▲"}
+                  ORDER ID {ascending ? "▲" : "▼"}
                 </div>
                 <div onClick={() => this.sortBy("customerName")}>
-                  NAME {descending ? "▼" : "▲"}
+                  NAME {ascending ? "▲" : "▼"}
                 </div>
                 <div onClick={() => this.sortBy("product")}>
-                  PRODUCT {descending ? "▼" : "▲"}
+                  PRODUCT {ascending ? "▲" : "▼"}
                 </div>
                 <div onClick={() => this.sortBy("status")}>
-                  STATUS {descending ? "▼" : "▲"}
+                  STATUS {ascending ? "▲" : "▼"}
                 </div>
               </div>
               <div className="body">
                 {filteredData.map(rowData => {
-                  let response;
-                  console.log(rowData);
                   return (
                     <Link
-                      // onClick={async () => {
-                      //   // const userCode = rowData.userCode.value;
-                      //   // console.log(userCode)
-                      //   // response = await this.fetchUserCode(userCode);
-                      // }}
                       to={{
                         pathname: "/stylist-panel-customer",
                         state: {
@@ -318,220 +296,4 @@ export default class StylistPanelList extends Component {
       </div>
     );
   }
-}
-
-{
-  /* <div style={{ display: "flex", flexDirection: "row" }}></div> */
-}
-
-{
-  /* <Container classname="section-2">
-          <div className="section-subcontainer">
-            <h3 className="column-name">SELFIE</h3>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: `${100}%`,
-                height: `${100}%`
-              }}
-            >
-              <img className="selfie" src={this.props.frontSelfie} /> */
-}
-{
-  /* {this.props.isLoading ? (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: `${10}%`,
-                    left: `${50}%`
-                  }}
-                >
-                  <Loading type={"spokes"} color={"black"} />
-                </div>
-              ) : null} */
-}
-{
-  /* <img className="selfie" src={this.props.sideSelfie} />
-            </div>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: `${99}%`,
-              height: `${500}px`
-            }}
-          >
-            <div className="skeleton">
-              <h3 className="column-name">SKELETON</h3>
-              <div className="skeleton-content">
-                <div className="column">
-                  <p class="sub-header" style={{ fontSize: `{10}px` }}>
-                    Thickness
-                  </p>
-                  <p>
-                    <b>{this.props.thickness}</b>
-                  </p>
-                </div>
-                <div className="column">
-                  <h3></h3>
-                  <h3>Texture (User/Override)</h3>
-                  <p>
-                    <b>{this.props.texture}</b>
-                  </p>
-                </div>
-                <div className="column">
-                  <h3>Condition(s)</h3>
-                  <p>
-                    <b>
-                      {!this.props.hairCondition === "none"
-                        ? this.props.hairCondition.map(e => e + ", ")
-                        : null}
-                    </b>
-                  </p>
-                </div>
-                <div className="column">
-                  <h3>Goal 1</h3>
-                  <p>
-                    <b>
-                      {this.props.hairGoals
-                        ? this.props.hairGoals.map(e => e + ", ")
-                        : null}
-                    </b>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="skeleton">
-              <h3 className="column-name">BOOSTERS</h3>
-
-              <div className="skeleton-content">
-                <div className="column">
-                  <h3>Age</h3>
-                  <p>
-                    <b>{this.props.age}</b>
-                  </p>
-                </div>
-
-                <div className="column">
-                  <h3></h3>
-                  <h3>Diet</h3>
-                  <p>
-                    <b>{this.props.diet}</b>
-                  </p>
-                </div>
-
-                <div className="column">
-                  <h3>Zip</h3>
-                  <p>
-                    <b>{this.props.zip}</b>
-                  </p>
-                </div>
-
-                <div className="column">
-                  <h3>City</h3>
-                  <p>
-                    <b>{this.props.city}</b>
-                  </p>
-                </div>
-
-                <div className="column">
-                  <h3>Wash Frequency</h3>
-                  <p>
-                    <b>{this.props.wash}</b>{" "}
-                  </p>{" "}
-                </div>
-
-                <div className="column">
-                  <h3>Afterwash</h3>
-                  <p>
-                    <b>{this.props.afterwash}</b>{" "}
-                  </p>{" "}
-                </div>
-
-                <div className="column">
-                  <h3>Goal 2</h3>
-                  <p>
-                    <b>
-                      {this.props.hairGoals2
-                        ? this.props.hairGoals2.map(e => e + ", ")
-                        : null}
-                    </b>{" "}
-                  </p>{" "}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-
-        <Container classname="section-3">
-          <div></div>
-          <div className="column-skeleton-fragrance">
-            <h3 className="column-name">SKELETON</h3>
-            <div className="box">
-              <select onChange={this.handleSelect}>
-                <option value="colorProtect">color protect</option>
-                <option value="colorChange">color change</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="column-skeleton-fragrance">
-            <h3 className="column-name">FRAGRANCE</h3>
-            <div className="box">
-              <select onChange={this.handleSelect}>
-                <option>energizing</option>
-                <option>option 2</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="column">
-            <h3 className="column-name">BOOSTERS</h3>
-            <div className="box">
-              <select onChange={this.handleSelect}>
-                <option>toning</option>
-                <option>option 2</option>
-              </select>
-              <select onChange={this.handleSelect}>
-                <option>moisture</option>
-                <option>option 2</option>
-              </select>
-              <select onChange={this.handleSelect}>
-                <option>blank</option>
-                <option>option 2</option>
-              </select>
-              <select onChange={this.handleSelect}>
-                <option>blank</option>
-                <option>option 2</option>
-              </select>
-              <select onChange={this.handleSelect}>
-                <option>blank</option>
-                <option>option 2</option>
-              </select>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  height: `${100}%`
-                }}
-              ></div>
-            </div>
-          </div>
-          <div className="btn-container">
-            <Button style={{ height: `${30}%` }} variant="contained">
-              SAVE
-            </Button>
-            <Button
-              style={{ height: `${30}%` }}
-              variant="contained"
-              type="submit"
-            >
-              SUBMIT
-            </Button>
-          </div>
-         </Container> */
 }

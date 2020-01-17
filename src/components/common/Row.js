@@ -10,8 +10,6 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import { Paper } from "@material-ui/core";
 
-
-
 const useStyles = makeStyles({
   bullet: {
     display: "inline-block",
@@ -19,7 +17,9 @@ const useStyles = makeStyles({
     transform: "scale(0.8)"
   },
   title: {
-    fontSize: 15
+    fontSize: 15,
+    color: `#000000`,
+    fontFamily: "urwdin-regular"
   },
   pos: {
     marginBottom: 12
@@ -73,8 +73,9 @@ export const Row = ({
       <Card
         className={classes.card}
         style={{
-          "overflow-x": "hidden",
-          "overflow-y": "auto"
+          overflowX: "hidden",
+          overflowY: "auto",
+          marginBottom: `${5}px`
         }}
       >
         <CardContent
