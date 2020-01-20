@@ -50,7 +50,7 @@ export default class SignUp extends React.Component {
 
     if (isSignedUp) {
       console.log(isSignedUp)
-      return <Redirect to="/dashboard" />
+      return <Redirect to="/stylist-panel-list" />
     }
     return (
       <div>

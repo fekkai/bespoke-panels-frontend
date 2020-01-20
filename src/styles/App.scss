@@ -30,13 +30,17 @@ button {
 .app {
   font-family: "urwdin-regular";
   padding: 3%;
+ 
   .signup-login {
     padding-left: 3%;
   }
   .img-container {
     display: flex;
+    // position: fixed;
+    width: 100%;
+    top: 0;
     img {
-      width: 20%;
+      width: 15%;
     }
     #bespoke-logo {
       padding: 0;
