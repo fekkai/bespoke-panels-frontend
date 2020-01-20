@@ -142,7 +142,7 @@ class App extends React.Component {
   loginUser = async credentials => {
     try {
       const user = await login(credentials);
-      console.log(user);
+      // console.log(user);
       this.setState(state => {
         return {
           isSignedIn: true,
