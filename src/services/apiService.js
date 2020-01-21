@@ -34,7 +34,6 @@ export const login = async data => {
     throw error;
   }
 };
-
 export const getProfile = async () => {
   try {
     const response = await apiClient.get("/app/profile");
@@ -59,4 +58,3 @@ export const signUp = async data => {
 
 const API_KEY = process.env.API_KEY;
 const PASSWORD = process.env.PASSWORD;
-
