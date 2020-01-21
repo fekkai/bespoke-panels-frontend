@@ -139,6 +139,7 @@ class App extends React.Component {
     }
   };
 
+
   // loginUser = async credentials => {
   //   try {
   //     const user = await login(credentials);
@@ -153,6 +154,7 @@ class App extends React.Component {
   //     throw e;
   //   }
   // };
+
 
   // signOutUser = () => {
   //   authService.signOut();
