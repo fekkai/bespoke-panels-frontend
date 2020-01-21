@@ -85,7 +85,9 @@ export default class SignUp extends React.Component {
               value={this.state.password}
             />
           </div>
-          <button onClick={this.handleSubmitForm}>SIGN UP</button>
+          <button 
+          // onClick={this.handleSubmitForm}
+          >SIGN UP</button>
         </form>
       </div>
     )

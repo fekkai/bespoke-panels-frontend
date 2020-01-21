@@ -2,7 +2,7 @@ import React from 'react'
 import LoginForm from './LoginForm'
 
 const Login = props => {
-  console.log(props.handleLogin)
+  // console.log(props.handleLogin)
 
   return (
     <div>
