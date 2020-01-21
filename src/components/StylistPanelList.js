@@ -85,7 +85,7 @@ export default class StylistPanelList extends Component {
 
   fetchOrders = async () => {
     try {
-      let response = await axios(signedRequest);
+      let response = await axios.get('https://bespoke-backend-db.herokuapp.com/');
 
       const data = [];
 
