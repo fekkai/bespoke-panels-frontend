@@ -98,11 +98,11 @@ class App extends React.Component {
     try {
       let response = await axios(signedRequest);
       // let response = await axios.get(https://bespoke-backend-db.herokuapp.com/)
-      console.log(response);
+      // console.log(response);
       this.setState({
         orders: response.data.orders
       });
-      console.log(this.state.orders);
+      // console.log(this.state.orders);
     } catch (error) {
       console.error(error);
     }
@@ -143,7 +143,6 @@ class App extends React.Component {
   loginUser = async credentials => {
     try {
       const user = await login(credentials);
-      console.log(user);
       this.setState(state => {
         return {
           isSignedIn: true,
@@ -272,14 +271,12 @@ class App extends React.Component {
       conditionerFormula,
       isLoading,
       photoIndex,
-      isOpen,
-      
-      
+      isOpen
     } = this.state;
     // const images = [frontSelfie, sideSelfie];
     return (
       <div className="app">
-       {/* {isOpen && (
+        {/* {isOpen && (
                   <Lightbox
                     mainSrc={images[photoIndex]}
                     nextSrc={images[(photoIndex + 1) % images.length]}
@@ -300,16 +297,15 @@ class App extends React.Component {
                     }
                   />
                 )} */}
-        <div id='header'>
+        <div id="header">
           <Fade big>
             <header className="img-container">
-              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} /> 
+              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
               <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
 
               {/* <button type="button" onClick={() => this.setState({ isOpen: true })}>
           Open Lightbox
         </button> */}
-
             </header>
           </Fade>
           {this.state.isSignedIn === true ? (

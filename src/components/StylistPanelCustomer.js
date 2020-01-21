@@ -57,7 +57,7 @@ export default class StylistPanelCustomer extends Component {
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
     );
-    console.log(userResponse);
+    // console.log(userResponse);
     this.setState({
       loading: false,
       shampooFormula: userResponse.data.user_data.answers.hair_thickness,
@@ -109,9 +109,7 @@ export default class StylistPanelCustomer extends Component {
       humidity,
       windSpeed
     } = this.state;
-    console.log(city);
     const { name, address, orderId } = this.props.location.state;
-
     const { photoIndex, isOpen } = this.state;
     const images = [frontSelfie, sideSelfie];
     // console.log(shampooFormula);
@@ -120,7 +118,7 @@ export default class StylistPanelCustomer extends Component {
       const scores = [];
       for (let key of Object.keys(shampooFormula)) {
         scores.push(parseInt(shampooFormula[key]));
-        console.log(scores.sort((a, b) => b - a));
+        // console.log(scores.sort((a, b) => b - a));
         return scores[0] === shampooFormula[key] ? console.log(key) : "";
       }
       // console.log(scores);

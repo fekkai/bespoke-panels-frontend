@@ -44,7 +44,6 @@ export const getProfile = async () => {
 
 export const signUp = async data => {
   try {
-    console.log(data);
     const response = await apiClient.post("/auth/signup", data);
     const { token, user } = response.data;
     localStorage.setItem("token", token); //this is the key to login after signing up. token in local storage
@@ -56,4 +55,3 @@ export const signUp = async data => {
 
 const API_KEY = process.env.API_KEY;
 const PASSWORD = process.env.PASSWORD;
-

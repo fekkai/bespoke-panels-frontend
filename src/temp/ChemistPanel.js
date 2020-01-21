@@ -48,7 +48,7 @@ export default class ChemistPanel extends Component {
       value: event.target.value
     });
     setTimeout(() => {
-      console.log(this.state.value);
+      // console.log(this.state.value);
     }, 500);
   };
 

@@ -49,11 +49,11 @@ class CustomerDataProvider extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(signedRequest);
-      console.log(response);
+      // console.log(response);
       this.setState({
         orders: response.data.orders
       });
-      console.log(this.state.orders);
+      // console.log(this.state.orders);
     } catch (error) {
       console.error(error);
     }
