@@ -14,7 +14,7 @@ import { Carousel } from "react-responsive-carousel";
 import { RingLoader } from "react-spinners";
 import { Paper } from "@material-ui/core";
 
-
+// import "../styles/Panel.scss";
 
 const override = css`
   display: block;
