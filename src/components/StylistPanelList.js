@@ -25,20 +25,20 @@ const override = css`
   margin-top: ${7}%;
 `;
 
-let request = {
-  hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
-  method: "GET",
-  url: "https://5qdtfxj5j5.execute-api.us-east-1.amazonaws.com/latest",
-  path: "/latest"
-};
+// let request = {
+//   hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
+//   method: "GET",
+//   url: "https://5qdtfxj5j5.execute-api.us-east-1.amazonaws.com/latest",
+//   path: "/latest"
+// };
 
-let signedRequest = aws4.sign(request, {
-  accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-  secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-});
+// let signedRequest = aws4.sign(request, {
+//   accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
+// });
 
-delete signedRequest.headers["Host"];
-delete signedRequest.headers["Content-Length"];
+// delete signedRequest.headers["Host"];
+// delete signedRequest.headers["Content-Length"];
 
 export default class StylistPanelList extends Component {
   constructor(props) {
@@ -85,8 +85,8 @@ export default class StylistPanelList extends Component {
 
   fetchOrders = async () => {
     try {
-      let response = await axios(signedRequest);
-
+      // let response = await axios(signedRequest);
+      let response = await axios('https://bespoke-backend-db.herokuapp.com/')
       const data = [];
 
       response.data.orders.map(async element => {
