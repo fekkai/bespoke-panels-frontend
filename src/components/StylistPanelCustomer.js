@@ -82,9 +82,7 @@ export default class StylistPanelCustomer extends Component {
       afterwash: userResponse.data.user_data.answers.afterwash
     });
   };
-  // renderKeys = () => {
-
-  // };
+ 
 
   render() {
     const {
