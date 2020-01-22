@@ -323,7 +323,7 @@ class App extends React.Component {
           <Fade big>
             <div className="signup-login">
               <Link to="/signup">
-                <button>SIGN UP</button>
+                <button>SIGsN UP</button>
               </Link>
 
               <Link to="/login">
