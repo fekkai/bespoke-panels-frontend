@@ -164,7 +164,7 @@ export default class StylistPanelList extends Component {
           // afterwash,
           userCode
         });
-        // console.log(city)
+        console.log(userCode)
       });
       await this.setState({
         data,

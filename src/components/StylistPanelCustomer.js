@@ -58,7 +58,7 @@ export default class StylistPanelCustomer extends Component {
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
     );
-
+    // console.log(userResponse.data.ingredients.shampoo.formula)
     this.setState({
       userResponse,
       loading: false,
@@ -90,7 +90,7 @@ export default class StylistPanelCustomer extends Component {
       // console.log(this.state.shampooFormulaData);
       const shampooFormulaData = this.state.shampooFormulaData;
       const conditionerFormulaData = this.state.conditionerFormulaData;
-      console.log(shampooFormulaData, conditionerFormulaData);
+      // console.log(shampooFormulaData, conditionerFormulaData);
       const shampooScores = [];
       const conditionerScores = [];
       const skeletons = [
@@ -139,13 +139,31 @@ export default class StylistPanelCustomer extends Component {
     formulaKeys();
   };
 
-  updateUserCode = async () => {
-    const userCode = this.props.location.state.userCode;
-    //   let updatedResponse = await axios.put('https://fekk.ai/backend/formula',
+  handleSelectShampoo = e => {
+    // console.log(e.target.value);
+    this.setState({ updatedShampooSkeletonKey: e.target.value });
+    console.log(this.state.updatedShampooSkeletonKey);
+  };
 
-    //   )
-    //   console.log(updatedResponse)
-    // }
+  handleSelectConditioner = e => {
+    // console.log(e.target.value);
+    this.setState({ updatedConditionerSkeletonKey: e.target.value });
+  };
+
+  updateFormula = async () => {
+    const { updatedShampooSkeletonKey, shampooFormulaData } = this.state;
+    const userResponse = this.state.userResponse.data;
+    if (updatedShampooSkeletonKey) {
+      shampooFormulaData[updatedShampooSkeletonKey] = 1000;
+    }
+    const updatedShampooFormulaData = shampooFormulaData;
+    userResponse.ingredients.shampoo.formula = updatedShampooFormulaData;
+    console.log(userResponse);
+    let updatedResponse = await axios.put(
+      "https://fekk.ai/backend/formula",
+      userResponse
+    );
+    console.log(updatedResponse);
   };
 
   render() {
@@ -332,6 +350,22 @@ export default class StylistPanelCustomer extends Component {
                   : "" + " ") +
                   " " +
                   shampooSkeletonValue}
+                <select onChange={this.handleSelectShampoo}>
+                  {/* <option selected={conditionerSkeletonKey}></option> */}
+                  <option value="volume1">Full Blown (Lightest Weight)</option>
+                  <option value="colorprotect1">
+                    Technician Color (Medium Moisture)
+                  </option>
+                  <option value="moisture1">
+                    Brilliant Shine (Medium Moisture)
+                  </option>
+                  <option value="repair1">
+                    Super Strength (Strong Moisture)
+                  </option>
+                  <option value="smooth1">
+                    Smoothing 'Essential Shea' (Heavy)
+                  </option>
+                </select>
               </div>
               <div className="info-container">
                 SKELETON:{" "}
@@ -350,10 +384,27 @@ export default class StylistPanelCustomer extends Component {
                   : "" + " ") +
                   " " +
                   conditionerSkeletonValue}
+                <select onChange={this.handleSelectConditioner}>
+                  {/* <option selected={conditionerSkeletonKey}></option> */}
+                  <option value="volume1">Full Blown (Lightest Weight)</option>
+                  <option value="colorprotect1">
+                    Technician Color (Medium Moisture)
+                  </option>
+                  <option value="moisture1">
+                    Brilliant Shine (Medium Moisture)
+                  </option>
+                  <option value="repair1">
+                    Super Strength (Strong Moisture)
+                  </option>
+                  <option value="smooth1">
+                    Smoothing 'Essential Shea' (Heavy)
+                  </option>
+                </select>
+                {/* {console.log(this.state.conditionerSkeletonKey)} */}
               </div>
               <div id="logout-approve-btn">
                 <div style={{ paddingRight: `${5}%` }}>
-                  <button>APPROVE</button>
+                  <button onClick={this.updateFormula}>APPROVE</button>
                 </div>
               </div>
             </div>
