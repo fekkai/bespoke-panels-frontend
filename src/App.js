@@ -323,7 +323,7 @@ class App extends React.Component {
           <Fade big>
             <div className="signup-login">
               <Link to="/signup">
-                <button>SIGsN UP</button>
+                <button>SIGN UP</button>
               </Link>
 
               <Link to="/login">
@@ -336,7 +336,7 @@ class App extends React.Component {
         )}
         {this.state.isSignedIn === true ? null : (
           <Fade big>
-            <p id="welcome">WELCOME TO BESPOKE ADMIN LOGIN</p>
+            <p id="welcome">WELCOME TO B ESPOKE ADMIN LOGIN</p>
           </Fade>
         )}
         <main id="main-page">
