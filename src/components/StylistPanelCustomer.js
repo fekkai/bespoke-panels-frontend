@@ -87,9 +87,12 @@ export default class StylistPanelCustomer extends Component {
     });
 
     const formulaKeys = () => {
-      console.log(this.state.shampooFormulaData);
+      // console.log(this.state.shampooFormulaData);
       const shampooFormulaData = this.state.shampooFormulaData;
-      const scores = [];
+      const conditionerFormulaData = this.state.conditionerFormulaData;
+      console.log(shampooFormulaData, conditionerFormulaData);
+      const shampooScores = [];
+      const conditionerScores = [];
       const skeletons = [
         "volume1",
         "colorprotect1",
@@ -97,43 +100,44 @@ export default class StylistPanelCustomer extends Component {
         "repair1",
         "smooth1"
       ];
-      let skeletonKey;
-      let skeletonValue;
-      //sorting values
-      for (let key in shampooFormulaData) {
-        // console.log(this.state.shampooFormulaData[key])
-        if (skeletons.indexOf(key) > -1) {
-          scores.push(parseInt(shampooFormulaData[key]));
-          scores.sort((a, b) => b - a);
-        }
+      let shampooSkeletonKey;
+      let shampooSkeletonValue;
+      let conditionerSkeletonKey;
+      let conditionerSkeletonValue;
 
-        if (scores[0] === shampooFormulaData[key]) {
-          skeletonKey = key;
-          skeletonValue = shampooFormulaData[key];
+      for (let key in shampooFormulaData) {
+        if (skeletons.indexOf(key) > -1) {
+          shampooScores.push(parseInt(shampooFormulaData[key]));
+          shampooScores.sort((a, b) => b - a);
+        }
+        if (shampooScores[0] === shampooFormulaData[key]) {
+          shampooSkeletonKey = key;
+          shampooSkeletonValue = shampooFormulaData[key];
         }
       }
+      shampooScores.sort((a, b) => b - a);
 
-      scores.sort((a, b) => b - a);
+      for (let key in conditionerFormulaData) {
+        if (skeletons.indexOf(key) > -1) {
+          conditionerScores.push(parseInt(conditionerFormulaData[key]));
+          conditionerScores.sort((a, b) => b - a);
+        }
+        if (conditionerScores[0] === conditionerFormulaData[key]) {
+          conditionerSkeletonKey = key;
+          conditionerSkeletonValue = conditionerFormulaData[key];
+        }
+      }
+      conditionerScores.sort((a, b) => b - a);
+
       this.setState({
-        skeletonKey,
-        skeletonValue
+        shampooSkeletonKey,
+        shampooSkeletonValue,
+        conditionerSkeletonKey,
+        conditionerSkeletonValue
       });
     };
     formulaKeys();
   };
-
-  // key ? key === "volume1"
-  //             ? key = "Full Blown (Lightest Weight)"
-  //             : "" || key === "colorprotect1"
-  //             ? key = "Technician Color (Medium Moisture)"
-  //             : "" || key === "moisture1"
-  //             ? key = "Brilliant Shine (Medium Moisture)"
-  //             : "" || key === "repair1"
-  //             ? key = "Super Strength (Strong Moisture)"
-  //             : "" || key === "smooth1"
-  //             ? key = "Smoothing 'Essential Shea' (Heavy)"
-  //             : ""
-  //           : "";
 
   updateUserCode = async () => {
     const userCode = this.props.location.state.userCode;
@@ -166,8 +170,10 @@ export default class StylistPanelCustomer extends Component {
       waterHardness,
       humidity,
       windSpeed,
-      skeletonKey,
-      skeletonValue
+      shampooSkeletonKey,
+      shampooSkeletonValue,
+      conditionerSkeletonKey,
+      conditionerSkeletonValue
     } = this.state;
     const { name, address, orderId } = this.props.location.state;
     const { photoIndex, isOpen } = this.state;
@@ -311,23 +317,40 @@ export default class StylistPanelCustomer extends Component {
               <div className="info-container"></div>
               <div className="info-container">
                 SKELETON:{" "}
-                {(skeletonKey
-                  ? skeletonKey === "volume1"
+                {(shampooSkeletonKey
+                  ? shampooSkeletonKey === "volume1"
                     ? "Full Blown (Lightest Weight)"
-                    : "" || skeletonKey === "colorprotect1"
+                    : "" || shampooSkeletonKey === "colorprotect1"
                     ? "Technician Color (Medium Moisture)"
-                    : "" || skeletonKey === "moisture1"
+                    : "" || shampooSkeletonKey === "moisture1"
                     ? "Brilliant Shine (Medium Moisture)"
-                    : "" || skeletonKey === "repair1"
+                    : "" || shampooSkeletonKey === "repair1"
                     ? "Super Strength (Strong Moisture)"
-                    : "" || skeletonKey === "smooth1"
+                    : "" || shampooSkeletonKey === "smooth1"
                     ? "Smoothing 'Essential Shea' (Heavy)"
                     : ""
                   : "" + " ") +
                   " " +
-                  skeletonValue}
+                  shampooSkeletonValue}
               </div>
-              <div className="info-container">SKELETON:</div>
+              <div className="info-container">
+                SKELETON:{" "}
+                {(conditionerSkeletonKey
+                  ? conditionerSkeletonKey === "volume1"
+                    ? "Full Blown (Lightest Weight)"
+                    : "" || conditionerSkeletonKey === "colorprotect1"
+                    ? "Technician Color (Medium Moisture)"
+                    : "" || conditionerSkeletonKey === "moisture1"
+                    ? "Brilliant Shine (Medium Moisture)"
+                    : "" || conditionerSkeletonKey === "repair1"
+                    ? "Super Strength (Strong Moisture)"
+                    : "" || conditionerSkeletonKey === "smooth1"
+                    ? "Smoothing 'Essential Shea' (Heavy)"
+                    : ""
+                  : "" + " ") +
+                  " " +
+                  conditionerSkeletonValue}
+              </div>
               <div id="logout-approve-btn">
                 <div style={{ paddingRight: `${5}%` }}>
                   <button>APPROVE</button>
