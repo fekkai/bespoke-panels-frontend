@@ -30,8 +30,10 @@ button {
   margin: 0;
 }
 
+//desktop
 .dashboard {
   .table {
+    margin-top: 25px;
     label {
       font-size: 18px;
       margin: 15px 10px 15px 10px;
@@ -46,8 +48,37 @@ button {
         font-size: 18px;
       }
     }
+    .list-header,
+    .row {
+      color: #000000;
+      display: flex;
+      font-size: 16px;
+      div {
+        flex: 1;
+        padding: 0.2rem 0.4em;
+        border: 1px solid rgb(84, 84, 84);
+      }
+    }
+    .list-header {
+      margin-top: 25px;
+      color: white;
+      background-color: rgb(84, 84, 84);
+      text-align: center;
+      div {
+        cursor: pointer;
+      }
+      span {
+        font-size: 11px;
+      }
+    }
+    .body {
+      padding: 20px 0;
+    }
   }
 }
+
+
+
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   .table {
@@ -97,6 +128,14 @@ button {
     .body {
       padding: 20px 0;
     }
+    .selfie-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0;
+      width: 400px;
+      background: black;
+    }  
   }
 }
 
@@ -191,8 +230,9 @@ button {
   .selfie-container {
     display: flex;
     align-items: center;
+    justify-content: space-around;
     padding: 0;
-    width: 400px;
+    // width: 400px;
     background: black;
   }
 }

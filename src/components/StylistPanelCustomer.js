@@ -51,16 +51,20 @@ export default class StylistPanelCustomer extends Component {
 
   componentDidMount() {
     this.fetchUserCode();
+    // this.updateUserCode()
   }
 
   fetchUserCode = async () => {
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
     );
-    // console.log(userResponse);
+    const shampooFormulaData = userResponse.data.ingredients.shampoo.formula
+    const conditionerFormulaData = userResponse.data.ingredients.conditioner.formula
+    console.log(conditionerFormulaData)
     this.setState({
+      userResponse,
       loading: false,
-      shampooFormula: userResponse.data.user_data.answers.hair_thickness,
+      thickness: userResponse.data.user_data.answers.hair_thickness,
       texture: userResponse.data.user_data.answers.hair_texture,
       condition: userResponse.data.user_data.answers["hair-condition"],
       hairGoals: userResponse.data.user_data.answers["hair-goals"],
@@ -84,7 +88,14 @@ export default class StylistPanelCustomer extends Component {
   };
   // renderKeys = () => {
 
-  // };
+  updateUserCode = async () => {
+    const userCode = this.props.location.state.userCode
+  //   let updatedResponse = await axios.put('https://fekk.ai/backend/formula', 
+    
+  //   )
+  //   console.log(updatedResponse)
+  // }
+  };
 
   render() {
     const {
@@ -261,7 +272,10 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Shampoo</div>
               <div className="column-title">Conditioner</div>
               <div className="info-container"></div>
-              <div className="info-container">SKELETON:</div>
+              <div className="info-container">SKELETON:
+              
+              
+              </div>
               <div className="info-container">SKELETON</div>
               <div id="logout-approve-btn">
                 <div style={{ paddingRight: `${5}%` }}>
