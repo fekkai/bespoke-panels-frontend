@@ -58,9 +58,7 @@ export default class StylistPanelCustomer extends Component {
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
     );
-    const shampooFormulaData = userResponse.data.ingredients.shampoo.formula
-    const conditionerFormulaData = userResponse.data.ingredients.conditioner.formula
-    console.log(conditionerFormulaData)
+
     this.setState({
       userResponse,
       loading: false,
@@ -83,24 +81,73 @@ export default class StylistPanelCustomer extends Component {
       windSpeed: userResponse.data.user_data.weather.scores.wind_speed.score,
       frontSelfie: userResponse.data.user_data.front_selfie,
       sideSelfie: userResponse.data.user_data.side_selfie,
-      afterwash: userResponse.data.user_data.answers.afterwash
+      afterwash: userResponse.data.user_data.answers.afterwash,
+      shampooFormulaData: userResponse.data.ingredients.shampoo.formula,
+      conditionerFormulaData: userResponse.data.ingredients.conditioner.formula
     });
+
+    const formulaKeys = () => {
+      console.log(this.state.shampooFormulaData);
+      const shampooFormulaData = this.state.shampooFormulaData;
+      const scores = [];
+      const skeletons = [
+        "volume1",
+        "colorprotect1",
+        "moisture1",
+        "repair1",
+        "smooth1"
+      ];
+      let skeletonKey;
+      let skeletonValue;
+      //sorting values
+      for (let key in shampooFormulaData) {
+        // console.log(this.state.shampooFormulaData[key])
+        if (skeletons.indexOf(key) > -1) {
+          scores.push(parseInt(shampooFormulaData[key]));
+          scores.sort((a, b) => b - a);
+        }
+
+        if (scores[0] === shampooFormulaData[key]) {
+          skeletonKey = key;
+          skeletonValue = shampooFormulaData[key];
+        }
+      }
+
+      scores.sort((a, b) => b - a);
+      this.setState({
+        skeletonKey,
+        skeletonValue
+      });
+    };
+    formulaKeys();
   };
-  // renderKeys = () => {
+
+  // key ? key === "volume1"
+  //             ? key = "Full Blown (Lightest Weight)"
+  //             : "" || key === "colorprotect1"
+  //             ? key = "Technician Color (Medium Moisture)"
+  //             : "" || key === "moisture1"
+  //             ? key = "Brilliant Shine (Medium Moisture)"
+  //             : "" || key === "repair1"
+  //             ? key = "Super Strength (Strong Moisture)"
+  //             : "" || key === "smooth1"
+  //             ? key = "Smoothing 'Essential Shea' (Heavy)"
+  //             : ""
+  //           : "";
 
   updateUserCode = async () => {
-    const userCode = this.props.location.state.userCode
-  //   let updatedResponse = await axios.put('https://fekk.ai/backend/formula', 
-    
-  //   )
-  //   console.log(updatedResponse)
-  // }
+    const userCode = this.props.location.state.userCode;
+    //   let updatedResponse = await axios.put('https://fekk.ai/backend/formula',
+
+    //   )
+    //   console.log(updatedResponse)
+    // }
   };
 
   render() {
     const {
-      shampooFormula,
-      conditionerFormula,
+      shampooFormulaData,
+      // conditionerFormulaData,
       // address,
       thickness,
       texture,
@@ -118,24 +165,14 @@ export default class StylistPanelCustomer extends Component {
       airQuality,
       waterHardness,
       humidity,
-      windSpeed
+      windSpeed,
+      skeletonKey,
+      skeletonValue
     } = this.state;
     const { name, address, orderId } = this.props.location.state;
     const { photoIndex, isOpen } = this.state;
     const images = [frontSelfie, sideSelfie];
-    // console.log(shampooFormula);
 
-    const formulaKeys = () => {
-      const scores = [];
-      for (let key of Object.keys(shampooFormula)) {
-        scores.push(parseInt(shampooFormula[key]));
-        // console.log(scores.sort((a, b) => b - a));
-        return scores[0] === shampooFormula[key] ? console.log(key) : "";
-      }
-      // console.log(scores);
-      //sort the array of values of skeleton scores
-    };
-    // formulaKeys();
     return (
       <div>
         <Link to="/stylist-panel-list">
@@ -272,11 +309,25 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Shampoo</div>
               <div className="column-title">Conditioner</div>
               <div className="info-container"></div>
-              <div className="info-container">SKELETON:
-              
-              
+              <div className="info-container">
+                SKELETON:{" "}
+                {(skeletonKey
+                  ? skeletonKey === "volume1"
+                    ? "Full Blown (Lightest Weight)"
+                    : "" || skeletonKey === "colorprotect1"
+                    ? "Technician Color (Medium Moisture)"
+                    : "" || skeletonKey === "moisture1"
+                    ? "Brilliant Shine (Medium Moisture)"
+                    : "" || skeletonKey === "repair1"
+                    ? "Super Strength (Strong Moisture)"
+                    : "" || skeletonKey === "smooth1"
+                    ? "Smoothing 'Essential Shea' (Heavy)"
+                    : ""
+                  : "" + " ") +
+                  " " +
+                  skeletonValue}
               </div>
-              <div className="info-container">SKELETON</div>
+              <div className="info-container">SKELETON:</div>
               <div id="logout-approve-btn">
                 <div style={{ paddingRight: `${5}%` }}>
                   <button>APPROVE</button>
