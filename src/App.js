@@ -336,7 +336,7 @@ class App extends React.Component {
         )}
         {this.state.isSignedIn === true ? null : (
           <Fade big>
-            <p id="welcome">WELCOME TO B ESPOKE ADMIN LOGIN</p>
+            <p id="welcome">WELCOME TO BESPOKEd ADMIN LOGIN</p>
           </Fade>
         )}
         <main id="main-page">
