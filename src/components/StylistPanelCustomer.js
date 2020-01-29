@@ -488,6 +488,9 @@ export default class StylistPanelCustomer extends Component {
                     
                     onChange={this.handleSelectShampoo}
                   >
+                  <option>
+                      Choose a skeleton
+                    </option>
                     <option value="volume1">
                       Full Blown (Lightest Weight)
                     </option>
@@ -531,6 +534,9 @@ export default class StylistPanelCustomer extends Component {
                     style={{ margin: "0" }}
                     onChange={this.selectConditioner}
                   >
+                  <option>
+                      Choose a skeleton
+                    </option>
                     <option value="volume1">
                       Full Blown (Lightest Weight)
                     </option>

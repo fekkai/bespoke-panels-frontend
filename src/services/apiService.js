@@ -2,9 +2,9 @@
 
 const axios = require("axios");
 
-// const BASE_URL = "https://bespoke-backend-db.herokuapp.com/";
+const BASE_URL = "https://bespoke-backend-db.herokuapp.com/";
 
-const BASE_URL = "http://localhost:8001/";
+// const BASE_URL = "http://localhost:8001/";
 
 const JWT_TOKEN = localStorage.getItem("token"); //returns false if does not exist
 

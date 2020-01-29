@@ -316,10 +316,10 @@ class App extends React.Component {
           </Fade>
           {this.state.isSignedIn === true ? (
             <div id="logout-approve-btn">
-              <div>
-              <Link to="/stylist-panel-customer">
-                <button>ORDERS</button>
-              </Link>
+              <div style={{display: 'inlineBlock'}}>
+              {/* <Link to="/stylist-panel-customer">
+                <button className="btn">ORDERS</button>
+              </Link> */}
                 <button className="btn" onClick={this.signOutUser}>
                   LOGOUT
                 </button>
