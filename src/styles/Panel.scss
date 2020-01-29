@@ -235,6 +235,15 @@ button {
     // width: 400px;
     background: black;
   }
+  .edit {
+    select {
+      font-family: 'urwdin-regular';
+      font-size: 14px;
+      display: inline;
+      margin: 0 auto;
+      // margin: 0;
+    }
+  }
 }
 .section {
   text-align: center;
@@ -322,11 +331,7 @@ img {
   font-size: 14px;
 }
 
-select {
-  display: block;
-  margin: 0 auto;
-  margin-top: 13px;
-}
+
 
 .list {
   list-style: none;
