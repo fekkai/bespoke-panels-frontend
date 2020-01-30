@@ -16,7 +16,7 @@ import { Carousel } from "react-responsive-carousel";
 import { RingLoader } from "react-spinners";
 import { Paper, useScrollTrigger } from "@material-ui/core";
 
-// import "../styles/Panel.scss";
+import "../styles/Panel.scss";
 
 const override = css`
   display: block;
@@ -108,6 +108,7 @@ export default class StylistPanelCustomer extends Component {
       address: this.state.orders[this.state.index].address,
       userCode: this.state.orders[this.state.index].userCode
     });
+    // console.log(this.state.userCode)
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.state.userCode}`
       // `https://fekk.ai/backend/get_formula?user_code=${this.state.orders[0].note_attributes.value}`
@@ -201,7 +202,7 @@ export default class StylistPanelCustomer extends Component {
     formulaKeys();
   };
 
-  selectShampoo = e => {
+  handleSelectShampoo = e => {
     this.setState({ updatedShampooSkeletonKey: e.target.value });
   };
 
@@ -218,15 +219,15 @@ export default class StylistPanelCustomer extends Component {
       originalShampooFormula,
       originalConditionerFormula
     } = this.state;
-
+    console.log(shampooFormulaData[updatedShampooSkeletonKey]);
     //make copy of the original formula data, keep to side and use as fallback
 
     const userResponse = this.state.userResponse.data;
-
+    console.log(userResponse)
     const origShampooFormula = JSON.parse(
       JSON.stringify(originalShampooFormula.formula)
     );
-    console.log(originalShampooFormula.formula, shampooFormulaData);
+    // console.log(originalShampooFormula.formula, shampooFormulaData);
     if (updatedShampooSkeletonKey) {
       shampooFormulaData[updatedShampooSkeletonKey] = 1000;
     }
@@ -251,14 +252,15 @@ export default class StylistPanelCustomer extends Component {
       }
     };
 
-    // console.log(userResponse);
+    console.log(userResponse);
     this.goToNext();
 
-    let updatedResponse = await axios.put(
+    await axios.put(
       "https://fekk.ai/backend/formula",
       userResponse
     );
-    console.log(updatedResponse);
+    
+    // console.log(updatedResponse);
   };
 
   submit = () => {
@@ -457,7 +459,7 @@ export default class StylistPanelCustomer extends Component {
                 <div className="info-container">
                   <div class="edit">
                     SKELETON:
-                    <select onChange={this.selectShampoo}>
+                    <select onChange={this.handleSelectShampoo}>
                       <option
                         selected={
                           shampooSkeletonKey === "volume1" ? true : false
@@ -638,6 +640,7 @@ export default class StylistPanelCustomer extends Component {
                     : "" + " ") +
                     " " +
                     conditionerSkeletonValue} */}
+                    {/* <div className='custom-select'> */}
                     <select
                       style={{ margin: "0" }}
                       onChange={this.selectConditioner}
@@ -686,6 +689,7 @@ export default class StylistPanelCustomer extends Component {
                         Smoothing 'Essential Shea' (Heavy)
                       </option>
                     </select>
+                    {/* </div> */}
                     <br />
                     <br />
                     BOOSTERS:

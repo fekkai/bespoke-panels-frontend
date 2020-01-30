@@ -199,7 +199,7 @@ button {
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 1px;
-  margin-top: 5px;
+  // margin-top: 5px;
   padding: 5px;
   .column-title {
     text-align: center;
@@ -220,15 +220,18 @@ button {
         display: inline;
         margin: 0 auto;
         padding-left: 25px;
-        // margin: 0;
       }
       .booster-container {
-        height: 100px;
+        height: 125px;
         display: flex;
         overflow: scroll;
         border: 2px solid #545454;
         .booster-list {
+          padding: 3px;
           flex: 50%;
+          input {
+            margin: 7px 7px 0 7px;
+          }
         }
       }
     }
@@ -359,24 +362,6 @@ li {
   background-color: #ddd;
 }
 
-.box select {
-  margin: 0 auto;
-  background-color: #444444;
-  margin: 4px;
-  color: white;
-  padding: 12px;
-  width: 250px;
-  border: none;
-  font-size: 20px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-  -webkit-appearance: button;
-  appearance: button;
-  outline: none;
-}
-
-.box select option {
-  padding: 30px;
-}
 .btn-container {
   padding-left: 5px;
   display: -webkit-flex;
