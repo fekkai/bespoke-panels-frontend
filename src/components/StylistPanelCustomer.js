@@ -25,22 +25,20 @@ const override = css`
   margin-top: ${7}%;
 `;
 
+//aws sigv4
 let request = {
   hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
   method: "GET",
   url: "https://5qdtfxj5j5.execute-api.us-east-1.amazonaws.com/latest",
   path: "/latest"
 };
-
 let signedRequest = aws4.sign(request, {
   accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
   secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
 });
-
 delete signedRequest.headers["Host"];
 delete signedRequest.headers["Content-Length"];
 
-let i = 0;
 export default class StylistPanelCustomer extends Component {
   constructor(props) {
     super(props);
@@ -92,14 +90,11 @@ export default class StylistPanelCustomer extends Component {
           )
         );
       }
-      // console.log(orders[0].userCode)
       this.setState({
         orders,
         currentOrder: 0,
         userCode: orders[0].userCode
       });
-      console.log(this.state.userCode);
-      // console.log(orders[this.state.index].name);
     } catch (error) {
       console.error(error);
     }
@@ -113,7 +108,6 @@ export default class StylistPanelCustomer extends Component {
       address: this.state.orders[this.state.index].address,
       userCode: this.state.orders[this.state.index].userCode
     });
-    // console.log(this.state.userCode);
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.state.userCode}`
       // `https://fekk.ai/backend/get_formula?user_code=${this.state.orders[0].note_attributes.value}`
@@ -152,7 +146,7 @@ export default class StylistPanelCustomer extends Component {
       shampooFormulaData: userResponse.data.ingredients.shampoo.formula,
       conditionerFormulaData: userResponse.data.ingredients.conditioner.formula
     }));
-    console.log(this.state.hairGoals2);
+
     const formulaKeys = () => {
       // console.log(this.state.shampooFormulaData);
       const shampooFormulaData = this.state.shampooFormulaData;
@@ -203,14 +197,12 @@ export default class StylistPanelCustomer extends Component {
         conditionerSkeletonValue
       });
     };
+
     formulaKeys();
-    // await this.fetchUserCode();
-    // console.log(this.state.orders[this.state.index].name);
   };
 
-  handleSelectShampoo = e => {
+  selectShampoo = e => {
     this.setState({ updatedShampooSkeletonKey: e.target.value });
-    // console.log(e.target.value)
   };
 
   selectConditioner = e => {
@@ -458,59 +450,180 @@ export default class StylistPanelCustomer extends Component {
               </div>
             </Paper>
             <Paper elevation={1}>
-              <div className="stylist-panel-customer">
+              <div id="formula-container" className="stylist-panel-customer">
                 <div className="column-title">Shampoo</div>
                 <div className="column-title">Conditioner</div>
                 <div className="info-container"></div>
                 <div className="info-container">
-                  SKELETON:{" "}
-                  {(shampooSkeletonKey
-                    ? shampooSkeletonKey === "volume1"
-                      ? "Full Blown (Lightest Weight)"
-                      : "" || shampooSkeletonKey === "colorprotect1"
-                      ? "Technician Color (Medium Moisture)"
-                      : "" || shampooSkeletonKey === "moisture1"
-                      ? "Brilliant Shine (Medium Moisture)"
-                      : "" || shampooSkeletonKey === "repair1"
-                      ? "Super Strength (Strong Moisture)"
-                      : "" || shampooSkeletonKey === "smooth1"
-                      ? "Smoothing 'Essential Shea' (Heavy)"
-                      : ""
-                    : "" + " ") +
-                    " " +
-                    shampooSkeletonValue}
-                  <br />
-                  <br />
-                  <div
-                  class='edit'
-                  >EDIT:
-                  <select
-                    
-                    onChange={this.handleSelectShampoo}
-                  >
-                  <option>
-                      Choose a skeleton
-                    </option>
-                    <option value="volume1">
-                      Full Blown (Lightest Weight)
-                    </option>
-                    <option value="colorprotect1">
-                      Technician Color (Medium Moisture)
-                    </option>
-                    <option value="moisture1">
-                      Brilliant Shine (Medium Moisture)
-                    </option>
-                    <option value="repair1">
-                      Super Strength (Strong Moisture)
-                    </option>
-                    <option value="smooth1">
-                      Smoothing 'Essential Shea' (Heavy)
-                    </option>
-                  </select></div>
+                  <div class="edit">
+                    SKELETON:
+                    <select onChange={this.selectShampoo}>
+                      <option
+                        selected={
+                          shampooSkeletonKey === "volume1" ? true : false
+                        }
+                        value="volume1"
+                      >
+                        Full Blown (Lightest Weight)
+                      </option>
+                      <option
+                        selected={
+                          shampooSkeletonKey === "colorprotect1" ? true : false
+                        }
+                        value="colorprotect1"
+                      >
+                        Technician Color (Medium Moisture)
+                      </option>
+                      <option
+                        selected={
+                          shampooSkeletonKey === "moisture1" ? true : false
+                        }
+                        value="moisture1"
+                      >
+                        Brilliant Shine (Medium Moisture)
+                      </option>
+                      <option
+                        selected={
+                          shampooSkeletonKey === "repair1" ? true : false
+                        }
+                        value="repair1"
+                      >
+                        Super Strength (Strong Moisture)
+                      </option>
+                      <option
+                        selected={
+                          shampooSkeletonKey === "smooth1" ? true : false
+                        }
+                        value="smooth1"
+                      >
+                        Smoothing 'Essential Shea' (Heavy)
+                      </option>
+                    </select>
+                    <br />
+                    <br />
+                    BOOSTERS:
+                    <br />
+                    <br />
+                    <form>
+                      <div class="booster-container">
+                        <div class="booster-list">
+                          <input
+                            type="checkbox"
+                            name="pollution1"
+                            value="pollution1"
+                            checked={true}
+                          />
+                          Pollution Fighting
+                          <br />
+                          <input type="checkbox" name="uv1" value="uv1" />
+                          Ultra Violet Protection
+                          <br />
+                          <input type="checkbox" name="water1" value="water1" />
+                          Water Hardness
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="afterwash1"
+                            value="afterwash1"
+                          />
+                          AfterWash1
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="afterwash2"
+                            value="afterwash2"
+                          />
+                          AfterWash2
+                          <br />
+                          <input type="checkbox" name="age1" value="age1" />
+                          Age
+                          <br />
+                          <input type="checkbox" name="diet1" value="diet1" />
+                          Diet
+                          <br />
+                          <input type="checkbox" name="heat1" value="heat1" />
+                          Heat Protection
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="balancing1"
+                            value="balancing1"
+                          />
+                          Scalp Balancing
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="soothing1"
+                            value="soothing1"
+                          />
+                          Scalp Soothing
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="toning1"
+                            value="toning1"
+                          />
+                          Scalp Toning
+                        </div>
+
+                        <div className="booster-list">
+                          <input
+                            type="checkbox"
+                            name="texture1"
+                            value="texture1"
+                          />
+                          Curly Textures
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="volume2"
+                            value="volume2"
+                          />
+                          Volume/Thickness
+                          <br />
+                          <input type="checkbox" name="color2" value="color2" />
+                          Color Protection (Sun)
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="moisture2"
+                            value="moisture2"
+                          />
+                          Brilliant Shine Moisture
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="repair2"
+                            value="repair2"
+                          />
+                          Super Strength (Chemical)
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="repair3"
+                            value="repair3"
+                          />
+                          Super Strength (Protein for Diet)
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="smooth2"
+                            value="smooth2"
+                          />
+                          Smoothing <br />
+                          <input type="checkbox" name="swim1" value="swim1" />
+                          Frequent Swimming <br />
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
+
                 <div className="info-container">
-                  SKELETON:{" "}
-                  {(conditionerSkeletonKey
+                  <div class="edit">
+                    SKELETON:
+                    {/* readable skeleton formula names: */}
+                    {/* {(conditionerSkeletonKey
                     ? conditionerSkeletonKey === "volume1"
                       ? "Full Blown (Lightest Weight)"
                       : "" || conditionerSkeletonKey === "colorprotect1"
@@ -524,43 +637,179 @@ export default class StylistPanelCustomer extends Component {
                       : ""
                     : "" + " ") +
                     " " +
-                    conditionerSkeletonValue}
-                  <br />
-                  <br />
-                   <div
-                  class='edit'
-                  >EDIT:
-                  <select
-                    style={{ margin: "0" }}
-                    onChange={this.selectConditioner}
-                  >
-                  <option>
-                      Choose a skeleton
-                    </option>
-                    <option value="volume1">
-                      Full Blown (Lightest Weight)
-                    </option>
-                    <option value="colorprotect1">
-                      Technician Color (Medium Moisture)
-                    </option>
-                    <option value="moisture1">
-                      Brilliant Shine (Medium Moisture)
-                    </option>
-                    <option value="repair1">
-                      Super Strength (Strong Moisture)
-                    </option>
-                    <option value="smooth1">
-                      Smoothing 'Essential Shea' (Heavy)
-                    </option>
-                  </select></div>
+                    conditionerSkeletonValue} */}
+                    <select
+                      style={{ margin: "0" }}
+                      onChange={this.selectConditioner}
+                    >
+                      <option>Choose a skeleton</option>
+                      <option
+                        selected={
+                          conditionerSkeletonKey === "volume1" ? true : false
+                        }
+                        value="volume1"
+                      >
+                        Full Blown (Lightest Weight)
+                      </option>
+                      <option
+                        selected={
+                          conditionerSkeletonKey === "colorprotect1"
+                            ? true
+                            : false
+                        }
+                        value="colorprotect1"
+                      >
+                        Technician Color (Medium Moisture)
+                      </option>
+                      <option
+                        selected={
+                          conditionerSkeletonKey === "moisture1" ? true : false
+                        }
+                        value="moisture1"
+                      >
+                        Brilliant Shine (Medium Moisture)
+                      </option>
+                      <option
+                        selected={
+                          conditionerSkeletonKey === "repair1" ? true : false
+                        }
+                        value="repair1"
+                      >
+                        Super Strength (Strong Moisture)
+                      </option>
+                      <option
+                        selected={
+                          conditionerSkeletonKey === "smooth1" ? true : false
+                        }
+                        value="smooth1"
+                      >
+                        Smoothing 'Essential Shea' (Heavy)
+                      </option>
+                    </select>
+                    <br />
+                    <br />
+                    BOOSTERS:
+                    <br />
+                    <br />
+                    <form>
+                      <div class="booster-container">
+                        <div class="booster-list">
+                          <input
+                            type="checkbox"
+                            name="pollution1"
+                            value="pollution1"
+                            checked={true}
+                          />
+                          Pollution Fighting
+                          <br />
+                          <input type="checkbox" name="uv1" value="uv1" />
+                          Ultra Violet Protection
+                          <br />
+                          <input type="checkbox" name="water1" value="water1" />
+                          Water Hardness
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="afterwash1"
+                            value="afterwash1"
+                          />
+                          AfterWash1
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="afterwash2"
+                            value="afterwash2"
+                          />
+                          AfterWash2
+                          <br />
+                          <input type="checkbox" name="age1" value="age1" />
+                          Age
+                          <br />
+                          <input type="checkbox" name="diet1" value="diet1" />
+                          Diet
+                          <br />
+                          <input type="checkbox" name="heat1" value="heat1" />
+                          Heat Protection
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="balancing1"
+                            value="balancing1"
+                          />
+                          Scalp Balancing
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="soothing1"
+                            value="soothing1"
+                          />
+                          Scalp Soothing
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="toning1"
+                            value="toning1"
+                          />
+                          Scalp Toning
+                        </div>
+
+                        <div className="booster-list">
+                          <input
+                            type="checkbox"
+                            name="texture1"
+                            value="texture1"
+                          />
+                          Curly Textures
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="volume2"
+                            value="volume2"
+                          />
+                          Volume/Thickness
+                          <br />
+                          <input type="checkbox" name="color2" value="color2" />
+                          Color Protection (Sun)
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="moisture2"
+                            value="moisture2"
+                          />
+                          Brilliant Shine Moisture
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="repair2"
+                            value="repair2"
+                          />
+                          Super Strength (Chemical)
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="repair3"
+                            value="repair3"
+                          />
+                          Super Strength (Protein for Diet)
+                          <br />
+                          <input
+                            type="checkbox"
+                            name="smooth2"
+                            value="smooth2"
+                          />
+                          Smoothing <br />
+                          <input type="checkbox" name="swim1" value="swim1" />
+                          Frequent Swimming <br />
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
                 <div id="logout-approve-btn">
                   <div style={{ paddingRight: `${5}%` }}>
-                 
-
                     <div className="container">
-                        <button onClick={this.submit}>APPROVE</button>
-                      </div>
+                      <button onClick={this.submit}>APPROVE</button>
+                    </div>
                   </div>
                 </div>
               </div>

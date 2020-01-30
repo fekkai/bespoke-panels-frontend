@@ -12,7 +12,7 @@ import StylistPanelCustomer from "./components/StylistPanelCustomer";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Assets
-import bespokeImg from "./assets/bespoke-beta.svg";
+import bespokeLogo from "./assets/bespoke-beta.svg";
 import fekkaiLogo from "./assets/fekkai-logo.svg";
 // Helper functions
 import { login, getProfile, signUp } from "./services/apiService";
@@ -305,9 +305,9 @@ class App extends React.Component {
               <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
               <p
                 id="bespoke-"
-                style={{ marginLeft: "auto" }}
+                style={{ marginLeft: "auto", paddingTop: `${12}px`, fontSize: `${12}px` }}
               >{this.state.isSignedIn ? `${this.state.user.name}_${this.state.user.role}` : ''}</p>
-              <img alt="bespoke-logo" src={bespokeImg} />
+              <img alt="bespoke-logo" src={bespokeLogo} />
 
               {/* <button type="button" onClick={() => this.setState({ isOpen: true })}>
           Open Lightbox

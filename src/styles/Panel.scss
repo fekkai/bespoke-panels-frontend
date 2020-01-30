@@ -77,9 +77,6 @@ button {
   }
 }
 
-
-
-
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   .table {
     font-family: "urwdin-regular";
@@ -135,7 +132,7 @@ button {
       padding: 0;
       width: 400px;
       background: black;
-    }  
+    }
   }
 }
 
@@ -188,9 +185,13 @@ button {
     opacity: 1;
   }
 }
-
 .carousel .slider-wrapper.axis-horizontal .slider .slide .selected {
   padding: none;
+}
+#formula-container {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 0.3fr;
 }
 
 .stylist-panel-customer {
@@ -205,28 +206,47 @@ button {
     background: #545454;
     color: white;
   }
+  .info-container {
+    row-gap: 10px;
+    padding: 10px;
+    text-align: left;
+    color: #000000;
+    display: grid;
+    line-height: 18px;
+    .edit {
+      select {
+        font-family: "urwdin-regular";
+        font-size: 14px;
+        display: inline;
+        margin: 0 auto;
+        padding-left: 25px;
+        // margin: 0;
+      }
+      .booster-container {
+        height: 100px;
+        display: flex;
+        overflow: scroll;
+        border: 2px solid #545454;
+        .booster-list {
+          flex: 50%;
+        }
+      }
+    }
+  }
   .info-container-1 {
     display: grid;
     padding: 10px 4%;
-    grid-template-rows: 1fr 0.5fr;
+    grid-template-rows: 1fr;
+    line-height: 18px;
     span {
       display: inline-block;
-      height: 100%
+      height: 100%;
     }
   }
   .info-container-2 {
     overflow-x: hidden;
     overflow-y: auto;
   }
-  .info-container {
-    row-gap: 10px;
-    padding: 10px;
-    text-align: left;
-    // background: #f1f1f1;
-    color: #000000;
-    display: grid;
-  }
-
   .selfie-container {
     display: flex;
     align-items: center;
@@ -234,15 +254,6 @@ button {
     padding: 0;
     // width: 400px;
     background: black;
-  }
-  .edit {
-    select {
-      font-family: 'urwdin-regular';
-      font-size: 14px;
-      display: inline;
-      margin: 0 auto;
-      // margin: 0;
-    }
   }
 }
 .section {
@@ -256,7 +267,7 @@ button {
   /* margin: 0 auto; */
   width: 100%;
   // padding-bottom: 3%;
-  height: 100%
+  height: 100%;
 }
 
 .section-1 {
@@ -330,8 +341,6 @@ img {
 .sub-header {
   font-size: 14px;
 }
-
-
 
 .list {
   list-style: none;
