@@ -101,6 +101,7 @@ export default class StylistPanelCustomer extends Component {
         currentOrder: 0,
         userCode: orders[0].userCode
       });
+      console.log(this.state.userCode)
     } catch (error) {
       console.error(error);
     }
@@ -254,6 +255,10 @@ export default class StylistPanelCustomer extends Component {
       }
     };
 
+    this.setState({
+      editShampooSkeletonBtn: true,
+      editConditionerSkeletonBtn: true
+    });
     console.log(userResponse);
     this.goToNext();
     await axios.put("https://fekk.ai/backend/formula", userResponse);

@@ -1,4 +1,5 @@
 import React from "react";
+import Select from "@material-ui/core/Select";
 import "../styles/Panel.scss";
 
 export default function EditConditionerSkeleton(props) {
@@ -31,9 +32,11 @@ export default function EditConditionerSkeleton(props) {
           // +
           // props.conditionerSkeletonValue
         ) : (
-          <select
-            style={{ display: props.displayConditionerEdit }}
-            onChange={props.handleSelectConditioner}
+          <Select
+            native
+            value={true}
+            style={{ display: props.displayShampooEdit, margin: 0, marginLeft: '10px' }}
+            onChange={props.handleSelectShampoo}
           >
             <option
               selected={
@@ -75,7 +78,7 @@ export default function EditConditionerSkeleton(props) {
             >
               Smoothing 'Essential Shea' (Heavy)
             </option>
-          </select>
+          </Select>
         )}
         <button onClick={props.editConditionerSkeleton}>
           {props.editConditionerSkeletonBtn ? "EDIT" : "DONE"}

@@ -1,4 +1,5 @@
 import React from "react";
+import Select from "@material-ui/core/Select";
 import "../styles/Panel.scss";
 
 export default function EditShampooSkeleton(props) {
@@ -26,13 +27,14 @@ export default function EditShampooSkeleton(props) {
               : "" || props.shampooSkeletonKey === "smooth1"
               ? "Smoothing 'Essential Shea' (Heavy)"
               : ""
-            : "" + " ") +
-          " " 
+            : "" + " ") + " "
+        ) : (
           // +
           // props.shampooSkeletonValue
-        ) : (
-          <select
-            style={{ display: props.displayShampooEdit, margin: 0 }}
+          <Select
+            native
+            value={true}
+            style={{ display: props.displayShampooEdit, margin: 0, marginLeft: '10px' }}
             onChange={props.handleSelectShampoo}
           >
             <option
@@ -67,7 +69,7 @@ export default function EditShampooSkeleton(props) {
             >
               Smoothing 'Essential Shea' (Heavy)
             </option>
-          </select>
+          </Select>
         )}{" "}
         <button onClick={props.editShampooSkeleton}>
           {props.editShampooSkeletonBtn ? "EDIT" : "DONE"}
@@ -82,7 +84,7 @@ export default function EditShampooSkeleton(props) {
       <br />
       <br />
       <form>
-        <div class="booster-container">
+        <div class="booster-container .closed">
           <div class="booster-list">
             <input
               type="checkbox"
