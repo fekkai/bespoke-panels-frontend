@@ -5,20 +5,19 @@ import "../styles/LoginForm.scss";
 
 import QRCode from "qrcode.react";
 
-
 export default class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       //changed role from email below
-      email: '',
+      email: "",
       role: "stylist",
       password: "",
       showError: false
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.refs.input.focus();
   }
 
@@ -26,16 +25,20 @@ export default class LoginForm extends React.Component {
     event.preventDefault();
     // console.log("submit form");
     //changed role from email below
-    const { email, 
-    // role, 
-    password } = this.state;
+    const {
+      email,
+      // role,
+      password
+    } = this.state;
     const { handleLogin } = this.props;
 
     try {
       // changed role from email below
-      await handleLogin({ email, 
-      // role, 
-      password });
+      await handleLogin({
+        email,
+        // role,
+        password
+      });
     } catch (error) {
       this.setState({
         showError: true
@@ -54,8 +57,6 @@ export default class LoginForm extends React.Component {
   render() {
     const { isSignedIn } = this.props;
     const { showError } = this.state;
-
-    
 
     let errorMessage;
 
@@ -82,6 +83,7 @@ export default class LoginForm extends React.Component {
             <label>Email</label>
             <input
               type="text"
+              ref="input"
               name="email"
               onChange={this.handleTextInput}
               value={this.state.email}
@@ -91,7 +93,6 @@ export default class LoginForm extends React.Component {
             <label>Password</label>
             <input
               type="password"
-              ref="input"
               name="password"
               onChange={this.handleTextInput}
               value={this.state.password}
