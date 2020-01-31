@@ -1,8 +1,12 @@
 import React from "react";
-import Select from "@material-ui/core/Select";
+import NativeSelect from "@material-ui/core/NativeSelect";
+
 import "../styles/Panel.scss";
 
+
+
 export default function EditShampooSkeleton(props) {
+
   return (
     <div class="edit">
       <div
@@ -31,12 +35,21 @@ export default function EditShampooSkeleton(props) {
         ) : (
           // +
           // props.shampooSkeletonValue
-          <Select
-            native
-            value={true}
-            style={{ display: props.displayShampooEdit, margin: 0, marginLeft: '10px' }}
+          <NativeSelect
+            name="age"
+            // onChange={handleChange('age')}
+            inputProps={{ "aria-label": "age" }}
+            style={{
+              display: props.displayShampooEdit,
+              margin: 0,
+              padding: 0,
+              marginLeft: "10px"
+            }}
             onChange={props.handleSelectShampoo}
           >
+            <option value="" disabled>
+              Placeholder
+            </option>
             <option
               selected={props.shampooSkeletonKey === "volume1" ? true : false}
               value="volume1"
@@ -69,7 +82,7 @@ export default function EditShampooSkeleton(props) {
             >
               Smoothing 'Essential Shea' (Heavy)
             </option>
-          </Select>
+          </NativeSelect>
         )}{" "}
         <button onClick={props.editShampooSkeleton}>
           {props.editShampooSkeletonBtn ? "EDIT" : "DONE"}

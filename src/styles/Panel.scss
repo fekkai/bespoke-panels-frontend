@@ -214,6 +214,9 @@ button {
     display: grid;
     line-height: 18px;
     .edit {
+      .select {
+        font-family: "urwdin-regular";
+        font-size: 12px;}
       select {
         font-family: "urwdin-regular";
         font-size: 12px;

@@ -264,7 +264,8 @@ export default class StylistPanelCustomer extends Component {
     await axios.put("https://fekk.ai/backend/formula", userResponse);
   };
 
-  editShampooSkeleton = () => {
+  editShampooSkeleton = (e) => {
+    console.log(e.target)
     this.state.editShampooSkeletonBtn
       ? this.setState({
           displayShampooEdit: "inline",
@@ -334,9 +335,9 @@ export default class StylistPanelCustomer extends Component {
       shampooSkeletonValue,
       conditionerSkeletonKey,
       conditionerSkeletonValue,
-      displayShampooEdit,
       editShampooSkeletonBtn,
       editConditionerSkeletonBtn,
+      displayShampooEdit,
       displayConditionerEdit
     } = this.state;
 
@@ -415,7 +416,6 @@ export default class StylistPanelCustomer extends Component {
                     editShampooSkeletonBtn={editShampooSkeletonBtn}
                     shampooSkeletonKey={shampooSkeletonKey}
                     shampooSkeletonValue={shampooSkeletonValue}
-                    shampooSkeletonKey={shampooSkeletonKey}
                     displayShampooEdit={displayShampooEdit}
                   />
                 </div>
@@ -423,11 +423,10 @@ export default class StylistPanelCustomer extends Component {
                 <div className="info-container">
                   <EditConditionerSkeleton
                     editConditionerSkeleton={this.editConditionerSkeleton}
-                    handleSelectConditioner={this.handleSelectConditioner}
+                    selectConditioner={this.selectConditioner}
                     editConditionerSkeletonBtn={editConditionerSkeletonBtn}
                     conditionerSkeletonKey={conditionerSkeletonKey}
                     conditionerSkeletonValue={conditionerSkeletonValue}
-                    conditionerSkeletonKey={conditionerSkeletonKey}
                     displayConditionerEdit={displayConditionerEdit}
                   />
                 </div>

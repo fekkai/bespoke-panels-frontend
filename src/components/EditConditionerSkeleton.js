@@ -1,8 +1,12 @@
 import React from "react";
-import Select from "@material-ui/core/Select";
+import NativeSelect from "@material-ui/core/NativeSelect";
+
+
 import "../styles/Panel.scss";
 
+
 export default function EditConditionerSkeleton(props) {
+
   return (
     <div class="edit">
       <div
@@ -27,17 +31,25 @@ export default function EditConditionerSkeleton(props) {
               : "" || props.conditionerSkeletonKey === "smooth1"
               ? "Smoothing 'Essential Shea' (Heavy)"
               : ""
-            : "" + " ") +
-          " " 
+            : "" + " ") + " "
+        ) : (
           // +
           // props.conditionerSkeletonValue
-        ) : (
-          <Select
-            native
-            value={true}
-            style={{ display: props.displayShampooEdit, margin: 0, marginLeft: '10px' }}
-            onChange={props.handleSelectShampoo}
+          <NativeSelect
+            name="age"
+            // onChange={handleChange('age')}
+            inputProps={{ "aria-label": "age" }}
+            style={{
+              display: props.displayConditionerEdit,
+              margin: 0,
+              padding: 0,
+              marginLeft: "10px"
+            }}
+            onChange={props.selectConditioner}
           >
+            <option value="" disabled>
+              Placeholder
+            </option>
             <option
               selected={
                 props.conditionerSkeletonKey === "volume1" ? true : false
@@ -78,7 +90,7 @@ export default function EditConditionerSkeleton(props) {
             >
               Smoothing 'Essential Shea' (Heavy)
             </option>
-          </Select>
+          </NativeSelect>
         )}
         <button onClick={props.editConditionerSkeleton}>
           {props.editConditionerSkeletonBtn ? "EDIT" : "DONE"}
