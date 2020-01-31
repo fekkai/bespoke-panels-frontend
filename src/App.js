@@ -12,7 +12,7 @@ import StylistPanelCustomer from "./components/StylistPanelCustomer";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Assets
-import bespokeImg from "./assets/bespoke-beta.svg";
+import bespokeLogo from "./assets/bespoke-beta.svg";
 import fekkaiLogo from "./assets/fekkai-logo.svg";
 // Helper functions
 import { login, getProfile, signUp } from "./services/apiService";
@@ -88,6 +88,7 @@ class App extends React.Component {
           user: fetchedUser
         };
       });
+      
     } catch (e) {
       throw e;
     }
@@ -250,6 +251,7 @@ class App extends React.Component {
     const {
       isSignedIn,
       isSignedUp,
+      orders,
       user,
       thickness,
       texture,
@@ -301,7 +303,11 @@ class App extends React.Component {
           <Fade big>
             <header className="img-container">
               <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
-              <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
+              <p
+                id="bespoke-"
+                style={{ marginLeft: "auto", paddingTop: `${12}px`, fontSize: `${12}px` }}
+              >{this.state.isSignedIn ? `${this.state.user.name}_${this.state.user.role}` : ''}</p>
+              <img alt="bespoke-logo" src={bespokeLogo} />
 
               {/* <button type="button" onClick={() => this.setState({ isOpen: true })}>
           Open Lightbox
@@ -310,7 +316,10 @@ class App extends React.Component {
           </Fade>
           {this.state.isSignedIn === true ? (
             <div id="logout-approve-btn">
-              <div>
+              <div style={{display: 'inlineBlock'}}>
+              {/* <Link to="/stylist-panel-customer">
+                <button className="btn">ORDERS</button>
+              </Link> */}
                 <button className="btn" onClick={this.signOutUser}>
                   LOGOUT
                 </button>
@@ -341,9 +350,7 @@ class App extends React.Component {
         )}
         <main id="main-page">
           <Route exact path="/" component={Home} />
-          {/* <Route exact path="/" component={Login} /> */}
 
-          {/* <ProtectedRoute path="/dashboard" user={user} component={Dashboard} /> */}
           <ProtectedRoute
             path="/stylist-panel-list"
             user={user}
@@ -401,6 +408,7 @@ class App extends React.Component {
             isLoading={isLoading}
             path="/stylist-panel-customer"
             user={user}
+            orders={orders}
             component={StylistPanelCustomer}
           />
           <Fade big>

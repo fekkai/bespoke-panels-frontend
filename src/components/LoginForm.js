@@ -1,27 +1,41 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 // Redirect renders a component that renders a component
+import "../styles/LoginForm.scss";
 
-import '../styles/LoginForm.scss'
+import QRCode from "qrcode.react";
+
 
 export default class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      //changed role from email below
+      email: '',
+      role: "stylist",
       password: "",
       showError: false
     };
   }
 
+  componentDidMount(){
+    this.refs.input.focus();
+  }
+
   handleSubmitForm = async event => {
     event.preventDefault();
     // console.log("submit form");
-    const { email, password } = this.state;
-const { handleLogin } = this.props;
+    //changed role from email below
+    const { email, 
+    // role, 
+    password } = this.state;
+    const { handleLogin } = this.props;
 
     try {
-      await handleLogin({ email, password });
+      // changed role from email below
+      await handleLogin({ email, 
+      // role, 
+      password });
     } catch (error) {
       this.setState({
         showError: true
@@ -41,6 +55,8 @@ const { handleLogin } = this.props;
     const { isSignedIn } = this.props;
     const { showError } = this.state;
 
+    
+
     let errorMessage;
 
     if (showError) {
@@ -53,7 +69,7 @@ const { handleLogin } = this.props;
 
     if (isSignedIn) {
       // console.log(isSignedIn);
-      return <Redirect to="/stylist-panel-list" />;
+      return <Redirect to="/stylist-panel-customer" />;
     }
 
     return (
@@ -61,6 +77,7 @@ const { handleLogin } = this.props;
         {errorMessage}
         <form className="form" onSubmit={this.handleSubmitForm}>
           <h1>Login</h1>
+          {/* <div style={{ display: "none" }}> */}
           <div>
             <label>Email</label>
             <input
@@ -74,6 +91,7 @@ const { handleLogin } = this.props;
             <label>Password</label>
             <input
               type="password"
+              ref="input"
               name="password"
               onChange={this.handleTextInput}
               value={this.state.password}
@@ -81,9 +99,14 @@ const { handleLogin } = this.props;
           </div>
           <button>LOGIN</button>
         </form>
+        {/* <QRCode
+id="Fekkai1!"
+value='Clean1!'
+size={290}
+level={"H"}
+includeMargin={true}
+/> */}
       </div>
     );
   }
 }
-
-

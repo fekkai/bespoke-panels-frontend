@@ -88,7 +88,6 @@ export default class StylistPanelList extends Component {
       let response = await axios(signedRequest);
       // let response = await axios('https://bespoke-backend-db.herokuapp.com/')
       const data = [];
-
       response.data.orders.map(async element => {
         const {
           created_at,
@@ -164,7 +163,6 @@ export default class StylistPanelList extends Component {
           // afterwash,
           userCode
         });
-        console.log(userCode)
       });
       await this.setState({
         data,

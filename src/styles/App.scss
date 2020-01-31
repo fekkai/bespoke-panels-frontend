@@ -22,8 +22,9 @@
 .btn,
 button {
   @include button(transparent, #545454);
+  display: inline-block;
   font-size: 1.2em;
-  margin: 2% 3% 0 auto;
+  margin: 9% 3% 0 auto;
   border: 2px solid #545454;
 }
 
@@ -41,11 +42,12 @@ button {
     top: 0;
     img {
       width: 15%;
+      padding-bottom: 0;
     }
     #bespoke-logo {
       padding: 0;
       margin-left: auto;
-      padding-right: 3%;
+      // padding-right: 3%;
     }
     #fekkai-logo {
       margin-left: 0;
