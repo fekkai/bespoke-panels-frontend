@@ -190,7 +190,7 @@ button {
 }
 #formula-container {
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: 1fr ;
   grid-template-columns: 1fr 1fr 0.3fr;
 }
 
@@ -216,10 +216,10 @@ button {
     .edit {
       select {
         font-family: "urwdin-regular";
-        font-size: 14px;
+        font-size: 12px;
         display: inline;
-        margin: 0 auto;
-        padding-left: 25px;
+        // margin: 0 auto;
+        // padding-left: 25px;
       }
       .booster-container {
         height: 125px;
