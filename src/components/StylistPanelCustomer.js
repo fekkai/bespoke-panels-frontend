@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import UserAnswers from "./UserAnswers";
 import EditShampooSkeleton from "./EditShampooSkeleton";
 import EditConditionerSkeleton from "./EditConditionerSkeleton";
-import { Carousel } from "react-responsive-carousel";
 import { RingLoader } from "react-spinners";
 import { Paper } from "@material-ui/core";
 import Fade from "react-reveal/Fade";
@@ -101,7 +100,7 @@ export default class StylistPanelCustomer extends Component {
         currentOrder: 0,
         userCode: orders[0].userCode
       });
-      console.log(this.state.userCode)
+      console.log(this.state.userCode);
     } catch (error) {
       console.error(error);
     }
@@ -264,8 +263,8 @@ export default class StylistPanelCustomer extends Component {
     await axios.put("https://fekk.ai/backend/formula", userResponse);
   };
 
-  editShampooSkeleton = (e) => {
-    console.log(e.target)
+  editShampooSkeleton = e => {
+    console.log(e.target);
     this.state.editShampooSkeletonBtn
       ? this.setState({
           displayShampooEdit: "inline",

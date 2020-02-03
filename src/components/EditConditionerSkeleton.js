@@ -98,6 +98,13 @@ export default function EditConditionerSkeleton(props) {
       </div>
       <br />
       <br />
+      <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        lineHeight: "20px",
+        fontSize: "12px"
+      }}>
       BOOSTERS:
       <br />
       <br />
@@ -169,6 +176,7 @@ export default function EditConditionerSkeleton(props) {
           </div>
         </div>
       </form>
+      </div>
     </div>
   );
 }
