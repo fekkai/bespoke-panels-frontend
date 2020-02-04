@@ -90,7 +90,7 @@ export default function EditShampooSkeleton(props) {
       </button> */}
       <br />
       <br />
-      <div
+      {/* <div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -169,7 +169,7 @@ export default function EditShampooSkeleton(props) {
             </div>
           </div>
         </form>
-      </div>
+      </div> */}
     </div>
   );
 }

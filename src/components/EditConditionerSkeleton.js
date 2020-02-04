@@ -98,7 +98,7 @@ export default function EditConditionerSkeleton(props) {
       </div>
       <br />
       <br />
-      <div
+      {/* <div
       style={{
         display: "flex",
         flexDirection: "column",
@@ -176,7 +176,7 @@ export default function EditConditionerSkeleton(props) {
           </div>
         </div>
       </form>
-      </div>
+      </div> */}
     </div>
   );
 }
