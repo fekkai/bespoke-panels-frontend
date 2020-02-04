@@ -69,38 +69,36 @@ export default class StylistPanelCustomer extends Component {
 
   fetchOrders = async () => {
     try {
-      let response = await axios(signedRequest);
+      // let response = await axios(signedRequest);
+      let response = await axios("https://chat-quiz-backend.herokuapp.com/");
+      console.log(response.data);
       response = JSON.parse(JSON.stringify(response));
       const orders = [];
-      for (let order of response.data.orders) {
-        orders.push(
-          JSON.parse(
-            JSON.stringify({
-              name: order.shipping_address.name,
-              orderId: order.name,
-              address:
-                order.shipping_address.address1 +
-                (order.shipping_address.address2
-                  ? " " + order.shipping_address.address2
-                  : "") +
-                " " +
-                order.shipping_address.city +
-                " " +
-                order.shipping_address.province_code +
-                " " +
-                order.shipping_address.zip,
-              orderNumber: order.order_number,
-              userCode: order.note_attributes[0].value
-            })
-          )
-        );
+      for (let order of response.data) {
+        orders.push({
+          // name: order.shipping_address.name,
+          // orderId: order.name,
+          // address:
+          //   order.shipping_address.address1 +
+          //   (order.shipping_address.address2
+          //     ? " " + order.shipping_address.address2
+          //     : "") +
+          //   " " +
+          //   order.shipping_address.city +
+          //   " " +
+          //   order.shipping_address.province_code +
+          //   " " +
+          //   order.shipping_address.zip,
+          // orderNumber: order.order_number,
+          userCode: order.user_code
+        });
       }
       this.setState({
         orders,
         currentOrder: 0,
         userCode: orders[0].userCode
       });
-      console.log(this.state.userCode);
+      // console.log(this.state.userCode);
     } catch (error) {
       console.error(error);
     }
@@ -109,9 +107,9 @@ export default class StylistPanelCustomer extends Component {
   goToNext = async () => {
     await this.setState({
       index: (this.state.index + 1) % this.state.orders.length,
-      name: this.state.orders[this.state.index].name,
-      orderId: this.state.orders[this.state.index].orderId,
-      address: this.state.orders[this.state.index].address,
+      // name: this.state.orders[this.state.index].name,
+      // orderId: this.state.orders[this.state.index].orderId,
+      // address: this.state.orders[this.state.index].address,
       userCode: this.state.orders[this.state.index].userCode
     });
     // console.log(this.state.userCode)
