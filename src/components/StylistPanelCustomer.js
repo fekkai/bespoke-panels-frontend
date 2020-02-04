@@ -93,6 +93,7 @@ export default class StylistPanelCustomer extends Component {
           userCode: order.user_code
         });
       }
+      
       this.setState({
         orders,
         currentOrder: 0,
@@ -258,7 +259,7 @@ export default class StylistPanelCustomer extends Component {
     });
     console.log(userResponse);
     this.goToNext();
-    await axios.put("https://fekk.ai/backend/formula", userResponse);
+    // await axios.put("https://fekk.ai/backend/formula", userResponse);
   };
 
   editShampooSkeleton = e => {
@@ -380,8 +381,8 @@ export default class StylistPanelCustomer extends Component {
             <Paper elevation={1}>
               {/* <div className="section">CUSTOMER RESPONSE</div> */}
               <UserAnswers
-                thickness={thickness}
-                texture={texture}
+                thickness={parseInt(thickness)}
+                texture={parseInt(texture)}
                 condition={condition}
                 fragrance={fragrance}
                 hairGoals={hairGoals}
