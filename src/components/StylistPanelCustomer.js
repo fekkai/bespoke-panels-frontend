@@ -56,7 +56,7 @@ export default class StylistPanelCustomer extends Component {
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
     );
-    console.log(userResponse.data);
+    console.log(userResponse.data.ingredients.shampoo.formula);
     await this.setState({
       loading: false,
       thickness: parseInt(userResponse.data.user_data.answers.hair_thickness),
@@ -98,7 +98,9 @@ export default class StylistPanelCustomer extends Component {
       //   : userResponse.data.user_data.weather.scores.wind_speed,
       frontSelfie: userResponse.data.user_data.front_selfie,
       sideSelfie: userResponse.data.user_data.side_selfie,
-      afterwash: userResponse.data.user_data.answers.afterwash
+      afterwash: userResponse.data.user_data.answers.afterwash,
+      shampooFormula: userResponse.data.ingredients.shampoo.formula,
+      conditionerFormula: userResponse.data.ingredients.conditioner.formula
     });
   };
   // renderKeys = () => {
@@ -267,7 +269,21 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Shampoo</div>
               <div className="column-title">Conditioner</div>
               <div className="info-container"></div>
-              <div className="info-container">SKELETON:</div>
+              <div className="info-container">SKELETON:
+              {/* {props.shampooSkeletonKey
+            ? props.shampooSkeletonKey === "volume1"
+              ? "Full Blown (Lightest Weight)"
+              : "" || props.shampooSkeletonKey === "colorprotect1"
+              ? "Technician Color (Medium Moisture)"
+              : "" || props.shampooSkeletonKey === "moisture1"
+              ? "Brilliant Shine (Medium Moisture)"
+              : "" || props.shampooSkeletonKey === "repair1"
+              ? "Super Strength (Strong Moisture)"
+              : "" || props.shampooSkeletonKey === "smooth1"
+              ? "Smoothing 'Essential Shea' (Heavy)"
+              : ""
+            : "" + " "} */}
+              </div>
               <div className="info-container">SKELETON</div>
               <div id="logout-approve-btn">
                 <div style={{ paddingRight: `${5}%` }}>
