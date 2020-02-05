@@ -2,20 +2,17 @@ import React, { Component } from "react";
 
 //components
 import { Row } from "./common";
-
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
+import { Paper } from "@material-ui/core";
+import { RingLoader } from "react-spinners";
 
+// styling
 import "../styles/Panel.scss";
 import { css } from "@emotion/core";
-import { Paper } from "@material-ui/core";
-
-import { RingLoader } from "react-spinners";
 
 import axios from "axios";
 import aws4 from "aws4";
-
-// import OrderInfoStatus from "./OrderInfoStatus";
 
 const override = css`
   display: block;
@@ -44,13 +41,10 @@ export default class StylistPanelList extends Component {
     super(props);
     this.state = {
       filter: "",
-
       data: [],
       ascending: true,
       loading: true,
-
       orders: null,
-      // selectedOrder: "",
       validationError: "",
       name: "",
       address: "",
@@ -82,28 +76,24 @@ export default class StylistPanelList extends Component {
     });
   }
 
-
   fetchOrders = async () => {
     try {
-      // let response = await axios(signedRequest);
       let response = await axios("https://chat-quiz-backend.herokuapp.com/");
-      console.log(response.data);
       response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data) {
-        console.log(userCode.user_code)
         data.push({
-         userCode: userCode.user_code,
+          userCode: userCode.user_code,
           locale: userCode.locale
         });
       }
       this.setState({
         data
-      })
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   compareAsc = key => {
     this.setState({
@@ -163,7 +153,14 @@ export default class StylistPanelList extends Component {
                 <input type="text" name="name" onChange={this.handleChange} />
                 <br />
               </label>
-              <div className="list-header">
+              <div
+                className="list-header"
+                style={{
+                  position: "sticky",
+                  width: "100%",
+                  top: 0
+                }}
+              >
                 <div onClick={() => this.sortBy("locale")}>
                   DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
                 </div>
@@ -176,11 +173,9 @@ export default class StylistPanelList extends Component {
                 <div onClick={() => this.sortBy("product")}>
                   PRODUCT <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-              
               </div>
               <div className="body">
                 {filteredData.slice(0, 50).map(rowData => {
-                  console.log(rowData.locale)
                   return (
                     <Link
                       to={{

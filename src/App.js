@@ -116,7 +116,6 @@ class App extends React.Component {
             age: res.data.user_data.answers.age,
             diet: res.data.user_data.answers.diet,
             zip: res.data.user_data.answers.zipcode.zip,
-            //zips are populating differently each time
             city: res.data.user_data.weather.city,
             wash: res.data.user_data.answers.wash_frequency,
             afterwash: res.data.user_data.answers.afterwash,
@@ -229,7 +228,13 @@ class App extends React.Component {
         <div id="header">
           <Fade big>
             <header className="img-container">
-              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
+              {/* <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} /> */}
+              <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
+                RECO
+              </p>
+              <p style={{ marginBottom: 0, paddingLeft: "1%" }}>
+                // STYLIST / <u>ORDER</u>
+              </p>
               <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
             </header>
           </Fade>

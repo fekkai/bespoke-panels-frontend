@@ -48,8 +48,9 @@ export default class StylistPanelCustomer extends Component {
     };
   }
 
-  componentDidMount() {
-    this.fetchUserCode();
+  async componentDidMount() {
+    await this.fetchUserCode();
+    await this.formulaKeys();
   }
 
   fetchUserCode = async () => {
@@ -63,49 +64,77 @@ export default class StylistPanelCustomer extends Component {
       texture: parseInt(userResponse.data.user_data.answers.hair_texture),
       condition: userResponse.data.user_data.answers["hair-condition"],
       hairGoals: userResponse.data.user_data.answers["hair-goals"],
-      age: userResponse.data.user_data.answers.age
-        ? userResponse.data.user_data.answers.age
-        : "",
-      diet: userResponse.data.user_data.answers.diet
-        ? userResponse.data.user_data.answers.diet
-        : "N/A",
-      fragrance: userResponse.data.user_data.answers.fragrance
-        ? userResponse.data.user_data.answers.fragrance
-        : "N/A",
       zip: userResponse.data.user_data.answers.zipcode
         ? userResponse.data.user_data.answers.zipcode
         : "N/A",
-      //     (typepeof userResponse.data.user_data.answers.zipcode === "string"
-      // ? userResponse.data.user_data.answers.zipcode
-      // : userResponse.data.user_data.answers.zipcode.zip),
       city: !userResponse.data.user_data.weather
         ? "N/A"
         : userResponse.data.user_data.weather.city,
       uvRisk: !userResponse.data.user_data.weather
         ? "N/A"
         : userResponse.data.user_data.weather.scores.uv_risk.score,
-      // airQuality: !userResponse.data.user_data.weather
-      //   ? "N/A"
-      //   : userResponse.data.user_data.weather.scores.air_quality,
-      // waterHardness: !userResponse.data.user_data.weather
-      //   ? "N/A"
-      //   : userResponse.data.user_data.weather.scores.water_hardness,
-      // humidity: !userResponse.data.user_data.weather
-      //   ? "N/A"
-      //   : userResponse.data.user_data.weather.scores.humidity,
-      // windSpeed: !userResponse.data.user_data.weather
-      //   ? "N/A"
-      //   : userResponse.data.user_data.weather.scores.wind_speed,
       frontSelfie: userResponse.data.user_data.front_selfie,
-      sideSelfie: userResponse.data.user_data.side_selfie,
-      afterwash: userResponse.data.user_data.answers.afterwash,
       shampooFormula: userResponse.data.ingredients.shampoo.formula,
       conditionerFormula: userResponse.data.ingredients.conditioner.formula
     });
   };
-  // renderKeys = () => {
 
-  // };
+  formulaKeys = () => {
+    const shampooFormulaData = this.state.shampooFormula;
+    const conditionerFormulaData = this.state.conditionerFormula;
+    console.log(shampooFormulaData, conditionerFormulaData);
+    const shampooScores = [];
+    const conditionerScores = [];
+    const skeletons = [
+      "volume1",
+      "colorprotect1",
+      "moisture1",
+      "repair1",
+      "smooth1"
+    ];
+    let shampooSkeletonKey;
+    let shampooSkeletonValue;
+    let conditionerSkeletonKey;
+    let conditionerSkeletonValue;
+
+    for (let key in shampooFormulaData) {
+      if (skeletons.indexOf(key) > -1) {
+        shampooScores.push(parseInt(shampooFormulaData[key]));
+        shampooScores.sort((a, b) => b - a);
+      }
+      if (shampooScores[0] === shampooFormulaData[key]) {
+        shampooSkeletonKey = key;
+        shampooSkeletonValue = shampooFormulaData[key];
+      }
+    }
+    shampooScores.sort((a, b) => b - a);
+
+    for (let key in conditionerFormulaData) {
+      if (skeletons.indexOf(key) > -1) {
+        conditionerScores.push(parseInt(conditionerFormulaData[key]));
+        conditionerScores.sort((a, b) => b - a);
+      }
+      if (conditionerScores[0] === conditionerFormulaData[key]) {
+        conditionerSkeletonKey = key;
+        conditionerSkeletonValue = conditionerFormulaData[key];
+      }
+    }
+    conditionerScores.sort((a, b) => b - a);
+
+    console.log(shampooScores, conditionerScores);
+    this.setState({
+      shampooSkeletonKey,
+      shampooSkeletonValue,
+      conditionerSkeletonKey,
+      conditionerSkeletonValue
+    });
+    console.log(
+      shampooSkeletonKey,
+      shampooSkeletonValue,
+      conditionerSkeletonKey,
+      conditionerSkeletonValue
+    );
+  };
 
   render() {
     const {
@@ -113,13 +142,8 @@ export default class StylistPanelCustomer extends Component {
       texture,
       condition,
       hairGoals,
-      age,
-      diet,
-      zip,
       city,
-      fragrance,
       frontSelfie,
-      afterwash,
       uvRisk,
       airQuality,
       waterHardness,
@@ -127,17 +151,7 @@ export default class StylistPanelCustomer extends Component {
       windSpeed
     } = this.state;
 
-    console.log(age);
-
-    const { name, address, locale } = this.props.location.state;
-    // const formulaKeys = () => {
-    //   const scores = [];
-    //   for (let key of Object.keys(shampooFormula)) {
-    //     scores.push(parseInt(shampooFormula[key]));
-    //     console.log(scores.sort((a, b) => b - a));
-    //     return scores[0] === shampooFormula[key] ? console.log(key) : "";
-    //   }
-    // };
+    const { userCode, locale } = this.props.location.state;
 
     return (
       <div>
@@ -155,16 +169,13 @@ export default class StylistPanelCustomer extends Component {
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
               <div className="column-title">Customer</div>
-              <div className="column-title">Date</div>
-              <div className="column-title">Status</div>
+              <div className="column-title"></div>
+              <div className="column-title"></div>
+              <div className="info-container-1">USER CODE: {userCode}</div>
+              <div className="info-container-1"></div>
               <div className="info-container-1">
-                USER CODE: {this.props.location.state.userCode}
-              </div>
-              <div className="info-container-1">DATE: {locale}</div>
-              <div className="info-container-1">
-                STATUS: <br />
                 <br />
-                APPROVED BY:{" "}
+                <br />
               </div>
             </div>
           </Paper>
@@ -215,40 +226,13 @@ export default class StylistPanelCustomer extends Component {
                 MAIN GOALS: {hairGoals}
                 <br />
                 <br />
-                {/* FRAGRANCE: {fragrance} */}
-                {/* <br />
-                <br /> */}
               </div>
 
               <div className="info-container">
-                {/* AGE:{" "}
-                {age
-                  ? age === 1
-                    ? "20s"
-                    : "" || age === 2
-                    ? "30s"
-                    : "" || age === 3
-                    ? "40s"
-                    : "" || age === 4
-                    ? "50s"
-                    : "" || age === 4
-                    ? "60s"
-                    : "" || age === 4
-                    ? "70+"
-                    : ""
-                  : "N/A"}
-                <br /> <br />
-                DIET: {diet}
-                <br />
-                <br />
-                ZIP: {zip}
-                <br />
-                <br /> */}
                 CITY: {city}
                 (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
                 {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})
                 <br />
-                <br /># AFTERWASH PRODUCTS: {afterwash ? afterwash : "N/A"}
               </div>
 
               <div className="selfie-container">
@@ -266,30 +250,53 @@ export default class StylistPanelCustomer extends Component {
           </Paper>
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
-              <div className="column-title">Shampoo</div>
-              <div className="column-title">Conditioner</div>
-              <div className="info-container"></div>
-              <div className="info-container">SKELETON:
-              {/* {props.shampooSkeletonKey
-            ? props.shampooSkeletonKey === "volume1"
-              ? "Full Blown (Lightest Weight)"
-              : "" || props.shampooSkeletonKey === "colorprotect1"
-              ? "Technician Color (Medium Moisture)"
-              : "" || props.shampooSkeletonKey === "moisture1"
-              ? "Brilliant Shine (Medium Moisture)"
-              : "" || props.shampooSkeletonKey === "repair1"
-              ? "Super Strength (Strong Moisture)"
-              : "" || props.shampooSkeletonKey === "smooth1"
-              ? "Smoothing 'Essential Shea' (Heavy)"
-              : ""
-            : "" + " "} */}
+              <div className="column-title">SHAMPOO</div>
+              <div className="column-title">CONDITIONER</div>
+              <div className="column-title">MASK</div>
+              <div className="info-container">
+                RECO COLLECTION:
+                <br />{" "}
+                {this.state.shampooSkeletonKey
+                  ? this.state.shampooSkeletonKey === "volume1"
+                    ? "Full Blown (Lightest Weight)"
+                    : "" || this.state.shampooSkeletonKey === "colorprotect1"
+                    ? "Technician Color (Medium Moisture)"
+                    : "" || this.state.shampooSkeletonKey === "moisture1"
+                    ? "Brilliant Shine (Medium Moisture)"
+                    : "" || this.state.shampooSkeletonKey === "repair1"
+                    ? "Super Strength (Strong Moisture)"
+                    : "" || this.state.shampooSkeletonKey === "smooth1"
+                    ? "Smoothing 'Essential Shea' (Heavy)"
+                    : ""
+                  : "" + " "}
               </div>
-              <div className="info-container">SKELETON</div>
-              <div id="logout-approve-btn">
-                <div style={{ paddingRight: `${5}%` }}>
-                  <button>APPROVE</button>
-                </div>
+              <div className="info-container">
+                RECO COLLECTION:
+                <br />{" "}
+                {this.state.conditionerSkeletonKey
+                  ? this.state.conditionerSkeletonKey === "volume1"
+                    ? "Full Blown (Lightest Weight)"
+                    : "" ||
+                      this.state.conditionerSkeletonKey === "colorprotect1"
+                    ? "Technician Color (Medium Moisture)"
+                    : "" || this.state.conditionerSkeletonKey === "moisture1"
+                    ? "Brilliant Shine (Medium Moisture)"
+                    : "" || this.state.conditionerSkeletonKey === "repair1"
+                    ? "Super Strength (Strong Moisture)"
+                    : "" || this.state.conditionerSkeletonKey === "smooth1"
+                    ? "Smoothing 'Essential Shea' (Heavy)"
+                    : ""
+                  : "" + " "}
               </div>
+              <div className="info-container">
+                RECO COLLECTION:
+                <br /> MASK PLACEHOLDER
+                <br />
+                <br />
+                <br />
+                <br />
+              </div>
+              {/* <div style={{ paddingRight: `${5}%` }}>Mask Placeholder</div> */}
             </div>
           </Paper>
         </Fade>
