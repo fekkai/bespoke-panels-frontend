@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 
@@ -88,9 +87,6 @@ export default class StylistPanelCustomer extends Component {
 
   render() {
     const {
-      shampooFormula,
-      conditionerFormula,
-      // address,
       thickness,
       texture,
       condition,
@@ -109,24 +105,18 @@ export default class StylistPanelCustomer extends Component {
       humidity,
       windSpeed
     } = this.state;
-    console.log(city);
+
     const { name, address, orderId } = this.props.location.state;
 
-    const { photoIndex, isOpen } = this.state;
-    const images = [frontSelfie, sideSelfie];
-    // console.log(shampooFormula);
+    // const formulaKeys = () => {
+    //   const scores = [];
+    //   for (let key of Object.keys(shampooFormula)) {
+    //     scores.push(parseInt(shampooFormula[key]));
+    //     console.log(scores.sort((a, b) => b - a));
+    //     return scores[0] === shampooFormula[key] ? console.log(key) : "";
+    //   }
+    // };
 
-    const formulaKeys = () => {
-      const scores = [];
-      for (let key of Object.keys(shampooFormula)) {
-        scores.push(parseInt(shampooFormula[key]));
-        console.log(scores.sort((a, b) => b - a));
-        return scores[0] === shampooFormula[key] ? console.log(key) : "";
-      }
-      // console.log(scores);
-      //sort the array of values of skeleton scores
-    };
-    // formulaKeys();
     return (
       <div>
         <Link to="/stylist-panel-list">
@@ -161,7 +151,6 @@ export default class StylistPanelCustomer extends Component {
           </Paper>
 
           <Paper elevation={1}>
-            {/* <div className="section">CUSTOMER RESPONSE</div> */}
             <div className="stylist-panel-customer">
               <div className="column-title">Characteristics</div>
               <div className="column-title">Profile</div>
@@ -249,10 +238,10 @@ export default class StylistPanelCustomer extends Component {
               <div className="selfie-container">
                 <Carousel showThumbs={false} showIndicators={false}>
                   <div>
-                    <img style={{ width: `${85}%` }} src={frontSelfie} />
+                    <img alt={frontSelfie} style={{ width: `${85}%` }} src={frontSelfie} />
                   </div>
                   <div>
-                    <img style={{ width: `${85}%` }} src={sideSelfie} />
+                    <img alt={sideSelfie} style={{ width: `${85}%` }} src={sideSelfie} />
                   </div>
                 </Carousel>
               </div>

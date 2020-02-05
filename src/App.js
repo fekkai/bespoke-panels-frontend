@@ -1,30 +1,25 @@
 // Packages and Libraries
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 
 // Components
-import Home from "./components/Home";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
+
 import StylistPanelList from "./components/StylistPanelList";
 import StylistPanelCustomer from "./components/StylistPanelCustomer";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 // Assets
 import bespokeImg from "./assets/bespoke-beta.svg";
 import fekkaiLogo from "./assets/fekkai-logo.svg";
 // Helper functions
-import { login, getProfile, signUp } from "./services/apiService";
+import { getProfile } from "./services/apiService";
 // Packages
 import aws4 from "aws4";
 import axios from "axios";
 // Css
 import "./styles/App.scss";
 import authService from "./services/authService";
-import { css } from "@emotion/core";
 
-import Lightbox from "react-image-lightbox";
 import "./styles/Lightbox.scss";
 
 //AWS4 auth
@@ -47,12 +42,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isSignedIn: false,
-      // isSignedUp: false,
       user: {},
-
       orders: null,
-      // selectedOrder: "",
       validationError: "",
       name: "",
       address: "",
@@ -96,7 +87,9 @@ class App extends React.Component {
 
   fetchOrders = async () => {
     try {
-      let response = await axios.get('https://bespoke-backend-db.herokuapp.com/');
+      let response = await axios.get(
+        "https://bespoke-backend-db.herokuapp.com/"
+      );
       console.log(response);
       this.setState({
         orders: response.data.orders
@@ -138,44 +131,6 @@ class App extends React.Component {
       console.error(error);
     }
   };
-
-  // loginUser = async credentials => {
-  //   try {
-  //     const user = await login(credentials);
-  //     console.log(user);
-  //     this.setState(state => {
-  //       return {
-  //         isSignedIn: true,
-  //         user: user
-  //       };
-  //     });
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // };
-
-  // signOutUser = () => {
-  //   authService.signOut();
-  //   this.setState(state => {
-  //     return {
-  //       isSignedIn: false,
-  //       user: {}
-  //     };
-  //   });
-  // };
-
-  // signUpUser = async credentials => {
-  //   try {
-  //     const user = await signUp(credentials);
-  //     this.setState({
-  //       isSignedIn: true,
-  //       isSignedUp: true,
-  //       user: user
-  //     });
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
 
   renderOrders = () => {
     return (
@@ -258,7 +213,6 @@ class App extends React.Component {
       age,
       name,
       diet,
-      zip,
       orderNumber,
       createdAt,
       city,
@@ -267,64 +221,22 @@ class App extends React.Component {
       hairGoals2,
       sideSelfie,
       frontSelfie,
-      shampooFormula,
-      conditionerFormula,
-      isLoading,
-      photoIndex,
-      isOpen,
-      } = this.state;
-    // const images = [frontSelfie, sideSelfie];
+
+      isLoading
+    } = this.state;
     return (
       <div className="app">
-       {/* {isOpen && (
-                  <Lightbox
-                    mainSrc={images[photoIndex]}
-                    nextSrc={images[(photoIndex + 1) % images.length]}
-                    prevSrc={
-                      images[(photoIndex + images.length - 1) % images.length]
-                    }
-                    onCloseRequest={() => this.setState({ isOpen: false })}
-                    onMovePrevRequest={() =>
-                      this.setState({
-                        photoIndex:
-                          (photoIndex + images.length - 1) % images.length
-                      })
-                    }
-                    onMoveNextRequest={() =>
-                      this.setState({
-                        photoIndex: (photoIndex + 1) % images.length
-                      })
-                    }
-                  />
-                )} */}
-        <div id='header'>
+        <div id="header">
           <Fade big>
             <header className="img-container">
-              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} /> 
+              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
               <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
-
-              {/* <button type="button" onClick={() => this.setState({ isOpen: true })}>
-          Open Lightbox
-        </button> */}
-
             </header>
           </Fade>
-          {/* {this.state.isSignedIn === true ? (
-            <div id="logout-approve-btn">
-              <div>
-                <button className="btn" onClick={this.signOutUser}>
-                  LOGOUT
-                </button>
-              </div>
-            </div>
-          ) : null} */}
         </div>
-    
+
         <main id="main-page">
           <Route exact path="/" component={StylistPanelList} />
-          {/* <Route exact path="/" component={Login} /> */}
-
-          {/* <ProtectedRoute path="/dashboard" user={user} component={Dashboard} /> */}
           <Route
             path="/stylist-panel-list"
             user={user}
@@ -333,7 +245,6 @@ class App extends React.Component {
             orderNumber={orderNumber}
             name={name}
           />
-
           <Route
             thickness={
               thickness
@@ -384,29 +295,6 @@ class App extends React.Component {
             user={user}
             component={StylistPanelCustomer}
           />
-          {/* <Fade big>
-            <Route
-              path="/login"
-              render={props => (
-                <Login
-                  {...props}
-                  handleLogin={this.loginUser}
-                  isSignedIn={isSignedIn}
-                />
-              )}
-            />
-          </Fade>
-          <Route
-            path="/signup"
-            render={props => (
-              <SignUp
-                {...props}
-                signUp={this.signUpUser}
-                isSignedUp={isSignedUp}
-                isSignedIn={isSignedIn}
-              />
-            )}
-          /> */}
         </main>
         <footer></footer>
       </div>

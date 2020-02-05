@@ -2,13 +2,8 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import { Paper } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   bullet: {
@@ -49,27 +44,9 @@ export const Row = ({
     .split(",")[0];
 
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <div>
-      {/* <div className="row">
-      <div>
-        {
-          new Date(dueDate)
-            .toLocaleString("en-US", {
-              timeZone: "America/New_York"
-            })
-            .split(",")[0]
-        }
-      </div>
-      <div>{orderId}</div>
-      <div>{customerName}</div>
-      <div>{`${product1}, ${product2}, ${product3}`}</div>
-      <div>{status}</div>
-
-    </div> */}
-
       <Card
         className={classes.card}
         style={{

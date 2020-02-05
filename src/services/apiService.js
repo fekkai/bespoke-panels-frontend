@@ -54,7 +54,3 @@ export const signUp = async data => {
     throw error;
   }
 };
-
-const API_KEY = process.env.API_KEY;
-const PASSWORD = process.env.PASSWORD;
-
