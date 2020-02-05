@@ -63,7 +63,6 @@ export default class StylistPanelCustomer extends Component {
       texture: parseInt(userResponse.data.user_data.answers.hair_texture),
       condition: userResponse.data.user_data.answers["hair-condition"],
       hairGoals: userResponse.data.user_data.answers["hair-goals"],
-      hairGoals2: userResponse.data.user_data.answers["hair-goals-2"],
       age: userResponse.data.user_data.answers.age
         ? userResponse.data.user_data.answers.age
         : "",
@@ -84,19 +83,19 @@ export default class StylistPanelCustomer extends Component {
         : userResponse.data.user_data.weather.city,
       uvRisk: !userResponse.data.user_data.weather
         ? "N/A"
-        : userResponse.data.user_data.weather.scores.uv_risk,
-      airQuality: !userResponse.data.user_data.weather
-        ? "N/A"
-        : userResponse.data.user_data.weather.scores.air_quality,
-      waterHardness: !userResponse.data.user_data.weather
-        ? "N/A"
-        : userResponse.data.user_data.weather.scores.water_hardness,
-      humidity: !userResponse.data.user_data.weather
-        ? "N/A"
-        : userResponse.data.user_data.weather.scores.humidity,
-      windSpeed: !userResponse.data.user_data.weather
-        ? "N/A"
-        : userResponse.data.user_data.weather.scores.wind_speed,
+        : userResponse.data.user_data.weather.scores.uv_risk.score,
+      // airQuality: !userResponse.data.user_data.weather
+      //   ? "N/A"
+      //   : userResponse.data.user_data.weather.scores.air_quality,
+      // waterHardness: !userResponse.data.user_data.weather
+      //   ? "N/A"
+      //   : userResponse.data.user_data.weather.scores.water_hardness,
+      // humidity: !userResponse.data.user_data.weather
+      //   ? "N/A"
+      //   : userResponse.data.user_data.weather.scores.humidity,
+      // windSpeed: !userResponse.data.user_data.weather
+      //   ? "N/A"
+      //   : userResponse.data.user_data.weather.scores.wind_speed,
       frontSelfie: userResponse.data.user_data.front_selfie,
       sideSelfie: userResponse.data.user_data.side_selfie,
       afterwash: userResponse.data.user_data.answers.afterwash
@@ -112,14 +111,12 @@ export default class StylistPanelCustomer extends Component {
       texture,
       condition,
       hairGoals,
-      hairGoals2,
       age,
       diet,
       zip,
       city,
       fragrance,
       frontSelfie,
-      sideSelfie,
       afterwash,
       uvRisk,
       airQuality,
@@ -216,13 +213,13 @@ export default class StylistPanelCustomer extends Component {
                 MAIN GOALS: {hairGoals}
                 <br />
                 <br />
-                FRAGRANCE: {fragrance}
-                <br />
-                <br />
+                {/* FRAGRANCE: {fragrance} */}
+                {/* <br />
+                <br /> */}
               </div>
 
               <div className="info-container">
-                AGE:{" "}
+                {/* AGE:{" "}
                 {age
                   ? age === 1
                     ? "20s"
@@ -244,7 +241,7 @@ export default class StylistPanelCustomer extends Component {
                 <br />
                 ZIP: {zip}
                 <br />
-                <br />
+                <br /> */}
                 CITY: {city}
                 (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
                 {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})

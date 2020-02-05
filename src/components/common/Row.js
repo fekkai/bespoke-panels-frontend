@@ -9,12 +9,14 @@ const useStyles = makeStyles({
   bullet: {
     display: "inline-block",
     margin: "0 2px",
-    transform: "scale(0.8)"
+    transform: "scale(0.8)",
+    textDecoration: 'none'
+
   },
   title: {
     fontSize: 15,
     color: `#000000`,
-    fontFamily: "urwdin-regular"
+    fontFamily: "urwdin-regular",
   },
   pos: {
     marginBottom: 12
@@ -62,14 +64,15 @@ export const Row = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            padding: "0"
+            padding: "0",
+            
           }}
         >
           <Typography
             className={classes.title}
             color="textSecondary"
             style={{
-              width: `${20}%`
+              width: `${25}%`
             }}
           >
             {
@@ -83,7 +86,7 @@ export const Row = ({
           </Typography>
           <Typography
             style={{
-              width: `${20}%`
+              width: `${25}%`
             }}
             className={classes.title}
             color="textSecondary"
@@ -92,7 +95,7 @@ export const Row = ({
           </Typography>
           <Typography
             style={{
-              width: `${20}%`
+              width: `${25}%`
             }}
             className={classes.title}
             color="textSecondary"
@@ -102,16 +105,16 @@ export const Row = ({
           </Typography>
           <Typography
             style={{
-              width: `${20}%`
+              width: `${25}%`
             }}
             className={classes.title}
             color="textSecondary"
           >
             {" "}
-            {/* {`${product1}, ${product2}, ${product3}`} */}
+            Product placeholder
             <br />
           </Typography>
-          <Typography
+          {/* <Typography
             style={{
               width: `${20}%`
             }}
@@ -121,7 +124,7 @@ export const Row = ({
             {" "}
             {status}
             <br />
-          </Typography>
+          </Typography> */}
         </CardContent>
         <CardActions></CardActions>
       </Card>

@@ -164,11 +164,11 @@ export default class StylistPanelList extends Component {
                 <br />
               </label>
               <div className="list-header">
-                <div onClick={() => this.sortBy("date")}>
-                  DUE DATE <span>{ascending ? "▲" : "▼"}</span>
+                <div onClick={() => this.sortBy("locale")}>
+                  DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-                <div onClick={() => this.sortBy("orderId")}>
-                  ORDER ID <span>{ascending ? "▲" : "▼"}</span>
+                <div onClick={() => this.sortBy("userCode")}>
+                  USER <span>{ascending ? "▲" : "▼"}</span>
                 </div>
                 <div onClick={() => this.sortBy("customerName")}>
                   NAME <span>{ascending ? "▲" : "▼"}</span>
@@ -176,9 +176,7 @@ export default class StylistPanelList extends Component {
                 <div onClick={() => this.sortBy("product")}>
                   PRODUCT <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-                <div onClick={() => this.sortBy("status")}>
-                  STATUS <span>{ascending ? "▲" : "▼"}</span>
-                </div>
+              
               </div>
               <div className="body">
                 {filteredData.slice(0, 50).map(rowData => {
