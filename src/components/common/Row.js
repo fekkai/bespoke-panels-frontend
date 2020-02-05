@@ -32,7 +32,9 @@ export const Row = ({
   date,
   dueDate,
   orderId,
+  userCode,
   customerName,
+  locale,
   status,
   product1,
   product2,
@@ -71,11 +73,12 @@ export const Row = ({
             }}
           >
             {
-              new Date(dueDate)
-                .toLocaleString("en-US", {
-                  timeZone: "America/New_York"
-                })
-                .split(",")[0]
+              // new Date(dueDate)
+              //   .toLocaleString("en-US", {
+              //     timeZone: "America/New_York"
+              //   })
+              //   .split(",")[0]
+              locale
             }
           </Typography>
           <Typography
@@ -85,7 +88,7 @@ export const Row = ({
             className={classes.title}
             color="textSecondary"
           >
-            {orderId}
+            {userCode}
           </Typography>
           <Typography
             style={{
@@ -105,7 +108,7 @@ export const Row = ({
             color="textSecondary"
           >
             {" "}
-            {`${product1}, ${product2}, ${product3}`}
+            {/* {`${product1}, ${product2}, ${product3}`} */}
             <br />
           </Typography>
           <Typography

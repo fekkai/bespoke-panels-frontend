@@ -56,26 +56,47 @@ export default class StylistPanelCustomer extends Component {
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
     );
-    console.log(userResponse);
-    this.setState({
+    console.log(userResponse.data);
+    await this.setState({
       loading: false,
-      shampooFormula: userResponse.data.user_data.answers.hair_thickness,
-      texture: userResponse.data.user_data.answers.hair_texture,
+      thickness: parseInt(userResponse.data.user_data.answers.hair_thickness),
+      texture: parseInt(userResponse.data.user_data.answers.hair_texture),
       condition: userResponse.data.user_data.answers["hair-condition"],
       hairGoals: userResponse.data.user_data.answers["hair-goals"],
       hairGoals2: userResponse.data.user_data.answers["hair-goals-2"],
-      age: userResponse.data.user_data.answers.age,
-      diet: userResponse.data.user_data.answers.diet,
-      //     zip: (typepeof userResponse.data.user_data.answers.zipcode === "string"
+      age: userResponse.data.user_data.answers.age
+        ? userResponse.data.user_data.answers.age
+        : "",
+      diet: userResponse.data.user_data.answers.diet
+        ? userResponse.data.user_data.answers.diet
+        : "N/A",
+      fragrance: userResponse.data.user_data.answers.fragrance
+        ? userResponse.data.user_data.answers.fragrance
+        : "N/A",
+      zip: userResponse.data.user_data.answers.zipcode
+        ? userResponse.data.user_data.answers.zipcode
+        : "N/A",
+      //     (typepeof userResponse.data.user_data.answers.zipcode === "string"
       // ? userResponse.data.user_data.answers.zipcode
       // : userResponse.data.user_data.answers.zipcode.zip),
-      city: userResponse.data.user_data.weather.city,
-      uvRisk: userResponse.data.user_data.weather.scores.uv_risk.score,
-      airQuality: userResponse.data.user_data.weather.scores.air_quality.score,
-      waterHardness:
-        userResponse.data.user_data.weather.scores.water_hardness.score,
-      humidity: userResponse.data.user_data.weather.scores.humidity.score,
-      windSpeed: userResponse.data.user_data.weather.scores.wind_speed.score,
+      city: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.city,
+      uvRisk: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.uv_risk,
+      airQuality: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.air_quality,
+      waterHardness: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.water_hardness,
+      humidity: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.humidity,
+      windSpeed: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.wind_speed,
       frontSelfie: userResponse.data.user_data.front_selfie,
       sideSelfie: userResponse.data.user_data.side_selfie,
       afterwash: userResponse.data.user_data.answers.afterwash
@@ -96,6 +117,7 @@ export default class StylistPanelCustomer extends Component {
       diet,
       zip,
       city,
+      fragrance,
       frontSelfie,
       sideSelfie,
       afterwash,
@@ -106,8 +128,9 @@ export default class StylistPanelCustomer extends Component {
       windSpeed
     } = this.state;
 
-    const { name, address, orderId } = this.props.location.state;
+    console.log(age);
 
+    const { name, address, orderId } = this.props.location.state;
     // const formulaKeys = () => {
     //   const scores = [];
     //   for (let key of Object.keys(shampooFormula)) {
@@ -187,7 +210,7 @@ export default class StylistPanelCustomer extends Component {
                     : "" || texture === 4
                     ? "coily"
                     : ""
-                  : ""}
+                  : "N/A"}
                 <br />
                 <br />
                 CONDITION: {condition}
@@ -199,7 +222,7 @@ export default class StylistPanelCustomer extends Component {
                 SECONDARY GOALS: {hairGoals2}
                 <br />
                 <br />
-                FRAGRANCE:
+                FRAGRANCE: {fragrance}
                 <br />
                 <br />
               </div>
@@ -220,7 +243,7 @@ export default class StylistPanelCustomer extends Component {
                     : "" || age === 4
                     ? "70+"
                     : ""
-                  : ""}
+                  : "N/A"}
                 <br /> <br />
                 DIET: {diet}
                 <br />
@@ -232,16 +255,24 @@ export default class StylistPanelCustomer extends Component {
                 (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
                 {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})
                 <br />
-                <br /># AFTERWASH PRODUCTS: {afterwash}
+                <br /># AFTERWASH PRODUCTS: {afterwash ? afterwash : 'N/A'}
               </div>
 
               <div className="selfie-container">
                 <Carousel showThumbs={false} showIndicators={false}>
                   <div>
-                    <img alt={frontSelfie} style={{ width: `${85}%` }} src={frontSelfie} />
+                    <img
+                      alt={frontSelfie}
+                      style={{ width: `${85}%` }}
+                      src={frontSelfie}
+                    />
                   </div>
                   <div>
-                    <img alt={sideSelfie} style={{ width: `${85}%` }} src={sideSelfie} />
+                    <img
+                      alt={sideSelfie}
+                      style={{ width: `${85}%` }}
+                      src={sideSelfie}
+                    />
                   </div>
                 </Carousel>
               </div>
