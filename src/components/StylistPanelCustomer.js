@@ -130,7 +130,7 @@ export default class StylistPanelCustomer extends Component {
 
     console.log(age);
 
-    const { name, address, orderId } = this.props.location.state;
+    const { name, address, locale } = this.props.location.state;
     // const formulaKeys = () => {
     //   const scores = [];
     //   for (let key of Object.keys(shampooFormula)) {
@@ -156,15 +156,12 @@ export default class StylistPanelCustomer extends Component {
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
               <div className="column-title">Customer</div>
-              <div className="column-title">Order</div>
+              <div className="column-title">Date</div>
               <div className="column-title">Status</div>
               <div className="info-container-1">
-                NAME: <br />
-                {name}
-                <br />
-                {address}
+                USER CODE: {this.props.location.state.userCode}
               </div>
-              <div className="info-container-1">ID: {orderId}</div>
+              <div className="info-container-1">DATE: {locale}</div>
               <div className="info-container-1">
                 STATUS: <br />
                 <br />
@@ -219,9 +216,6 @@ export default class StylistPanelCustomer extends Component {
                 MAIN GOALS: {hairGoals}
                 <br />
                 <br />
-                SECONDARY GOALS: {hairGoals2}
-                <br />
-                <br />
                 FRAGRANCE: {fragrance}
                 <br />
                 <br />
@@ -255,7 +249,7 @@ export default class StylistPanelCustomer extends Component {
                 (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
                 {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})
                 <br />
-                <br /># AFTERWASH PRODUCTS: {afterwash ? afterwash : 'N/A'}
+                <br /># AFTERWASH PRODUCTS: {afterwash ? afterwash : "N/A"}
               </div>
 
               <div className="selfie-container">
@@ -265,13 +259,6 @@ export default class StylistPanelCustomer extends Component {
                       alt={frontSelfie}
                       style={{ width: `${85}%` }}
                       src={frontSelfie}
-                    />
-                  </div>
-                  <div>
-                    <img
-                      alt={sideSelfie}
-                      style={{ width: `${85}%` }}
-                      src={sideSelfie}
                     />
                   </div>
                 </Carousel>

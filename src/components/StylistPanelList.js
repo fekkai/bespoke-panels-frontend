@@ -93,21 +93,7 @@ export default class StylistPanelList extends Component {
       for (let userCode of response.data) {
         console.log(userCode.user_code)
         data.push({
-          // name: order.shipping_address.name,
-          // orderId: order.name,
-          // address: 
-          //   order.shipping_address.address1 +
-          //   (order.shipping_address.address2
-          //     ? " " + order.shipping_address.address2
-          //     : "") +
-          //   " " +
-          //   order.shipping_address.city +
-          //   " " +
-          //   order.shipping_address.province_code +
-          //   " " +
-          //   order.shipping_address.zip,
-          // orderNumber: order.order_number,
-          userCode: userCode.user_code,
+         userCode: userCode.user_code,
           locale: userCode.locale
         });
       }
@@ -118,97 +104,6 @@ export default class StylistPanelList extends Component {
       console.error(error)
     }
   }
-
-  // fetchOrders = async () => {
-  //   try {
-  //     let response = await axios.get('https://bespoke-backend-db.herokuapp.com/');
-
-  //     const data = [];
-
-  //     response.data.orders.map(async element => {
-  //       const {
-  //         created_at,
-  //         name,
-  //         shipping_address,
-  //         line_items,
-  //         note_attributes
-  //       } = element;
-  //       let date = created_at;
-  //       let customerName = shipping_address.name;
-  //       let address =
-  //         shipping_address.address1 +
-  //         (shipping_address.address2 ? " " + shipping_address.address2 : "") +
-  //         " " +
-  //         shipping_address.city +
-  //         " " +
-  //         shipping_address.province_code +
-  //         " " +
-  //         shipping_address.zip;
-  //       let orderId = name;
-  //       let product1 = line_items[0].title ? line_items[0].title : "";
-  //       let product2 = line_items[1].title ? line_items[1].title : "";
-  //       let product3 = !line_items[2].title ? "" : line_items[2].title;
-  //       let userCode = !note_attributes[0] ? "" : note_attributes[0].value;
-
-  //       // if (userCode) {
-  //       //   let userResponse = await axios.get(
-  //       //     `https://fekk.ai/backend/get_formula?user_code=${userCode}`
-  //       //   );
-
-  //       //   var shampooFormula = userResponse.data.ingredients.shampoo.formula;
-  //       //   var conditionerFormula =
-  //       //     userResponse.data.ingredients.shampoo.formula;
-  //       //   var thickness = userResponse.data.user_data.answers.hair_thickness;
-  //       //   var texture = userResponse.data.user_data.answers.hair_texture;
-  //       //   var condition = userResponse.data.user_data.answers["hair-condition"];
-  //       //   var hairGoals = userResponse.data.user_data.answers["hair-goals"];
-  //       //   var hairGoals2 = userResponse.data.user_data.answers["hair-goals-2"];
-  //       //   var age = userResponse.data.user_data.answers.age;
-  //       //   var diet = userResponse.data.user_data.answers.diet;
-  //       //   var zip =
-  //       //     typeof userResponse.data.user_data.answers.zipcode === "string"
-  //       //       ? userResponse.data.user_data.answers.zipcode
-  //       //       : userResponse.data.user_data.answers.zipcode.zip;
-  //       //   var city = userResponse.data.user_data.weather;
-  //       //   var frontSelfie = userResponse.data.user_data.front_selfie;
-  //       //   var sideSelfie = userResponse.data.user_data.side_selfie;
-  //       //   var afterwash = userResponse.data.user_data.answers.afterwash
-  //       // }
-  //       // console.log(afterwash)
-  //       await data.push({
-  //         date,
-  //         customerName,
-  //         address,
-  //         // name is shopify api variable for order id
-  //         orderId,
-  //         product1,
-  //         product2,
-  //         product3,
-  //         // shampooFormula,
-  //         // conditionerFormula,
-  //         // thickness,
-  //         // texture,
-  //         // condition,
-  //         // hairGoals,
-  //         // hairGoals2,
-  //         // age,
-  //         // diet,
-  //         // zip,
-  //         // city,
-  //         // frontSelfie,
-  //         // sideSelfie,
-  //         // afterwash,
-  //         userCode
-  //       });
-  //       // console.log(city)
-  //     });
-  //     await this.setState({
-  //       data,
-  //             });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   compareAsc = key => {
     this.setState({
@@ -286,18 +181,15 @@ export default class StylistPanelList extends Component {
                 </div>
               </div>
               <div className="body">
-                {filteredData.map(rowData => {
+                {filteredData.slice(0, 50).map(rowData => {
+                  console.log(rowData.locale)
                   return (
                     <Link
                       to={{
                         pathname: "/stylist-panel-customer",
                         state: {
-                          name: rowData.customerName,
-                         
-                          address: rowData.address,
-                          orderId: rowData.orderId,
-                        
                           userCode: rowData.userCode,
+                          locale: rowData.locale
                         }
                       }}
                     >
