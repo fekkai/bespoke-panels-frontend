@@ -101,13 +101,11 @@ export default class StylistPanelCustomer extends Component {
       shampooFormula: userResponse.data.ingredients.shampoo.formula,
       conditionerFormula: userResponse.data.ingredients.conditioner.formula
     });
-    console.log(this.state.uvRisk);
   };
 
   formulaKeys = () => {
     const shampooFormulaData = this.state.shampooFormula;
     const conditionerFormulaData = this.state.conditionerFormula;
-    console.log(shampooFormulaData, conditionerFormulaData);
     const shampooScores = [];
     const conditionerScores = [];
     const skeletons = [
@@ -146,7 +144,6 @@ export default class StylistPanelCustomer extends Component {
     }
     conditionerScores.sort((a, b) => b - a);
 
-    console.log(shampooScores, conditionerScores);
     this.setState({
       collectionLoading: false,
       shampooSkeletonKey,
@@ -154,12 +151,6 @@ export default class StylistPanelCustomer extends Component {
       conditionerSkeletonKey,
       conditionerSkeletonValue
     });
-    console.log(
-      shampooSkeletonKey,
-      shampooSkeletonValue,
-      conditionerSkeletonKey,
-      conditionerSkeletonValue
-    );
   };
 
   render() {

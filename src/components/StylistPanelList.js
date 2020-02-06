@@ -64,16 +64,16 @@ export default class StylistPanelList extends Component {
       //     `https://fekk.ai/backend/get_formula?user_code=${userCode.user_code}`
       //   );
 
-        let response = await axios("https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f");
+      let response = await axios(
+        "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
+      );
       response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data) {
-        // console.log(userCode.user_code)
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
 
-          console.log(userResponse)
         const shampooScores = [];
 
         const skeletons = [
@@ -105,8 +105,6 @@ export default class StylistPanelList extends Component {
           }
         }
         shampooScores.sort((a, b) => b - a);
-
-        console.log(shampooSkeletonKey);
 
         data.push({
           userCode: userCode.user_code,

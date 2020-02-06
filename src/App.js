@@ -232,7 +232,7 @@ class App extends React.Component {
               <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
                 RECO
               </p>
-              <p style={{ marginBottom: 0, paddingLeft: "1%" }}>
+              <p style={{ marginBottom: 0, paddingLeft: ".5%" }}>
                 // STYLIST / <u>ORDER</u>
               </p>
               
