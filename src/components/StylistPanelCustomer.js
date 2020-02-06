@@ -10,7 +10,7 @@ import aws4 from "aws4";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import { Carousel } from "react-responsive-carousel";
-import { RingLoader } from "react-spinners";
+import { RingLoader, PulseLoader } from "react-spinners";
 import { Paper } from "@material-ui/core";
 
 // import "../styles/Panel.scss";
@@ -42,6 +42,7 @@ export default class StylistPanelCustomer extends Component {
     super(props);
     this.state = {
       loading: true,
+      collectionLoading: true,
       photoIndex: 0,
       isOpen: false,
       userCode: ""
@@ -146,6 +147,7 @@ export default class StylistPanelCustomer extends Component {
 
     console.log(shampooScores, conditionerScores);
     this.setState({
+      collectionLoading: false,
       shampooSkeletonKey,
       shampooSkeletonValue,
       conditionerSkeletonKey,
@@ -284,7 +286,8 @@ export default class StylistPanelCustomer extends Component {
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}
-                {this.state.shampooSkeletonKey
+                {this.state.collectionLoading ? <PulseLoader/> : 
+                (this.state.shampooSkeletonKey
                   ? this.state.shampooSkeletonKey === "volume1"
                     ? "Full Blown (Lightest Weight)"
                     : "" || this.state.shampooSkeletonKey === "colorprotect1"
@@ -296,12 +299,12 @@ export default class StylistPanelCustomer extends Component {
                     : "" || this.state.shampooSkeletonKey === "smooth1"
                     ? "Smoothing 'Essential Shea' (Heavy)"
                     : ""
-                  : "" + " "}
+                  : "" + " ")}
               </div>
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}
-                {this.state.conditionerSkeletonKey
+                {this.state.collectionLoading ? <PulseLoader/> :  (this.state.conditionerSkeletonKey
                   ? this.state.conditionerSkeletonKey === "volume1"
                     ? "Full Blown (Lightest Weight)"
                     : "" ||
@@ -314,12 +317,13 @@ export default class StylistPanelCustomer extends Component {
                     : "" || this.state.conditionerSkeletonKey === "smooth1"
                     ? "Smoothing 'Essential Shea' (Heavy)"
                     : ""
-                  : "" + " "}
+                  : "" + " ")}
               </div>
               <div className="info-container">
-                RECO COLLECTION:
+                 RECO COLLECTION:
                 <br />{" "}
-                {this.state.shampooSkeletonKey
+                {this.state.collectionLoading ? <PulseLoader/> : 
+                (this.state.shampooSkeletonKey
                   ? this.state.shampooSkeletonKey === "volume1"
                     ? "Full Blown (Lightest Weight)"
                     : "" || this.state.shampooSkeletonKey === "colorprotect1"
@@ -331,7 +335,7 @@ export default class StylistPanelCustomer extends Component {
                     : "" || this.state.shampooSkeletonKey === "smooth1"
                     ? "Smoothing 'Essential Shea' (Heavy)"
                     : ""
-                  : "" + " "}
+                  : "" + " ")}
                 <br />
                 <br />
                 <br />
