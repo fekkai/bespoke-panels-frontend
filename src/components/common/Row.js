@@ -71,17 +71,16 @@ export const Row = ({
             className={classes.title}
             color="textSecondary"
             style={{
-              flex: 1,
+              flex: 1.2,
               padding: "0.2rem 0.4em"
             }}
           >
             {
-              // new Date(dueDate)
-              //   .toLocaleString("en-US", {
-              //     timeZone: "America/New_York"
-              //   })
-              //   .split(",")[0]
-              locale
+              new Date(locale)
+                .toLocaleString("en-US", {
+                  timeZone: "America/New_York"
+                })
+              
             }
           </p>
           <p

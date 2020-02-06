@@ -56,14 +56,24 @@ export default class StylistPanelList extends Component {
 
   fetchOrders = async () => {
     try {
-      let response = await axios("https://chat-quiz-backend.herokuapp.com/");
+      // let response = await axios("https://chat-quiz-backend.herokuapp.com/");
+      // response = JSON.parse(JSON.stringify(response));
+      // const data = [];
+      // for (let userCode of response.data.slice(0, 35)) {
+      //   let userResponse = await axios.get(
+      //     `https://fekk.ai/backend/get_formula?user_code=${userCode.user_code}`
+      //   );
+
+        let response = await axios("https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f");
       response = JSON.parse(JSON.stringify(response));
       const data = [];
-      for (let userCode of response.data.slice(0, 35)) {
+      for (let userCode of response.data) {
+        // console.log(userCode.user_code)
         let userResponse = await axios.get(
-          `https://fekk.ai/backend/get_formula?user_code=${userCode.user_code}`
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
 
+          console.log(userResponse)
         const shampooScores = [];
 
         const skeletons = [
@@ -100,7 +110,7 @@ export default class StylistPanelList extends Component {
 
         data.push({
           userCode: userCode.user_code,
-          locale: userCode.locale,
+          locale: userCode.created || userCode.updated,
           thickness: parseInt(
             userResponse.data.user_data.answers.hair_thickness
           ),
@@ -187,7 +197,7 @@ export default class StylistPanelList extends Component {
               >
                 <div
                   style={{
-                    flex: 1
+                    flex: 1.2
                   }}
                   onClick={() => this.sortBy("locale")}
                 >

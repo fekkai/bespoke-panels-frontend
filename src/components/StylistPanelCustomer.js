@@ -56,7 +56,8 @@ export default class StylistPanelCustomer extends Component {
 
   fetchUserCodeData = async () => {
     let userResponse = await axios.get(
-      `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
+      // https://fekk.ai/backend/get_formula?user_code=
+      `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${this.props.location.state.userCode}`
     );
     console.log(userResponse.data.ingredients.shampoo.formula);
     await this.setState({
@@ -255,8 +256,7 @@ export default class StylistPanelCustomer extends Component {
               </div>
 
               <div className="info-container">
-                CITY: {city}{' '}
-                (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
+                CITY: {city} (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
                 {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})
                 <br />
               </div>
@@ -355,7 +355,6 @@ export default class StylistPanelCustomer extends Component {
                 ) : (
                   "" + " "
                 )}
-                
               </div>
               {/* <div style={{ paddingRight: `${5}%` }}>Mask Placeholder</div> */}
             </div>
