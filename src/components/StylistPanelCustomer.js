@@ -355,10 +355,7 @@ export default class StylistPanelCustomer extends Component {
                 ) : (
                   "" + " "
                 )}
-                <br />
-                <br />
-                <br />
-                <br />
+                
               </div>
               {/* <div style={{ paddingRight: `${5}%` }}>Mask Placeholder</div> */}
             </div>

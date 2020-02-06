@@ -38,6 +38,7 @@ export const Row = ({
   thickness,
   texture,
   hairGoals,
+  shampooSkeletonKey,
   shampooFormula
 }) => {
   dueDate = new Date(date)
@@ -61,6 +62,7 @@ export const Row = ({
           style={{
             display: "flex",
             flexDirection: "row",
+            alignItems: "center",
             justifyContent: "space-between",
             padding: "0"
           }}
@@ -70,8 +72,8 @@ export const Row = ({
             color="textSecondary"
             style={{
               flex: 1,
-              padding: '0.2rem 0.4em'
-             }}
+              padding: "0.2rem 0.4em"
+            }}
           >
             {
               // new Date(dueDate)
@@ -85,8 +87,8 @@ export const Row = ({
           <p
             style={{
               flex: 2,
-              padding: '0.2rem 0.4em'
-             }}
+              padding: "0.2rem 0.4em"
+            }}
             className={classes.title}
             color="textSecondary"
           >
@@ -95,8 +97,8 @@ export const Row = ({
           <p
             style={{
               flex: 2,
-              padding: '0.2rem 0.4em'
-             }}
+              padding: "0.2rem 0.4em"
+            }}
             className={classes.title}
             color="textSecondary"
           >
@@ -105,10 +107,10 @@ export const Row = ({
           </p>
           <p
             style={{
-              textAlign: 'left',
+              textAlign: "left",
               flex: 4,
-              padding: '0.2rem 0.4em'
-             }}
+              padding: "0.2rem 0.4em"
+            }}
             className={classes.title}
             color="textSecondary"
           >
@@ -130,7 +132,7 @@ export const Row = ({
                 ? "thickest"
                 : ""
               : ""}
-           {", "}
+            {", "}
             {texture
               ? texture === 1
                 ? "straight"
@@ -141,9 +143,23 @@ export const Row = ({
                 : "" || texture === 4
                 ? "coily"
                 : ""
-              : "N/A"}{", "}
+              : "N/A"}
+            <br />
             GOAL: {hairGoals}
-           
+            <br />
+            {shampooSkeletonKey
+              ? shampooSkeletonKey === "volume1"
+                ? "Full Blown (Lightest Weight)"
+                : "" || shampooSkeletonKey === "colorprotect1"
+                ? "Technician Color (Medium Moisture)"
+                : "" || shampooSkeletonKey === "moisture1"
+                ? "Brilliant Shine (Medium Moisture)"
+                : "" || shampooSkeletonKey === "repair1"
+                ? "Super Strength (Strong Moisture)"
+                : "" || shampooSkeletonKey === "smooth1"
+                ? "Smoothing 'Essential Shea' (Heavy)"
+                : ""
+              : "" + " "}
           </p>
           {/* <Typography
             style={{
