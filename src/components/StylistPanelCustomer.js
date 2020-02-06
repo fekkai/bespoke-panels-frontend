@@ -50,11 +50,11 @@ export default class StylistPanelCustomer extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchUserCode();
+    await this.fetchUserCodeData();
     await this.formulaKeys();
   }
 
-  fetchUserCode = async () => {
+  fetchUserCodeData = async () => {
     let userResponse = await axios.get(
       `https://fekk.ai/backend/get_formula?user_code=${this.props.location.state.userCode}`
     );

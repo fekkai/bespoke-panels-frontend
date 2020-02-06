@@ -44,28 +44,6 @@ export default class StylistPanelList extends Component {
       data: [],
       ascending: true,
       loading: true,
-      orders: null,
-      validationError: "",
-      name: "",
-      address: "",
-      zip: "",
-      email: "",
-      phone: "",
-      orderNumber: "",
-      createdAt: "",
-      note_attributes: null,
-      thickness: null,
-      texture: null,
-      hairCondition: null,
-      hairGoals: null,
-      age: null,
-      diet: null,
-      city: null,
-      wash: null,
-      afterwash: null,
-      hairGoals2: null,
-      conditionerFormula: null,
-      shampooFormula: null
     };
   }
 
@@ -81,10 +59,19 @@ export default class StylistPanelList extends Component {
       let response = await axios("https://chat-quiz-backend.herokuapp.com/");
       response = JSON.parse(JSON.stringify(response));
       const data = [];
-      for (let userCode of response.data) {
+      for (let userCode of response.data.slice(0,35)) {
+        let userResponse = await axios.get(
+          `https://fekk.ai/backend/get_formula?user_code=${userCode.user_code}`
+        );
         data.push({
           userCode: userCode.user_code,
-          locale: userCode.locale
+          locale: userCode.locale,
+          thickness: parseInt(userResponse.data.user_data.answers.hair_thickness),
+          texture: parseInt(userResponse.data.user_data.answers.hair_texture),
+          condition: userResponse.data.user_data.answers["hair-condition"],
+          hairGoals: userResponse.data.user_data.answers["hair-goals"],
+          shampooFormula: userResponse.data.ingredients.shampoo.formula,
+          conditionerFormula: userResponse.data.ingredients.conditioner.formula
         });
       }
       this.setState({
@@ -156,28 +143,42 @@ export default class StylistPanelList extends Component {
               <div
                 className="list-header"
                 style={{
+                  display: 'flex',
                   position: "sticky",
                   width: "100%",
                   top: 0
                 }}
               >
-                <div onClick={() => this.sortBy("locale")}>
+                <div
+                 style={{
+                  flex: 1,
+                 }}
+                onClick={() => this.sortBy("locale")}>
                   DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-                <div onClick={() => this.sortBy("userCode")}>
+                <div style={{
+                  flex: 2,
+                 }} onClick={() => this.sortBy("userCode")}>
                   USER <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-                <div onClick={() => this.sortBy("customerName")}>
+                <div style={{
+                  flex: 2,
+                 }} onClick={() => this.sortBy("customerName")}>
                   NAME <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-                <div onClick={() => this.sortBy("product")}>
+                <div style={{
+                  flex: 4,
+                 }} onClick={() => this.sortBy("thickness")}>
                   PRODUCT <span>{ascending ? "▲" : "▼"}</span>
                 </div>
               </div>
               <div className="body">
-                {filteredData.slice(0, 30).map(rowData => {
+                {filteredData.map(rowData => {
                   return (
-                    <Link style={{ textDecoration: 'none' }}
+                    <Link
+                      style={{
+                        textDecoration: "none"
+                      }}
                       to={{
                         pathname: "/stylist-panel-customer",
                         state: {

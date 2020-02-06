@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   bullet: {
     display: "inline-block",
     margin: "0 2px",
-    transform: "scale(0.8)",
+    transform: "scale(0.8)"
   },
   title: {
     fontSize: 15,
@@ -35,10 +35,10 @@ export const Row = ({
   userCode,
   customerName,
   locale,
-  status,
-  product1,
-  product2,
-  product3
+  thickness,
+  texture,
+  hairGoals,
+  shampooFormula
 }) => {
   dueDate = new Date(date)
     .addDays(2)
@@ -65,12 +65,13 @@ export const Row = ({
             padding: "0"
           }}
         >
-          <Typography
+          <p
             className={classes.title}
             color="textSecondary"
             style={{
-              width: `${25}%`
-            }}
+              flex: 1,
+              padding: '0.2rem 0.4em'
+             }}
           >
             {
               // new Date(dueDate)
@@ -80,37 +81,70 @@ export const Row = ({
               //   .split(",")[0]
               locale
             }
-          </Typography>
-          <Typography
+          </p>
+          <p
             style={{
-              width: `${25}%`
-            }}
+              flex: 2,
+              padding: '0.2rem 0.4em'
+             }}
             className={classes.title}
             color="textSecondary"
           >
             {userCode}
-          </Typography>
-          <Typography
+          </p>
+          <p
             style={{
-              width: `${25}%`
-            }}
+              flex: 2,
+              padding: '0.2rem 0.4em'
+             }}
             className={classes.title}
             color="textSecondary"
           >
             {" "}
             {customerName}
-          </Typography>
-          <Typography
+          </p>
+          <p
             style={{
-              width: `${25}%`
-            }}
+              textAlign: 'left',
+              flex: 4,
+              padding: '0.2rem 0.4em'
+             }}
             className={classes.title}
             color="textSecondary"
           >
             {" "}
-            Product placeholder
-            <br />
-          </Typography>
+            {thickness
+              ? thickness === 1
+                ? "finest"
+                : "" || thickness === 2
+                ? "finer"
+                : "" || thickness === 3
+                ? "fine"
+                : "" || thickness === 4
+                ? "medium"
+                : "" || thickness === 5
+                ? "thick"
+                : "" || thickness === 6
+                ? "thicker"
+                : "" || thickness === 7
+                ? "thickest"
+                : ""
+              : ""}
+           {", "}
+            {texture
+              ? texture === 1
+                ? "straight"
+                : "" || texture === 2
+                ? "wavy"
+                : "" || texture === 3
+                ? "curly"
+                : "" || texture === 4
+                ? "coily"
+                : ""
+              : "N/A"}{", "}
+            GOAL: {hairGoals}
+           
+          </p>
           {/* <Typography
             style={{
               width: `${20}%`
