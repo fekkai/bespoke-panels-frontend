@@ -182,12 +182,7 @@ export default class StylistPanelCustomer extends Component {
     return (
       <div>
         <Link to="/stylist-panel-list">
-          <button id="list-view-btn"
-          style={{
-            position: "sticky",
-            width: "100%",
-            top: 0
-          }}>← LIST VIEW</button>
+          <button id="list-view-btn">← LIST VIEW</button>
         </Link>
         <RingLoader
           css={override}
@@ -291,56 +286,75 @@ export default class StylistPanelCustomer extends Component {
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}
-                {this.state.collectionLoading ? <PulseLoader/> : 
-                (this.state.shampooSkeletonKey
-                  ? this.state.shampooSkeletonKey === "volume1"
-                    ? "Full Blown (Lightest Weight)"
-                    : "" || this.state.shampooSkeletonKey === "colorprotect1"
-                    ? "Technician Color (Medium Moisture)"
-                    : "" || this.state.shampooSkeletonKey === "moisture1"
-                    ? "Brilliant Shine (Medium Moisture)"
-                    : "" || this.state.shampooSkeletonKey === "repair1"
-                    ? "Super Strength (Strong Moisture)"
-                    : "" || this.state.shampooSkeletonKey === "smooth1"
-                    ? "Smoothing 'Essential Shea' (Heavy)"
-                    : ""
-                  : "" + " ")}
+                {this.state.collectionLoading ? (
+                  <PulseLoader />
+                ) : this.state.shampooSkeletonKey ? (
+                  this.state.shampooSkeletonKey === "volume1" ? (
+                    "Full Blown (Lightest Weight)"
+                  ) : "" ||
+                    this.state.shampooSkeletonKey === "colorprotect1" ? (
+                    "Technician Color (Medium Moisture)"
+                  ) : "" || this.state.shampooSkeletonKey === "moisture1" ? (
+                    "Brilliant Shine (Medium Moisture)"
+                  ) : "" || this.state.shampooSkeletonKey === "repair1" ? (
+                    "Super Strength (Strong Moisture)"
+                  ) : "" || this.state.shampooSkeletonKey === "smooth1" ? (
+                    "Smoothing 'Essential Shea' (Heavy)"
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  "" + " "
+                )}
               </div>
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}
-                {this.state.collectionLoading ? <PulseLoader/> :  (this.state.conditionerSkeletonKey
-                  ? this.state.conditionerSkeletonKey === "volume1"
-                    ? "Full Blown (Lightest Weight)"
-                    : "" ||
-                      this.state.conditionerSkeletonKey === "colorprotect1"
-                    ? "Technician Color (Medium Moisture)"
-                    : "" || this.state.conditionerSkeletonKey === "moisture1"
-                    ? "Brilliant Shine (Medium Moisture)"
-                    : "" || this.state.conditionerSkeletonKey === "repair1"
-                    ? "Super Strength (Strong Moisture)"
-                    : "" || this.state.conditionerSkeletonKey === "smooth1"
-                    ? "Smoothing 'Essential Shea' (Heavy)"
-                    : ""
-                  : "" + " ")}
+                {this.state.collectionLoading ? (
+                  <PulseLoader />
+                ) : this.state.conditionerSkeletonKey ? (
+                  this.state.conditionerSkeletonKey === "volume1" ? (
+                    "Full Blown (Lightest Weight)"
+                  ) : "" ||
+                    this.state.conditionerSkeletonKey === "colorprotect1" ? (
+                    "Technician Color (Medium Moisture)"
+                  ) : "" ||
+                    this.state.conditionerSkeletonKey === "moisture1" ? (
+                    "Brilliant Shine (Medium Moisture)"
+                  ) : "" || this.state.conditionerSkeletonKey === "repair1" ? (
+                    "Super Strength (Strong Moisture)"
+                  ) : "" || this.state.conditionerSkeletonKey === "smooth1" ? (
+                    "Smoothing 'Essential Shea' (Heavy)"
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  "" + " "
+                )}
               </div>
               <div className="info-container">
-                 RECO COLLECTION:
+                RECO COLLECTION:
                 <br />{" "}
-                {this.state.collectionLoading ? <PulseLoader/> : 
-                (this.state.shampooSkeletonKey
-                  ? this.state.shampooSkeletonKey === "volume1"
-                    ? "Full Blown (Lightest Weight)"
-                    : "" || this.state.shampooSkeletonKey === "colorprotect1"
-                    ? "Technician Color (Medium Moisture)"
-                    : "" || this.state.shampooSkeletonKey === "moisture1"
-                    ? "Brilliant Shine (Medium Moisture)"
-                    : "" || this.state.shampooSkeletonKey === "repair1"
-                    ? "Super Strength (Strong Moisture)"
-                    : "" || this.state.shampooSkeletonKey === "smooth1"
-                    ? "Smoothing 'Essential Shea' (Heavy)"
-                    : ""
-                  : "" + " ")}
+                {this.state.collectionLoading ? (
+                  <PulseLoader />
+                ) : this.state.shampooSkeletonKey ? (
+                  this.state.shampooSkeletonKey === "volume1" ? (
+                    "Full Blown (Lightest Weight)"
+                  ) : "" ||
+                    this.state.shampooSkeletonKey === "colorprotect1" ? (
+                    "Technician Color (Medium Moisture)"
+                  ) : "" || this.state.shampooSkeletonKey === "moisture1" ? (
+                    "Brilliant Shine (Medium Moisture)"
+                  ) : "" || this.state.shampooSkeletonKey === "repair1" ? (
+                    "Super Strength (Strong Moisture)"
+                  ) : "" || this.state.shampooSkeletonKey === "smooth1" ? (
+                    "Smoothing 'Essential Shea' (Heavy)"
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  "" + " "
+                )}
                 <br />
                 <br />
                 <br />
