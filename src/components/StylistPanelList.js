@@ -175,7 +175,7 @@ export default class StylistPanelList extends Component {
                 </div>
               </div>
               <div className="body">
-                {filteredData.slice(0, 50).map(rowData => {
+                {filteredData.slice(0, 30).map(rowData => {
                   return (
                     <Link style={{ textDecoration: 'none' }}
                       to={{
