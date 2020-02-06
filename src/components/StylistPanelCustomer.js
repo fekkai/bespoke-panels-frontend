@@ -72,11 +72,34 @@ export default class StylistPanelCustomer extends Component {
         : userResponse.data.user_data.weather.city,
       uvRisk: !userResponse.data.user_data.weather
         ? "N/A"
-        : userResponse.data.user_data.weather.scores.uv_risk.score,
+        : userResponse.data.user_data.weather.scores.uv_risk.score
+        ? userResponse.data.user_data.weather.scores.uv_risk.score
+        : userResponse.data.user_data.weather.scores.uv_risk,
+      airQuality: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.air_quality.score
+        ? userResponse.data.user_data.weather.scores.air_quality.score
+        : userResponse.data.user_data.weather.scores.air_quality,
+      waterHardness: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.water_hardness.score
+        ? userResponse.data.user_data.weather.scores.water_hardness.score
+        : userResponse.data.user_data.weather.scores.water_hardness,
+      humidity: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.humidity.score
+        ? userResponse.data.user_data.weather.scores.humidity.score
+        : userResponse.data.user_data.weather.scores.humidity,
+      windSpeed: !userResponse.data.user_data.weather
+        ? "N/A"
+        : userResponse.data.user_data.weather.scores.wind_speed.score
+        ? userResponse.data.user_data.weather.scores.wind_speed.score
+        : userResponse.data.user_data.weather.scores.wind_speed,
       frontSelfie: userResponse.data.user_data.front_selfie,
       shampooFormula: userResponse.data.ingredients.shampoo.formula,
       conditionerFormula: userResponse.data.ingredients.conditioner.formula
     });
+    console.log(this.state.uvRisk);
   };
 
   formulaKeys = () => {
@@ -151,6 +174,7 @@ export default class StylistPanelCustomer extends Component {
       windSpeed
     } = this.state;
 
+    console.log(uvRisk);
     const { userCode, locale } = this.props.location.state;
 
     return (
@@ -236,7 +260,11 @@ export default class StylistPanelCustomer extends Component {
               </div>
 
               <div className="selfie-container" style={{ margin: `${0} auto` }}>
-                <Carousel style={{ margin: `${0} auto` }} showThumbs={false} showIndicators={false}>
+                <Carousel
+                  style={{ margin: `${0} auto` }}
+                  showThumbs={false}
+                  showIndicators={false}
+                >
                   <div style={{ margin: `${0} auto` }}>
                     <img
                       alt={frontSelfie}

@@ -235,6 +235,7 @@ class App extends React.Component {
               <p style={{ marginBottom: 0, paddingLeft: "1%" }}>
                 // STYLIST / <u>ORDER</u>
               </p>
+              
 <button>LOGOUT</button>
 
             </header>

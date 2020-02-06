@@ -10,13 +10,12 @@ const useStyles = makeStyles({
     display: "inline-block",
     margin: "0 2px",
     transform: "scale(0.8)",
-    textDecoration: 'none'
-
+    textDecoration: "none"
   },
   title: {
     fontSize: 15,
     color: `#000000`,
-    fontFamily: "urwdin-regular",
+    fontFamily: "urwdin-regular"
   },
   pos: {
     marginBottom: 12
@@ -64,8 +63,7 @@ export const Row = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            padding: "0",
-            
+            padding: "0"
           }}
         >
           <Typography
