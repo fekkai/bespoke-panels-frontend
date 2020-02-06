@@ -68,7 +68,7 @@ export default class StylistPanelList extends Component {
         "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
       );
       response = JSON.parse(JSON.stringify(response));
-      console.log(response)
+      console.log(response);
       const data = [];
       for (let userCode of response.data.reverse()) {
         let userResponse = await axios.get(
@@ -197,7 +197,7 @@ export default class StylistPanelList extends Component {
                 <div
                   style={{
                     flex: 1.2,
-                    fontSize:'13px'
+                    fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("locale")}
                 >
@@ -206,8 +206,7 @@ export default class StylistPanelList extends Component {
                 <div
                   style={{
                     flex: 2,
-                                        fontSize:'13px'
-
+                    fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("userCode")}
                 >
@@ -216,8 +215,7 @@ export default class StylistPanelList extends Component {
                 <div
                   style={{
                     flex: 2,
-                                        fontSize:'13px'
-
+                    fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("customerName")}
                 >
@@ -226,8 +224,7 @@ export default class StylistPanelList extends Component {
                 <div
                   style={{
                     flex: 4,
-                                        fontSize:'13px'
-
+                    fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("thickness")}
                 >
