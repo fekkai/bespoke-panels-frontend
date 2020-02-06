@@ -255,7 +255,7 @@ export default class StylistPanelCustomer extends Component {
               </div>
 
               <div className="info-container">
-                CITY: {city}
+                CITY: {city}{' '}
                 (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
                 {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})
                 <br />
