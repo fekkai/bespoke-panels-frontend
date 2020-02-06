@@ -68,8 +68,9 @@ export default class StylistPanelList extends Component {
         "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
       );
       response = JSON.parse(JSON.stringify(response));
+      console.log(response)
       const data = [];
-      for (let userCode of response.data) {
+      for (let userCode of response.data.reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
