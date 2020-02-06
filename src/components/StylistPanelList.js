@@ -196,7 +196,8 @@ export default class StylistPanelList extends Component {
               >
                 <div
                   style={{
-                    flex: 1.2
+                    flex: 1.2,
+                    fontSize:'13px'
                   }}
                   onClick={() => this.sortBy("locale")}
                 >
@@ -204,7 +205,9 @@ export default class StylistPanelList extends Component {
                 </div>
                 <div
                   style={{
-                    flex: 2
+                    flex: 2,
+                                        fontSize:'13px'
+
                   }}
                   onClick={() => this.sortBy("userCode")}
                 >
@@ -212,7 +215,9 @@ export default class StylistPanelList extends Component {
                 </div>
                 <div
                   style={{
-                    flex: 2
+                    flex: 2,
+                                        fontSize:'13px'
+
                   }}
                   onClick={() => this.sortBy("customerName")}
                 >
@@ -220,7 +225,9 @@ export default class StylistPanelList extends Component {
                 </div>
                 <div
                   style={{
-                    flex: 4
+                    flex: 4,
+                                        fontSize:'13px'
+
                   }}
                   onClick={() => this.sortBy("thickness")}
                 >
