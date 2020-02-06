@@ -318,7 +318,20 @@ export default class StylistPanelCustomer extends Component {
               </div>
               <div className="info-container">
                 RECO COLLECTION:
-                <br /> MASK PLACEHOLDER
+                <br />{" "}
+                {this.state.shampooSkeletonKey
+                  ? this.state.shampooSkeletonKey === "volume1"
+                    ? "Full Blown (Lightest Weight)"
+                    : "" || this.state.shampooSkeletonKey === "colorprotect1"
+                    ? "Technician Color (Medium Moisture)"
+                    : "" || this.state.shampooSkeletonKey === "moisture1"
+                    ? "Brilliant Shine (Medium Moisture)"
+                    : "" || this.state.shampooSkeletonKey === "repair1"
+                    ? "Super Strength (Strong Moisture)"
+                    : "" || this.state.shampooSkeletonKey === "smooth1"
+                    ? "Smoothing 'Essential Shea' (Heavy)"
+                    : ""
+                  : "" + " "}
                 <br />
                 <br />
                 <br />
