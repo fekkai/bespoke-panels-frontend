@@ -235,7 +235,8 @@ class App extends React.Component {
               <p style={{ marginBottom: 0, paddingLeft: "1%" }}>
                 // STYLIST / <u>ORDER</u>
               </p>
-              <img id="bespoke-logo" alt="bespoke-logo" src={bespokeImg} />
+<button>LOGOUT</button>
+
             </header>
           </Fade>
         </div>
