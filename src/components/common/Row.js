@@ -48,7 +48,6 @@ export const Row = ({
 
   const classes = useStyles();
 
-
   return (
     <div>
       <Card
@@ -76,13 +75,9 @@ export const Row = ({
               padding: "0.2rem 0.4em"
             }}
           >
-            {
-              new Date(locale)
-                .toLocaleString("en-US", {
-                  timeZone: "America/New_York"
-                })
-              
-            }
+            {new Date(locale).toLocaleString("en-US", {
+              timeZone: "America/New_York"
+            })}
           </p>
           <p
             style={{
@@ -94,7 +89,7 @@ export const Row = ({
           >
             {userCode}
           </p>
-          <p
+          {/* <p
             style={{
               flex: 2,
               padding: "0.2rem 0.4em"
@@ -104,11 +99,11 @@ export const Row = ({
           >
             {" "}
             {customerName}
-          </p>
+          </p> */}
           <p
             style={{
-              textAlign: "left",
-              flex: 4,
+              textAlign: "center",
+              flex: 1,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
@@ -132,7 +127,16 @@ export const Row = ({
                 ? "thickest"
                 : ""
               : ""}
-            {", "}
+          </p>
+          <p
+            style={{
+              textAlign: "center",
+              flex: 1,
+              padding: "0.2rem 0.4em"
+            }}
+            className={classes.title}
+            color="textSecondary"
+          >
             {texture
               ? texture === 1
                 ? "straight"
@@ -144,10 +148,10 @@ export const Row = ({
                 ? "coily"
                 : ""
               : "N/A"}
-            <br />
-            GOAL: {hairGoals}
-            <br />
-            {shampooSkeletonKey
+          </p>
+          <p>{/* GOAL: {hairGoals} */}</p>
+          <br />
+          {/* {shampooSkeletonKey
               ? shampooSkeletonKey === "volume1"
                 ? "Full Blown (Lightest Weight)"
                 : "" || shampooSkeletonKey === "colorprotect1"
@@ -159,8 +163,7 @@ export const Row = ({
                 : "" || shampooSkeletonKey === "smooth1"
                 ? "Smoothing 'Essential Shea' (Heavy)"
                 : ""
-              : "" + " "}
-          </p>
+              : "" + " "} */}
           {/* <Typography
             style={{
               width: `${20}%`

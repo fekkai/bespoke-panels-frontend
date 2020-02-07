@@ -169,6 +169,7 @@ export default class StylistPanelList extends Component {
     const { filter, data, ascending } = this.state;
 
     const filteredData = data.filter(item => {
+      console.log(item)
       return Object.keys(item).some(key =>
         item[key]
           .toString()
@@ -204,7 +205,7 @@ export default class StylistPanelList extends Component {
                 >
                   DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-                <div
+                {/* <div
                   style={{
                     flex: 2,
                     fontSize: "13px"
@@ -212,7 +213,7 @@ export default class StylistPanelList extends Component {
                   onClick={() => this.sortBy("userCode")}
                 >
                   USER <span>{ascending ? "▲" : "▼"}</span>
-                </div>
+                </div> */}
                 <div
                   style={{
                     flex: 2,
@@ -224,12 +225,21 @@ export default class StylistPanelList extends Component {
                 </div>
                 <div
                   style={{
-                    flex: 4,
+                    flex: 1,
                     fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("thickness")}
                 >
-                  RESULTS / PRODUCT <span>{ascending ? "▲" : "▼"}</span>
+                  THICKNESS <span>{ascending ? "▲" : "▼"}</span>
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    fontSize: "13px"
+                  }}
+                  onClick={() => this.sortBy("texture")}
+                >
+                  TEXTURE <span>{ascending ? "▲" : "▼"}</span>
                 </div>
               </div>
               <div className="body">
