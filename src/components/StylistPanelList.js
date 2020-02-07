@@ -122,6 +122,7 @@ export default class StylistPanelList extends Component {
       this.setState({
         data
       });
+      console.log(data)
     } catch (error) {
       console.error(error);
     }
