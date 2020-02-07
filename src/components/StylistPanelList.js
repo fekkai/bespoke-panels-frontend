@@ -122,7 +122,7 @@ export default class StylistPanelList extends Component {
       this.setState({
         data
       });
-      console.log(data)
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -169,7 +169,7 @@ export default class StylistPanelList extends Component {
     const { filter, data, ascending } = this.state;
 
     const filteredData = data.filter(item => {
-      console.log(item)
+      console.log(item);
       return Object.keys(item).some(key =>
         item[key]
           .toString()
@@ -240,6 +240,24 @@ export default class StylistPanelList extends Component {
                   onClick={() => this.sortBy("texture")}
                 >
                   TEXTURE <span>{ascending ? "▲" : "▼"}</span>
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    fontSize: "13px"
+                  }}
+                  onClick={() => this.sortBy("condition")}
+                >
+                  CONDITIONS <span>{ascending ? "▲" : "▼"}</span>
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    fontSize: "13px"
+                  }}
+                  onClick={() => this.sortBy("hairGoals")}
+                >
+                  GOALS <span>{ascending ? "▲" : "▼"}</span>
                 </div>
               </div>
               <div className="body">

@@ -37,6 +37,7 @@ export const Row = ({
   locale,
   thickness,
   texture,
+  condition,
   hairGoals,
   shampooSkeletonKey,
   shampooFormula
@@ -47,7 +48,6 @@ export const Row = ({
     .split(",")[0];
 
   const classes = useStyles();
-
   return (
     <div>
       <Card
@@ -149,7 +149,44 @@ export const Row = ({
                 : ""
               : "N/A"}
           </p>
-          <p>{/* GOAL: {hairGoals} */}</p>
+          <p
+            style={{
+              textAlign: "center",
+              flex: 1,
+              padding: "0.2rem 0.4em"
+            }}
+            className={classes.title}
+            color="textSecondary"
+          >
+            {condition
+              ? condition.map(e => {
+                  return (
+                    <div>
+                      {e} <br />
+                    </div>
+                  );
+                })
+              : ""}
+          </p>
+          <p
+            style={{
+              textAlign: "center",
+              flex: 1,
+              padding: "0.2rem 0.4em"
+            }}
+            className={classes.title}
+            color="textSecondary"
+          >
+            {hairGoals
+              ? hairGoals.map(e => {
+                  return (
+                    <div>
+                      {e} <br />
+                    </div>
+                  );
+                })
+              : ""}
+          </p>
           <br />
           {/* {shampooSkeletonKey
               ? shampooSkeletonKey === "volume1"
