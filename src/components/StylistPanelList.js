@@ -68,13 +68,11 @@ export default class StylistPanelList extends Component {
         "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
       );
       response = JSON.parse(JSON.stringify(response));
-      console.log(response);
       const data = [];
       for (let userCode of response.data.reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
-
         const shampooScores = [];
 
         const skeletons = [
@@ -116,13 +114,13 @@ export default class StylistPanelList extends Component {
           texture: parseInt(userResponse.data.user_data.answers.hair_texture),
           condition: userResponse.data.user_data.answers["hair-condition"],
           hairGoals: userResponse.data.user_data.answers["hair-goals"],
-          shampooSkeletonKey
+          shampooSkeletonKey,
+          frontSelfie: userResponse.data.user_data.front_selfie
         });
       }
       this.setState({
         data
       });
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -169,7 +167,6 @@ export default class StylistPanelList extends Component {
     const { filter, data, ascending } = this.state;
 
     const filteredData = data.filter(item => {
-      console.log(item);
       return Object.keys(item).some(key =>
         item[key]
           .toString()
@@ -216,7 +213,7 @@ export default class StylistPanelList extends Component {
                 </div> */}
                 <div
                   style={{
-                    flex: 2,
+                    flex: 1.2,
                     fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("customerName")}
@@ -259,6 +256,16 @@ export default class StylistPanelList extends Component {
                 >
                   GOALS <span>{ascending ? "▲" : "▼"}</span>
                 </div>
+                <div
+                  style={{
+                    flex: 1,
+                    fontSize: "13px"
+                  }}
+                  onClick={() => this.sortBy("frontSelfie")}
+                >
+                  SELFIE <span>{ascending ? "▲" : "▼"}</span>
+                </div>
+               
               </div>
               <div className="body">
                 {filteredData.map(rowData => {

@@ -3,7 +3,10 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import ReactImageMagnify from "react-image-magnify";
+
 import { makeStyles } from "@material-ui/core/styles";
+import "../../styles/Row.scss";
 
 const useStyles = makeStyles({
   bullet: {
@@ -39,6 +42,7 @@ export const Row = ({
   texture,
   condition,
   hairGoals,
+  frontSelfie,
   shampooSkeletonKey,
   shampooFormula
 }) => {
@@ -48,6 +52,9 @@ export const Row = ({
     .split(",")[0];
 
   const classes = useStyles();
+
+  // let arr = ['asdf']
+
   return (
     <div>
       <Card
@@ -81,7 +88,7 @@ export const Row = ({
           </p>
           <p
             style={{
-              flex: 2,
+              flex: 1.2,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
@@ -153,40 +160,46 @@ export const Row = ({
             style={{
               textAlign: "center",
               flex: 1,
-              padding: "0.2rem 0.4em"
+              padding: "0.2rem 0.4em",
+              lineHeight: '24px'
             }}
             className={classes.title}
             color="textSecondary"
           >
-            {condition
-              ? condition.map(e => {
+            {condition === "none"
+              ? ""
+              : condition.map(e => {
                   return (
                     <div>
                       {e} <br />
                     </div>
                   );
-                })
-              : ""}
+                })}
           </p>
           <p
             style={{
               textAlign: "center",
               flex: 1,
-              padding: "0.2rem 0.4em"
+              padding: "0.2rem 0.4em",
+              lineHeight: '24px'
             }}
             className={classes.title}
             color="textSecondary"
           >
-            {hairGoals
-              ? hairGoals.map(e => {
-                  return (
-                    <div>
-                      {e} <br />
-                    </div>
-                  );
-                })
-              : ""}
+            {hairGoals ? hairGoals.join(', ') : ''}
           </p>
+        <div
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center'
+        }}>
+          <img
+           style={{
+            width: '50%'
+           }} src={frontSelfie}>
+          </img>
+        </div>
           <br />
           {/* {shampooSkeletonKey
               ? shampooSkeletonKey === "volume1"
