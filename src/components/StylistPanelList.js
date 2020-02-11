@@ -68,8 +68,9 @@ export default class StylistPanelList extends Component {
         "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
       );
       response = JSON.parse(JSON.stringify(response));
+      console.log(response);
       const data = [];
-      for (let userCode of response.data.reverse()) {
+      for (let userCode of response.data.slice(0, 10).reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
@@ -86,6 +87,7 @@ export default class StylistPanelList extends Component {
         let shampooSkeletonValue;
         let conditionerSkeletonKey;
         let conditionerSkeletonValue;
+        console.log(userResponse.data);
 
         for (let key in userResponse.data.ingredients.shampoo.formula) {
           if (skeletons.indexOf(key) > -1) {
@@ -220,6 +222,16 @@ export default class StylistPanelList extends Component {
                 >
                   NAME <span>{ascending ? "▲" : "▼"}</span>
                 </div>
+
+                <div
+                  style={{
+                    flex: 1,
+                    fontSize: "13px"
+                  }}
+                  onClick={() => this.sortBy("frontSelfie")}
+                >
+                  SELFIE <span>{ascending ? "▲" : "▼"}</span>
+                </div>
                 <div
                   style={{
                     flex: 1,
@@ -256,16 +268,6 @@ export default class StylistPanelList extends Component {
                 >
                   GOALS <span>{ascending ? "▲" : "▼"}</span>
                 </div>
-                <div
-                  style={{
-                    flex: 1,
-                    fontSize: "13px"
-                  }}
-                  onClick={() => this.sortBy("frontSelfie")}
-                >
-                  SELFIE <span>{ascending ? "▲" : "▼"}</span>
-                </div>
-               
               </div>
               <div className="body">
                 {filteredData.map(rowData => {

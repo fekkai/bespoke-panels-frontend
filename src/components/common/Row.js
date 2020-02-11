@@ -2,6 +2,7 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import $ from "jquery";
 import Typography from "@material-ui/core/Typography";
 import ReactImageMagnify from "react-image-magnify";
 
@@ -53,8 +54,33 @@ export const Row = ({
 
   const classes = useStyles();
 
-  // let arr = ['asdf']
-
+  const modal = $("#modal");
+  $(function() {
+    var currentMousePos = { x: -1, y: -1 };
+    $(document).mousemove(function(event) {
+      currentMousePos.x = event.pageX;
+      currentMousePos.y = event.pageY;
+      if ($("#modal").css("display") != "none") {
+        $("#modal").css({
+          top: currentMousePos.y,
+          left: currentMousePos.x + 12
+        });
+      }
+    });
+    $(".image").on("mouseover", function() {
+      var image = $(this).find("img");
+      var modal = $("#modal");
+      $(modal).html(image.clone());
+      $(modal).css({
+        top: currentMousePos.y,
+        left: currentMousePos.x + 12
+      });
+      $(modal).show();
+    });
+    $(".image").on("mouseleave", function() {
+      $(modal).hide();
+    });
+  });
   return (
     <div>
       <Card
@@ -96,6 +122,23 @@ export const Row = ({
           >
             {userCode}
           </p>
+          <div
+          className='image'
+            style={{
+              display: "flex",
+              flex: 1,
+              justifyContent: "center"
+            }}
+          >
+              <img
+                style={{
+                  width: "50%"
+                }}
+                src={frontSelfie}
+              ></img>
+
+            <div id="modal"></div>
+          </div>
           {/* <p
             style={{
               flex: 2,
@@ -161,7 +204,7 @@ export const Row = ({
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em",
-              lineHeight: '24px'
+              lineHeight: "24px"
             }}
             className={classes.title}
             color="textSecondary"
@@ -181,25 +224,14 @@ export const Row = ({
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em",
-              lineHeight: '24px'
+              lineHeight: "24px"
             }}
             className={classes.title}
             color="textSecondary"
           >
-            {hairGoals ? hairGoals.join(', ') : ''}
+            {hairGoals ? hairGoals.join(", ") : ""}
           </p>
-        <div
-        style={{
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'center'
-        }}>
-          <img
-           style={{
-            width: '50%'
-           }} src={frontSelfie}>
-          </img>
-        </div>
+         
           <br />
           {/* {shampooSkeletonKey
               ? shampooSkeletonKey === "volume1"

@@ -101,7 +101,7 @@ export default class StylistPanelCustomer extends Component {
       frontSelfie: userResponse.data.user_data.front_selfie,
       shampooFormula: userResponse.data.ingredients.shampoo.formula,
       conditionerFormula: userResponse.data.ingredients.conditioner.formula,
-      recoFormula: userResponse.data.ingredients.reco.formula
+      // recoFormula: userResponse.data.ingredients.reco.formula
     });
   };
 
@@ -123,30 +123,30 @@ export default class StylistPanelCustomer extends Component {
     let conditionerSkeletonKey;
     let conditionerSkeletonValue;
 
-    console.log(recoFormula, conditionerFormulaData);
+    // console.log(recoFormula, conditionerFormulaData);
 
-    for (let key in recoFormula) {
+    for (let key in shampooFormulaData) {
       if (skeletons.indexOf(key) > -1) {
         console.log(skeletons);
-        shampooScores.push(recoFormula[key]);
+        shampooScores.push(shampooFormulaData[key]);
         shampooScores.sort((a, b) => b - a);
       }
-      if (shampooScores[0] === recoFormula[key]) {
+      if (shampooScores[0] === shampooFormulaData[key]) {
         console.log(shampooScores);
         shampooSkeletonKey = key;
-        shampooSkeletonValue = recoFormula[key];
+        shampooSkeletonValue = shampooFormulaData[key];
       }
     }
     shampooScores.sort((a, b) => b - a);
 
-    for (let key in recoFormula) {
+    for (let key in shampooFormulaData) {
       if (skeletons.indexOf(key) > -1) {
-        conditionerScores.push(recoFormula[key]);
+        conditionerScores.push(shampooFormulaData[key]);
         conditionerScores.sort((a, b) => b - a);
       }
-      if (conditionerScores[0] === recoFormula[key]) {
+      if (conditionerScores[0] === shampooFormulaData[key]) {
         conditionerSkeletonKey = key;
-        conditionerSkeletonValue = recoFormula[key];
+        conditionerSkeletonValue = shampooFormulaData[key];
       }
     }
     conditionerScores.sort((a, b) => b - a);
