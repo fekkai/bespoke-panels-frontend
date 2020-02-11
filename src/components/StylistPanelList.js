@@ -167,8 +167,8 @@ export default class StylistPanelList extends Component {
 
   render() {
     const { filter, data, ascending } = this.state;
-
-    const filteredData = data.filter(item => {
+    // console.log(data)
+   const filteredData =  data.filter(item => {
       return Object.keys(item).some(key =>
         item[key]
           .toString()

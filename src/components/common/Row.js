@@ -62,7 +62,7 @@ export const Row = ({
       currentMousePos.y = event.pageY;
       if ($("#modal").css("display") != "none") {
         $("#modal").css({
-          top: currentMousePos.y,
+          top: currentMousePos.y + -350,
           left: currentMousePos.x + 12
         });
       }
@@ -70,6 +70,7 @@ export const Row = ({
     $(".image").on("mouseover", function() {
       var image = $(this).find("img");
       var modal = $("#modal");
+     
       $(modal).html(image.clone());
       $(modal).css({
         top: currentMousePos.y,
@@ -88,7 +89,7 @@ export const Row = ({
         style={{
           overflowX: "hidden",
           overflowY: "auto",
-          marginBottom: `${5}px`
+          marginBottom: `${5}px`,
         }}
       >
         <CardContent
@@ -97,7 +98,7 @@ export const Row = ({
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "0"
+            padding: 0
           }}
         >
           <p
@@ -258,7 +259,7 @@ export const Row = ({
             <br />
           </Typography> */}
         </CardContent>
-        <CardActions></CardActions>
+        {/* <CardActions></CardActions> */}
       </Card>
     </div>
   );
