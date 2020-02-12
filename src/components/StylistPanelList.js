@@ -43,7 +43,8 @@ export default class StylistPanelList extends Component {
       filter: "",
       data: [],
       ascending: true,
-      loading: true
+      loading: true,
+      checked: false
     };
   }
 
@@ -70,7 +71,7 @@ export default class StylistPanelList extends Component {
       response = JSON.parse(JSON.stringify(response));
       console.log(response);
       const data = [];
-      for (let userCode of response.data.slice(0, 10).reverse()) {
+      for (let userCode of response.data.slice(0, 20).reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
@@ -162,30 +163,225 @@ export default class StylistPanelList extends Component {
   };
 
   handleChange = e => {
-    this.setState({ filter: e.target.value });
+    this.state.checked === false
+      ? this.setState({ filter: e.target.name, checked: true })
+      : this.setState({ filter: "", checked: false });
   };
 
   render() {
     const { filter, data, ascending } = this.state;
-    // console.log(data)
-   const filteredData =  data.filter(item => {
+    const filteredData = data.filter(item => {
+      console.log(data);
       return Object.keys(item).some(key =>
-        item[key]
-          .toString()
-          .toLocaleLowerCase()
-          .includes(filter.toLocaleLowerCase())
+        key !== "frontSelfie"
+          ? item[key]
+              .toString()
+              .toLocaleLowerCase()
+              .includes(filter.toLocaleLowerCase())
+          : ""
       );
     });
     return (
       <div className="dashboard">
         <Fade big>
           <Paper elevation={0}>
-            <div className="table">
-              <label>
-                Search:{" "}
-                <input type="text" name="name" onChange={this.handleChange} />
-                <br />
-              </label>
+            <div className="table"
+            >
+              <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row'
+              }}>
+                <ul
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    listStyle: "none"
+                  }}
+                  >
+                  CONDITIONS
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="bleached"
+                      value="bleached"
+                      onChange={this.handleChange}
+                    />
+                    bleached
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="permed"
+                      value="permed"
+                      onChange={this.handleChange}
+                    />
+                    permed
+                  </li>
+                  <li>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name="color-treated"
+                      value="color-treated"
+                      onChange={this.handleChange}
+                    />
+                    color-treated
+                  </li>
+                  <li>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name="highlights"
+                      value="highlights"
+                      onChange={this.handleChange}
+                    />
+                    highlights
+                  </li>
+                  <li>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name="chemically-treated"
+                      value="chemically-treated"
+                      onChange={this.handleChange}
+                    />
+                    chemically-treated
+                  </li>
+                  <li>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name="chemically-straightened"
+                      value="chemically-straightened"
+                      onChange={this.handleChange}
+                    />
+                    chemically-straightened
+                  </li>
+                  <li>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name="split-ends"
+                      value="split-ends"
+                      onChange={this.handleChange}
+                    />
+                    split-ends
+                  </li>
+                  <li>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name="frequent-heat-styling-tools"
+                      value="frequent-heat-styling-tools"
+                      onChange={this.handleChange}
+                    />
+                    frequent-heat-styling-tools
+                  </li>
+                  <li>
+                    {" "}
+                    <input
+                      type="checkbox"
+                      name="none"
+                      value="none"
+                      onChange={this.handleChange}
+                    />
+                    none
+                  </li>
+                  <br />
+                </ul>
+              
+                <ul
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    listStyle: "none"
+                  }}
+                  >
+                  GOALS
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="color-protect"
+                      value="color-protect"
+                      onChange={this.handleChange}
+                    />
+                    color-protect
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="uv-protect"
+                      value="uv-protect"
+                      onChange={this.handleChange}
+                    />
+                    uv-protect
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="damage-repair"
+                      value="damage-repair"
+                      onChange={this.handleChange}
+                    />
+                    damage-repair
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="frizz-control"
+                      value="frizz-control"
+                      onChange={this.handleChange}
+                    />
+                    frizz-control
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="smoothing"
+                      value="smoothing"
+                      onChange={this.handleChange}
+                    />
+                    smoothing
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="healthy-shine"
+                      value="healthy-shine"
+                      onChange={this.handleChange}
+                    />
+                    healthy-shine
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="hydrate"
+                      value="hydrate"
+                      onChange={this.handleChange}
+                    />
+                    hydrate
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="hair-loss-prevention"
+                      value="hair-loss-prevention"
+                      onChange={this.handleChange}
+                    />
+                    hair-loss-prevention
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="volumizing"
+                      value="volumizing"
+                      onChange={this.handleChange}
+                    />
+                    volumizing{" "}
+                  </li>
+                </ul>
+              </div>
               <div
                 className="list-header"
                 style={{
@@ -252,7 +448,7 @@ export default class StylistPanelList extends Component {
                 </div>
                 <div
                   style={{
-                    flex: 1,
+                    fslicelex: 1,
                     fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("condition")}

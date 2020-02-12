@@ -62,8 +62,8 @@ export const Row = ({
       currentMousePos.y = event.pageY;
       if ($("#modal").css("display") != "none") {
         $("#modal").css({
-          top: currentMousePos.y + -350,
-          left: currentMousePos.x + 12
+          top: currentMousePos.y - 100,
+          left: currentMousePos.x + 50
         });
       }
     });
@@ -73,7 +73,7 @@ export const Row = ({
      
       $(modal).html(image.clone());
       $(modal).css({
-        top: currentMousePos.y,
+        top: currentMousePos.y ,
         left: currentMousePos.x + 12
       });
       $(modal).show();
