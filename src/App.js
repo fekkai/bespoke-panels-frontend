@@ -10,7 +10,7 @@ import StylistPanelCustomer from "./components/StylistPanelCustomer";
 
 // Assets
 import bespokeImg from "./assets/bespoke-beta.svg";
-import fekkaiLogo from "./assets/fekkai-logo.svg";
+import fekkaiLogo from "./assets/fekkai-logo.png";
 // Helper functions
 import { getProfile } from "./services/apiService";
 // Packages
@@ -228,10 +228,10 @@ class App extends React.Component {
         <div id="header">
           <Fade big>
             <header className="img-container">
-              {/* <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} /> */}
-              <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
+              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
+              {/* <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
                 RECO
-              </p>
+              </p> */}
               <p style={{ marginBottom: 0,  }}>
                 // STYLIST / <u>ORDER</u>
               </p>

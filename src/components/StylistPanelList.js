@@ -82,7 +82,7 @@ export default class StylistPanelList extends Component {
       response = JSON.parse(JSON.stringify(response));
       console.log(response);
       const data = [];
-      for (let userCode of response.data.slice(0, 50).reverse()) {
+      for (let userCode of response.data.slice(150, 211).reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
@@ -174,9 +174,14 @@ export default class StylistPanelList extends Component {
   };
 
   handleChange = e => {
-    this.state.checked === false
-      ? this.setState({ filter: e.target.name, checked: true })
-      : this.setState({ filter: "", checked: false });
+    this.setState({
+      filter: e.target.innerText || e.target.name,
+      checked: true,
+      conditionOpen: false,
+      goalsOpen: false
+    });
+
+    console.log(e.target.innerText);
   };
 
   handleConditionBtn = e => {
@@ -306,7 +311,10 @@ export default class StylistPanelList extends Component {
                 >
                   CONDITIONS <span onClick={this.handleConditionBtn}> ☰</span>
                   {this.state.conditionOpen && (
-                    <Conditions handleChange={this.handleChange} />
+                    <Conditions
+                      checked={this.state.checked}
+                      handleChange={this.handleChange}
+                    />
                   )}
                 </div>
 

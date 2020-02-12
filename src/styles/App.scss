@@ -30,9 +30,13 @@ button {
 .app {
   font-family: "urwdin-regular";
   padding: 3%;
- header {
-   margin-bottom: 30px
- }
+  header {
+    margin-bottom: 30px;
+    p {
+      margin-top: auto;
+      padding-bottom: 10px;
+    }
+  }
   .signup-login {
     padding-left: 3%;
   }
@@ -51,7 +55,7 @@ button {
     }
     #fekkai-logo {
       margin-left: 0;
-      padding-left: 3%;
+      padding: 0;
     }
   }
   #logout-approve-btn {
@@ -65,7 +69,6 @@ button {
   #welcome {
     font-size: 26px;
   }
-
 }
 
 .form {
@@ -85,16 +88,11 @@ button {
   }
 }
 
-
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-
-header {
-  margin-bottom: 30px
+  header {
+    margin-bottom: 30px;
+  }
 }
-
-}
-
-
 
 //mobile
 
