@@ -54,35 +54,33 @@ export const Row = ({
 
   const classes = useStyles();
 
-  
-  // const modal = $("#modal");
-  // $(function() {
-  //   var currentMousePos = { x: -1, y: -1 };
-  //   $(document).mousemove(function(event) {
-  //     currentMousePos.x = event.pageX;
-  //     currentMousePos.y = event.pageY;
-  //     if ($("#modal").css("display") != "none") {
-  //       $("#modal").css({
-  //         top: currentMousePos.y - 100,
-  //         left: currentMousePos.x + 50
-  //       });
-  //     }
-  //   });
-  //   $(".image").on("mouseover", function() {
-  //     var image = $(this).find("img");
-  //     var modal = $("#modal");
-  //     $(modal).html(image.clone());
-  //     $(modal).css({
-  //       top: currentMousePos.y,
-  //       left: currentMousePos.x + 12
-  //     });
-  //     $(modal).show();
-  //   });
-  //   $(".image").on("mouseleave", function() {
-  //     $(modal).hide();
-  //   });
-  // });
-
+  const modal = $("#modal");
+  $(function() {
+    var currentMousePos = { x: -1, y: -1 };
+    $(document).mousemove(function(event) {
+      currentMousePos.x = event.pageX;
+      currentMousePos.y = event.pageY;
+      if ($("#modal").css("display") != "none") {
+        $("#modal").css({
+          top: currentMousePos.y - 100,
+          left: currentMousePos.x + 50
+        });
+      }
+    });
+    $(".image").on("mouseover", function() {
+      var image = $(this).find("img");
+      var modal = $("#modal");
+      $(modal).html(image.clone());
+      $(modal).css({
+        top: currentMousePos.y,
+        left: currentMousePos.x + 12
+      });
+      $(modal).show();
+    });
+    $(".image").on("mouseleave", function() {
+      $(modal).hide();
+    });
+  });
 
   return (
     <div>
@@ -98,6 +96,7 @@ export const Row = ({
           style={{
             display: "flex",
             flexDirection: "row",
+
             alignItems: "center",
             justifyContent: "space-between",
             padding: 0
@@ -107,6 +106,7 @@ export const Row = ({
             className={classes.title}
             color="textSecondary"
             style={{
+              fontSize: "13x",
               flex: 1.2,
               padding: "0.2rem 0.4em"
             }}
@@ -117,6 +117,7 @@ export const Row = ({
           </p>
           <p
             style={{
+              fontSize: "13px",
               flex: 1.2,
               padding: "0.2rem 0.4em"
             }}
@@ -128,6 +129,7 @@ export const Row = ({
           <div
             className="image"
             style={{
+              fontSize: "13px",
               display: "flex",
               flex: 1,
               justifyContent: "center"
@@ -154,6 +156,7 @@ export const Row = ({
           </p> */}
           <p
             style={{
+              fontSize: "13px",
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em"
@@ -182,6 +185,7 @@ export const Row = ({
           </p>
           <p
             style={{
+              fontSize: "13px",
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em"
@@ -203,6 +207,7 @@ export const Row = ({
           </p>
           <p
             style={{
+              fontSize: "13px",
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em",
@@ -223,6 +228,7 @@ export const Row = ({
           </p>
           <p
             style={{
+              fontSize: "13px",
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em",

@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 
 //components
+import Conditions from "./Conditions";
+import Goals from "./Goals";
+
 import { Row } from "./common";
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader } from "react-spinners";
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from "react-infinite-scroller";
 
 // styling
 import "../styles/Panel.scss";
@@ -45,11 +48,18 @@ export default class StylistPanelList extends Component {
       data: [],
       ascending: true,
       loading: true,
-      checked: false
+      checked: false,
+      conditionOpen: false,
+      goalsOpen: false
     };
+    const container = React.createRef();
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
   async componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
     await this.fetchOrders();
     await this.setState({
       loading: false
@@ -169,6 +179,33 @@ export default class StylistPanelList extends Component {
       : this.setState({ filter: "", checked: false });
   };
 
+  handleConditionBtn = e => {
+    this.setState(state => {
+      return {
+        conditionOpen: !state.conditionOpen
+      };
+    });
+  };
+
+  handleGoalsBtn = e => {
+    this.setState(state => {
+      return {
+        goalsOpen: !state.goalsOpen
+      };
+    });
+  };
+
+  // handleClickOutside = event => {
+  //   if (
+  //     this.container.current &&
+  //     !this.container.current.contains(event.target)
+  //   ) {
+  //     this.setState({
+  //       open: false
+  //     });
+  //   }
+  // };
+
   render() {
     const { filter, data, ascending } = this.state;
     const filteredData = data.filter(item => {
@@ -192,199 +229,7 @@ export default class StylistPanelList extends Component {
                   display: "flex",
                   flexDirection: "row"
                 }}
-              >
-                <ul
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    listStyle: "none",
-                    columns: 2,
- 
-                  }}
-                >
-                  CONDITIONS
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="bleached"
-                      value="bleached"
-                      onChange={this.handleChange}
-                    />
-                    bleached
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="permed"
-                      value="permed"
-                      onChange={this.handleChange}
-                    />
-                    permed
-                  </li>
-                  <li>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      name="color-treated"
-                      value="color-treated"
-                      onChange={this.handleChange}
-                    />
-                    color-treated
-                  </li>
-                  <li>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      name="highlights"
-                      value="highlights"
-                      onChange={this.handleChange}
-                    />
-                    highlights
-                  </li>
-                  <li>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      name="chemically-treated"
-                      value="chemically-treated"
-                      onChange={this.handleChange}
-                    />
-                    chemically-treated
-                  </li>
-                  <li>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      name="chemically-straightened"
-                      value="chemically-straightened"
-                      onChange={this.handleChange}
-                    />
-                    chemically-straightened
-                  </li>
-                  <li>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      name="split-ends"
-                      value="split-ends"
-                      onChange={this.handleChange}
-                    />
-                    split-ends
-                  </li>
-                  <li>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      name="frequent-heat-styling-tools"
-                      value="frequent-heat-styling-tools"
-                      onChange={this.handleChange}
-                    />
-                    frequent-heat-styling-tools
-                  </li>
-                  <li>
-                    {" "}
-                    <input
-                      type="checkbox"
-                      name="none"
-                      value="none"
-                      onChange={this.handleChange}
-                    />
-                    none
-                  </li>
-                  <br />
-                </ul>
-
-                <ul
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    listStyle: "none"
-                  }}
-                >
-                  GOALS
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="color-protect"
-                      value="color-protect"
-                      onChange={this.handleChange}
-                    />
-                    color-protect
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="uv-protect"
-                      value="uv-protect"
-                      onChange={this.handleChange}
-                    />
-                    uv-protect
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="damage-repair"
-                      value="damage-repair"
-                      onChange={this.handleChange}
-                    />
-                    damage-repair
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="frizz-control"
-                      value="frizz-control"
-                      onChange={this.handleChange}
-                    />
-                    frizz-control
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="smoothing"
-                      value="smoothing"
-                      onChange={this.handleChange}
-                    />
-                    smoothing
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="healthy-shine"
-                      value="healthy-shine"
-                      onChange={this.handleChange}
-                    />
-                    healthy-shine
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="hydrate"
-                      value="hydrate"
-                      onChange={this.handleChange}
-                    />
-                    hydrate
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="hair-loss-prevention"
-                      value="hair-loss-prevention"
-                      onChange={this.handleChange}
-                    />
-                    hair-loss-prevention
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="volumizing"
-                      value="volumizing"
-                      onChange={this.handleChange}
-                    />
-                    volumizing{" "}
-                  </li>
-                </ul>
-              </div>
+              ></div>
               <div
                 className="list-header"
                 style={{
@@ -450,26 +295,37 @@ export default class StylistPanelList extends Component {
                   TEXTURE <span>{ascending ? "▲" : "▼"}</span>
                 </div>
                 <div
+                  className="container"
                   style={{
-                    fslicelex: 1,
+                    flex: 1,
                     fontSize: "13px"
                   }}
-                  onClick={() => this.sortBy("condition")}
+                  // onClick={
+                  //   // () => this.sortBy("condition")
+                  // }
                 >
-                  CONDITIONS <span>{ascending ? "▲" : "▼"}</span>
+                  CONDITIONS <span onClick={this.handleConditionBtn}> ☰</span>
+                  {this.state.conditionOpen && (
+                    <Conditions handleChange={this.handleChange} />
+                  )}
                 </div>
+
                 <div
                   style={{
                     flex: 1,
                     fontSize: "13px"
                   }}
-                  onClick={() => this.sortBy("hairGoals")}
+                  // onClick={() => this.sortBy("hairGoals")}
                 >
-                  GOALS <span>{ascending ? "▲" : "▼"}</span>
+                  GOALS
+                  <span onClick={this.handleGoalsBtn}> ☰</span>
+                  {this.state.goalsOpen && (
+                    <Goals handleChange={this.handleChange} />
+                  )}
                 </div>
               </div>
-              <div className="body">
-                {filteredData.map(rowData => {
+              <div>
+                {filteredData.slice(3).map(rowData => {
                   return (
                     <Link
                       style={{
