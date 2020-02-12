@@ -72,7 +72,7 @@ export default class StylistPanelList extends Component {
       response = JSON.parse(JSON.stringify(response));
       console.log(response);
       const data = [];
-      for (let userCode of response.data.slice(0, 20).reverse()) {
+      for (let userCode of response.data.slice(0, 50).reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
