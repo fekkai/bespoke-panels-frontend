@@ -54,34 +54,36 @@ export const Row = ({
 
   const classes = useStyles();
 
-  const modal = $("#modal");
-  $(function() {
-    var currentMousePos = { x: -1, y: -1 };
-    $(document).mousemove(function(event) {
-      currentMousePos.x = event.pageX;
-      currentMousePos.y = event.pageY;
-      if ($("#modal").css("display") != "none") {
-        $("#modal").css({
-          top: currentMousePos.y - 100,
-          left: currentMousePos.x + 50
-        });
-      }
-    });
-    $(".image").on("mouseover", function() {
-      var image = $(this).find("img");
-      var modal = $("#modal");
-     
-      $(modal).html(image.clone());
-      $(modal).css({
-        top: currentMousePos.y ,
-        left: currentMousePos.x + 12
-      });
-      $(modal).show();
-    });
-    $(".image").on("mouseleave", function() {
-      $(modal).hide();
-    });
-  });
+  
+  // const modal = $("#modal");
+  // $(function() {
+  //   var currentMousePos = { x: -1, y: -1 };
+  //   $(document).mousemove(function(event) {
+  //     currentMousePos.x = event.pageX;
+  //     currentMousePos.y = event.pageY;
+  //     if ($("#modal").css("display") != "none") {
+  //       $("#modal").css({
+  //         top: currentMousePos.y - 100,
+  //         left: currentMousePos.x + 50
+  //       });
+  //     }
+  //   });
+  //   $(".image").on("mouseover", function() {
+  //     var image = $(this).find("img");
+  //     var modal = $("#modal");
+  //     $(modal).html(image.clone());
+  //     $(modal).css({
+  //       top: currentMousePos.y,
+  //       left: currentMousePos.x + 12
+  //     });
+  //     $(modal).show();
+  //   });
+  //   $(".image").on("mouseleave", function() {
+  //     $(modal).hide();
+  //   });
+  // });
+
+
   return (
     <div>
       <Card
@@ -89,7 +91,7 @@ export const Row = ({
         style={{
           overflowX: "hidden",
           overflowY: "auto",
-          marginBottom: `${5}px`,
+          marginBottom: `${5}px`
         }}
       >
         <CardContent
@@ -124,20 +126,19 @@ export const Row = ({
             {userCode}
           </p>
           <div
-          className='image'
+            className="image"
             style={{
               display: "flex",
               flex: 1,
               justifyContent: "center"
             }}
           >
-              <img
-                style={{
-                  width: "50%"
-                }}
-                src={frontSelfie}
-              ></img>
-
+            <img
+              style={{
+                width: "50%"
+              }}
+              src={frontSelfie}
+            />
             <div id="modal"></div>
           </div>
           {/* <p
@@ -232,7 +233,7 @@ export const Row = ({
           >
             {hairGoals ? hairGoals.join(", ") : ""}
           </p>
-         
+
           <br />
           {/* {shampooSkeletonKey
               ? shampooSkeletonKey === "volume1"

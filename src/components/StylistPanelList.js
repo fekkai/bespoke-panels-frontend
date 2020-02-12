@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader } from "react-spinners";
+import InfiniteScroll from 'react-infinite-scroller';
 
 // styling
 import "../styles/Panel.scss";
@@ -185,20 +186,22 @@ export default class StylistPanelList extends Component {
       <div className="dashboard">
         <Fade big>
           <Paper elevation={0}>
-            <div className="table"
-            >
+            <div className="table">
               <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row'
-              }}>
+                style={{
+                  display: "flex",
+                  flexDirection: "row"
+                }}
+              >
                 <ul
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    listStyle: "none"
+                    listStyle: "none",
+                    columns: 2,
+ 
                   }}
-                  >
+                >
                   CONDITIONS
                   <li>
                     <input
@@ -290,14 +293,14 @@ export default class StylistPanelList extends Component {
                   </li>
                   <br />
                 </ul>
-              
+
                 <ul
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     listStyle: "none"
                   }}
-                  >
+                >
                   GOALS
                   <li>
                     <input
