@@ -54,33 +54,33 @@ export const Row = ({
 
   const classes = useStyles();
 
-  const modal = $("#modal");
-  $(function() {
-    var currentMousePos = { x: -1, y: -1 };
-    $(document).mousemove(function(event) {
-      currentMousePos.x = event.pageX;
-      currentMousePos.y = event.pageY;
-      if ($("#modal").css("display") != "none") {
-        $("#modal").css({
-          top: currentMousePos.y - 100,
-          left: currentMousePos.x + 50
-        });
-      }
-    });
-    $(".image").on("mouseover", function() {
-      var image = $(this).find("img");
-      var modal = $("#modal");
-      $(modal).html(image.clone());
-      $(modal).css({
-        top: currentMousePos.y,
-        left: currentMousePos.x + 12
-      });
-      $(modal).show();
-    });
-    $(".image").on("mouseleave", function() {
-      $(modal).hide();
-    });
-  });
+  // const modal = $("#modal");
+  // $(function() {
+  //   var currentMousePos = { x: -1, y: -1 };
+  //   $(document).mousemove(function(event) {
+  //     currentMousePos.x = event.pageX;
+  //     currentMousePos.y = event.pageY;
+  //     if ($("#modal").css("display") != "none") {
+  //       $("#modal").css({
+  //         top: currentMousePos.y - 100,
+  //         left: currentMousePos.x + 50
+  //       });
+  //     }
+  //   });
+  //   $(".image").on("mouseover", function() {
+  //     var image = $(this).find("img");
+  //     var modal = $("#modal");
+  //     $(modal).html(image.clone());
+  //     $(modal).css({
+  //       top: currentMousePos.y,
+  //       left: currentMousePos.x + 12
+  //     });
+  //     $(modal).show();
+  //   });
+  //   $(".image").on("mouseleave", function() {
+  //     $(modal).hide();
+  //   });
+  // });
 
   return (
     <div>
@@ -96,7 +96,6 @@ export const Row = ({
           style={{
             display: "flex",
             flexDirection: "row",
-
             alignItems: "center",
             justifyContent: "space-between",
             padding: 0
@@ -135,25 +134,18 @@ export const Row = ({
               justifyContent: "center"
             }}
           >
-            <img
-              style={{
-                width: "50%"
-              }}
-              src={frontSelfie}
-            />
+            {frontSelfie ? (
+              <img
+                style={{
+                  width: "50%"
+                }}
+                src={frontSelfie}
+              />
+            ) : (
+              "N/A"
+            )}
             <div id="modal"></div>
           </div>
-          {/* <p
-            style={{
-              flex: 2,
-              padding: "0.2rem 0.4em"
-            }}
-            className={classes.title}
-            color="textSecondary"
-          >
-            {" "}
-            {customerName}
-          </p> */}
           <p
             style={{
               fontSize: "13px",
