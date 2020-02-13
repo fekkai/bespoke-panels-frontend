@@ -123,7 +123,7 @@ export const Row = ({
             className={classes.title}
             color="textSecondary"
           >
-            {userCode}
+            {/* {userCode} */}
           </p>
           <div
             className="image"

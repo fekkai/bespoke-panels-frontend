@@ -3,9 +3,8 @@ import "../styles/Panel.scss";
 
 export default function Conditions(props) {
   return (
-    <div class="dropdown">
+    <div className="dropdown">
       <ul
-        // onClick={console.log('asdf')}
         style={{
           display: "flex",
           flexDirection: "column",

@@ -314,7 +314,7 @@ export default class StylistPanelList extends Component {
                   <span onClick={this.handleConditionBtn}>CONDITIONS ☰</span>
                   {this.state.conditionOpen && (
                     <Conditions
-                      checked={this.state.checked}
+                      // checked={this.state.checked}
                       handleChange={this.handleChange}
                     />
                   )}
