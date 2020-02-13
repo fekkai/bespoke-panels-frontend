@@ -46,7 +46,7 @@ export default class StylistPanelList extends Component {
     this.state = {
       filter: "",
       data: [],
-      ascending: true,
+      ascending: false,
       loading: true,
       checked: false,
       conditionOpen: false,
@@ -66,7 +66,6 @@ export default class StylistPanelList extends Component {
   }
   container1 = React.createRef();
   container2 = React.createRef();
-
 
   fetchOrders = async () => {
     try {
@@ -166,11 +165,11 @@ export default class StylistPanelList extends Component {
 
   sortBy = key => {
     let arrayCopy = [...this.state.data];
-    if (this.state.ascending === false) {
-      arrayCopy.sort(this.compareAsc(key));
-      this.setState({ data: arrayCopy });
-    } else if (this.state.ascending === true) {
+    if (this.state.ascending === true) {
       arrayCopy.sort(this.compareDsc(key));
+      this.setState({ data: arrayCopy });
+    } else if (this.state.ascending === false) {
+      arrayCopy.sort(this.compareAsc(key));
       this.setState({ data: arrayCopy });
     }
   };
@@ -179,6 +178,16 @@ export default class StylistPanelList extends Component {
     this.setState({
       filter: e.target.innerText || e.target.name,
       checked: true,
+      conditionOpen: false,
+      goalsOpen: false
+    });
+
+    console.log(e.target.innerText);
+  };
+
+  handleChangeNone = e => {
+    this.setState({
+      filter: "",
       conditionOpen: false,
       goalsOpen: false
     });
@@ -208,7 +217,7 @@ export default class StylistPanelList extends Component {
       !this.container1.current.contains(event.target)
     ) {
       this.setState({
-        conditionOpen: false,
+        conditionOpen: false
       });
     }
     if (
@@ -222,9 +231,8 @@ export default class StylistPanelList extends Component {
   };
 
   render() {
-
     const { filter, data, ascending } = this.state;
-    
+
     const filteredData = data.filter(item => {
       console.log(data);
       return Object.keys(item).some(key =>
@@ -240,113 +248,100 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <Fade big>
+          <h1 id='filter'>condition/goals:{" "}
+          {this.state.filter ? this.state.filter : ""}</h1>
           <Paper elevation={0}>
             <div className="table">
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row"
-                }}
-              ></div>
-              <div
-                className="list-header"
-                style={{
-                  display: "flex",
-                  position: "sticky",
-                  width: "100%",
-                  top: 0
-                }}
-              >
+              {!this.state.loading ? (
                 <div
+                  className="list-header"
                   style={{
-                    flex: 0.7,
-                    fontSize: "13px"
+                    display: "flex",
+                    position: "sticky",
+                    width: "100%",
+                    top: 0
                   }}
-                  onClick={() => this.sortBy("locale")}
                 >
-                  DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
-                </div>
-                {/* <div
-                  style={{
-                    flex: 2,
-                    fontSize: "13px"
-                  }}
-                  onClick={() => this.sortBy("userCode")}
-                >
-                  USER <span>{ascending ? "▲" : "▼"}</span>
-                </div> */}
-                <div
-                  style={{
-                    flex: 0.7,
-                    fontSize: "13px"
-                  }}
-                  onClick={() => this.sortBy("customerName")}
-                >
-                  NAME <span>{ascending ? "▲" : "▼"}</span>
-                </div>
+                  <div
+                    style={{
+                      flex: 0.7,
+                      fontSize: "13px"
+                    }}
+                    onClick={() => this.sortBy("locale")}
+                  >
+                    DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
+                  <div
+                    style={{
+                      flex: 0.7,
+                      fontSize: "13px"
+                    }}
+                    onClick={() => this.sortBy("userCode")}
+                  >
+                    NAME <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
 
-                <div
-                  style={{
-                    flex: 1,
-                    fontSize: "13px"
-                  }}
-                  onClick={() => this.sortBy("frontSelfie")}
-                >
-                  SELFIE <span>{ascending ? "▲" : "▼"}</span>
-                </div>
-                <div
-                  style={{
-                    flex: 0.6,
-                    fontSize: "13px"
-                  }}
-                  onClick={() => this.sortBy("thickness")}
-                >
-                  THICKNESS <span>{ascending ? "▲" : "▼"}</span>
-                </div>
-                <div
-                  style={{
-                    flex: 0.6,
-                    fontSize: "13px"
-                  }}
-                  onClick={() => this.sortBy("texture")}
-                >
-                  TEXTURE <span>{ascending ? "▲" : "▼"}</span>
-                </div>
-                <div
-                  className="container"
-                  style={{
-                    flex: 1,
-                    fontSize: "13px"
-                  }}
-                  // onClick={
-                  //   // () => this.sortBy("condition")
-                  // }
-                  ref={this.container1}
-                >
-                  <span onClick={this.handleConditionBtn}>CONDITIONS ☰</span>
-                  {this.state.conditionOpen && (
-                    <Conditions
-                      // checked={this.state.checked}
-                      handleChange={this.handleChange}
-                    />
-                  )}
-                </div>
+                  <div
+                    style={{
+                      flex: 1,
+                      fontSize: "13px"
+                    }}
+                    onClick={() => this.sortBy("frontSelfie")}
+                  >
+                    SELFIE <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
+                  <div
+                    style={{
+                      flex: 0.6,
+                      fontSize: "13px"
+                    }}
+                    onClick={() => this.sortBy("thickness")}
+                  >
+                    THICKNESS <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
+                  <div
+                    style={{
+                      flex: 0.6,
+                      fontSize: "13px"
+                    }}
+                    onClick={() => this.sortBy("texture")}
+                  >
+                    TEXTURE <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
+                  <div
+                    className="container"
+                    style={{
+                      flex: 1,
+                      fontSize: "13px"
+                    }}
+                    ref={this.container1}
+                  >
+                    <span onClick={this.handleConditionBtn}>CONDITIONS ☰</span>
+                    {this.state.conditionOpen && (
+                      <Conditions
+                        // checked={this.state.checked}
+                        handleChange={this.handleChange}
+                        handleChangeNone={this.handleChangeNone}
+                      />
+                    )}
+                  </div>
 
-                <div
-                  style={{
-                    flex: 1,
-                    fontSize: "13px"
-                  }}
-                  // onClick={() => this.sortBy("hairGoals")}
-                  ref={this.container2}
-
-                >
-                  <span onClick={this.handleGoalsBtn}>GOALS ☰</span>
-                  {this.state.goalsOpen && (
-                    <Goals handleChange={this.handleChange} />
-                  )}
+                  <div
+                    style={{
+                      flex: 1,
+                      fontSize: "13px"
+                    }}
+                    ref={this.container2}
+                  >
+                    <span onClick={this.handleGoalsBtn}>GOALS ☰</span>
+                    {this.state.goalsOpen && (
+                      <Goals handleChange={this.handleChange} />
+                    )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
               <div>
                 {filteredData.map(rowData => {
                   return (
@@ -369,7 +364,6 @@ export default class StylistPanelList extends Component {
                 <RingLoader
                   css={override}
                   size={150}
-                  // size={"150px"} this also works
                   color={"#545454"}
                   loading={this.state.loading}
                 />

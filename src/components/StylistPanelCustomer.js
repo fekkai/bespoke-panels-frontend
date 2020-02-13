@@ -100,7 +100,7 @@ export default class StylistPanelCustomer extends Component {
         : userResponse.data.user_data.weather.scores.wind_speed,
       frontSelfie: userResponse.data.user_data.front_selfie,
       shampooFormula: userResponse.data.ingredients.shampoo.formula,
-      conditionerFormula: userResponse.data.ingredients.conditioner.formula,
+      conditionerFormula: userResponse.data.ingredients.conditioner.formula
       // recoFormula: userResponse.data.ingredients.reco.formula
     });
   };
@@ -258,10 +258,12 @@ export default class StylistPanelCustomer extends Component {
                   : "N/A"}
                 <br />
                 <br />
-                CONDITION: {condition ? condition.join(" ") : ""}
+                CONDITION:{" "}
+                {!condition || condition === "none" ? "" : condition.join(", ")}
                 <br />
                 <br />
-                MAIN GOALS: {hairGoals ? hairGoals.join(" ") : ""}
+                MAIN GOALS:{" "}
+                {!hairGoals || hairGoals === "none" ? "" : hairGoals.join(", ")}
                 <br />
                 <br />
               </div>

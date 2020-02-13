@@ -106,7 +106,7 @@ export const Row = ({
             color="textSecondary"
             style={{
               fontSize: "13x",
-              flex: .7,
+              flex: 0.7,
               padding: "0.2rem 0.4em"
             }}
           >
@@ -117,18 +117,19 @@ export const Row = ({
           <p
             style={{
               fontSize: "13px",
-              flex: .7,
+              flex: 0.7,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
             color="textSecondary"
           >
-            {/* {userCode} */}
+            {userCode}
           </p>
           <div
             className="image"
             style={{
               fontSize: "13px",
+
               display: "flex",
               flex: 1,
               justifyContent: "center"
@@ -137,7 +138,7 @@ export const Row = ({
             {frontSelfie ? (
               <img
                 style={{
-                  width: "50%"
+                  width: "50%",
                 }}
                 src={frontSelfie}
               />
@@ -150,7 +151,7 @@ export const Row = ({
             style={{
               fontSize: "13px",
               textAlign: "center",
-              flex: .6,
+              flex: 0.6,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
@@ -179,7 +180,7 @@ export const Row = ({
             style={{
               fontSize: "13px",
               textAlign: "center",
-              flex: .6,
+              flex: 0.6,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
