@@ -9,7 +9,8 @@ export default function Conditions(props) {
           display: "flex",
           flexDirection: "column",
           listStyle: "none",
-          columns: 2
+          columns: 2,
+
         }}
       >
         <li onClick={props.handleChange}>bleached</li>

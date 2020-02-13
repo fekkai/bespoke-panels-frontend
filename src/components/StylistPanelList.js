@@ -64,7 +64,9 @@ export default class StylistPanelList extends Component {
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
-  container = React.createRef();
+  container1 = React.createRef();
+  container2 = React.createRef();
+
 
   fetchOrders = async () => {
     try {
@@ -184,7 +186,7 @@ export default class StylistPanelList extends Component {
     console.log(e.target.innerText);
   };
 
-  handleConditionBtn = e => {
+  handleConditionBtn = () => {
     this.setState(state => {
       return {
         conditionOpen: !state.conditionOpen
@@ -192,7 +194,7 @@ export default class StylistPanelList extends Component {
     });
   };
 
-  handleGoalsBtn = e => {
+  handleGoalsBtn = () => {
     this.setState(state => {
       return {
         goalsOpen: !state.goalsOpen
@@ -202,18 +204,27 @@ export default class StylistPanelList extends Component {
 
   handleClickOutside = event => {
     if (
-      this.container.current &&
-      !this.container.current.contains(event.target)
+      this.container1.current &&
+      !this.container1.current.contains(event.target)
     ) {
       this.setState({
         conditionOpen: false,
+      });
+    }
+    if (
+      this.container2.current &&
+      !this.container2.current.contains(event.target)
+    ) {
+      this.setState({
         goalsOpen: false
       });
     }
   };
 
   render() {
+
     const { filter, data, ascending } = this.state;
+    
     const filteredData = data.filter(item => {
       console.log(data);
       return Object.keys(item).some(key =>
@@ -225,6 +236,7 @@ export default class StylistPanelList extends Component {
           : ""
       );
     });
+
     return (
       <div className="dashboard">
         <Fade big>
@@ -309,7 +321,7 @@ export default class StylistPanelList extends Component {
                   // onClick={
                   //   // () => this.sortBy("condition")
                   // }
-                  ref={this.container}
+                  ref={this.container1}
                 >
                   <span onClick={this.handleConditionBtn}>CONDITIONS ☰</span>
                   {this.state.conditionOpen && (
@@ -326,6 +338,8 @@ export default class StylistPanelList extends Component {
                     fontSize: "13px"
                   }}
                   // onClick={() => this.sortBy("hairGoals")}
+                  ref={this.container2}
+
                 >
                   <span onClick={this.handleGoalsBtn}>GOALS ☰</span>
                   {this.state.goalsOpen && (
