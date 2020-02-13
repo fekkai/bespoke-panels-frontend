@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)"
   },
   title: {
-    fontSize: 15,
+    fontSize: 13,
     color: `#000000`,
     fontFamily: "urwdin-regular"
   },
@@ -106,7 +106,7 @@ export const Row = ({
             color="textSecondary"
             style={{
               fontSize: "13x",
-              flex: 1.2,
+              flex: .7,
               padding: "0.2rem 0.4em"
             }}
           >
@@ -117,7 +117,7 @@ export const Row = ({
           <p
             style={{
               fontSize: "13px",
-              flex: 1.2,
+              flex: .7,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
@@ -150,7 +150,7 @@ export const Row = ({
             style={{
               fontSize: "13px",
               textAlign: "center",
-              flex: 1,
+              flex: .6,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
@@ -179,7 +179,7 @@ export const Row = ({
             style={{
               fontSize: "13px",
               textAlign: "center",
-              flex: 1,
+              flex: .6,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}

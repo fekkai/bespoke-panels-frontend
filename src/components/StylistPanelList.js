@@ -52,12 +52,8 @@ export default class StylistPanelList extends Component {
       conditionOpen: false,
       goalsOpen: false
     };
-    const container = React.createRef();
   }
 
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside);
-  }
   async componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
     await this.fetchOrders();
@@ -65,6 +61,10 @@ export default class StylistPanelList extends Component {
       loading: false
     });
   }
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+  container = React.createRef();
 
   fetchOrders = async () => {
     try {
@@ -200,16 +200,17 @@ export default class StylistPanelList extends Component {
     });
   };
 
-  // handleClickOutside = event => {
-  //   if (
-  //     this.container.current &&
-  //     !this.container.current.contains(event.target)
-  //   ) {
-  //     this.setState({
-  //       open: false
-  //     });
-  //   }
-  // };
+  handleClickOutside = event => {
+    if (
+      this.container.current &&
+      !this.container.current.contains(event.target)
+    ) {
+      this.setState({
+        conditionOpen: false,
+        goalsOpen: false
+      });
+    }
+  };
 
   render() {
     const { filter, data, ascending } = this.state;
@@ -246,7 +247,7 @@ export default class StylistPanelList extends Component {
               >
                 <div
                   style={{
-                    flex: 1.2,
+                    flex: 0.7,
                     fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("locale")}
@@ -264,7 +265,7 @@ export default class StylistPanelList extends Component {
                 </div> */}
                 <div
                   style={{
-                    flex: 1.2,
+                    flex: 0.7,
                     fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("customerName")}
@@ -283,7 +284,7 @@ export default class StylistPanelList extends Component {
                 </div>
                 <div
                   style={{
-                    flex: 1,
+                    flex: 0.6,
                     fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("thickness")}
@@ -292,7 +293,7 @@ export default class StylistPanelList extends Component {
                 </div>
                 <div
                   style={{
-                    flex: 1,
+                    flex: 0.6,
                     fontSize: "13px"
                   }}
                   onClick={() => this.sortBy("texture")}
@@ -308,8 +309,9 @@ export default class StylistPanelList extends Component {
                   // onClick={
                   //   // () => this.sortBy("condition")
                   // }
+                  ref={this.container}
                 >
-                  CONDITIONS <span onClick={this.handleConditionBtn}> ☰</span>
+                  <span onClick={this.handleConditionBtn}>CONDITIONS ☰</span>
                   {this.state.conditionOpen && (
                     <Conditions
                       checked={this.state.checked}
@@ -325,15 +327,14 @@ export default class StylistPanelList extends Component {
                   }}
                   // onClick={() => this.sortBy("hairGoals")}
                 >
-                  GOALS
-                  <span onClick={this.handleGoalsBtn}> ☰</span>
+                  <span onClick={this.handleGoalsBtn}>GOALS ☰</span>
                   {this.state.goalsOpen && (
                     <Goals handleChange={this.handleChange} />
                   )}
                 </div>
               </div>
               <div>
-                {filteredData.slice(3).map(rowData => {
+                {filteredData.map(rowData => {
                   return (
                     <Link
                       style={{

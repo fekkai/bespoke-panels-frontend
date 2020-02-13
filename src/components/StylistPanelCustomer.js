@@ -258,10 +258,10 @@ export default class StylistPanelCustomer extends Component {
                   : "N/A"}
                 <br />
                 <br />
-                CONDITION: {condition ? condition.join(", ") : ""}
+                CONDITION: {condition ? condition.join(" ") : ""}
                 <br />
                 <br />
-                MAIN GOALS: {hairGoals ? hairGoals.join(", ") : ""}
+                MAIN GOALS: {hairGoals ? hairGoals.join(" ") : ""}
                 <br />
                 <br />
               </div>
