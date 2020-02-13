@@ -22,7 +22,7 @@ export default function Conditions(props) {
         <li onClick={props.handleChange}>split-ends</li>
         <li onClick={props.handleChange}>frequent-heat-styling-tools</li>
         <li onClick={props.handleChange}>none</li>
-        <li onClick={props.handleChangeNone}>reset</li>
+        <li onClick={props.reset}>reset</li>
         <br />
       </ul>
     </div>

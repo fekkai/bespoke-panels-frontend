@@ -185,7 +185,7 @@ export default class StylistPanelList extends Component {
     console.log(e.target.innerText);
   };
 
-  handleChangeNone = e => {
+  reset = e => {
     this.setState({
       filter: "",
       conditionOpen: false,
@@ -248,7 +248,7 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <Fade big>
-          <h1 id='filter'>condition/goals:{" "}
+          <h1 align='right' id='filter'>condition/goals:{" "}
           {this.state.filter ? this.state.filter : ""}</h1>
           <Paper elevation={0}>
             <div className="table">
@@ -321,7 +321,7 @@ export default class StylistPanelList extends Component {
                       <Conditions
                         // checked={this.state.checked}
                         handleChange={this.handleChange}
-                        handleChangeNone={this.handleChangeNone}
+                        reset={this.reset}
                       />
                     )}
                   </div>
