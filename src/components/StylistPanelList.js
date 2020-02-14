@@ -81,9 +81,10 @@ export default class StylistPanelList extends Component {
         "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
       );
       response = JSON.parse(JSON.stringify(response));
-      console.log(response);
+      // console.log(response);
       const data = [];
       for (let userCode of response.data.slice(150, 211).reverse()) {
+        console.log(userCode);
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
@@ -234,7 +235,7 @@ export default class StylistPanelList extends Component {
     const { filter, data, ascending } = this.state;
 
     const filteredData = data.filter(item => {
-      console.log(data);
+      // console.log(data);
       return Object.keys(item).some(key =>
         key !== "frontSelfie"
           ? item[key]
@@ -247,9 +248,31 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
-        <Fade big>
-          <h1 align='left' id='filter'>condition/goals:{" "}
-          {this.state.filter ? this.state.filter : ""}</h1>
+        <Fade>
+          <h2 align="left" id="filter">
+            conditions/goals:{" "}
+            {this.state.filter ? (
+                      <Fade big>
+                      <span
+                style={{
+                  border: "2px solid #545454",
+                  padding: "0 7px"
+                }}
+              >
+                {this.state.filter}{" "}
+                <span
+                  style={{
+                    cursor: "pointer"
+                  }}
+                  onClick={this.reset}
+                >
+                  x
+                </span>
+              </span></Fade>
+            ) : (
+              ""
+            )}
+          </h2>
           <Paper elevation={0}>
             <div className="table">
               {!this.state.loading ? (
@@ -269,7 +292,12 @@ export default class StylistPanelList extends Component {
                     }}
                     onClick={() => this.sortBy("locale")}
                   >
-                    DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
+                    <div>
+                      {" "}
+                      DATE_TIME <span style={{
+                        fontSize: '9px'
+                      }}>{ascending ? "▲" : "▼"}</span>
+                    </div>
                   </div>
                   <div
                     style={{
@@ -278,7 +306,11 @@ export default class StylistPanelList extends Component {
                     }}
                     onClick={() => this.sortBy("userCode")}
                   >
-                    NAME <span>{ascending ? "▲" : "▼"}</span>
+                    <div>
+                      NAME <span style={{
+                        fontSize: '9px'
+                      }}>{ascending ? "▲" : "▼"}</span>
+                    </div>
                   </div>
 
                   <div
@@ -288,16 +320,24 @@ export default class StylistPanelList extends Component {
                     }}
                     onClick={() => this.sortBy("frontSelfie")}
                   >
-                    SELFIE <span>{ascending ? "▲" : "▼"}</span>
+                    <div>
+                      SELFIE <span style={{
+                        fontSize: '9px'
+                      }}>{ascending ? "▲" : "▼"}</span>
+                    </div>
                   </div>
                   <div
                     style={{
-                      flex: 0.6,
+                      flex: 0.8,
                       fontSize: "13px"
                     }}
                     onClick={() => this.sortBy("thickness")}
                   >
-                    THICKNESS <span>{ascending ? "▲" : "▼"}</span>
+                    <div>
+                      THICKNESS <span style={{
+                        fontSize: '9px'
+                      }}>{ascending ? "▲" : "▼"}</span>
+                    </div>
                   </div>
                   <div
                     style={{
@@ -306,34 +346,43 @@ export default class StylistPanelList extends Component {
                     }}
                     onClick={() => this.sortBy("texture")}
                   >
-                    TEXTURE <span>{ascending ? "▲" : "▼"}</span>
+                    <div>
+                      TEXTURE <span style={{
+                        fontSize: '9px'
+                      }}>{ascending ? "▲" : "▼"}</span>
+                    </div>
                   </div>
                   <div
                     className="container"
                     style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
                       flex: 1,
                       fontSize: "13px"
                     }}
                     ref={this.container1}
                   >
-                    <span onClick={this.handleConditionBtn}>CONDITIONS ☰</span>
+                    <div onClick={this.handleConditionBtn}>CONDITIONS ☰</div>
                     {this.state.conditionOpen && (
                       <Conditions
                         // checked={this.state.checked}
                         handleChange={this.handleChange}
-                        reset={this.reset}
                       />
                     )}
                   </div>
 
                   <div
                     style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
                       flex: 1,
                       fontSize: "13px"
                     }}
                     ref={this.container2}
                   >
-                    <span onClick={this.handleGoalsBtn}>GOALS ☰</span>
+                    <div onClick={this.handleGoalsBtn}>GOALS ☰</div>
                     {this.state.goalsOpen && (
                       <Goals handleChange={this.handleChange} />
                     )}
@@ -345,6 +394,7 @@ export default class StylistPanelList extends Component {
               <div>
                 {filteredData.map(rowData => {
                   return (
+                    
                     <Link
                       style={{
                         textDecoration: "none"

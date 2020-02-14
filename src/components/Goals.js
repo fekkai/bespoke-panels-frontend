@@ -3,7 +3,7 @@ import "../styles/Panel.scss";
 
 export default function Goals(props) {
   return (
-    <div class="dropdown">
+    <div className="dropdown">
       <ul
         style={{
           display: "flex",

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)"
   },
   title: {
-    fontSize: 13,
+    fontSize: 15,
     color: `#000000`,
     fontFamily: "urwdin-regular"
   },
@@ -105,7 +105,7 @@ export const Row = ({
             className={classes.title}
             color="textSecondary"
             style={{
-              fontSize: "13x",
+              fontSize: "15x",
               flex: 0.7,
               padding: "0.2rem 0.4em"
             }}
@@ -116,7 +116,7 @@ export const Row = ({
           </p>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "15px",
               flex: 0.7,
               padding: "0.2rem 0.4em"
             }}
@@ -128,7 +128,7 @@ export const Row = ({
           <div
             className="image"
             style={{
-              fontSize: "13px",
+              fontSize: "15px",
 
               display: "flex",
               flex: 1,
@@ -139,19 +139,20 @@ export const Row = ({
               <img
                 style={{
                   width: "50%",
+                  borderRadius: "17px"
                 }}
                 src={frontSelfie}
               />
             ) : (
-              "N/A"
+              "n/a"
             )}
             <div id="modal"></div>
           </div>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "15px",
               textAlign: "center",
-              flex: 0.6,
+              flex: 0.8,
               padding: "0.2rem 0.4em"
             }}
             className={classes.title}
@@ -178,7 +179,7 @@ export const Row = ({
           </p>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "15px",
               textAlign: "center",
               flex: 0.6,
               padding: "0.2rem 0.4em"
@@ -196,11 +197,11 @@ export const Row = ({
                 : "" || texture === 4
                 ? "coily"
                 : ""
-              : "N/A"}
+              : "n/a"}
           </p>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "15px",
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em",
@@ -210,7 +211,7 @@ export const Row = ({
             color="textSecondary"
           >
             {condition === "none"
-              ? ""
+              ? "none"
               : condition.map(e => {
                   return (
                     <div>
@@ -221,7 +222,7 @@ export const Row = ({
           </p>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "15px",
               textAlign: "center",
               flex: 1,
               padding: "0.2rem 0.4em",
