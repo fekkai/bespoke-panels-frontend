@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader } from "react-spinners";
-import InfiniteScroll from "react-infinite-scroller";
 
 // styling
 import "../styles/Panel.scss";
