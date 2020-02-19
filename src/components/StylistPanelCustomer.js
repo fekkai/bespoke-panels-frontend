@@ -259,7 +259,7 @@ export default class StylistPanelCustomer extends Component {
                 <br />
                 <br />
                 CONDITION:{" "}
-                {!condition || condition === "none" ? "" : condition.join(", ")}
+                {condition === "none" ? "" : condition.join(", ")}
                 <br />
                 <br />
                 MAIN GOALS:{" "}

@@ -38,6 +38,8 @@ export const Row = ({
   orderId,
   userCode,
   customerName,
+  name,
+  email,
   locale,
   thickness,
   texture,
@@ -124,6 +126,7 @@ export const Row = ({
             color="textSecondary"
           >
             {/* {userCode} */}
+            {name ? name : userCode || 'n/a'}
           </p>
           <div
             className="image"
@@ -159,7 +162,7 @@ export const Row = ({
             color="textSecondary"
           >
             {" "}
-            {thickness
+            {/* {thickness
               ? thickness === 1
                 ? "finest"
                 : "" || thickness === 2
@@ -176,6 +179,8 @@ export const Row = ({
                 ? "thickest"
                 : ""
               : ""}
+               */}
+            {!thickness ? "n/a" : thickness}
           </p>
           <p
             style={{
@@ -210,7 +215,9 @@ export const Row = ({
             className={classes.title}
             color="textSecondary"
           >
-            {condition === "none"
+            {!condition
+              ? "n/a"
+              : condition === "none"
               ? "none"
               : condition.map(e => {
                   return (
@@ -231,7 +238,7 @@ export const Row = ({
             className={classes.title}
             color="textSecondary"
           >
-            {hairGoals ? hairGoals.join(", ") : ""}
+            {!hairGoals ? "n/a" : hairGoals ? hairGoals.join(", ") : ""}
           </p>
 
           <br />
