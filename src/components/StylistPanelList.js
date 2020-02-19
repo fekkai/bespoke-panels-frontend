@@ -81,58 +81,130 @@ export default class StylistPanelList extends Component {
         "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
       );
       response = JSON.parse(JSON.stringify(response));
-      // console.log(response);
       const data = [];
-      for (let userCode of response.data.slice(150, 211).reverse()) {
-        console.log(userCode);
+      for (let userCode of response.data
+        .slice(response.data.length - 10, response.data.length)
+        .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
         const shampooScores = [];
-
+        const conditionerScores = [];
+        const thirdScores = [];
         const skeletons = [
           "volume1",
           "colorprotect1",
           "moisture1",
           "repair1",
-          "smooth1"
+          "smooth1",
+          "moi1_SH",
+          "moi1_CN",
+          "rep1_SH",
+          "rep1_CN",
+          "moi1_TH",
+          "vol1_SH",
+          "vol1_CN",
+          "vol1_TH",
+          "col1_SH",
+          "col1_CN",
+          "col1_TH"
         ];
         let shampooSkeletonKey;
         let shampooSkeletonValue;
         let conditionerSkeletonKey;
         let conditionerSkeletonValue;
-        console.log(userResponse.data);
+        let thirdSkeletonKey;
+        let thirdSkeletonValue;
+        // console.log(userResponse.data);
 
-        for (let key in userResponse.data.ingredients.shampoo.formula) {
-          if (skeletons.indexOf(key) > -1) {
+        // sort shampoo scores
+        for (let key in userResponse.data.ingredients.master.formula) {
+          if (key.includes("SH") && skeletons.indexOf(key) > -1) {
+            // indexOf returns first index where an element can be found. -1 is not present.
             shampooScores.push(
-              parseInt(userResponse.data.ingredients.shampoo.formula[key])
+              parseInt(userResponse.data.ingredients.master.formula[key])
             );
             shampooScores.sort((a, b) => b - a);
           }
           if (
             shampooScores[0] ===
-            userResponse.data.ingredients.shampoo.formula[key]
+              userResponse.data.ingredients.master.formula[key] &&
+            key.includes("SH")
           ) {
             shampooSkeletonKey = key;
             shampooSkeletonValue =
-              userResponse.data.ingredients.shampoo.formula[key];
+              userResponse.data.ingredients.master.formula[key];
           }
         }
         shampooScores.sort((a, b) => b - a);
 
+        // sort conditioner scores
+        for (let key in userResponse.data.ingredients.master.formula) {
+          if (key.includes("CN") && skeletons.indexOf(key) > -1) {
+            // indexOf returns first index where an element can be found. -1 is not present.
+            conditionerScores.push(
+              parseInt(userResponse.data.ingredients.master.formula[key])
+            );
+            conditionerScores.sort((a, b) => b - a);
+          }
+          if (
+            conditionerScores[0] ===
+              userResponse.data.ingredients.master.formula[key] &&
+            key.includes("CN")
+          ) {
+            conditionerSkeletonKey = key;
+            conditionerSkeletonValue =
+              userResponse.data.ingredients.master.formula[key];
+          }
+        }
+        conditionerScores.sort((a, b) => b - a);
+
+        for (let key in userResponse.data.ingredients.master.formula) {
+          if (key.includes("TH") && skeletons.indexOf(key) > -1) {
+            // indexOf returns first index where an element can be found. -1 is not present.
+            thirdScores.push(
+              parseInt(userResponse.data.ingredients.master.formula[key])
+            );
+            thirdScores.sort((a, b) => b - a);
+          }
+          if (
+            thirdScores[0] ===
+              userResponse.data.ingredients.master.formula[key] &&
+            key.includes("TH")
+          ) {
+            thirdSkeletonKey = key;
+            thirdSkeletonValue =
+              userResponse.data.ingredients.master.formula[key];
+          }
+        }
+        thirdScores.sort((a, b) => b - a);
+        console.log(thirdScores, thirdSkeletonKey);
+
+        // console.log(
+        //   userCode.user_code,
+        //   userCode.created || userCode.updated,
+        //   userResponse.data.user_data.answers.hair_thickness,
+        //   parseInt(userResponse.data.user_data.answers.hair_texture),
+        //   userResponse.data.user_data.answers.hair_condition,
+        //   userResponse.data.user_data.answers.hair_goals,
+        //   shampooSkeletonKey,
+        //   conditionerSkeletonKey,
+        //   userResponse.data.user_data.front_selfie
+        // );
+
         data.push({
           userCode: userCode.user_code,
           locale: userCode.created || userCode.updated,
-          thickness: parseInt(
-            userResponse.data.user_data.answers.hair_thickness
-          ),
+          thickness: userResponse.data.user_data.answers.hair_thickness,
           texture: parseInt(userResponse.data.user_data.answers.hair_texture),
-          condition: userResponse.data.user_data.answers["hair-condition"],
-          hairGoals: userResponse.data.user_data.answers["hair-goals"],
+          condition: userResponse.data.user_data.answers.hair_condition,
+          hairGoals: userResponse.data.user_data.answers.hair_goals,
           shampooSkeletonKey,
+          conditionerSkeletonKey,
+          thirdSkeletonKey,
           frontSelfie: userResponse.data.user_data.front_selfie
         });
+        console.log(data);
       }
       this.setState({
         data
@@ -252,23 +324,24 @@ export default class StylistPanelList extends Component {
           <h2 align="left" id="filter">
             conditions/goals:{" "}
             {this.state.filter ? (
-                      <Fade big>
-                      <span
-                style={{
-                  border: "2px solid #545454",
-                  padding: "0 7px"
-                }}
-              >
-                {this.state.filter}{" "}
+              <Fade big>
                 <span
                   style={{
-                    cursor: "pointer"
+                    border: "2px solid #545454",
+                    padding: "0 7px"
                   }}
-                  onClick={this.reset}
                 >
-                  x
+                  {this.state.filter}{" "}
+                  <span
+                    style={{
+                      cursor: "pointer"
+                    }}
+                    onClick={this.reset}
+                  >
+                    x
+                  </span>
                 </span>
-              </span></Fade>
+              </Fade>
             ) : (
               ""
             )}
@@ -294,9 +367,14 @@ export default class StylistPanelList extends Component {
                   >
                     <div>
                       {" "}
-                      DATE_TIME <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      DATE_TIME{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -307,9 +385,14 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("userCode")}
                   >
                     <div>
-                      NAME <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      NAME{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
 
@@ -321,9 +404,14 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("frontSelfie")}
                   >
                     <div>
-                      SELFIE <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      SELFIE{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -334,9 +422,14 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("thickness")}
                   >
                     <div>
-                      THICKNESS <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      THICKNESS{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -347,9 +440,14 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("texture")}
                   >
                     <div>
-                      TEXTURE <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      TEXTURE{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -394,7 +492,6 @@ export default class StylistPanelList extends Component {
               <div>
                 {filteredData.map(rowData => {
                   return (
-                    
                     <Link
                       style={{
                         textDecoration: "none"
