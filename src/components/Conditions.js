@@ -8,18 +8,32 @@ export default function Conditions(props) {
         style={{
           display: "flex",
           flexDirection: "column",
-          listStyle: "none",
+          listStyle: "none"
         }}
       >
-        <li onClick={props.handleChange}>bleached</li>
+        <li key="bleached" onClick={props.handleChange}>
+          bleached
+        </li>
         {/* <li onClick={props.handleChange}>permed</li> */}
-        <li onClick={props.handleChange}>color-treated-highlights</li>
-        <li onClick={props.handleChange}>chemically-treated</li>
-        <li onClick={props.handleChange}>chemically-straightened</li>
-        <li onClick={props.handleChange}>split-ends</li>
-        <li onClick={props.handleChange}>frequent-heat-styling-tools</li>
-        <li onClick={props.handleChange}>none</li>
-        
+        <li key="color-treated-highlights" onClick={props.handleChange}>
+          color-treated-highlights
+        </li>
+        <li key="chemically-treated" onClick={props.handleChange}>
+          chemically-treated
+        </li>
+        <li key="chemically-straightened" onClick={props.handleChange}>
+          chemically-straightened
+        </li>
+        <li key="split-ends" onClick={props.handleChange}>
+          split-ends
+        </li>
+        <li key="frequent-heat-styling-tools" onClick={props.handleChange}>
+          frequent-heat-styling-tools
+        </li>
+        <li key="none" onClick={props.handleChange}>
+          none
+        </li>
+
         <br />
       </ul>
     </div>

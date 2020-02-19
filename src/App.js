@@ -9,7 +9,6 @@ import StylistPanelList from "./components/StylistPanelList";
 import StylistPanelCustomer from "./components/StylistPanelCustomer";
 
 // Assets
-import bespokeImg from "./assets/bespoke-beta.svg";
 import fekkaiLogo from "./assets/fekkai-logo.png";
 // Helper functions
 import { getProfile } from "./services/apiService";
@@ -232,12 +231,11 @@ class App extends React.Component {
               {/* <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
                 RECO
               </p> */}
-              <p style={{ marginBottom: 0,  }}>
+              <p style={{ marginBottom: 0 }}>
                 // STYLIST / <u>ORDER</u>
               </p>
-              
-<button>LOGOUT</button>
 
+              {/* <button>LOGOUT</button> */}
             </header>
           </Fade>
         </div>

@@ -1,24 +1,41 @@
-// .img:hover {
-// //   position: absolute;
-//   transform: scale(2);
-// //   right: 30px;
-// //   bottom: 30px;
-// //   width: 100px
-// }
-
-.image {
-  display: inline-block;
-  // width: 100px;
-  height: auto;
+.MuiCardContent-root {
+  padding: 0;
 }
-img {
-  width: 100%;
-  // height: 100%;
-  display: inline-block;
-}
-#modal {
-  display: none;
-  position: absolute;
-  width: 500px;
-  height: auto;
+.card-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px;
+  .locale-name {
+    display: flex;
+    justify-content: center;
+    font-size: 15x;
+    flex: 0.7;
+    padding: 0.2rem 0.4em;
+  }
+  .image {
+    display: inline-block;
+    font-size: 15px;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    height: auto;
+    #modal {
+      display: none;
+      position: absolute;
+      width: 500px;
+      height: auto;
+    }
+    #selfie {
+      width: 50%;
+      border-radius: 17px;
+      display: inline-block;
+    }
+  }
+  .user-attributes {
+    font-size: 15px;
+    text-align: center;
+    padding: 0.2rem 0.4em;
+  }
 }

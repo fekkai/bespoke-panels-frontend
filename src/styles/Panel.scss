@@ -73,68 +73,19 @@ button {
     }
   }
   .list-header {
+    display: flex;
+    position: sticky;
+    border-radius: 7px;
+    border: none;
     margin-top: 20px;
     color: white;
     background-color: rgb(84, 84, 84);
     text-align: center;
-    div {
+    width: 100%;
+    top: 0 div {
       cursor: pointer;
     }
   }
-}
-
-
-//ipad
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  .table {
-    font-family: "urwdin-regular";
-    margin: 1em;
-    display: flex;
-    flex-direction: column;
-    padding-top: 0;
-    // opacity: 0;
-    -webkit-animation: fadein 0.8s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 0.8s; /* Firefox < 16 */
-    -ms-animation: fadein 0.8s; /* Internet Explorer */
-    -o-animation: fadein 0.8s; /* Opera < 12.1 */
-    animation: fadein 0.8s;
-    label {
-      margin: 10px;
-      textarea:focus,
-      input {
-        border-bottom: 1px solid black;
-      }
-      input:focus {
-        outline: none;
-      }
-    }
-    .list-header,
-    .row {
-      color: #000000;
-      display: flex;
-      font-size: 16px;
-      div {
-        flex: 1;
-        padding: 0.2rem 0.4em;
-        border: 1px solid rgb(84, 84, 84);
-      }
-    }
-    .list-header {
-      color: white;
-      background-color: rgb(84, 84, 84);
-      text-align: center;
-      div {
-        cursor: pointer;
-      }
-      span {
-        font-size: 11px;
-      }
-    }
-    .body {
-      padding: 20px 0;
-    }
-  }
-
 }
 
 .carousel .slider-wrapper.axis-horizontal .slider .slide .selected {
@@ -330,11 +281,11 @@ li {
   // left: 0;
   width: 14%;
   z-index: 2;
-  -webkit-animation: fadein .4s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein .4s; /* Firefox < 16 */
-  -ms-animation: fadein .4s; /* Internet Explorer */
-  -o-animation: fadein .4s; /* Opera < 12.1 */
-  animation: fadein .4s;
+  -webkit-animation: fadein 0.4s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 0.4s; /* Firefox < 16 */
+  -ms-animation: fadein 0.4s; /* Internet Explorer */
+  -o-animation: fadein 0.4s; /* Opera < 12.1 */
+  animation: fadein 0.4s;
 }
 ul {
   list-style: none;
@@ -350,7 +301,6 @@ li:hover {
 }
 
 #filter {
-
   -webkit-animation: conditionalOpen; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: conditionalOpen; /* Firefox < 16 */
   -ms-animation: conditionalOpen; /* Internet Explorer */
@@ -455,5 +405,57 @@ li:hover {
   }
   to {
     transform: scaleY(0);
+  }
+}
+
+//ipad
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .table {
+    font-family: "urwdin-regular";
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0;
+    // opacity: 0;
+    -webkit-animation: fadein 0.8s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadein 0.8s; /* Firefox < 16 */
+    -ms-animation: fadein 0.8s; /* Internet Explorer */
+    -o-animation: fadein 0.8s; /* Opera < 12.1 */
+    animation: fadein 0.8s;
+    label {
+      margin: 10px;
+      textarea:focus,
+      input {
+        border-bottom: 1px solid black;
+      }
+      input:focus {
+        outline: none;
+      }
+    }
+    .list-header,
+    .row {
+      color: #000000;
+      display: flex;
+      font-size: 16px;
+      div {
+        flex: 1;
+        padding: 0.2rem 0.4em;
+        border: 1px solid rgb(84, 84, 84);
+      }
+    }
+    .list-header {
+      color: white;
+      background-color: rgb(84, 84, 84);
+      text-align: center;
+      div {
+        cursor: pointer;
+      }
+      span {
+        font-size: 11px;
+      }
+    }
+    .body {
+      padding: 20px 0;
+    }
   }
 }

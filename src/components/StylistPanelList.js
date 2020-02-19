@@ -3,7 +3,6 @@ import React, { Component } from "react";
 //components
 import Conditions from "./Conditions";
 import Goals from "./Goals";
-
 import { Row } from "./common";
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
@@ -69,21 +68,13 @@ export default class StylistPanelList extends Component {
 
   fetchOrders = async () => {
     try {
-      // let response = await axios("https://chat-quiz-backend.herokuapp.com/");
-      // response = JSON.parse(JSON.stringify(response));
-      // const data = [];
-      // for (let userCode of response.data.slice(0, 35)) {
-      //   let userResponse = await axios.get(
-      //     `https://fekk.ai/backend/get_formula?user_code=${userCode.user_code}`
-      //   );
-
       let response = await axios(
         "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
       );
       response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 30, response.data.length)
+        .slice(response.data.length - 500, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -92,11 +83,6 @@ export default class StylistPanelList extends Component {
         const conditionerScores = [];
         const thirdScores = [];
         const skeletons = [
-          // "volume1",
-          // "colorprotect1",
-          // "moisture1",
-          // "repair1",
-          // "smooth1",
           "moi1_SH",
           "moi1_CN",
           "moi1_TH",
@@ -112,21 +98,20 @@ export default class StylistPanelList extends Component {
           "bl1_SH",
           "bl1_TH"
         ];
-        let shampooSkeletonKey;
-        let shampooSkeletonValue;
-        let conditionerSkeletonKey;
-        let conditionerSkeletonValue;
-        let thirdSkeletonKey;
-        let thirdSkeletonValue;
-        console.log(userResponse.data.user_data.compute);
 
         // sort shampoo scores
-        if (userResponse.data.user_data.compute === false) {
-          data.push({
-            userCode: userCode.user_code,
-            locale: userCode.created || userCode.updated
-          });
-        } else {
+        if (userResponse.data.user_data.compute === true) {
+          let shampooKey;
+          let conditionerKey;
+          let thirdKey;
+          let shampooValue;
+          let conditionerValue;
+          let thirdValue;
+          // data.push({
+          //   userCode: userCode.user_code,
+          //   locale: userCode.created || userCode.updated
+          // });
+          // } else {
           for (let key in userResponse.data.ingredients.master.formula) {
             if (key.includes("SH") && skeletons.indexOf(key) > -1) {
               // indexOf returns first index where an element can be found. -1 is not present.
@@ -140,8 +125,8 @@ export default class StylistPanelList extends Component {
                 userResponse.data.ingredients.master.formula[key] &&
               key.includes("SH")
             ) {
-              shampooSkeletonKey = key;
-              shampooSkeletonValue =
+              shampooKey = key;
+              shampooValue =
                 userResponse.data.ingredients.master.formula[key];
             }
           }
@@ -161,8 +146,8 @@ export default class StylistPanelList extends Component {
                 userResponse.data.ingredients.master.formula[key] &&
               key.includes("CN")
             ) {
-              conditionerSkeletonKey = key;
-              conditionerSkeletonValue =
+              conditionerKey = key;
+              conditionerValue =
                 userResponse.data.ingredients.master.formula[key];
             }
           }
@@ -181,14 +166,14 @@ export default class StylistPanelList extends Component {
                 userResponse.data.ingredients.master.formula[key] &&
               key.includes("TH")
             ) {
-              thirdSkeletonKey = key;
-              thirdSkeletonValue =
+              thirdKey = key;
+              thirdValue =
                 userResponse.data.ingredients.master.formula[key];
             }
           }
           thirdScores.sort((a, b) => b - a);
-          console.log(userResponse.data.user_data.answers.name);
           data.push({
+            id: userResponse.data._id,
             userCode: userCode.user_code,
             locale: userCode.created || userCode.updated,
             name: userResponse.data.user_data.name,
@@ -206,25 +191,12 @@ export default class StylistPanelList extends Component {
               userResponse.data.user_data.weather.scores.water_hardness,
             humidity: userResponse.data.user_data.weather.scores.humidity,
             windSpeed: userResponse.data.user_data.weather.scores.wind_speed,
-            shampooSkeletonKey,
-            conditionerSkeletonKey,
-            thirdSkeletonKey,
+            shampooKey,
+            conditionerKey,
+            thirdKey,
             frontSelfie: userResponse.data.user_data.front_selfie
           });
-          console.log(data);
         }
-
-        // console.log(
-        //   userCode.user_code,
-        //   userCode.created || userCode.updated,
-        //   userResponse.data.user_data.answers.hair_thickness,
-        //   parseInt(userResponse.data.user_data.answers.hair_texture),
-        //   userResponse.data.user_data.answers.hair_condition,
-        //   userResponse.data.user_data.answers.hair_goals,
-        //   shampooSkeletonKey,
-        //   conditionerSkeletonKey,
-        //   userResponse.data.user_data.front_selfie
-        // );
       }
       this.setState({
         data
@@ -274,8 +246,6 @@ export default class StylistPanelList extends Component {
       conditionOpen: false,
       goalsOpen: false
     });
-
-    console.log(e.target.innerText);
   };
 
   reset = e => {
@@ -284,8 +254,6 @@ export default class StylistPanelList extends Component {
       conditionOpen: false,
       goalsOpen: false
     });
-
-    console.log(e.target.innerText);
   };
 
   handleConditionBtn = () => {
@@ -325,10 +293,9 @@ export default class StylistPanelList extends Component {
 
   render() {
     const { filter, data, ascending } = this.state;
-
     const filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
-        key !== "frontSelfie"
+        key === "condition" || key === "hairGoals"
           ? item[key]
               .toString()
               .toLocaleLowerCase()
@@ -370,13 +337,7 @@ export default class StylistPanelList extends Component {
               {!this.state.loading ? (
                 <div
                   className="list-header"
-                  style={{
-                    display: "flex",
-                    position: "sticky",
-                    width: "100%",
-                    top: 0
-                  }}
-                >
+                                 >
                   <div
                     style={{
                       flex: 0.7,
@@ -512,6 +473,7 @@ export default class StylistPanelList extends Component {
                 {filteredData.map(rowData => {
                   return (
                     <Link
+                      key={rowData.id}
                       style={{
                         textDecoration: "none"
                       }}
@@ -534,10 +496,10 @@ export default class StylistPanelList extends Component {
                           waterHardness: rowData.waterHardness,
                           humidity: rowData.humidity,
                           windSpeed: rowData.windSpeed,
-                          shampooSkeletonKey: rowData.shampooSkeletonKey,
-                          conditionerSkeletonKey:
-                            rowData.conditionerSkeletonKey,
-                          thirdSkeletonKey: rowData.thirdSkeletonKey,
+                          shampooKey: rowData.shampooKey,
+                          conditionerKey:
+                            rowData.conditionerKey,
+                          thirdKey: rowData.thirdKey,
                           frontSelfie: rowData.frontSelfie
                         }
                       }}

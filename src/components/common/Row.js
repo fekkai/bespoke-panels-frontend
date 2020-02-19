@@ -1,10 +1,6 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import $ from "jquery";
-import Typography from "@material-ui/core/Typography";
-import ReactImageMagnify from "react-image-magnify";
 
 import { makeStyles } from "@material-ui/core/styles";
 import "../../styles/Row.scss";
@@ -13,12 +9,14 @@ const useStyles = makeStyles({
   bullet: {
     display: "inline-block",
     margin: "0 2px",
-    transform: "scale(0.8)"
+    transform: "scale(0.8)",
+    padding: 0
   },
   title: {
     fontSize: 15,
     color: `#000000`,
-    fontFamily: "urwdin-regular"
+    fontFamily: "urwdin-regular",
+    padding: 0
   },
   pos: {
     marginBottom: 12
@@ -35,9 +33,6 @@ Date.prototype.addDays = function(days) {
 export const Row = ({
   date,
   dueDate,
-  orderId,
-  userCode,
-  customerName,
   name,
   email,
   locale,
@@ -45,9 +40,7 @@ export const Row = ({
   texture,
   condition,
   hairGoals,
-  frontSelfie,
-  shampooSkeletonKey,
-  shampooFormula
+  frontSelfie
 }) => {
   dueDate = new Date(date)
     .addDays(2)
@@ -56,109 +49,67 @@ export const Row = ({
 
   const classes = useStyles();
 
-  const modal = $("#modal");
-  $(function() {
-    var currentMousePos = { x: -1, y: -1 };
-    $(document).mousemove(function(event) {
-      currentMousePos.x = event.pageX;
-      currentMousePos.y = event.pageY;
-      if ($("#modal").css("display") != "none") {
-        $("#modal").css({
-          top: currentMousePos.y - 100,
-          left: currentMousePos.x + 50
-        });
-      }
-    });
-    $(".image").on("mouseover", function() {
-      var image = $(this).find("img");
-      var modal = $("#modal");
-      $(modal).html(image.clone());
-      $(modal).css({
-        top: currentMousePos.y,
-        left: currentMousePos.x + 12
-      });
-      $(modal).show();
-    });
-    $(".image").on("mouseleave", function() {
-      $(modal).hide();
-    });
-  });
+  // hover img zoom
+  // const modal = $("#modal");
+  // $(function() {
+  //   var currentMousePos = { x: -1, y: -1 };
+  //   $(document).mousemove(function(event) {
+  //     currentMousePos.x = event.pageX;
+  //     currentMousePos.y = event.pageY;
+  //     if ($("#modal").css("display") != "none") {
+  //       $("#modal").css({
+  //         top: currentMousePos.y - 100,
+  //         left: currentMousePos.x + 50
+  //       });
+  //     }
+  //   });
+  //   $(".image").on("mouseover", function() {
+  //     var image = $(this).find("img");
+  //     var modal = $("#modal");
+  //     $(modal).html(image.clone());
+  //     $(modal).css({
+  //       top: currentMousePos.y,
+  //       left: currentMousePos.x + 12
+  //     });
+  //     $(modal).show();
+  //   });
+  //   $(".image").on("mouseleave", function() {
+  //     $(modal).hide();
+  //   });
+  // });
 
   return (
     <div>
       <Card
-        className={classes.card}
+        // className={classes.card}
         style={{
           overflowX: "hidden",
           overflowY: "auto",
           marginBottom: `${5}px`
         }}
       >
-        <CardContent
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: 0
-          }}
-        >
-          <p
-            className={classes.title}
-            color="textSecondary"
-            style={{
-              fontSize: "15x",
-              flex: 0.7,
-              padding: "0.2rem 0.4em"
-            }}
-          >
+        <div className="card-content">
+          <div className="locale-name" color="textSecondary">
             {new Date(locale).toLocaleString("en-US", {
               timeZone: "America/New_York"
             })}
-          </p>
-          <p
-            style={{
-              fontSize: "15px",
-              flex: 0.7,
-              padding: "0.2rem 0.4em"
-            }}
-            className={classes.title}
-            color="textSecondary"
-          >
-            {/* {userCode} */}
-            {name ? name : 'n/a'}
-          </p>
-          <div
-            className="image"
-            style={{
-              fontSize: "15px",
-
-              display: "flex",
-              flex: 1,
-              justifyContent: "center"
-            }}
-          >
+          </div>
+          <div className="locale-name" color="textSecondary">
+            {name ? name : "n/a"}
+          </div>
+          <div className="image">
             {frontSelfie ? (
-              <img
-                style={{
-                  width: "50%",
-                  borderRadius: "17px"
-                }}
-                src={frontSelfie}
-              />
+              <img id="selfie" alt={frontSelfie} src={frontSelfie} />
             ) : (
               "n/a"
             )}
             <div id="modal"></div>
           </div>
-          <p
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
-              flex: 0.8,
-              padding: "0.2rem 0.4em"
+              flex: 0.8
             }}
-            className={classes.title}
             color="textSecondary"
           >
             {" "}
@@ -181,15 +132,12 @@ export const Row = ({
               : ""}
                */}
             {!thickness ? "n/a" : thickness}
-          </p>
-          <p
+          </div>
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
-              flex: 0.6,
-              padding: "0.2rem 0.4em"
+              flex: 0.6
             }}
-            className={classes.title}
             color="textSecondary"
           >
             {texture
@@ -203,16 +151,13 @@ export const Row = ({
                 ? "coily"
                 : ""
               : "n/a"}
-          </p>
-          <p
+          </div>
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
               flex: 1,
-              padding: "0.2rem 0.4em",
               lineHeight: "24px"
             }}
-            className={classes.title}
             color="textSecondary"
           >
             {!condition
@@ -221,25 +166,22 @@ export const Row = ({
               ? "none"
               : condition.map(e => {
                   return (
-                    <div>
+                    <div key={e}>
                       {e} <br />
                     </div>
                   );
                 })}
-          </p>
-          <p
+          </div>
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
               flex: 1,
-              padding: "0.2rem 0.4em",
               lineHeight: "24px"
             }}
-            className={classes.title}
             color="textSecondary"
           >
             {!hairGoals ? "n/a" : hairGoals ? hairGoals.join(", ") : ""}
-          </p>
+          </div>
 
           <br />
           {/* {shampooSkeletonKey
@@ -266,8 +208,7 @@ export const Row = ({
             {status}
             <br />
           </Typography> */}
-        </CardContent>
-        {/* <CardActions></CardActions> */}
+        </div>
       </Card>
     </div>
   );
