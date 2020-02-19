@@ -83,7 +83,7 @@ export default class StylistPanelList extends Component {
       response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 100, response.data.length)
+        .slice(response.data.length - 30, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -92,22 +92,25 @@ export default class StylistPanelList extends Component {
         const conditionerScores = [];
         const thirdScores = [];
         const skeletons = [
-          "volume1",
-          "colorprotect1",
-          "moisture1",
-          "repair1",
-          "smooth1",
+          // "volume1",
+          // "colorprotect1",
+          // "moisture1",
+          // "repair1",
+          // "smooth1",
           "moi1_SH",
           "moi1_CN",
-          "rep1_SH",
-          "rep1_CN",
           "moi1_TH",
+          "col1_SH",
+          "col1_CN",
+          "col1_TH",
           "vol1_SH",
           "vol1_CN",
           "vol1_TH",
-          "col1_SH",
-          "col1_CN",
-          "col1_TH"
+          "rep1_SH",
+          "rep1_CN",
+          "rep1_TH",
+          "bl1_SH",
+          "bl1_TH"
         ];
         let shampooSkeletonKey;
         let shampooSkeletonValue;
@@ -192,8 +195,17 @@ export default class StylistPanelList extends Component {
             email: userResponse.data.user_data.email,
             thickness: userResponse.data.user_data.answers.hair_thickness,
             texture: parseInt(userResponse.data.user_data.answers.hair_texture),
+            hairColor: userResponse.data.user_data.answers.hair_color,
             condition: userResponse.data.user_data.answers.hair_condition,
             hairGoals: userResponse.data.user_data.answers.hair_goals,
+            length: userResponse.data.user_data.answers.hair_length,
+            city: userResponse.data.user_data.weather.city,
+            uvRisk: userResponse.data.user_data.weather.scores.uv_risk,
+            airQuality: userResponse.data.user_data.weather.scores.air_quality,
+            waterHardness:
+              userResponse.data.user_data.weather.scores.water_hardness,
+            humidity: userResponse.data.user_data.weather.scores.humidity,
+            windSpeed: userResponse.data.user_data.weather.scores.wind_speed,
             shampooSkeletonKey,
             conditionerSkeletonKey,
             thirdSkeletonKey,
@@ -508,7 +520,25 @@ export default class StylistPanelList extends Component {
                         state: {
                           userCode: rowData.userCode,
                           name: rowData.name,
-                          locale: rowData.locale
+                          locale: rowData.locale,
+                          email: rowData.email,
+                          thickness: rowData.thickness,
+                          texture: rowData.texture,
+                          hairColor: rowData.hairColor,
+                          condition: rowData.condition,
+                          hairGoals: rowData.hairGoals,
+                          length: rowData.length,
+                          city: rowData.city,
+                          uvRisk: rowData.uvRisk,
+                          airQuality: rowData.airQuality,
+                          waterHardness: rowData.waterHardness,
+                          humidity: rowData.humidity,
+                          windSpeed: rowData.windSpeed,
+                          shampooSkeletonKey: rowData.shampooSkeletonKey,
+                          conditionerSkeletonKey:
+                            rowData.conditionerSkeletonKey,
+                          thirdSkeletonKey: rowData.thirdSkeletonKey,
+                          frontSelfie: rowData.frontSelfie
                         }
                       }}
                     >

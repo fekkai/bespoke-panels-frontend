@@ -59,48 +59,47 @@ export default class StylistPanelCustomer extends Component {
       // https://fekk.ai/backend/get_formula?user_code=
       `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${this.props.location.state.userCode}`
     );
-    console.log(userResponse.data.ingredients.shampoo.formula);
     await this.setState({
       loading: false,
-      thickness: parseInt(userResponse.data.user_data.answers.hair_thickness),
+      thickness: userResponse.data.user_data.answers.hair_thickness,
       texture: parseInt(userResponse.data.user_data.answers.hair_texture),
       length: parseInt(userResponse.data.user_data.answers.hair_length),
-      condition: userResponse.data.user_data.answers["hair-condition"],
-      hairGoals: userResponse.data.user_data.answers["hair-goals"],
+      condition: userResponse.data.user_data.answers.hair_condition,
+      hairGoals: userResponse.data.user_data.answers.hair_goals,
       zip: userResponse.data.user_data.answers.zipcode
         ? userResponse.data.user_data.answers.zipcode
-        : "N/A",
+        : "n/a",
       city: !userResponse.data.user_data.weather
-        ? "N/A"
+        ? "n/a"
         : userResponse.data.user_data.weather.city,
       uvRisk: !userResponse.data.user_data.weather
-        ? "N/A"
+        ? "n/a"
         : userResponse.data.user_data.weather.scores.uv_risk.score
         ? userResponse.data.user_data.weather.scores.uv_risk.score
         : userResponse.data.user_data.weather.scores.uv_risk,
       airQuality: !userResponse.data.user_data.weather
-        ? "N/A"
+        ? "n/a"
         : userResponse.data.user_data.weather.scores.air_quality.score
         ? userResponse.data.user_data.weather.scores.air_quality.score
         : userResponse.data.user_data.weather.scores.air_quality,
       waterHardness: !userResponse.data.user_data.weather
-        ? "N/A"
+        ? "n/a"
         : userResponse.data.user_data.weather.scores.water_hardness.score
         ? userResponse.data.user_data.weather.scores.water_hardness.score
         : userResponse.data.user_data.weather.scores.water_hardness,
       humidity: !userResponse.data.user_data.weather
-        ? "N/A"
+        ? "n/a"
         : userResponse.data.user_data.weather.scores.humidity.score
         ? userResponse.data.user_data.weather.scores.humidity.score
         : userResponse.data.user_data.weather.scores.humidity,
       windSpeed: !userResponse.data.user_data.weather
-        ? "N/A"
+        ? "n/a"
         : userResponse.data.user_data.weather.scores.wind_speed.score
         ? userResponse.data.user_data.weather.scores.wind_speed.score
         : userResponse.data.user_data.weather.scores.wind_speed,
-      frontSelfie: userResponse.data.user_data.front_selfie,
-      shampooFormula: userResponse.data.ingredients.shampoo.formula,
-      conditionerFormula: userResponse.data.ingredients.conditioner.formula
+      frontSelfie: userResponse.data.user_data.front_selfie
+      // shampooFormula: userResponse.data.ingredients.master.formula,
+      // conditionerFormula: userResponse.data.ingredients.master.formula
       // recoFormula: userResponse.data.ingredients.reco.formula
     });
   };
@@ -112,11 +111,22 @@ export default class StylistPanelCustomer extends Component {
     const shampooScores = [];
     const conditionerScores = [];
     const skeletons = [
-      "volume1",
-      "colorprotect1",
-      "moisture1",
-      "repair1",
-      "blond1"
+      // "volume1",
+      // "colorprotect1",
+      // "moisture1",
+      // "repair1",
+      // "blond1"
+      "moi1_SH",
+      "moi1_CN",
+      "rep1_SH",
+      "rep1_CN",
+      "moi1_TH",
+      "vol1_SH",
+      "vol1_CN",
+      "vol1_TH",
+      "col1_SH",
+      "col1_CN",
+      "col1_TH"
     ];
     let shampooSkeletonKey;
     let shampooSkeletonValue;
@@ -162,21 +172,27 @@ export default class StylistPanelCustomer extends Component {
 
   render() {
     const {
+      userCode,
+      name,
+      locale,
+      email,
       thickness,
       texture,
       condition,
       hairGoals,
+      hairColor,
       length,
       city,
-      frontSelfie,
       uvRisk,
       airQuality,
       waterHardness,
       humidity,
-      windSpeed
-    } = this.state;
-
-    const { userCode, locale } = this.props.location.state;
+      windSpeed,
+      shampooSkeletonKey,
+      conditionerSkeletonKey,
+      thirdSkeletonKey,
+      frontSelfie
+    } = this.props.location.state;
     return (
       <div>
         <Link to="/stylist-panel-list">
@@ -211,7 +227,7 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Selfie</div>
               <div className="info-container info-container2">
                 THICKNESS:{" "}
-                {thickness
+                {/* {thickness
                   ? thickness === 1
                     ? "finest"
                     : "" || thickness === 2
@@ -227,7 +243,8 @@ export default class StylistPanelCustomer extends Component {
                     : "" || thickness === 7
                     ? "thickest"
                     : ""
-                  : ""}
+                  : ""} */}
+                {!thickness ? "n/a" : thickness}
                 <br />
                 <br />
                 TEXTURE:{" "}
@@ -241,7 +258,27 @@ export default class StylistPanelCustomer extends Component {
                     : "" || texture === 4
                     ? "coily"
                     : ""
-                  : "N/A"}
+                  : "n/a"}
+                <br />
+                <br />
+                COLOR:{" "}
+                {hairColor
+                  ? hairColor === 1
+                    ? "blonde"
+                    : "" || hairColor === 2
+                    ? "brown"
+                    : "" || hairColor === 3
+                    ? "black"
+                    : "" || hairColor === 4
+                    ? "red"
+                    : "" || hairColor === 5
+                    ? "silver"
+                    : "" || hairColor === 6
+                    ? "rainbow"
+                    : "" || hairColor === 7
+                    ? "highlighted"
+                    : ""
+                  : "n/a"}
                 <br />
                 <br />
                 HAIR LENGTH:{" "}
@@ -255,22 +292,31 @@ export default class StylistPanelCustomer extends Component {
                     : "" || length === 4
                     ? "long"
                     : ""
-                  : "N/A"}
+                  : "n/a"}
                 <br />
                 <br />
                 CONDITION:{" "}
-                {condition === "none" ? "" : condition.join(", ")}
+                {!condition
+                  ? "n/a"
+                  : condition === "none"
+                  ? ""
+                  : condition.join(", ")}
                 <br />
                 <br />
                 MAIN GOALS:{" "}
-                {!hairGoals || hairGoals === "none" ? "" : hairGoals.join(", ")}
+                {!hairGoals || hairGoals === "none"
+                  ? "n/a"
+                  : hairGoals.join(", ")}
                 <br />
                 <br />
               </div>
 
               <div className="info-container">
-                CITY: {city} (UV: {uvRisk}; AIR QUALITY: {airQuality}; WATER PH:{" "}
-                {waterHardness}; HUMIDITY: {humidity}; WIND: {windSpeed})
+                CITY: {!city ? "n/a" : city} (UV: {!uvRisk ? "n/a" : uvRisk};
+                AIR QUALITY: {!airQuality ? "n/a" : airQuality}; WATER PH:{" "}
+                {!waterHardness ? "n/a" : waterHardness}; HUMIDITY:{" "}
+                {!humidity ? "n/a" : humidity}; WIND:{" "}
+                {!windSpeed ? "n/a" : windSpeed})
                 <br />
               </div>
 
@@ -301,17 +347,16 @@ export default class StylistPanelCustomer extends Component {
                 <br />{" "}
                 {this.state.collectionLoading ? (
                   <PulseLoader />
-                ) : this.state.shampooSkeletonKey ? (
-                  this.state.shampooSkeletonKey === "volume1" ? (
+                ) : shampooSkeletonKey ? (
+                  shampooSkeletonKey === "vol1_SH" ? (
                     "Full Blown (Lightest Weight)"
-                  ) : "" ||
-                    this.state.shampooSkeletonKey === "colorprotect1" ? (
+                  ) : "" || shampooSkeletonKey === "col1_SH" ? (
                     "Technician Color (Medium Moisture)"
-                  ) : "" || this.state.shampooSkeletonKey === "moisture1" ? (
-                    "Brilliant Shine (Medium Moisture)"
-                  ) : "" || this.state.shampooSkeletonKey === "repair1" ? (
+                  ) : "" || shampooSkeletonKey === "moi1_SH" ? (
+                    "Brilliant Gloss (Medium Moisture)"
+                  ) : "" || shampooSkeletonKey === "rep1_SH" ? (
                     "Super Strength (Strong Moisture)"
-                  ) : "" || this.state.conditionerSkeletonKey === "blond1" ? (
+                  ) : "" || shampooSkeletonKey === "bl1_SH" ? (
                     "Baby Blonde (Medium Moisture)"
                   ) : (
                     ""
@@ -325,19 +370,15 @@ export default class StylistPanelCustomer extends Component {
                 <br />{" "}
                 {this.state.collectionLoading ? (
                   <PulseLoader />
-                ) : this.state.conditionerSkeletonKey ? (
-                  this.state.conditionerSkeletonKey === "volume1" ? (
+                ) : conditionerSkeletonKey ? (
+                  conditionerSkeletonKey === "vol1_CN" ? (
                     "Full Blown (Lightest Weight)"
-                  ) : "" ||
-                    this.state.conditionerSkeletonKey === "colorprotect1" ? (
+                  ) : "" || conditionerSkeletonKey === "col1_CN" ? (
                     "Technician Color (Medium Moisture)"
-                  ) : "" ||
-                    this.state.conditionerSkeletonKey === "moisture1" ? (
-                    "Brilliant Shine (Medium Moisture)"
-                  ) : "" || this.state.conditionerSkeletonKey === "repair1" ? (
+                  ) : "" || conditionerSkeletonKey === "moi1_CN" ? (
+                    "Brilliant Gloss (Medium Moisture)"
+                  ) : "" || conditionerSkeletonKey === "rep1_CN" ? (
                     "Super Strength (Strong Moisture)"
-                  ) : "" || this.state.conditionerSkeletonKey === "blond1" ? (
-                    "Baby Blonde (Medium Moisture)"
                   ) : (
                     ""
                   )
@@ -350,17 +391,16 @@ export default class StylistPanelCustomer extends Component {
                 <br />{" "}
                 {this.state.collectionLoading ? (
                   <PulseLoader />
-                ) : this.state.shampooSkeletonKey ? (
-                  this.state.shampooSkeletonKey === "volume1" ? (
+                ) : thirdSkeletonKey ? (
+                  thirdSkeletonKey === "vol1_TH" ? (
                     "Full Blown (Lightest Weight)"
-                  ) : "" ||
-                    this.state.shampooSkeletonKey === "colorprotect1" ? (
+                  ) : "" || thirdSkeletonKey === "col1_TH" ? (
                     "Technician Color (Medium Moisture)"
-                  ) : "" || this.state.shampooSkeletonKey === "moisture1" ? (
-                    "Brilliant Shine (Medium Moisture)"
-                  ) : "" || this.state.shampooSkeletonKey === "repair1" ? (
+                  ) : "" || thirdSkeletonKey === "moi1_TH" ? (
+                    "Brilliant Gloss (Medium Moisture)"
+                  ) : "" || thirdSkeletonKey === "rep1_TH" ? (
                     "Super Strength (Strong Moisture)"
-                  ) : "" || this.state.shampooSkeletonKey === "blond1" ? (
+                  ) : "" || thirdSkeletonKey === "bl1_TH" ? (
                     "Baby Blonde (Medium Moisture)"
                   ) : (
                     ""

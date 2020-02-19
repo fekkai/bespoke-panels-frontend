@@ -126,7 +126,7 @@ export const Row = ({
             color="textSecondary"
           >
             {/* {userCode} */}
-            {name ? name : userCode || 'n/a'}
+            {name ? name : 'n/a'}
           </p>
           <div
             className="image"
