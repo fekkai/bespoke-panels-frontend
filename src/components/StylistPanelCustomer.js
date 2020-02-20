@@ -205,7 +205,11 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title">Customer</div>
               <div className="column-title"></div>
               <div className="column-title"></div>
-              <div className="info-container-1">USER CODE: {userCode}</div>
+              <div className="info-container-1">
+                NAME: {name}
+                <br /> <br />
+                USER CODE: {userCode}
+              </div>
               <div className="info-container-1"></div>
               <div className="info-container-1">
                 <br />
@@ -238,11 +242,11 @@ export default class StylistPanelCustomer extends Component {
                     ? "thickest"
                     : ""
                   : ""} */}
-                {!thickness ? "n/a" : thickness}
+                {thickness ? thickness : "n/a"}
                 <br />
                 <br />
                 TEXTURE:{" "}
-                {texture
+                {/* {texture
                   ? texture === 1
                     ? "straight"
                     : "" || texture === 2
@@ -252,11 +256,12 @@ export default class StylistPanelCustomer extends Component {
                     : "" || texture === 4
                     ? "coily"
                     : ""
-                  : "n/a"}
+                  : "n/a"} */}
+                {texture ? texture : "n/a"}
                 <br />
                 <br />
                 COLOR:{" "}
-                {!hairColor
+                {/* {!hairColor
                   ? ""
                   : hairColor === 1
                   ? "blonde"
@@ -272,7 +277,8 @@ export default class StylistPanelCustomer extends Component {
                   ? "rainbow"
                   : "" || hairColor === 7
                   ? "highlighted"
-                  : ""}
+                  : ""} */}
+                {hairColor ? hairColor : "n/a"}
                 <br />
                 <br />
                 HAIR LENGTH:{" "}

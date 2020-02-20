@@ -2,8 +2,6 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
-
-
 import { makeStyles } from "@material-ui/core/styles";
 import "../../styles/Row.scss";
 
@@ -142,7 +140,7 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {texture
+            {/* {texture
               ? texture === 1
                 ? "straight"
                 : "" || texture === 2
@@ -152,7 +150,8 @@ export const Row = ({
                 : "" || texture === 4
                 ? "coily"
                 : ""
-              : "n/a"}
+              : "n/a"} */}
+            {texture ? texture : "n/a"}
           </div>
           <div
             className="user-attributes"

@@ -38,6 +38,8 @@ let signedRequest = aws4.sign(request, {
 delete signedRequest.headers["Host"];
 delete signedRequest.headers["Content-Length"];
 
+const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY
+
 export default class StylistPanelList extends Component {
   constructor(props) {
     super(props);
@@ -68,12 +70,13 @@ export default class StylistPanelList extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
+        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
-      response = JSON.parse(JSON.stringify(response));
+      // response = JSON.parse(JSON.stringify(response));
+      console.log(response.data)
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 500, response.data.length)
+        .slice(response.data.length - 250, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -125,8 +128,7 @@ export default class StylistPanelList extends Component {
               key.includes("SH")
             ) {
               shampooKey = key;
-              shampooValue =
-                userResponse.data.ingredients.master.formula[key];
+              shampooValue = userResponse.data.ingredients.master.formula[key];
             }
           }
           shampooScores.sort((a, b) => b - a);
@@ -166,8 +168,7 @@ export default class StylistPanelList extends Component {
               key.includes("TH")
             ) {
               thirdKey = key;
-              thirdValue =
-                userResponse.data.ingredients.master.formula[key];
+              thirdValue = userResponse.data.ingredients.master.formula[key];
             }
           }
           thirdScores.sort((a, b) => b - a);
@@ -178,7 +179,7 @@ export default class StylistPanelList extends Component {
             name: userResponse.data.user_data.name,
             email: userResponse.data.user_data.email,
             thickness: userResponse.data.user_data.answers.hair_thickness,
-            texture: parseInt(userResponse.data.user_data.answers.hair_texture),
+            texture: userResponse.data.user_data.answers.hair_texture,
             hairColor: userResponse.data.user_data.answers.hair_color,
             condition: userResponse.data.user_data.answers.hair_condition,
             hairGoals: userResponse.data.user_data.answers.hair_goals,
@@ -334,9 +335,7 @@ export default class StylistPanelList extends Component {
           <Paper elevation={0}>
             <div className="table">
               {!this.state.loading ? (
-                <div
-                  className="list-header"
-                                 >
+                <div className="list-header">
                   <div
                     style={{
                       flex: 0.7,
@@ -496,8 +495,7 @@ export default class StylistPanelList extends Component {
                           humidity: rowData.humidity,
                           windSpeed: rowData.windSpeed,
                           shampooKey: rowData.shampooKey,
-                          conditionerKey:
-                            rowData.conditionerKey,
+                          conditionerKey: rowData.conditionerKey,
                           thirdKey: rowData.thirdKey,
                           frontSelfie: rowData.frontSelfie
                         }

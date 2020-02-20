@@ -71,17 +71,22 @@ class App extends React.Component {
 
   async componentDidMount() {
     try {
+      
       const fetchedUser = await getProfile();
       this.setState(state => {
         return {
           isSignedIn: authService.isAuthenticated(),
-          user: fetchedUser
+          user: fetchedUser,
         };
       });
     } catch (e) {
       throw e;
     }
     this.fetchOrders();
+    this.setState({
+                currentLocation: window.location.pathname
+
+    })
   }
 
   fetchOrders = async () => {
@@ -219,9 +224,10 @@ class App extends React.Component {
       hairGoals2,
       sideSelfie,
       frontSelfie,
-
+currentLocation,
       isLoading
     } = this.state;
+  
     return (
       <div className="app">
         <div id="header">
@@ -232,7 +238,7 @@ class App extends React.Component {
                 RECO
               </p> */}
               <p style={{ marginBottom: 0 }}>
-                // STYLIST / <u>ORDER</u>
+                // STYLIST / {currentLocation === '/stylist-panel-list'?<u>LIST</u>: ''}
               </p>
 
               {/* <button>LOGOUT</button> */}
