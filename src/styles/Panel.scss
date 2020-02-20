@@ -82,7 +82,8 @@ button {
     background-color: rgb(84, 84, 84);
     text-align: center;
     width: 100%;
-    top: 0 div {
+    top: 0; 
+    div {
       cursor: pointer;
     }
   }
@@ -129,11 +130,17 @@ button {
   .selfie-container {
     display: flex;
     align-items: center;
-    // flex-direction: column;
     justify-content: center;
+    margin: 0 auto;
     padding: 0;
     width: 400px;
     background: black;
+    div {
+      margin: 0 auto;
+      #selfie {
+        width: 85%;
+      }
+    }
   }
 }
 .section {
