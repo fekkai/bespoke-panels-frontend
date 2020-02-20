@@ -320,16 +320,15 @@ export default class StylistPanelCustomer extends Component {
                 <br />
               </div>
 
-              <div className="selfie-container" style={{ margin: `${0} auto` }}>
+              <div className="selfie-container">
                 <Carousel
-                  style={{ margin: `${0} auto` }}
                   showThumbs={false}
                   showIndicators={false}
                 >
-                  <div style={{ margin: `${0} auto` }}>
+                  <div>
                     <img
+                    id='selfie'
                       alt={frontSelfie}
-                      style={{ width: `${85}%` }}
                       src={frontSelfie}
                     />
                   </div>
