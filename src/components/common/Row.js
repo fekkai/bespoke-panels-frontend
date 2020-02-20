@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import $ from "jquery";
 
 import { makeStyles } from "@material-ui/core/styles";
 import "../../styles/Row.scss";
@@ -10,12 +9,14 @@ const useStyles = makeStyles({
   bullet: {
     display: "inline-block",
     margin: "0 2px",
-    transform: "scale(0.8)"
+    transform: "scale(0.8)",
+    padding: 0
   },
   title: {
     fontSize: 15,
     color: `#000000`,
-    fontFamily: "urwdin-regular"
+    fontFamily: "urwdin-regular",
+    padding: 0
   },
   pos: {
     marginBottom: 12
@@ -32,25 +33,22 @@ Date.prototype.addDays = function(days) {
 export const Row = ({
   date,
   dueDate,
-  orderId,
-  userCode,
-  customerName,
+  name,
+  email,
   locale,
   thickness,
   texture,
   condition,
   hairGoals,
-  frontSelfie,
-  shampooSkeletonKey,
-  shampooFormula
+  frontSelfie
 }) => {
   dueDate = new Date(date)
     .addDays(2)
     .toLocaleString("en-US", { timeZone: "America/New_York" })
     .split(",")[0];
-
   const classes = useStyles();
 
+  // hover img zoom
   // const modal = $("#modal");
   // $(function() {
   //   var currentMousePos = { x: -1, y: -1 };
@@ -78,84 +76,43 @@ export const Row = ({
   //     $(modal).hide();
   //   });
   // });
+
   return (
     <div>
       <Card
-        className={classes.card}
+        // className={classes.card}
         style={{
           overflowX: "hidden",
           overflowY: "auto",
           marginBottom: `${5}px`
         }}
       >
-        <CardContent
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: 0
-          }}
-        >
-          <p
-            className={classes.title}
-            color="textSecondary"
-            style={{
-              fontSize: "15x",
-              flex: 0.7,
-              padding: "0.2rem 0.4em"
-            }}
-          >
+        <div className="card-content">
+          <div className="locale-name" color="textSecondary">
             {new Date(locale).toLocaleString("en-US", {
               timeZone: "America/New_York"
             })}
-          </p>
-          <p
-            style={{
-              fontSize: "15px",
-              flex: 0.7,
-              padding: "0.2rem 0.4em"
-            }}
-            className={classes.title}
-            color="textSecondary"
-          >
-            {/* {userCode} */}
-          </p>
-          <div
-            className="image"
-            style={{
-              fontSize: "15px",
-
-              display: "flex",
-              flex: 1,
-              justifyContent: "center"
-            }}
-          >
+          </div>
+          <div className="locale-name" color="textSecondary">
+            {name ? name : "n/a"}
+          </div>
+          <div className="image">
             {frontSelfie ? (
-              <img
-                style={{
-                  width: "50%",
-                  borderRadius: "17px"
-                }}
-                src={frontSelfie}
-              />
+              <img id="selfie" alt={frontSelfie} src={frontSelfie} />
             ) : (
               "n/a"
             )}
             <div id="modal"></div>
           </div>
-          <p
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
-              flex: 0.8,
-              padding: "0.2rem 0.4em"
+              flex: 0.8
             }}
-            className={classes.title}
             color="textSecondary"
           >
             {" "}
-            {thickness
+            {/* {thickness
               ? thickness === 1
                 ? "finest"
                 : "" || thickness === 2
@@ -172,63 +129,60 @@ export const Row = ({
                 ? "thickest"
                 : ""
               : ""}
-          </p>
-          <p
+               */}
+            {!thickness ? "n/a" : thickness}
+          </div>
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
-              flex: 0.6,
-              padding: "0.2rem 0.4em"
+              flex: 0.6
             }}
-            className={classes.title}
             color="textSecondary"
           >
-            {texture
-              ? texture === 1
+            {typeof texture === "number"
+              ? texture === 1 || "1"
                 ? "straight"
-                : "" || texture === 2
+                : "" || texture === "2" || 2
                 ? "wavy"
                 : "" || texture === 3
                 ? "curly"
                 : "" || texture === 4
                 ? "coily"
                 : ""
+              : typeof texture === "string"
+              ? texture
               : "n/a"}
-          </p>
-          <p
+          </div>
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
               flex: 1,
-              padding: "0.2rem 0.4em",
               lineHeight: "24px"
             }}
-            className={classes.title}
             color="textSecondary"
           >
-            {condition === "none"
+            {!condition
+              ? "n/a"
+              : condition === "none"
               ? "none"
               : condition.map(e => {
                   return (
-                    <div>
+                    <div key={e}>
                       {e} <br />
                     </div>
                   );
                 })}
-          </p>
-          <p
+          </div>
+          <div
+            className="user-attributes"
             style={{
-              fontSize: "15px",
-              textAlign: "center",
               flex: 1,
-              padding: "0.2rem 0.4em",
               lineHeight: "24px"
             }}
-            className={classes.title}
             color="textSecondary"
           >
-            {hairGoals ? hairGoals.join(", ") : ""}
-          </p>
+            {!hairGoals ? "n/a" : hairGoals ? hairGoals.join(", ") : ""}
+          </div>
 
           <br />
           {/* {shampooSkeletonKey
@@ -255,8 +209,7 @@ export const Row = ({
             {status}
             <br />
           </Typography> */}
-        </CardContent>
-        {/* <CardActions></CardActions> */}
+        </div>
       </Card>
     </div>
   );

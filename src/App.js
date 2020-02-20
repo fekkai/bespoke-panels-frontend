@@ -9,7 +9,6 @@ import StylistPanelList from "./components/StylistPanelList";
 import StylistPanelCustomer from "./components/StylistPanelCustomer";
 
 // Assets
-import bespokeImg from "./assets/bespoke-beta.svg";
 import fekkaiLogo from "./assets/fekkai-logo.png";
 // Helper functions
 import { getProfile } from "./services/apiService";
@@ -76,13 +75,17 @@ class App extends React.Component {
       this.setState(state => {
         return {
           isSignedIn: authService.isAuthenticated(),
-          user: fetchedUser
+          user: fetchedUser,
         };
       });
     } catch (e) {
       throw e;
     }
     this.fetchOrders();
+    this.setState({
+                currentLocation: window.location.pathname
+
+    })
   }
 
   fetchOrders = async () => {
@@ -90,11 +93,9 @@ class App extends React.Component {
       let response = await axios.get(
         "https://bespoke-backend-db.herokuapp.com/"
       );
-      console.log(response);
       this.setState({
         orders: response.data.orders
       });
-      console.log(this.state.orders);
     } catch (error) {
       console.error(error);
     }
@@ -220,9 +221,10 @@ class App extends React.Component {
       hairGoals2,
       sideSelfie,
       frontSelfie,
-
+currentLocation,
       isLoading
     } = this.state;
+  
     return (
       <div className="app">
         <div id="header">
@@ -232,12 +234,11 @@ class App extends React.Component {
               {/* <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
                 RECO
               </p> */}
-              <p style={{ marginBottom: 0,  }}>
-                // STYLIST / <u>ORDER</u>
+              <p style={{ marginBottom: 0 }}>
+                // STYLIST / {currentLocation === '/stylist-panel-list'?<u>LIST</u>: ''}
               </p>
-              
-<button>LOGOUT</button>
 
+              {/* <button>LOGOUT</button> */}
             </header>
           </Fade>
         </div>

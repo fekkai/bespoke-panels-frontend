@@ -3,7 +3,6 @@ import React, { Component } from "react";
 //components
 import Conditions from "./Conditions";
 import Goals from "./Goals";
-
 import { Row } from "./common";
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
@@ -39,6 +38,8 @@ let signedRequest = aws4.sign(request, {
 delete signedRequest.headers["Host"];
 delete signedRequest.headers["Content-Length"];
 
+const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY;
+
 export default class StylistPanelList extends Component {
   constructor(props) {
     super(props);
@@ -68,70 +69,133 @@ export default class StylistPanelList extends Component {
 
   fetchOrders = async () => {
     try {
-      // let response = await axios("https://chat-quiz-backend.herokuapp.com/");
-      // response = JSON.parse(JSON.stringify(response));
-      // const data = [];
-      // for (let userCode of response.data.slice(0, 35)) {
-      //   let userResponse = await axios.get(
-      //     `https://fekk.ai/backend/get_formula?user_code=${userCode.user_code}`
-      //   );
-
       let response = await axios(
-        "https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f"
+        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
-      response = JSON.parse(JSON.stringify(response));
-      // console.log(response);
+      // response = JSON.parse(JSON.stringify(response));
       const data = [];
-      for (let userCode of response.data.slice(150, 211).reverse()) {
-        console.log(userCode);
+      for (let userCode of response.data
+        .slice(response.data.length - 275, response.data.length)
+        .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
         const shampooScores = [];
-
+        const conditionerScores = [];
+        const thirdScores = [];
         const skeletons = [
-          "volume1",
-          "colorprotect1",
-          "moisture1",
-          "repair1",
-          "smooth1"
+          "moi1_SH",
+          "moi1_CN",
+          "moi1_TH",
+          "col1_SH",
+          "col1_CN",
+          "col1_TH",
+          "vol1_SH",
+          "vol1_CN",
+          "vol1_TH",
+          "rep1_SH",
+          "rep1_CN",
+          "rep1_TH",
+          "bl1_SH",
+          "bl1_TH"
         ];
-        let shampooSkeletonKey;
-        let shampooSkeletonValue;
-        let conditionerSkeletonKey;
-        let conditionerSkeletonValue;
-        console.log(userResponse.data);
 
-        for (let key in userResponse.data.ingredients.shampoo.formula) {
-          if (skeletons.indexOf(key) > -1) {
-            shampooScores.push(
-              parseInt(userResponse.data.ingredients.shampoo.formula[key])
-            );
-            shampooScores.sort((a, b) => b - a);
+        // sort shampoo scores
+        if (userResponse.data.user_data.compute === true) {
+          let shampooKey;
+          let conditionerKey;
+          let thirdKey;
+          let shampooValue;
+          let conditionerValue;
+          let thirdValue;
+          // data.push({
+          //   userCode: userCode.user_code,
+          //   locale: userCode.created || userCode.updated
+          // });
+          // } else {
+          for (let key in userResponse.data.ingredients.master.formula) {
+            if (key.includes("SH") && skeletons.indexOf(key) > -1) {
+              // indexOf returns first index where an element can be found. -1 is not present.
+              shampooScores.push(
+                parseInt(userResponse.data.ingredients.master.formula[key])
+              );
+              shampooScores.sort((a, b) => b - a);
+            }
+            if (
+              shampooScores[0] ===
+                userResponse.data.ingredients.master.formula[key] &&
+              key.includes("SH")
+            ) {
+              shampooKey = key;
+              shampooValue = userResponse.data.ingredients.master.formula[key];
+            }
           }
-          if (
-            shampooScores[0] ===
-            userResponse.data.ingredients.shampoo.formula[key]
-          ) {
-            shampooSkeletonKey = key;
-            shampooSkeletonValue =
-              userResponse.data.ingredients.shampoo.formula[key];
+          shampooScores.sort((a, b) => b - a);
+
+          // sort conditioner scores
+          for (let key in userResponse.data.ingredients.master.formula) {
+            if (key.includes("CN") && skeletons.indexOf(key) > -1) {
+              // indexOf returns first index where an element can be found. -1 is not present.
+              conditionerScores.push(
+                parseInt(userResponse.data.ingredients.master.formula[key])
+              );
+              conditionerScores.sort((a, b) => b - a);
+            }
+            if (
+              conditionerScores[0] ===
+                userResponse.data.ingredients.master.formula[key] &&
+              key.includes("CN")
+            ) {
+              conditionerKey = key;
+              conditionerValue =
+                userResponse.data.ingredients.master.formula[key];
+            }
           }
+          conditionerScores.sort((a, b) => b - a);
+
+          for (let key in userResponse.data.ingredients.master.formula) {
+            if (key.includes("TH") && skeletons.indexOf(key) > -1) {
+              // indexOf returns first index where an element can be found. -1 is not present.
+              thirdScores.push(
+                parseInt(userResponse.data.ingredients.master.formula[key])
+              );
+              thirdScores.sort((a, b) => b - a);
+            }
+            if (
+              thirdScores[0] ===
+                userResponse.data.ingredients.master.formula[key] &&
+              key.includes("TH")
+            ) {
+              thirdKey = key;
+              thirdValue = userResponse.data.ingredients.master.formula[key];
+            }
+          }
+          thirdScores.sort((a, b) => b - a);
+          data.push({
+            id: userResponse.data._id,
+            userCode: userCode.user_code,
+            locale: userCode.created || userCode.updated,
+            name: userResponse.data.user_data.name,
+            email: userResponse.data.user_data.email,
+            thickness: userResponse.data.user_data.answers.hair_thickness,
+            texture: userResponse.data.user_data.answers.hair_texture,
+            hairColor: userResponse.data.user_data.answers.hair_color,
+            condition: userResponse.data.user_data.answers.hair_condition,
+            hairGoals: userResponse.data.user_data.answers.hair_goals,
+            length: userResponse.data.user_data.answers.hair_length,
+            city: userResponse.data.user_data.weather.city,
+            uvRisk: userResponse.data.user_data.weather.scores.uv_risk,
+            airQuality: userResponse.data.user_data.weather.scores.air_quality,
+            waterHardness:
+              userResponse.data.user_data.weather.scores.water_hardness,
+            humidity: userResponse.data.user_data.weather.scores.humidity,
+            windSpeed: userResponse.data.user_data.weather.scores.wind_speed,
+            shampooKey,
+            conditionerKey,
+            thirdKey,
+            frontSelfie: userResponse.data.user_data.front_selfie
+          });
         }
-        shampooScores.sort((a, b) => b - a);
-
-        data.push({
-          userCode: userCode.user_code,
-          locale: userCode.created || userCode.updated,
-          thickness: parseInt(
-            userResponse.data.user_data.answers.hair_thickness
-          ),
-          texture: parseInt(userResponse.data.user_data.answers.hair_texture),
-          condition: userResponse.data.user_data.answers["hair-condition"],
-          hairGoals: userResponse.data.user_data.answers["hair-goals"],
-          shampooSkeletonKey,
-          frontSelfie: userResponse.data.user_data.front_selfie
-        });
       }
       this.setState({
         data
@@ -181,8 +245,6 @@ export default class StylistPanelList extends Component {
       conditionOpen: false,
       goalsOpen: false
     });
-
-    console.log(e.target.innerText);
   };
 
   reset = e => {
@@ -191,8 +253,6 @@ export default class StylistPanelList extends Component {
       conditionOpen: false,
       goalsOpen: false
     });
-
-    console.log(e.target.innerText);
   };
 
   handleConditionBtn = () => {
@@ -232,11 +292,9 @@ export default class StylistPanelList extends Component {
 
   render() {
     const { filter, data, ascending } = this.state;
-
     const filteredData = data.filter(item => {
-      // console.log(data);
       return Object.keys(item).some(key =>
-        key !== "frontSelfie"
+        key === "condition" || key === "hairGoals"
           ? item[key]
               .toString()
               .toLocaleLowerCase()
@@ -251,23 +309,24 @@ export default class StylistPanelList extends Component {
           <h2 align="left" id="filter">
             conditions/goals:{" "}
             {this.state.filter ? (
-                      <Fade big>
-                      <span
-                style={{
-                  border: "2px solid #545454",
-                  padding: "0 7px"
-                }}
-              >
-                {this.state.filter}{" "}
+              <Fade big>
                 <span
                   style={{
-                    cursor: "pointer"
+                    border: "2px solid #545454",
+                    padding: "0 7px"
                   }}
-                  onClick={this.reset}
                 >
-                  x
+                  {this.state.filter}{" "}
+                  <span
+                    style={{
+                      cursor: "pointer"
+                    }}
+                    onClick={this.reset}
+                  >
+                    x
+                  </span>
                 </span>
-              </span></Fade>
+              </Fade>
             ) : (
               ""
             )}
@@ -275,15 +334,7 @@ export default class StylistPanelList extends Component {
           <Paper elevation={0}>
             <div className="table">
               {!this.state.loading ? (
-                <div
-                  className="list-header"
-                  style={{
-                    display: "flex",
-                    position: "sticky",
-                    width: "100%",
-                    top: 0
-                  }}
-                >
+                <div className="list-header">
                   <div
                     style={{
                       flex: 0.7,
@@ -293,9 +344,14 @@ export default class StylistPanelList extends Component {
                   >
                     <div>
                       {" "}
-                      DATE_TIME <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      DATE_TIME{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -303,12 +359,17 @@ export default class StylistPanelList extends Component {
                       flex: 0.7,
                       fontSize: "13px"
                     }}
-                    onClick={() => this.sortBy("userCode")}
+                    onClick={() => this.sortBy("name")}
                   >
                     <div>
-                      NAME <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      NAME{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
 
@@ -320,9 +381,14 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("frontSelfie")}
                   >
                     <div>
-                      SELFIE <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      SELFIE{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -333,9 +399,14 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("thickness")}
                   >
                     <div>
-                      THICKNESS <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      THICKNESS{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -346,9 +417,14 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("texture")}
                   >
                     <div>
-                      TEXTURE <span style={{
-                        fontSize: '9px'
-                      }}>{ascending ? "▲" : "▼"}</span>
+                      TEXTURE{" "}
+                      <span
+                        style={{
+                          fontSize: "9px"
+                        }}
+                      >
+                        {ascending ? "▲" : "▼"}
+                      </span>
                     </div>
                   </div>
                   <div
@@ -393,8 +469,8 @@ export default class StylistPanelList extends Component {
               <div>
                 {filteredData.map(rowData => {
                   return (
-                    
                     <Link
+                      key={rowData.id}
                       style={{
                         textDecoration: "none"
                       }}
@@ -402,7 +478,25 @@ export default class StylistPanelList extends Component {
                         pathname: "/stylist-panel-customer",
                         state: {
                           userCode: rowData.userCode,
-                          locale: rowData.locale
+                          name: rowData.name,
+                          locale: rowData.locale,
+                          email: rowData.email,
+                          thickness: rowData.thickness,
+                          texture: rowData.texture,
+                          hairColor: rowData.hairColor,
+                          condition: rowData.condition,
+                          hairGoals: rowData.hairGoals,
+                          length: rowData.length,
+                          city: rowData.city,
+                          uvRisk: rowData.uvRisk,
+                          airQuality: rowData.airQuality,
+                          waterHardness: rowData.waterHardness,
+                          humidity: rowData.humidity,
+                          windSpeed: rowData.windSpeed,
+                          shampooKey: rowData.shampooKey,
+                          conditionerKey: rowData.conditionerKey,
+                          thirdKey: rowData.thirdKey,
+                          frontSelfie: rowData.frontSelfie
                         }
                       }}
                     >
