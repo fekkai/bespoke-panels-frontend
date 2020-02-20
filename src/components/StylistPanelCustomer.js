@@ -341,7 +341,7 @@ export default class StylistPanelCustomer extends Component {
             <div className="stylist-panel-customer">
               <div className="column-title">SHAMPOO</div>
               <div className="column-title">CONDITIONER</div>
-              <div className="column-title">MASK</div>
+              <div className="column-title">THIRD</div>
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}

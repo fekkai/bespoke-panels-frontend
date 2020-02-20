@@ -71,7 +71,6 @@ class App extends React.Component {
 
   async componentDidMount() {
     try {
-      
       const fetchedUser = await getProfile();
       this.setState(state => {
         return {
@@ -94,11 +93,9 @@ class App extends React.Component {
       let response = await axios.get(
         "https://bespoke-backend-db.herokuapp.com/"
       );
-      console.log(response);
       this.setState({
         orders: response.data.orders
       });
-      console.log(this.state.orders);
     } catch (error) {
       console.error(error);
     }

@@ -38,7 +38,7 @@ let signedRequest = aws4.sign(request, {
 delete signedRequest.headers["Host"];
 delete signedRequest.headers["Content-Length"];
 
-const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY
+const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY;
 
 export default class StylistPanelList extends Component {
   constructor(props) {
@@ -73,10 +73,9 @@ export default class StylistPanelList extends Component {
         `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
       // response = JSON.parse(JSON.stringify(response));
-      console.log(response.data)
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 250, response.data.length)
+        .slice(response.data.length - 275, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`

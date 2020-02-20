@@ -46,7 +46,6 @@ export const Row = ({
     .addDays(2)
     .toLocaleString("en-US", { timeZone: "America/New_York" })
     .split(",")[0];
-
   const classes = useStyles();
 
   // hover img zoom
@@ -140,18 +139,19 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {/* {texture
-              ? texture === 1
+            {typeof texture === "number"
+              ? texture === 1 || "1"
                 ? "straight"
-                : "" || texture === 2
+                : "" || texture === "2" || 2
                 ? "wavy"
                 : "" || texture === 3
                 ? "curly"
                 : "" || texture === 4
                 ? "coily"
                 : ""
-              : "n/a"} */}
-            {texture ? texture : "n/a"}
+              : typeof texture === "string"
+              ? texture
+              : "n/a"}
           </div>
           <div
             className="user-attributes"
