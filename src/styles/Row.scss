@@ -7,20 +7,27 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 0px;
-  .locale-name {
+  .locale {
     display: flex;
     justify-content: center;
-    font-size: 15x;
+    font-size: 13px;
     flex: 0.7;
     padding: 0.2rem 0.4em;
   }
-  .image {
-    display: inline-block;
-    font-size: 15px;
+  .name {
     display: flex;
-    flex: 1;
+    justify-content: center;
+    font-size: 13px;
+    flex: 0.4;
+    padding: 0.2rem 0.4em;
+  }
+  .image {
+    display: flex;
+    flex: 0.7;
     justify-content: center;
     height: auto;
+    padding: 0.2rem 0.4em;
+
     #modal {
       display: none;
       position: absolute;
@@ -30,18 +37,56 @@
     #selfie {
       width: 50%;
       height: 50%;
-      border-radius: 17px;
+
+      // border-radius: 17px;
       display: inline-block;
+      padding: 2px;
     }
   }
   .user-attributes {
-    font-size: 15px;
     text-align: center;
     padding: 0.2rem 0.4em;
+    flex: 1;
+    line-height: 24px;
+    font-size: 13px;
   }
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+//ipad landscape
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .locale {
+    text-align: center;
+  }
+  .name {
+    text-align: center;
+  }
+  .image {
+    display: inline-block;
+    display: flex;
+    flex: 0.7;
+    justify-content: center;
+    height: auto;
+  }
+}
+//ipad portrait
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .card-content {
+    font-size: 11px;
+    .locale {
+      font-size: 11px;
+      text-align: center;
+    }
+    .name {
+      font-size: 11px;
+      text-align: center;
+    }
+    .image {
+      font-size: 11px;
+    }
+  }
+  .user-attributes {
+    font-size: 11px;
+  }
   #selfie {
     width: 50%;
     height: 50%;

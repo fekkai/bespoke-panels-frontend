@@ -306,7 +306,7 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <Fade>
-          <h2 align="left" id="filter">
+          <span align="left" id="filter">
             conditions/goals:{" "}
             {this.state.filter ? (
               <Fade big>
@@ -330,15 +330,14 @@ export default class StylistPanelList extends Component {
             ) : (
               ""
             )}
-          </h2>
+          </span>
           <Paper elevation={0}>
             <div className="table">
               {!this.state.loading ? (
                 <div className="list-header">
                   <div
                     style={{
-                      flex: 0.7,
-                      fontSize: "13px"
+                      flex: 0.7
                     }}
                     onClick={() => this.sortBy("locale")}
                   >
@@ -356,8 +355,7 @@ export default class StylistPanelList extends Component {
                   </div>
                   <div
                     style={{
-                      flex: 0.7,
-                      fontSize: "13px"
+                      flex: 0.4
                     }}
                     onClick={() => this.sortBy("name")}
                   >
@@ -375,8 +373,7 @@ export default class StylistPanelList extends Component {
 
                   <div
                     style={{
-                      flex: 1,
-                      fontSize: "13px"
+                      flex: 0.7
                     }}
                     onClick={() => this.sortBy("frontSelfie")}
                   >
@@ -393,8 +390,7 @@ export default class StylistPanelList extends Component {
                   </div>
                   <div
                     style={{
-                      flex: 0.8,
-                      fontSize: "13px"
+                      flex: 0.5
                     }}
                     onClick={() => this.sortBy("thickness")}
                   >
@@ -411,8 +407,7 @@ export default class StylistPanelList extends Component {
                   </div>
                   <div
                     style={{
-                      flex: 0.6,
-                      fontSize: "13px"
+                      flex: 0.5
                     }}
                     onClick={() => this.sortBy("texture")}
                   >
@@ -429,12 +424,13 @@ export default class StylistPanelList extends Component {
                   </div>
                   <div
                     className="container"
+                    id="conditions-goals"
                     style={{
                       display: "flex",
                       justifyContent: "center",
                       flexWrap: "wrap",
                       flex: 1,
-                      fontSize: "13px"
+                      
                     }}
                     ref={this.container1}
                   >
@@ -448,12 +444,12 @@ export default class StylistPanelList extends Component {
                   </div>
 
                   <div
+                    id="conditions-goals"
                     style={{
                       display: "flex",
                       justifyContent: "center",
                       flexWrap: "wrap",
                       flex: 1,
-                      fontSize: "13px"
                     }}
                     ref={this.container2}
                   >
