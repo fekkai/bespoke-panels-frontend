@@ -282,7 +282,7 @@ export default class StylistPanelCustomer extends Component {
                 <br />
                 <br />
                 HAIR LENGTH:{" "}
-                {length
+                {/* {length
                   ? length === 1
                     ? "short"
                     : "" || length === 2
@@ -292,7 +292,8 @@ export default class StylistPanelCustomer extends Component {
                     : "" || length === 4
                     ? "long"
                     : ""
-                  : "n/a"}
+                  : "n/a"} */}
+                  {length}
                 <br />
                 <br />
                 CONDITION:{" "}
