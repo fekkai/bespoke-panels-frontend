@@ -75,7 +75,7 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 275, response.data.length)
+        .slice(response.data.length - 30, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -293,7 +293,7 @@ export default class StylistPanelList extends Component {
   render() {
     const { filter, data, ascending } = this.state;
     const filteredData = data.filter(item => {
-      return Object.keys(item).some(key =>
+      return Object.keys(item).some(key => 
         key === "condition" || key === "hairGoals"
           ? item[key]
               .toString()
@@ -429,8 +429,7 @@ export default class StylistPanelList extends Component {
                       display: "flex",
                       justifyContent: "center",
                       flexWrap: "wrap",
-                      flex: 1,
-                      
+                      flex: 1
                     }}
                     ref={this.container1}
                   >
@@ -449,7 +448,7 @@ export default class StylistPanelList extends Component {
                       display: "flex",
                       justifyContent: "center",
                       flexWrap: "wrap",
-                      flex: 1,
+                      flex: 1
                     }}
                     ref={this.container2}
                   >
