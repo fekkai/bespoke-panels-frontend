@@ -19,7 +19,6 @@ import aws4 from "aws4";
 const override = css`
   display: block;
   margin: 0 auto;
-  border-color: red;
   margin-top: ${7}%;
 `;
 
@@ -293,7 +292,7 @@ export default class StylistPanelList extends Component {
   render() {
     const { filter, data, ascending } = this.state;
     const filteredData = data.filter(item => {
-      return Object.keys(item).some(key => 
+      return Object.keys(item).some(key =>
         key === "condition" || key === "hairGoals"
           ? item[key]
               .toString()
@@ -306,7 +305,7 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <Fade>
-          <span id='conditions-goals' align="left" id="filter">
+          <span align="left" id="filter">
             conditions/goals:{" "}
             {this.state.filter ? (
               <Fade big>

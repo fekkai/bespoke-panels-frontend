@@ -212,8 +212,8 @@ export default class StylistPanelCustomer extends Component {
                 <br />
                 USER CODE: {userCode}
               </div>
-              <div className="info-container-1"></div>
-              <div className="info-container-1">
+              <div className="info-container-1 hidden"></div>
+              <div className="info-container-1 hidden">
                 <br />
                 <br />
               </div>
@@ -223,8 +223,8 @@ export default class StylistPanelCustomer extends Component {
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
               <div className="column-title">CHARACTERISTICS</div>
-              <div className="column-title">PROFILE</div>
-              <div className="column-title">SELFIE</div>
+              <div className="column-title hidden">PROFILE</div>
+              <div className="column-title hidden">SELFIE</div>
               <div className="info-container info-container2">
                 THICKNESS:{" "}
                 {/* {thickness
@@ -336,9 +336,10 @@ export default class StylistPanelCustomer extends Component {
           </Paper>
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
-              <div className="column-title">SHAMPOO</div>
-              <div className="column-title">CONDITIONER</div>
-              <div className="column-title">THIRD</div>
+            <div className="column-title mobile">FORMULAS</div>
+              <div className="column-title hidden">SHAMPOO</div>
+              <div className="column-title hidden">CONDITIONER</div>
+              <div className="column-title hidden">THIRD</div>
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}

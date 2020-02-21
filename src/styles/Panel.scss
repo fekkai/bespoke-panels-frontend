@@ -100,6 +100,9 @@ button {
   margin-top: 5px;
   padding: 5px;
   font-size: 14px;
+  .mobile {
+    display: none;
+  }
   .column-title {
     text-align: center;
     background: #545454;
@@ -495,6 +498,11 @@ li:hover {
 
 // iphone x portrait
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+   .dashboard {
+    #filter {
+      display: none;
+    }
+    }
   .table {
     .list-header {
       display: none;
@@ -504,6 +512,12 @@ li:hover {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    .mobile {
+      display: grid;
+    }
+    .hidden {
+      display: none
+    }
     .selfie-container {
       width: 90%;
       div {
