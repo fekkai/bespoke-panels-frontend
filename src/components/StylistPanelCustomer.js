@@ -313,11 +313,11 @@ export default class StylistPanelCustomer extends Component {
               </div>
 
               <div className="info-container">
-                CITY: {!city ? "n/a" : city} (UV: {!uvRisk ? "n/a" : uvRisk};
-                AIR QUALITY: {!airQuality ? "n/a" : airQuality}; WATER PH:{" "}
-                {!waterHardness ? "n/a" : waterHardness}; HUMIDITY:{" "}
-                {!humidity ? "n/a" : humidity}; WIND:{" "}
-                {!windSpeed ? "n/a" : windSpeed})
+                CITY: {!city ? "n/a" : city} <br/><br/> UV: {!uvRisk ? "n/a" : uvRisk};<br/><br/>
+                AIR QUALITY: {!airQuality ? "n/a" : airQuality};<br/><br/> WATER PH:{" "}
+                {!waterHardness ? "n/a" : waterHardness};<br/><br/> HUMIDITY:{" "}
+                {!humidity ? "n/a" : humidity};<br/><br/> WIND:{" "}
+                {!windSpeed ? "n/a" : windSpeed};
                 <br />
               </div>
 
