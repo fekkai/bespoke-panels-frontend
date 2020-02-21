@@ -492,3 +492,26 @@ li:hover {
     }
   }
 }
+
+// iphone x portrait
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .table {
+    .list-header {
+      display: none;
+    }
+  }
+  .stylist-panel-customer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    .selfie-container {
+      width: 90%;
+      div {
+        margin: 0 auto;
+        #selfie {
+          width: 85%;
+        }
+      }
+    }
+  }
+}

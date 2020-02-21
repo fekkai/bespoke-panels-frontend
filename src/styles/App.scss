@@ -96,6 +96,21 @@ button {
   }
 }
 
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .app {
+    .img-container {
+      display: flex;
+      flex-direction: column;
+      #fekkai-logo {
+        width: 60%;
+      }
+      p {
+        display: none;
+      }
+    }
+  }
+}
+
 //mobile
 
 // .App {

@@ -306,7 +306,7 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <Fade>
-          <span align="left" id="filter">
+          <span id='conditions-goals' align="left" id="filter">
             conditions/goals:{" "}
             {this.state.filter ? (
               <Fade big>
