@@ -88,12 +88,12 @@ export const Row = ({
         }}
       >
         <div className="card-content">
-          <div className="locale-name" color="textSecondary">
+          <div className="locale" color="textSecondary">
             {new Date(locale).toLocaleString("en-US", {
               timeZone: "America/New_York"
             })}
           </div>
-          <div className="locale-name" color="textSecondary">
+          <div className="name" color="textSecondary">
             {name ? name : "n/a"}
           </div>
           <div className="image">
@@ -107,7 +107,7 @@ export const Row = ({
           <div
             className="user-attributes"
             style={{
-              flex: 0.8
+              flex: 0.5
             }}
             color="textSecondary"
           >
@@ -135,7 +135,7 @@ export const Row = ({
           <div
             className="user-attributes"
             style={{
-              flex: 0.6
+              flex: 0.5
             }}
             color="textSecondary"
           >
@@ -155,10 +155,7 @@ export const Row = ({
           </div>
           <div
             className="user-attributes"
-            style={{
-              flex: 1,
-              lineHeight: "24px"
-            }}
+          
             color="textSecondary"
           >
             {!condition

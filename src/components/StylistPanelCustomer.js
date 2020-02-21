@@ -202,14 +202,14 @@ export default class StylistPanelCustomer extends Component {
         <Fade big>
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
-              <div className="column-title">Customer</div>
+              <div className="column-title">CUSTOMER</div>
               <div className="column-title"></div>
               <div className="column-title"></div>
               <div className="info-container-1">
                 NAME: {name}
-                <br /> <br />
+                <br />
                 EMAIL: {email}
-                <br /><br />
+                <br />
                 USER CODE: {userCode}
               </div>
               <div className="info-container-1"></div>
@@ -222,9 +222,9 @@ export default class StylistPanelCustomer extends Component {
 
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
-              <div className="column-title">Characteristics</div>
-              <div className="column-title">Profile</div>
-              <div className="column-title">Selfie</div>
+              <div className="column-title">CHARACTERISTICS</div>
+              <div className="column-title">PROFILE</div>
+              <div className="column-title">SELFIE</div>
               <div className="info-container info-container2">
                 THICKNESS:{" "}
                 {/* {thickness
@@ -295,7 +295,7 @@ export default class StylistPanelCustomer extends Component {
                     ? "long"
                     : ""
                   : "n/a"} */}
-                  {length}
+                {length}
                 <br />
                 <br />
                 CONDITION:{" "}
@@ -315,25 +315,20 @@ export default class StylistPanelCustomer extends Component {
               </div>
 
               <div className="info-container">
-                CITY: {!city ? "n/a" : city} <br/><br/> UV: {!uvRisk ? "n/a" : uvRisk};<br/><br/>
-                AIR QUALITY: {!airQuality ? "n/a" : airQuality};<br/><br/> WATER PH:{" "}
-                {!waterHardness ? "n/a" : waterHardness};<br/><br/> HUMIDITY:{" "}
-                {!humidity ? "n/a" : humidity};<br/><br/> WIND:{" "}
-                {!windSpeed ? "n/a" : windSpeed};
+                CITY: {!city ? "n/a" : city} <br />
+                <br /> UV: {!uvRisk ? "n/a" : uvRisk};<br />
+                <br />
+                AIR QUALITY: {!airQuality ? "n/a" : airQuality};<br />
+                <br /> WATER PH: {!waterHardness ? "n/a" : waterHardness};<br />
+                <br /> HUMIDITY: {!humidity ? "n/a" : humidity};<br />
+                <br /> WIND: {!windSpeed ? "n/a" : windSpeed};
                 <br />
               </div>
 
               <div className="selfie-container">
-                <Carousel
-                  showThumbs={false}
-                  showIndicators={false}
-                >
+                <Carousel showThumbs={false} showIndicators={false}>
                   <div>
-                    <img
-                    id='selfie'
-                      alt={frontSelfie}
-                      src={frontSelfie}
-                    />
+                    <img id="selfie" alt={frontSelfie} src={frontSelfie} />
                   </div>
                 </Carousel>
               </div>
@@ -348,72 +343,74 @@ export default class StylistPanelCustomer extends Component {
                 RECO COLLECTION:
                 <br />{" "}
                 <b>
-                {this.state.collectionLoading ? (
-                  <PulseLoader />
-                ) : shampooKey ? (
-                  shampooKey === "vol1_SH" ? (
-                    "Full Blown (Lightest Weight)"
-                  ) : "" || shampooKey === "col1_SH" ? (
-                    "Technician Color (Medium Moisture)"
-                  ) : "" || shampooKey === "moi1_SH" ? (
-                    "Brilliant Gloss (Medium Moisture)"
-                  ) : "" || shampooKey === "rep1_SH" ? (
-                    "Super Strength (Strong Moisture)"
-                  ) : "" || shampooKey === "bl1_SH" ? (
-                    "Baby Blonde (Medium Moisture)"
+                  {this.state.collectionLoading ? (
+                    <PulseLoader />
+                  ) : shampooKey ? (
+                    shampooKey === "vol1_SH" ? (
+                      "Full Blown (Lightest Weight)"
+                    ) : "" || shampooKey === "col1_SH" ? (
+                      "Technician Color (Medium Moisture)"
+                    ) : "" || shampooKey === "moi1_SH" ? (
+                      "Brilliant Gloss (Medium Moisture)"
+                    ) : "" || shampooKey === "rep1_SH" ? (
+                      "Super Strength (Strong Moisture)"
+                    ) : "" || shampooKey === "bl1_SH" ? (
+                      "Baby Blonde (Medium Moisture)"
+                    ) : (
+                      ""
+                    )
                   ) : (
                     ""
-                  )
-                ) : (
-                  ""
-                )}</b>
+                  )}
+                </b>
               </div>
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}
-                                <b>
-
-                {this.state.collectionLoading ? (
-                  <PulseLoader />
-                ) : conditionerKey ? (
-                  conditionerKey === "vol1_CN" ? (
-                    "Full Blown (Lightest Weight)"
-                  ) : "" || conditionerKey === "col1_CN" ? (
-                    "Technician Color (Medium Moisture)"
-                  ) : "" || conditionerKey === "moi1_CN" ? (
-                    "Brilliant Gloss (Medium Moisture)"
-                  ) : "" || conditionerKey === "rep1_CN" ? (
-                    "Super Strength (Strong Moisture)"
+                <b>
+                  {this.state.collectionLoading ? (
+                    <PulseLoader />
+                  ) : conditionerKey ? (
+                    conditionerKey === "vol1_CN" ? (
+                      "Full Blown (Lightest Weight)"
+                    ) : "" || conditionerKey === "col1_CN" ? (
+                      "Technician Color (Medium Moisture)"
+                    ) : "" || conditionerKey === "moi1_CN" ? (
+                      "Brilliant Gloss (Medium Moisture)"
+                    ) : "" || conditionerKey === "rep1_CN" ? (
+                      "Super Strength (Strong Moisture)"
+                    ) : (
+                      ""
+                    )
                   ) : (
                     ""
-                  )
-                ) : (
-                  ""
-                )}</b>
+                  )}
+                </b>
               </div>
               <div className="info-container">
                 RECO COLLECTION:
-                <br />{" "}                <b>
-
-                {this.state.collectionLoading ? (
-                  <PulseLoader />
-                ) : thirdKey ? (
-                  thirdKey === "vol1_TH" ? (
-                    "Full Blown (Lightest Weight)"
-                  ) : "" || thirdKey === "col1_TH" ? (
-                    "Technician Color (Medium Moisture)"
-                  ) : "" || thirdKey === "moi1_TH" ? (
-                    "Brilliant Gloss (Medium Moisture)"
-                  ) : "" || thirdKey === "rep1_TH" ? (
-                    "Super Strength (Strong Moisture)"
-                  ) : "" || thirdKey === "bl1_TH" ? (
-                    "Baby Blonde (Medium Moisture)"
+                <br />{" "}
+                <b>
+                  {this.state.collectionLoading ? (
+                    <PulseLoader />
+                  ) : thirdKey ? (
+                    thirdKey === "vol1_TH" ? (
+                      "Full Blown (Lightest Weight)"
+                    ) : "" || thirdKey === "col1_TH" ? (
+                      "Technician Color (Medium Moisture)"
+                    ) : "" || thirdKey === "moi1_TH" ? (
+                      "Brilliant Gloss (Medium Moisture)"
+                    ) : "" || thirdKey === "rep1_TH" ? (
+                      "Super Strength (Strong Moisture)"
+                    ) : "" || thirdKey === "bl1_TH" ? (
+                      "Baby Blonde (Medium Moisture)"
+                    ) : (
+                      ""
+                    )
                   ) : (
                     ""
-                  )
-                ) : (
-                  ""
-                )}</b>
+                  )}
+                </b>
               </div>
             </div>
           </Paper>
