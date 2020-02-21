@@ -208,6 +208,8 @@ export default class StylistPanelCustomer extends Component {
               <div className="info-container-1">
                 NAME: {name}
                 <br /> <br />
+                EMAIL: {email}
+                <br /><br />
                 USER CODE: {userCode}
               </div>
               <div className="info-container-1"></div>
@@ -345,6 +347,7 @@ export default class StylistPanelCustomer extends Component {
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}
+                <b>
                 {this.state.collectionLoading ? (
                   <PulseLoader />
                 ) : shampooKey ? (
@@ -363,11 +366,13 @@ export default class StylistPanelCustomer extends Component {
                   )
                 ) : (
                   ""
-                )}
+                )}</b>
               </div>
               <div className="info-container">
                 RECO COLLECTION:
                 <br />{" "}
+                                <b>
+
                 {this.state.collectionLoading ? (
                   <PulseLoader />
                 ) : conditionerKey ? (
@@ -384,11 +389,12 @@ export default class StylistPanelCustomer extends Component {
                   )
                 ) : (
                   ""
-                )}
+                )}</b>
               </div>
               <div className="info-container">
                 RECO COLLECTION:
-                <br />{" "}
+                <br />{" "}                <b>
+
                 {this.state.collectionLoading ? (
                   <PulseLoader />
                 ) : thirdKey ? (
@@ -407,7 +413,7 @@ export default class StylistPanelCustomer extends Component {
                   )
                 ) : (
                   ""
-                )}
+                )}</b>
               </div>
             </div>
           </Paper>
