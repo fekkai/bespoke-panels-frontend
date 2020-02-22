@@ -501,7 +501,7 @@ export default class StylistPanelList extends Component {
                     </Link>
                   );
                 })}
-              
+
                 <RingLoader
                   css={override}
                   size={150}

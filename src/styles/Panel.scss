@@ -498,11 +498,11 @@ li:hover {
 
 // iphone x portrait
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
-   .dashboard {
+  .dashboard {
     #filter {
       display: none;
     }
-    }
+  }
   .table {
     .list-header {
       display: none;
@@ -520,7 +520,7 @@ li:hover {
       display: grid;
     }
     .hidden {
-      display: none
+      display: none;
     }
     .selfie-container {
       width: 90%;
@@ -535,17 +535,29 @@ li:hover {
 }
 
 // iphone x landscape
-@media only screen 
-and (min-device-width : 375px) 
-and (max-device-width : 812px) 
-and (-webkit-device-pixel-ratio : 3)
-and (orientation : landscape) {
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
   .table {
     .list-header {
       display: flex;
       div {
         div {
           font-size: 9px;
+        }
+      }
+    }
+  }
+  #list-view-btn {
+    width: 15%;
+    font-size: 13px;
+  }
+  .stylist-panel-customer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    .selfie-container {
+      div {
+        #selfie {
+          width: 70%;
         }
       }
     }

@@ -341,8 +341,7 @@ export default class StylistPanelCustomer extends Component {
               <div className="column-title hidden">CONDITIONER</div>
               <div className="column-title hidden">THIRD</div>
               <div className="info-container">
-                RECO COLLECTION:
-                <br />{" "}
+                RECO COLLECTION<span class="mobile">{" "}SHAMPOO:</span>
                 <b>
                   {this.state.collectionLoading ? (
                     <PulseLoader />
@@ -366,8 +365,7 @@ export default class StylistPanelCustomer extends Component {
                 </b>
               </div>
               <div className="info-container">
-                RECO COLLECTION:
-                <br />{" "}
+                  RECO COLLECTION<span class="mobile">{" "}CONDITIONER:</span>
                 <b>
                   {this.state.collectionLoading ? (
                     <PulseLoader />
@@ -389,8 +387,7 @@ export default class StylistPanelCustomer extends Component {
                 </b>
               </div>
               <div className="info-container">
-                RECO COLLECTION:
-                <br />{" "}
+                RECO COLLECTION<span class="mobile">{" "}THIRD:</span>
                 <b>
                   {this.state.collectionLoading ? (
                     <PulseLoader />
