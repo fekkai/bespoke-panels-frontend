@@ -536,6 +536,13 @@ li:hover {
 
 // iphone x landscape
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
+  .dashboard {
+    #filter {
+      display: inline;
+      margin: 1em;
+      font-size: 13px;
+    }
+  }
   .table {
     .list-header {
       display: flex;
