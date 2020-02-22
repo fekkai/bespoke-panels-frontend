@@ -121,7 +121,32 @@
   }
 }
 
+// iphone x landscape
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
+  .card-content {
+    .locale {
+      font-size: 9px;
+    }
+  }
+}
+
+
+// iphone 6, 7, & 8 portrait
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    .image {
+      #selfie {
+        width: 90%;
+      }
+    }
+  
+  }
+}
+
+// iphone 6, 7, & 8 landscape
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
   .card-content {
     .locale {
       font-size: 9px;
