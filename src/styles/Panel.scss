@@ -554,6 +554,18 @@ li:hover {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    .column-title {
+      font-size: 13px;
+    }
+    .info-container {
+      font-size: 13px;
+    }
+    .info-container-1 {
+      font-size: 13px;
+    }
+    .info-container-2 {
+      font-size: 13px;
+    }
     .selfie-container {
       div {
         #selfie {
