@@ -235,7 +235,7 @@ currentLocation,
                 RECO
               </p> */}
               <p style={{ marginBottom: 0 }}>
-                // STYLIST / {currentLocation === '/stylist-panel-list'?<u>LIST</u>: ''}
+                {/* // STYLIST / {currentLocation === '/stylist-panel-list'?<u>LIST</u>: ''} */}
               </p>
 
               {/* <button>LOGOUT</button> */}
