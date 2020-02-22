@@ -19,6 +19,7 @@
     justify-content: center;
     flex: 0.4;
     padding: 0.2rem 0.4em;
+    font-size: 13px;
   }
   .image {
     display: flex;
@@ -26,6 +27,7 @@
     justify-content: center;
     height: auto;
     padding: 0.2rem 0.4em;
+    font-size: 13px;
 
     #modal {
       display: none;
@@ -47,6 +49,10 @@
     padding: 0.2rem 0.4em;
     flex: 1;
     line-height: 24px;
+    font-size: 13px;
+    div {
+      font-size: 13px;
+    }
   }
 }
 
@@ -157,7 +163,7 @@
 // iphone 6, 7, & 8 plus landscape
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) {
   .card-content {
-        .locale {
+    .locale {
       font-size: 9px;
     }
     .name {
