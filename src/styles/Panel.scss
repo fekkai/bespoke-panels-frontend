@@ -511,7 +511,7 @@ li:hover {
     }
   }
   #list-view-btn {
-    width: 27%;
+    width: 30%;
     font-size: 13px;
   }
   .stylist-panel-customer {
@@ -602,6 +602,33 @@ li:hover {
 
 // iphone 6, 7, & 8 plus portrait
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: portrait) {
+  .stylist-panel-customer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    .mobile {
+      display: grid;
+    }
+    .hidden {
+      display: none;
+    }
+    .selfie-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: black;
+      width: 90%;
+      div {
+        margin: 0 auto;
+        #selfie {
+          height: 100%;
+
+          width: 85%;
+        }
+      }
+    }
+  }
 }
 
 // iphone 6, 7, & 8 plus landscape
@@ -672,6 +699,8 @@ li:hover {
       div {
         margin: 0 auto;
         #selfie {
+          height: 100%;
+
           width: 85%;
         }
       }
