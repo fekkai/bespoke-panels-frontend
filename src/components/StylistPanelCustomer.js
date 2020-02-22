@@ -336,12 +336,12 @@ export default class StylistPanelCustomer extends Component {
           </Paper>
           <Paper elevation={1}>
             <div className="stylist-panel-customer">
-            <div className="column-title mobile">FORMULAS</div>
+              <div className="column-title mobile">FORMULAS</div>
               <div className="column-title hidden">SHAMPOO</div>
               <div className="column-title hidden">CONDITIONER</div>
               <div className="column-title hidden">THIRD</div>
               <div className="info-container">
-                RECO COLLECTION<span class="mobile">{" "}SHAMPOO:</span>
+                RECO COLLECTION<span class="mobile"> SHAMPOO:</span>
                 <b>
                   {this.state.collectionLoading ? (
                     <PulseLoader />
@@ -365,7 +365,7 @@ export default class StylistPanelCustomer extends Component {
                 </b>
               </div>
               <div className="info-container">
-                  RECO COLLECTION<span class="mobile">{" "}CONDITIONER:</span>
+                RECO COLLECTION<span class="mobile"> CONDITIONER:</span>
                 <b>
                   {this.state.collectionLoading ? (
                     <PulseLoader />
@@ -387,7 +387,7 @@ export default class StylistPanelCustomer extends Component {
                 </b>
               </div>
               <div className="info-container">
-                RECO COLLECTION<span class="mobile">{" "}THIRD:</span>
+                RECO COLLECTION<span class="mobile"> THIRD:</span>
                 <b>
                   {this.state.collectionLoading ? (
                     <PulseLoader />

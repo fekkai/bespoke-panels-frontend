@@ -1,6 +1,6 @@
 // Packages and Libraries
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 
 // Components
@@ -75,7 +75,7 @@ class App extends React.Component {
       this.setState(state => {
         return {
           isSignedIn: authService.isAuthenticated(),
-          user: fetchedUser,
+          user: fetchedUser
         };
       });
     } catch (e) {
@@ -83,9 +83,8 @@ class App extends React.Component {
     }
     this.fetchOrders();
     this.setState({
-                currentLocation: window.location.pathname
-
-    })
+      currentLocation: window.location.pathname
+    });
   }
 
   fetchOrders = async () => {
@@ -221,10 +220,10 @@ class App extends React.Component {
       hairGoals2,
       sideSelfie,
       frontSelfie,
-currentLocation,
+      currentLocation,
       isLoading
     } = this.state;
-  
+
     return (
       <div className="app">
         <div id="header">
@@ -244,65 +243,67 @@ currentLocation,
         </div>
 
         <main id="main-page">
-          <Route exact path="/" component={StylistPanelList} />
-          <Route
-            path="/stylist-panel-list"
-            user={user}
-            component={StylistPanelList}
-            createdAt={createdAt}
-            orderNumber={orderNumber}
-            name={name}
-          />
-          <Route
-            thickness={
-              thickness
-                ? thickness === 1
-                  ? "finest"
-                  : "" || thickness === 2
-                  ? "finer"
-                  : "" || thickness === 3
-                  ? "fine"
-                  : "" || thickness === 4
-                  ? "medium"
-                  : "" || thickness === 5
-                  ? "thick"
-                  : "" || thickness === 6
-                  ? "thicker"
-                  : "" || thickness === 7
-                  ? "thickest"
+          <Switch>
+            <Route exact path="/" component={StylistPanelList} />
+            <Route
+              path="/stylist-panel-list"
+              user={user}
+              component={StylistPanelList}
+              createdAt={createdAt}
+              orderNumber={orderNumber}
+              name={name}
+            />
+            <Route
+              thickness={
+                thickness
+                  ? thickness === 1
+                    ? "finest"
+                    : "" || thickness === 2
+                    ? "finer"
+                    : "" || thickness === 3
+                    ? "fine"
+                    : "" || thickness === 4
+                    ? "medium"
+                    : "" || thickness === 5
+                    ? "thick"
+                    : "" || thickness === 6
+                    ? "thicker"
+                    : "" || thickness === 7
+                    ? "thickest"
+                    : ""
                   : ""
-                : ""
-            }
-            texture={
-              texture
-                ? texture === 1
-                  ? "straight"
-                  : "" || texture === 2
-                  ? "wavy"
-                  : "" || texture === 3
-                  ? "curly"
-                  : "" || texture === 4
-                  ? "coily"
+              }
+              texture={
+                texture
+                  ? texture === 1
+                    ? "straight"
+                    : "" || texture === 2
+                    ? "wavy"
+                    : "" || texture === 3
+                    ? "curly"
+                    : "" || texture === 4
+                    ? "coily"
+                    : ""
                   : ""
-                : ""
-            }
-            hairCondition={hairCondition}
-            hairGoals={hairGoals}
-            age={age}
-            diet={diet}
-            zip={!this.state.zip ? "" : this.state.zip}
-            orderNumber={orderNumber}
-            city={city}
-            wash={wash}
-            afterwash={afterwash}
-            hairGoals2={hairGoals2}
-            sideSelfie={sideSelfie}
-            frontSelfie={frontSelfie}
-            isLoading={isLoading}
-            path="/stylist-panel-customer"
-            user={user}
-            component={StylistPanelCustomer}
-          />
+              }
+              hairCondition={hairCondition}
+              hairGoals={hairGoals}
+              age={age}
+              diet={diet}
+              zip={!this.state.zip ? "" : this.state.zip}
+              orderNumber={orderNumber}
+              city={city}
+              wash={wash}
+              afterwash={afterwash}
+              hairGoals2={hairGoals2}
+              sideSelfie={sideSelfie}
+              frontSelfie={frontSelfie}
+              isLoading={isLoading}
+              path="/stylist-panel-customer"
+              user={user}
+              component={StylistPanelCustomer}
+            />
+          </Switch>
         </main>
         <footer></footer>
       </div>
