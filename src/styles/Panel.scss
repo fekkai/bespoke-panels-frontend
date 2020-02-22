@@ -533,3 +533,21 @@ li:hover {
     }
   }
 }
+
+// iphone x landscape
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 812px) 
+and (-webkit-device-pixel-ratio : 3)
+and (orientation : landscape) {
+  .table {
+    .list-header {
+      display: flex;
+      div {
+        div {
+          font-size: 9px;
+        }
+      }
+    }
+  }
+}
