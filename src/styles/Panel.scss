@@ -525,10 +525,16 @@ li:hover {
       display: none;
     }
     .selfie-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: black;
       width: 90%;
       div {
         margin: 0 auto;
         #selfie {
+          height: 100%;
           width: 85%;
         }
       }
@@ -579,6 +585,11 @@ li:hover {
       font-size: 13px;
     }
     .selfie-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: black;
       width: 75%;
       div {
         #selfie {
@@ -610,6 +621,11 @@ li:hover {
   }
   .stylist-panel-customer {
     .selfie-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: black;
       width: 100%;
       div {
         #selfie {
@@ -647,6 +663,11 @@ li:hover {
       display: none;
     }
     .selfie-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: black;
       width: 90%;
       div {
         margin: 0 auto;
@@ -704,6 +725,11 @@ li:hover {
       font-size: 13px;
     }
     .selfie-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: black;
       div {
         #selfie {
           width: 70%;
