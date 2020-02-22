@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader } from "react-spinners";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // styling
 import "../styles/Panel.scss";
@@ -21,6 +22,8 @@ const override = css`
   margin: 0 auto;
   margin-top: ${7}%;
 `;
+
+const primary = [600];
 
 let request = {
   hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
@@ -498,6 +501,7 @@ export default class StylistPanelList extends Component {
                     </Link>
                   );
                 })}
+              
                 <RingLoader
                   css={override}
                   size={150}
