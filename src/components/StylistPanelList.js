@@ -347,9 +347,7 @@ export default class StylistPanelList extends Component {
                       {" "}
                       DATE_TIME{" "}
                       <span
-                        style={{
-                          fontSize: "9px"
-                        }}
+                       
                       >
                         {ascending ? "▲" : "▼"}
                       </span>
@@ -364,9 +362,7 @@ export default class StylistPanelList extends Component {
                     <div>
                       NAME{" "}
                       <span
-                        style={{
-                          fontSize: "9px"
-                        }}
+                    
                       >
                         {ascending ? "▲" : "▼"}
                       </span>
@@ -382,9 +378,7 @@ export default class StylistPanelList extends Component {
                     <div>
                       SELFIE{" "}
                       <span
-                        style={{
-                          fontSize: "9px"
-                        }}
+                     
                       >
                         {ascending ? "▲" : "▼"}
                       </span>
@@ -399,9 +393,7 @@ export default class StylistPanelList extends Component {
                     <div>
                       THICKNESS{" "}
                       <span
-                        style={{
-                          fontSize: "9px"
-                        }}
+                      
                       >
                         {ascending ? "▲" : "▼"}
                       </span>
@@ -416,9 +408,7 @@ export default class StylistPanelList extends Component {
                     <div>
                       TEXTURE{" "}
                       <span
-                        style={{
-                          fontSize: "9px"
-                        }}
+                    
                       >
                         {ascending ? "▲" : "▼"}
                       </span>

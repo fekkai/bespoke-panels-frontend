@@ -7,13 +7,14 @@ import { css } from "@emotion/core";
 import axios from "axios";
 import aws4 from "aws4";
 
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-
 import { Carousel } from "react-responsive-carousel";
 import { RingLoader, PulseLoader } from "react-spinners";
 import { Paper } from "@material-ui/core";
 
+import noPhoto from "../assets/no-photo.png";
+
 import "../styles/Panel.scss";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const override = css`
   display: block;
@@ -326,11 +327,20 @@ export default class StylistPanelCustomer extends Component {
               </div>
 
               <div className="selfie-container">
-                <Carousel showThumbs={false} showIndicators={false}>
+                {/* <Carousel showThumbs={false} showIndicators={false}> */}
                   <div>
-                    <img id="selfie" alt={frontSelfie} src={frontSelfie} />
+                    {frontSelfie ? (
+                      <img id="selfie" alt={frontSelfie} src={frontSelfie} />
+                    ) : (
+                      <img
+                        id="selfie"
+                        style={{ height: "100%" }}
+                        alt={noPhoto}
+                        src={noPhoto}
+                      />
+                    )}
                   </div>
-                </Carousel>
+                {/* </Carousel> */}
               </div>
             </div>
           </Paper>

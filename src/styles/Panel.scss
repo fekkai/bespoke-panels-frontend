@@ -140,8 +140,10 @@ button {
     width: 400px;
     background: black;
     div {
-      margin: 0 auto;
+      display: flex;
+      justify-content: center;
       #selfie {
+        margin: 0 auto;
         width: 85%;
       }
     }
@@ -549,6 +551,9 @@ li:hover {
       div {
         div {
           font-size: 9px;
+          span {
+            font-size: 4px;
+          }
         }
       }
     }
@@ -574,6 +579,38 @@ li:hover {
       font-size: 13px;
     }
     .selfie-container {
+      width: 75%;
+      div {
+        #selfie {
+          width: 70%;
+        }
+      }
+    }
+  }
+}
+
+// iphone 6, 7, & 8 plus portrait
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: portrait) {
+}
+
+// iphone 6, 7, & 8 plus landscape
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) {
+  .table {
+    .list-header {
+      display: flex;
+      div {
+        div {
+          font-size: 8.5px;
+          span {
+            font-size: 6px;
+          }
+        }
+      }
+    }
+  }
+  .stylist-panel-customer {
+    .selfie-container {
+      width: 100%;
       div {
         #selfie {
           width: 70%;
@@ -635,7 +672,10 @@ li:hover {
       display: flex;
       div {
         div {
-          font-size: 9px;
+          font-size: 7.5px;
+          span {
+            font-size: 6px;
+          }
         }
       }
     }

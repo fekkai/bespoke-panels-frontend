@@ -110,13 +110,11 @@
   .card-content {
     display: flex;
     flex-direction: column;
+
     .image {
       #selfie {
         width: 90%;
       }
-    }
-    .user-attributes {
-      // display: none;
     }
   }
 }
@@ -127,9 +125,56 @@
     .locale {
       font-size: 9px;
     }
+    .name {
+      font-size: 11px;
+      text-align: center;
+    }
   }
 }
 
+// iphone 6, 7, & 8 plus portrait
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: portrait) {
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    .locale {
+      font-size: 13px;
+    }
+    .image {
+      #selfie {
+        width: 90%;
+      }
+    }
+  }
+  .user-attributes {
+    font-size: 13px;
+    div {
+      font-size: 13px;
+    }
+  }
+}
+
+// iphone 6, 7, & 8 plus landscape
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation: landscape) {
+  .card-content {
+        .locale {
+      font-size: 9px;
+    }
+    .name {
+      font-size: 11px;
+      text-align: center;
+    }
+    .image {
+      font-size: 11px;
+    }
+  }
+}
+.user-attributes {
+  font-size: 11px;
+  div {
+    font-size: 9px;
+  }
+}
 
 // iphone 6, 7, & 8 portrait
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
@@ -141,7 +186,12 @@
         width: 90%;
       }
     }
-  
+  }
+  .user-attributes {
+    font-size: 13px;
+    div {
+      font-size: 13px;
+    }
   }
 }
 
@@ -149,7 +199,20 @@
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: landscape) {
   .card-content {
     .locale {
-      font-size: 9px;
+      font-size: 8px;
+    }
+    .name {
+      font-size: 10px;
+      text-align: center;
+    }
+    .image {
+      font-size: 10px;
+    }
+  }
+  .user-attributes {
+    font-size: 10px;
+    div {
+      font-size: 10px;
     }
   }
 }

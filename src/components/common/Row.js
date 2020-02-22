@@ -4,6 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 
 import { makeStyles } from "@material-ui/core/styles";
 import "../../styles/Row.scss";
+import noPhoto from '../../assets/no-photo.png'
 
 const useStyles = makeStyles({
   bullet: {
@@ -100,7 +101,7 @@ export const Row = ({
             {frontSelfie ? (
               <img id="selfie" alt={frontSelfie} src={frontSelfie} />
             ) : (
-              "n/a"
+              <img id="selfie" alt={noPhoto} src={noPhoto} />
             )}
             <div id="modal"></div>
           </div>
