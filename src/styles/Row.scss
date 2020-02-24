@@ -191,11 +191,11 @@
         width: 90%;
       }
     }
-  }
-  .user-attributes {
-    font-size: 13px;
-    div {
+    .user-attributes {
       font-size: 13px;
+      div {
+        font-size: 13px;
+      }
     }
   }
 }
@@ -207,17 +207,17 @@
       font-size: 8px;
     }
     .name {
-      font-size: 10px;
+      font-size: 11px;
       text-align: center;
     }
     .image {
-      font-size: 10px;
+      font-size: 11px;
     }
+    .user-attributes {
+      font-size: 11px;
+      div {
+        font-size: 11px;
+      }
   }
-  .user-attributes {
-    font-size: 10px;
-    div {
-      font-size: 10px;
-    }
   }
 }

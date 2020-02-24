@@ -21,7 +21,7 @@ const override = css`
   display: block;
   margin: 0 auto;
   margin-top: ${7}%;
-`;
+  `;
 
 const primary = [600];
 
@@ -491,12 +491,12 @@ export default class StylistPanelList extends Component {
                     </Link>
                   );
                 })}
-
                 <RingLoader
                   css={override}
                   size={150}
                   color={"#545454"}
                   loading={this.state.loading}
+                  
                 />
               </div>
             </div>

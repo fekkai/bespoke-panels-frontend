@@ -491,6 +491,7 @@ li:hover {
     .list-header {
       font-size: 11px;
       div {
+        font-size: 9px;
         div {
           font-size: 9px;
         }
@@ -573,6 +574,9 @@ li:hover {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    .mobile {
+      display: grid;
+    }
     .column-title {
       font-size: 13px;
     }
@@ -608,6 +612,9 @@ li:hover {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    .mobile {
+      display: grid;
+    }
     .mobile {
       display: grid;
     }
@@ -648,6 +655,9 @@ li:hover {
     }
   }
   .stylist-panel-customer {
+    .mobile {
+      display: grid;
+    }
     .selfie-container {
       display: flex;
       align-items: center;
@@ -678,8 +688,8 @@ li:hover {
     }
   }
   #list-view-btn {
-    width: 27%;
-    font-size: 13px;
+    width: 28%;
+    font-size: 12px;
   }
   .stylist-panel-customer {
     display: grid;
@@ -723,7 +733,7 @@ li:hover {
       display: flex;
       div {
         div {
-          font-size: 7.5px;
+          font-size: 7px;
           span {
             font-size: 6px;
           }
@@ -732,27 +742,30 @@ li:hover {
     }
   }
   #list-view-btn {
-    width: 15%;
-    font-size: 13px;
+    width: 16%;
+    font-size: 12px;
   }
   .stylist-panel-customer {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
+    .mobile {
+      display: grid;
+    }
     .hidden {
       display: none;
     }
     .column-title {
-      font-size: 13px;
+      font-size: 10px;
     }
     .info-container {
-      font-size: 13px;
+      font-size: 10px;
     }
     .info-container-1 {
-      font-size: 13px;
+      font-size: 10px;
     }
     .info-container-2 {
-      font-size: 13px;
+      font-size: 10px;
     }
     .selfie-container {
       display: flex;
