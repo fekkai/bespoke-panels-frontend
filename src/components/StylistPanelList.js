@@ -21,7 +21,7 @@ const override = css`
   display: block;
   margin: 0 auto;
   margin-top: ${7}%;
-  `;
+`;
 
 const primary = [600];
 
@@ -77,7 +77,7 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 30, response.data.length)
+        .slice(response.data.length - 35, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -304,6 +304,8 @@ export default class StylistPanelList extends Component {
           : ""
       );
     });
+    console.log(filteredData.length)
+
 
     return (
       <div className="dashboard">
@@ -345,27 +347,17 @@ export default class StylistPanelList extends Component {
                   >
                     <div>
                       {" "}
-                      DATE_TIME{" "}
-                      <span
-                       
-                      >
-                        {ascending ? "▲" : "▼"}
-                      </span>
+                      DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
                     </div>
                   </div>
                   <div
                     style={{
                       flex: 0.4
                     }}
-                    onClick={() => this.sortBy("name")}
+                    // onClick={() => this.sortBy("name")}
                   >
                     <div>
-                      NAME{" "}
-                      <span
-                    
-                      >
-                        {ascending ? "▲" : "▼"}
-                      </span>
+                      NAME <span>{/* {ascending ? "▲" : "▼"} */}</span>
                     </div>
                   </div>
 
@@ -373,15 +365,10 @@ export default class StylistPanelList extends Component {
                     style={{
                       flex: 0.7
                     }}
-                    onClick={() => this.sortBy("frontSelfie")}
+                    // onClick={() => this.sortBy("frontSelfie")}
                   >
                     <div>
-                      SELFIE{" "}
-                      <span
-                     
-                      >
-                        {ascending ? "▲" : "▼"}
-                      </span>
+                      SELFIE 
                     </div>
                   </div>
                   <div
@@ -391,12 +378,7 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("thickness")}
                   >
                     <div>
-                      THICKNESS{" "}
-                      <span
-                      
-                      >
-                        {ascending ? "▲" : "▼"}
-                      </span>
+                      THICKNESS <span>{ascending ? "▲" : "▼"}</span>
                     </div>
                   </div>
                   <div
@@ -406,12 +388,7 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("texture")}
                   >
                     <div>
-                      TEXTURE{" "}
-                      <span
-                    
-                      >
-                        {ascending ? "▲" : "▼"}
-                      </span>
+                      TEXTURE <span>{ascending ? "▲" : "▼"}</span>
                     </div>
                   </div>
                   <div
@@ -496,7 +473,6 @@ export default class StylistPanelList extends Component {
                   size={150}
                   color={"#545454"}
                   loading={this.state.loading}
-                  
                 />
               </div>
             </div>
