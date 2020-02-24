@@ -78,6 +78,13 @@ export const Row = ({
   //   });
   // });
 
+  
+    
+    console.log(new Date(locale).toLocaleString("en-US", {
+      timeZone: "America/New_York"
+    }) > '2/23/2020, 2:05:24 PM')
+
+
   return (
     <div>
       <Card
@@ -93,6 +100,7 @@ export const Row = ({
             {new Date(locale).toLocaleString("en-US", {
               timeZone: "America/New_York"
             })}
+            
           </div>
           <div className="name" color="textSecondary">
             {name ? name : "n/a"}

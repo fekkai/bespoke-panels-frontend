@@ -321,6 +321,14 @@ li:hover {
   -o-animation: conditionalOpen; /* Opera < 12.1 */
   animation: conditionalOpen;
   font-size: 18px;
+  transition: all .5s ease-in-out;
+  overflow: hidden;
+  height: 0
+
+}
+
+#filter:target {
+  height: 100%;
 }
 
 // fade animation keyframes

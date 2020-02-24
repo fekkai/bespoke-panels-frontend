@@ -77,7 +77,7 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 35, response.data.length)
+        .slice(response.data.length - 50, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -293,6 +293,7 @@ export default class StylistPanelList extends Component {
   };
 
   render() {
+    let counter = 0;
     const { filter, data, ascending } = this.state;
     const filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
@@ -304,37 +305,40 @@ export default class StylistPanelList extends Component {
           : ""
       );
     });
-    console.log(filteredData.length)
-
+    console.log(filteredData.length);
 
     return (
       <div className="dashboard">
         <Fade>
-          <span align="left" id="filter">
-            conditions/goals:{" "}
-            {this.state.filter ? (
-              <Fade big>
-                <span
-                  style={{
-                    border: "2px solid #545454",
-                    padding: "0 7px"
-                  }}
-                >
-                  {this.state.filter}{" "}
-                  <span
+          {!this.state.loading ? (
+            <span align="left" id="filter">
+              {this.state.filter ? (
+                <div>
+                  conditions/goals:{" "}
+                  <span 
                     style={{
-                      cursor: "pointer"
+                      border: "2px solid #545454",
+                      padding: "0 7px"
                     }}
-                    onClick={this.reset}
                   >
-                    x
+                    {this.state.filter}{" "}
+                    <span
+                      style={{
+                        cursor: "pointer"
+                      }}
+                      onClick={this.reset}
+                    >
+                      x
+                    </span>
                   </span>
-                </span>
-              </Fade>
-            ) : (
-              ""
-            )}
-          </span>
+                </div>
+              ) : (
+                ""
+              )}
+            </span>
+          ) : (
+            ""
+          )}
           <Paper elevation={0}>
             <div className="table">
               {!this.state.loading ? (
@@ -367,9 +371,7 @@ export default class StylistPanelList extends Component {
                     }}
                     // onClick={() => this.sortBy("frontSelfie")}
                   >
-                    <div>
-                      SELFIE 
-                    </div>
+                    <div>SELFIE</div>
                   </div>
                   <div
                     style={{
@@ -432,6 +434,13 @@ export default class StylistPanelList extends Component {
               )}
               <div>
                 {filteredData.map(rowData => {
+                  if (rowData.texture === "coily") {
+                    counter++;
+                  } else if (rowData.texture === "wavy") {
+                    counter++;
+                  }
+                  console.log(counter);
+
                   return (
                     <Link
                       key={rowData.id}
