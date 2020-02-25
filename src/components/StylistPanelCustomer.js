@@ -296,7 +296,7 @@ export default class StylistPanelCustomer extends Component {
                     ? "long"
                     : ""
                   : "n/a"} */}
-                {length}
+                {length ? length : "n/a"}
                 <br />
                 <br />
                 CONDITION:{" "}

@@ -77,7 +77,7 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 50, response.data.length)
+        .slice(response.data.length - 40, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -305,7 +305,6 @@ export default class StylistPanelList extends Component {
           : ""
       );
     });
-    console.log(filteredData.length);
 
     return (
       <div className="dashboard">
@@ -394,6 +393,26 @@ export default class StylistPanelList extends Component {
                     </div>
                   </div>
                   <div
+                    style={{
+                      flex: 0.5
+                    }}
+                    onClick={() => this.sortBy("hairColor")}
+                  >
+                    <div>
+                      COLOR <span>{ascending ? "▲" : "▼"}</span>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      flex: 0.5
+                    }}
+                    onClick={() => this.sortBy("length")}
+                  >
+                    <div>
+                      LENGTH <span>{ascending ? "▲" : "▼"}</span>
+                    </div>
+                  </div>
+                  <div
                     className="container"
                     id="conditions-goals"
                     style={{
@@ -434,14 +453,7 @@ export default class StylistPanelList extends Component {
               )}
               <div>
                 {filteredData.map(rowData => {
-                  if (rowData.texture === "coily") {
-                    counter++;
-                  } else if (rowData.texture === "wavy") {
-                    counter++;
-                  }
-                  console.log(counter);
-
-                  return (
+                 return (
                     <Link
                       key={rowData.id}
                       style={{

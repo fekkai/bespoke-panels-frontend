@@ -39,6 +39,8 @@ export const Row = ({
   locale,
   thickness,
   texture,
+  hairColor,
+  length,
   condition,
   hairGoals,
   frontSelfie
@@ -77,14 +79,6 @@ export const Row = ({
   //     $(modal).hide();
   //   });
   // });
-
-  
-    
-    console.log(new Date(locale).toLocaleString("en-US", {
-      timeZone: "America/New_York"
-    }) > '2/23/2020, 2:05:24 PM')
-
-
   return (
     <div>
       <Card
@@ -161,6 +155,24 @@ export const Row = ({
               : typeof texture === "string"
               ? texture
               : "n/a"}
+          </div>
+          <div
+            className="user-attributes"
+            style={{
+              flex: 0.5
+            }}
+            color="textSecondary"
+          >
+            {hairColor?hairColor:'n/a'}
+          </div>
+          <div
+            className="user-attributes"
+            style={{
+              flex: 0.5
+            }}
+            color="textSecondary"
+          >
+            {length?length:'n/a'}
           </div>
           <div
             className="user-attributes"
