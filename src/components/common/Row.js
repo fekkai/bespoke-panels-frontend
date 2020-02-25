@@ -4,7 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 
 import { makeStyles } from "@material-ui/core/styles";
 import "../../styles/Row.scss";
-import noPhoto from '../../assets/no-photo.png'
+import noPhoto from "../../assets/no-photo.png";
 
 const useStyles = makeStyles({
   bullet: {
@@ -94,7 +94,6 @@ export const Row = ({
             {new Date(locale).toLocaleString("en-US", {
               timeZone: "America/New_York"
             })}
-            
           </div>
           <div className="name" color="textSecondary">
             {name ? name : "n/a"}
@@ -163,7 +162,7 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {hairColor?hairColor:'n/a'}
+            {hairColor ? hairColor : "n/a"}
           </div>
           <div
             className="user-attributes"
@@ -172,13 +171,9 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {length?length:'n/a'}
+            {length ? length : "n/a"}
           </div>
-          <div
-            className="user-attributes"
-          
-            color="textSecondary"
-          >
+          <div className="user-attributes" color="textSecondary">
             {!condition
               ? "n/a"
               : condition === "none"

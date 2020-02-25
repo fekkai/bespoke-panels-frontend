@@ -379,7 +379,7 @@ export default class StylistPanelList extends Component {
                     onClick={() => this.sortBy("thickness")}
                   >
                     <div>
-                      THICKNESS <span>{ascending ? "▲" : "▼"}</span>
+                      THICK <span>{ascending ? "▲" : "▼"}</span>
                     </div>
                   </div>
                   <div
