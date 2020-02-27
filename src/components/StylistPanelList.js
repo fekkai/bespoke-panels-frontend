@@ -295,7 +295,7 @@ export default class StylistPanelList extends Component {
   };
 
   refreshPage = () => {
-    this.setState({ reload: true }, () => this.setState({ reload: false }));
+    window.location.reload()
   };
 
   render() {
