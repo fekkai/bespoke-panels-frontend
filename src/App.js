@@ -230,6 +230,7 @@ class App extends React.Component {
           <Fade big>
             <header className="img-container">
               <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
+              
               {/* <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
                 RECO
               </p> */}

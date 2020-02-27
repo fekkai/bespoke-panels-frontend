@@ -45,7 +45,9 @@ const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY;
 export default class StylistPanelList extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      reload: false,
       filter: "",
       data: [],
       ascending: false,
@@ -292,6 +294,10 @@ export default class StylistPanelList extends Component {
     }
   };
 
+  refreshPage = () => {
+    this.setState({ reload: true }, () => this.setState({ reload: false }));
+  };
+
   render() {
     let counter = 0;
     const { filter, data, ascending } = this.state;
@@ -308,13 +314,14 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
+
         <Fade>
           {!this.state.loading ? (
             <span align="left" id="filter">
               {this.state.filter ? (
                 <div>
                   conditions/goals:{" "}
-                  <span 
+                  <span
                     style={{
                       border: "2px solid #545454",
                       padding: "0 7px"
@@ -340,6 +347,9 @@ export default class StylistPanelList extends Component {
           )}
           <Paper elevation={0}>
             <div className="table">
+              <button onClick={this.refreshPage} id="list-view-btn">
+                REFRESH
+              </button>
               {!this.state.loading ? (
                 <div className="list-header">
                   <div
@@ -453,7 +463,7 @@ export default class StylistPanelList extends Component {
               )}
               <div>
                 {filteredData.map(rowData => {
-                 return (
+                  return (
                     <Link
                       key={rowData.id}
                       style={{

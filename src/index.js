@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, HashRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import ScrollToTop from "./components/ScrollToTop";
 
 ReactDOM.render(
-  <Router>
+  <HashRouter>
     <ScrollToTop>
       <App />
     </ScrollToTop>
-  </Router>,
+  </HashRouter>,
   document.getElementById("root")
 );
