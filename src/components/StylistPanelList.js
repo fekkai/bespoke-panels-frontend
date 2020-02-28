@@ -64,6 +64,14 @@ export default class StylistPanelList extends Component {
     await this.setState({
       loading: false
     });
+
+    const script = document.createElement("script");
+
+    script.src = "https://use.typekit.net/foobar.js";
+    script.async = true;
+    script.type = 'text/javascript'
+
+    document.body.appendChild(script);
   }
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside);
@@ -79,7 +87,7 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 100, response.data.length)
+        .slice(response.data.length - 175, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -311,11 +319,15 @@ export default class StylistPanelList extends Component {
           : ""
       );
     });
+    
 
     return (
       <div className="dashboard">
 
         <Fade>
+          <button onClick={this.refreshPage} id="list-view-btn">
+                REFRESH
+              </button>
           {!this.state.loading ? (
             <span align="left" id="filter">
               {this.state.filter ? (
@@ -347,10 +359,9 @@ export default class StylistPanelList extends Component {
           )}
           <Paper elevation={0}>
             <div className="table">
-              <button onClick={this.refreshPage} id="list-view-btn">
-                REFRESH
-              </button>
+            
               {!this.state.loading ? (
+                
                 <div className="list-header">
                   <div
                     style={{
