@@ -62,18 +62,18 @@ export default class StylistPanelList extends Component {
     await this.fetchOrders();
     await this.setState({
       loading: false
-    })
+    });
   }
 
   fetchOrders = async () => {
     try {
       let response = await axios(
-        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=${process.env.REACT_APP_FEKKAI_BACKEND_API_KEY}`
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        // .slice(response.data.length - 300, response.data.length)
+        .slice(response.data.length - 20, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -97,22 +97,17 @@ export default class StylistPanelList extends Component {
           "bl1_SH",
           "bl1_TH"
         ];
-        console.log(userResponse.data.user_data.email)
+        console.log(userResponse.data.user_data.email);
+
         // sort shampoo scores
-        if (
-          userResponse.data.user_data.compute === true
-          ) {
+        if (userResponse.data.user_data.compute === true) {
           let shampooKey;
           let conditionerKey;
           let thirdKey;
           let shampooValue;
           let conditionerValue;
           let thirdValue;
-          // data.push({
-          //   userCode: userCode.user_code,
-          //   locale: userCode.created || userCode.updated
-          // });
-          // } else {
+
           for (let key in userResponse.data.ingredients.master.formula) {
             if (key.includes("SH") && skeletons.indexOf(key) > -1) {
               // indexOf returns first index where an element can be found. -1 is not present.
@@ -291,7 +286,7 @@ export default class StylistPanelList extends Component {
   };
 
   refreshPage = () => {
-    window.location.reload()
+    window.location.reload();
   };
 
   render() {
@@ -310,7 +305,6 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
-
         <Fade>
           {!this.state.loading ? (
             <span align="left" id="filter">
