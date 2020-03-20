@@ -87,6 +87,10 @@ class App extends React.Component {
     });
   }
 
+  refreshPage = () => {
+    window.location.reload();
+  };
+
   fetchOrders = async () => {
     try {
       let response = await axios.get(
@@ -231,6 +235,11 @@ class App extends React.Component {
             <header className="img-container">
               <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
               
+ 
+
+  <button onClick={this.refreshPage} id="list-view-btn">
+                REFRESH
+              </button>
               {/* <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
                 RECO
               </p> */}
