@@ -99,10 +99,10 @@ export const Row = ({
             {name ? name : "n/a"}
           </div>
           <div className="image">
-            {frontSelfie ? (
-              <img id="selfie" alt={frontSelfie} src={frontSelfie} />
-            ) : (
+            {!frontSelfie || frontSelfie === "none" ? (
               <img id="selfie" alt={noPhoto} src={noPhoto} />
+            ) : (
+              <img id="selfie" alt={frontSelfie} src={frontSelfie} />
             )}
             <div id="modal"></div>
           </div>
