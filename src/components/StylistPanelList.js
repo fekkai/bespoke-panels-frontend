@@ -59,7 +59,7 @@ export default class StylistPanelList extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchOrders();
+    this.fetchOrders();
     await this.setState({
       loading: false
     });
@@ -73,7 +73,7 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        .slice(response.data.length - 20, response.data.length)
+        // .slice(response.data.length - 20, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -191,10 +191,13 @@ export default class StylistPanelList extends Component {
             frontSelfie: userResponse.data.user_data.front_selfie
           });
         }
+        this.setState({
+          data
+        });
       }
-      this.setState({
-        data
-      });
+      // this.setState({
+      //   data
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -285,10 +288,6 @@ export default class StylistPanelList extends Component {
     }
   };
 
-  refreshPage = () => {
-    window.location.reload();
-  };
-
   render() {
     let counter = 0;
     const { filter, data, ascending } = this.state;
@@ -337,9 +336,6 @@ export default class StylistPanelList extends Component {
           )}
           <Paper elevation={0}>
             <div className="table">
-              <button onClick={this.refreshPage} id="list-view-btn">
-                REFRESH
-              </button>
               {!this.state.loading ? (
                 <div className="list-header">
                   <div
