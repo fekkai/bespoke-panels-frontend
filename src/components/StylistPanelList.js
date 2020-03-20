@@ -74,7 +74,7 @@ export default class StylistPanelList extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=${process.env.REACT_APP_FEKKAI_BACKEND_API_KEY}`
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
