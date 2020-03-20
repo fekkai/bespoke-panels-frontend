@@ -177,6 +177,7 @@ export default class StylistPanelList extends Component {
             }
           }
           thirdScores.sort((a, b) => b - a);
+          console.log(shampooKey)
           data.push({
             id: userResponse.data._id,
             userCode: userCode.user_code,
@@ -201,7 +202,23 @@ export default class StylistPanelList extends Component {
             thirdKey,
             frontSelfie: userResponse.data.user_data.front_selfie
           });
+        } else if (userResponse.data.user_data.compute === false) {
+          data.push({
+            id: userResponse.data._id,
+            userCode: userCode.user_code,
+            locale: userCode.created || userCode.updated,
+            name: userResponse.data.user_data.name,
+            email: userResponse.data.user_data.email,
+            // thickness: !userResponse.data.user_data.answers.hair_thickness ? "" : userResponse.data.user_data.answers.hair_thickness,
+            // texture: !userResponse.data.user_data.answers.hair_texture ? "" : userResponse.data.user_data.answers.hair_texture,
+            // hairColor: !userResponse.data.user_data.answers.hair_color ? "" : userResponse.data.user_data.answers.hair_color,
+            // condition: !userResponse.data.user_data.answers.hair_condition ? "" : userResponse.data.user_data.answers.hair_condition,
+            // hairGoals: !userResponse.data.user_data.answers.hair_goals ? "" : userResponse.data.user_data.answers.hair_goals,
+            // length: !userResponse.data.user_data.answers.hair_length ? "" : userResponse.data.user_data.answers.hair_length,
+            // frontSelfie: !userResponse.data.user_data.front_selfie ? '' : userResponse.data.user_data.front_selfie
+          });
         }
+
       }
       this.setState({
         data
