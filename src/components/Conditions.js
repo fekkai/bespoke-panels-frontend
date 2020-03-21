@@ -18,6 +18,9 @@ export default function Conditions(props) {
         <li key="color-treated-highlights" onClick={props.handleChange}>
           color-treated-highlights
         </li>
+        <li key="color-treated-single-process" onClick={props.handleChange}>
+          color-treated-single-process
+        </li>
         <li key="chemically-treated" onClick={props.handleChange}>
           chemically-treated
         </li>

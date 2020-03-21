@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 //components
+import Color from "./Color";
 import Conditions from "./Conditions";
 import Goals from "./Goals";
 import { Row } from "./common";
@@ -53,6 +54,7 @@ export default class StylistPanelList extends Component {
       ascending: false,
       loading: true,
       checked: false,
+      colorOpen: false,
       conditionOpen: false,
       goalsOpen: false
     };
@@ -73,7 +75,7 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       for (let userCode of response.data
-        // .slice(response.data.length - 20, response.data.length)
+        // .slice(response.data.length - 5, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -97,7 +99,6 @@ export default class StylistPanelList extends Component {
           "bl1_SH",
           "bl1_TH"
         ];
-        console.log(userResponse.data.user_data.email);
 
         // sort shampoo scores
         if (userResponse.data.user_data.compute === true) {
@@ -174,7 +175,7 @@ export default class StylistPanelList extends Component {
             email: userResponse.data.user_data.email,
             thickness: userResponse.data.user_data.answers.hair_thickness,
             texture: userResponse.data.user_data.answers.hair_texture,
-            hairColor: userResponse.data.user_data.answers.hair_color,
+            hairColor: !userResponse.data.user_data.answers.hair_color ? 'n/a' : userResponse.data.user_data.answers.hair_color,
             condition: userResponse.data.user_data.answers.hair_condition,
             hairGoals: userResponse.data.user_data.answers.hair_goals,
             length: userResponse.data.user_data.answers.hair_length,
@@ -190,6 +191,7 @@ export default class StylistPanelList extends Component {
             thirdKey,
             frontSelfie: userResponse.data.user_data.front_selfie
           });
+          console.log(data);
         }
         this.setState({
           data
@@ -238,8 +240,9 @@ export default class StylistPanelList extends Component {
 
   handleChange = e => {
     this.setState({
-      filter: e.target.innerText || e.target.name,
+      filter: e.target.name || e.target.innerText,
       checked: true,
+      colorOpen: false,
       conditionOpen: false,
       goalsOpen: false
     });
@@ -248,8 +251,17 @@ export default class StylistPanelList extends Component {
   reset = e => {
     this.setState({
       filter: "",
+      colorOpen: false,
       conditionOpen: false,
       goalsOpen: false
+    });
+  };
+
+  handleColorBtn = () => {
+    this.setState(state => {
+      return {
+        colorOpen: !state.colorOpen
+      };
     });
   };
 
@@ -270,6 +282,14 @@ export default class StylistPanelList extends Component {
   };
 
   handleClickOutside = event => {
+    if (
+      this.container0.current &&
+      !this.container0.current.contains(event.target)
+    ) {
+      this.setState({
+        colorOpen: false
+      });
+    }
     if (
       this.container1.current &&
       !this.container1.current.contains(event.target)
@@ -293,7 +313,9 @@ export default class StylistPanelList extends Component {
     const { filter, data, ascending } = this.state;
     const filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
-        key === "condition" || key === "hairGoals"
+        key === "condition" ||
+        key === "hairGoals" 
+        || key === "hairColor"
           ? item[key]
               .toString()
               .toLocaleLowerCase()
@@ -388,16 +410,27 @@ export default class StylistPanelList extends Component {
                       TEXTURE <span>{ascending ? "▲" : "▼"}</span>
                     </div>
                   </div>
+
                   <div
+                    className="container"
+                    id="conditions-goals"
                     style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
                       flex: 0.5
                     }}
-                    onClick={() => this.sortBy("hairColor")}
+                    ref={this.container0}
                   >
-                    <div>
-                      COLOR <span>{ascending ? "▲" : "▼"}</span>
-                    </div>
+                    <div onClick={this.handleColorBtn}>COLOR ☰</div>
+                    {this.state.colorOpen && (
+                      <Color
+                        // checked={this.state.checked}
+                        handleChange={this.handleChange}
+                      />
+                    )}
                   </div>
+
                   <div
                     style={{
                       flex: 0.5
@@ -408,6 +441,7 @@ export default class StylistPanelList extends Component {
                       LENGTH <span>{ascending ? "▲" : "▼"}</span>
                     </div>
                   </div>
+
                   <div
                     className="container"
                     id="conditions-goals"
