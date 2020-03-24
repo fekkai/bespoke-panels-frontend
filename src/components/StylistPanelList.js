@@ -74,12 +74,28 @@ export default class StylistPanelList extends Component {
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
+      let quizCount = 0;
+      let abandonedQuiz = 0;
+
       for (let userCode of response.data
         // .slice(response.data.length - 5, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
+
+        if (
+          "2020-03-19T23:59:59" < userResponse.data.created &&
+          userResponse.data.user_data.compute === false
+        ) {
+          abandonedQuiz++;
+
+          this.setState({
+            abandonedQuiz
+          });
+
+          console.log(userResponse.data.created);
+        }
         const shampooScores = [];
         const conditionerScores = [];
         const thirdScores = [];
@@ -101,13 +117,21 @@ export default class StylistPanelList extends Component {
         ];
 
         // sort shampoo scores
-        if (userResponse.data.user_data.compute === true) {
+        if (
+          "2020-03-19T23:59:59" < userResponse.data.created &&
+          userResponse.data.user_data.compute === true
+        ) {
           let shampooKey;
           let conditionerKey;
           let thirdKey;
           let shampooValue;
           let conditionerValue;
           let thirdValue;
+          quizCount++;
+
+          this.setState({
+            quizCount
+          });
 
           for (let key in userResponse.data.ingredients.master.formula) {
             if (key.includes("SH") && skeletons.indexOf(key) > -1) {
@@ -175,7 +199,9 @@ export default class StylistPanelList extends Component {
             email: userResponse.data.user_data.email,
             thickness: userResponse.data.user_data.answers.hair_thickness,
             texture: userResponse.data.user_data.answers.hair_texture,
-            hairColor: !userResponse.data.user_data.answers.hair_color ? 'n/a' : userResponse.data.user_data.answers.hair_color,
+            hairColor: !userResponse.data.user_data.answers.hair_color
+              ? "n/a"
+              : userResponse.data.user_data.answers.hair_color,
             condition: userResponse.data.user_data.answers.hair_condition,
             hairGoals: userResponse.data.user_data.answers.hair_goals,
             length: userResponse.data.user_data.answers.hair_length,
@@ -191,11 +217,15 @@ export default class StylistPanelList extends Component {
             thirdKey,
             frontSelfie: userResponse.data.user_data.front_selfie
           });
-          console.log(data);
+          // capture emails
+          // if (userResponse.data.created.includes('2020-03-23' || '2020-03-22' || '2020-03-21')) {
+          // console.log(userResponse.data.user_data.email)
+          //  }
         }
         this.setState({
           data
         });
+        console.log(quizCount, abandonedQuiz);
       }
       // this.setState({
       //   data
@@ -313,9 +343,7 @@ export default class StylistPanelList extends Component {
     const { filter, data, ascending } = this.state;
     const filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
-        key === "condition" ||
-        key === "hairGoals" 
-        || key === "hairColor"
+        key === "condition" || key === "hairGoals" || key === "hairColor"
           ? item[key]
               .toString()
               .toLocaleLowerCase()
@@ -326,12 +354,16 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
+        <span>
+          COMPLETED QUIZZES: {this.state.quizCount} ABANDONED QUIZZES:{" "}
+          {this.state.abandonedQuiz} <br />  <br /> 
+        </span>
         <Fade>
           {!this.state.loading ? (
             <span align="left" id="filter">
               {this.state.filter ? (
-                <div>
-                  conditions/goals:{" "}
+                <div style={{fontSize: '13px'}}>
+                  FILTER:{" "}
                   <span
                     style={{
                       border: "2px solid #545454",
