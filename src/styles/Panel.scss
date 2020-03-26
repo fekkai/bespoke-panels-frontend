@@ -314,21 +314,22 @@ li:hover {
   cursor: pointer;
 }
 
+
 #filter {
-  -webkit-animation: conditionalOpen; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: conditionalOpen; /* Firefox < 16 */
-  -ms-animation: conditionalOpen; /* Internet Explorer */
-  -o-animation: conditionalOpen; /* Opera < 12.1 */
-  animation: conditionalOpen;
+  // -webkit-animation: conditionalOpen; /* Safari, Chrome and Opera > 12.1 */
+  // -moz-animation: conditionalOpen; /* Firefox < 16 */
+  // -ms-animation: conditionalOpen; /* Internet Explorer */
+  // -o-animation: conditionalOpen; /* Opera < 12.1 */
+  // animation: conditionalOpen;
   font-size: 18px;
   transition: all .5s ease-in-out;
   overflow: hidden;
-  height: 0
-
+  height: 0;
+  line-height: 50px;
 }
 
 #filter:target {
-  height: 100%;
+  height: 50px;
 }
 
 // fade animation keyframes

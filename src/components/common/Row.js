@@ -45,6 +45,7 @@ export const Row = ({
   hairGoals,
   frontSelfie
 }) => {
+  // console.log(email)
   dueDate = new Date(date)
     .addDays(2)
     .toLocaleString("en-US", { timeZone: "America/New_York" })

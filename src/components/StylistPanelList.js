@@ -8,12 +8,15 @@ import { Row } from "./common";
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
-import { RingLoader } from "react-spinners";
+import { RingLoader, PulseLoader } from "react-spinners";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // styling
 import "../styles/Panel.scss";
 import { css } from "@emotion/core";
+
+// react CSV
+import { CSVLink, CSVDownload } from "react-csv";
 
 import axios from "axios";
 import aws4 from "aws4";
@@ -62,6 +65,8 @@ export default class StylistPanelList extends Component {
 
   async componentDidMount() {
     this.fetchOrders();
+    await this.fetchQuizData();
+    await this.findSales();
     await this.setState({
       loading: false
     });
@@ -70,10 +75,23 @@ export default class StylistPanelList extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
+        "https://bespoke-backend-db.herokuapp.com/fekkai"
+      );
+      const orders = response.data.orders;
+      this.setState({ orders });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchQuizData = async () => {
+    try {
+      let response = await axios(
         `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=${process.env.REACT_APP_FEKKAI_BACKEND_API_KEY}`
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
+      const emails = [];
       let quizCount = 0;
       let abandonedQuiz = 0;
 
@@ -85,7 +103,7 @@ export default class StylistPanelList extends Component {
         );
 
         if (
-          "2020-03-19T23:59:59" < userResponse.data.created &&
+          userResponse.data.created > "2020-03-19T11:59:59" &&
           userResponse.data.user_data.compute === false
         ) {
           abandonedQuiz++;
@@ -93,9 +111,9 @@ export default class StylistPanelList extends Component {
           this.setState({
             abandonedQuiz
           });
-
-          console.log(userResponse.data.created);
         }
+
+        // arrays for sorting quiz scores
         const shampooScores = [];
         const conditionerScores = [];
         const thirdScores = [];
@@ -118,9 +136,13 @@ export default class StylistPanelList extends Component {
 
         // sort shampoo scores
         if (
-          "2020-03-19T23:59:59" < userResponse.data.created &&
+          userResponse.data.created > "2020-03-19T11:59:59" &&
           userResponse.data.user_data.compute === true
         ) {
+          // console.log(userResponse.data)
+          if (!emails.includes(userResponse.data.user_data.email.toLocaleLowerCase())){
+          emails.push(userResponse.data.user_data.email.toLocaleLowerCase());
+          }
           let shampooKey;
           let conditionerKey;
           let thirdKey;
@@ -173,6 +195,7 @@ export default class StylistPanelList extends Component {
           }
           conditionerScores.sort((a, b) => b - a);
 
+          // sort third scores
           for (let key in userResponse.data.ingredients.master.formula) {
             if (key.includes("TH") && skeletons.indexOf(key) > -1) {
               // indexOf returns first index where an element can be found. -1 is not present.
@@ -191,6 +214,7 @@ export default class StylistPanelList extends Component {
             }
           }
           thirdScores.sort((a, b) => b - a);
+
           data.push({
             id: userResponse.data._id,
             userCode: userCode.user_code,
@@ -217,21 +241,43 @@ export default class StylistPanelList extends Component {
             thirdKey,
             frontSelfie: userResponse.data.user_data.front_selfie
           });
-          // capture emails
-          // if (userResponse.data.created.includes('2020-03-23' || '2020-03-22' || '2020-03-21')) {
-          // console.log(userResponse.data.user_data.email)
-          //  }
         }
         this.setState({
-          data
+          data,
+          emails
         });
-        console.log(quizCount, abandonedQuiz);
       }
-      // this.setState({
-      //   data
-      // });
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  findSales = () => {
+    let saleEmail = 0;
+    let nonSaleEmail = 0;
+    let totalSales = 0;
+    let csv = [["created_at", "email", "subtotal", "total"]];
+
+    for (let email of this.state.emails) {
+      for (let order of this.state.orders) {
+        if (email === order.email) {
+          totalSales += parseFloat(order.total_price);
+          this.setState({ totalSales });
+          csv.push([
+            order.created_at,
+            order.email,
+            order.subtotal_price,
+            order.total_price
+          ]);
+          console.log(order.created_at,
+            order.email,
+            order.subtotal_price,
+            order.total_price)
+        }
+      }
+      this.setState({ totalSales, 
+                csv 
+              });
     }
   };
 
@@ -356,13 +402,28 @@ export default class StylistPanelList extends Component {
       <div className="dashboard">
         <span>
           COMPLETED QUIZZES: {this.state.quizCount} ABANDONED QUIZZES:{" "}
-          {this.state.abandonedQuiz} <br />  <br /> 
+          {this.state.abandonedQuiz} <br /> <br />
+          <span style={{ display: "flex", flexDirection: "row" }}>
+            TOTAL SALES:{" "}
+            {this.state.loading === false ? (
+              <span>
+                {this.state.totalSales}{" "}
+                <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink>
+              </span>
+            ) : (
+              <span>
+                {" "}
+                <PulseLoader size={8} />
+              </span>
+            )}
+          </span>
+          {/* {this.state.loading === true ? '' : <CSVLink data={this.state.csv}>Download me</CSVLink>} */}
         </span>
         <Fade>
           {!this.state.loading ? (
             <span align="left" id="filter">
               {this.state.filter ? (
-                <div style={{fontSize: '13px'}}>
+                <div style={{ fontSize: "13px" }}>
                   FILTER:{" "}
                   <span
                     style={{
@@ -390,129 +451,126 @@ export default class StylistPanelList extends Component {
           )}
           <Paper elevation={0}>
             <div className="table">
-              {!this.state.loading ? (
-                <div className="list-header">
-                  <div
-                    style={{
-                      flex: 0.7
-                    }}
-                    onClick={() => this.sortBy("locale")}
-                  >
-                    <div>
-                      {" "}
-                      DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      flex: 0.4
-                    }}
-                    // onClick={() => this.sortBy("name")}
-                  >
-                    <div>
-                      NAME <span>{/* {ascending ? "▲" : "▼"} */}</span>
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      flex: 0.7
-                    }}
-                    // onClick={() => this.sortBy("frontSelfie")}
-                  >
-                    <div>SELFIE</div>
-                  </div>
-                  <div
-                    style={{
-                      flex: 0.5
-                    }}
-                    onClick={() => this.sortBy("thickness")}
-                  >
-                    <div>
-                      THICK <span>{ascending ? "▲" : "▼"}</span>
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      flex: 0.5
-                    }}
-                    onClick={() => this.sortBy("texture")}
-                  >
-                    <div>
-                      TEXTURE <span>{ascending ? "▲" : "▼"}</span>
-                    </div>
-                  </div>
-
-                  <div
-                    className="container"
-                    id="conditions-goals"
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      flex: 0.5
-                    }}
-                    ref={this.container0}
-                  >
-                    <div onClick={this.handleColorBtn}>COLOR ☰</div>
-                    {this.state.colorOpen && (
-                      <Color
-                        // checked={this.state.checked}
-                        handleChange={this.handleChange}
-                      />
-                    )}
-                  </div>
-
-                  <div
-                    style={{
-                      flex: 0.5
-                    }}
-                    onClick={() => this.sortBy("length")}
-                  >
-                    <div>
-                      LENGTH <span>{ascending ? "▲" : "▼"}</span>
-                    </div>
-                  </div>
-
-                  <div
-                    className="container"
-                    id="conditions-goals"
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      flex: 1
-                    }}
-                    ref={this.container1}
-                  >
-                    <div onClick={this.handleConditionBtn}>CONDITIONS ☰</div>
-                    {this.state.conditionOpen && (
-                      <Conditions
-                        // checked={this.state.checked}
-                        handleChange={this.handleChange}
-                      />
-                    )}
-                  </div>
-
-                  <div
-                    id="conditions-goals"
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      flex: 1
-                    }}
-                    ref={this.container2}
-                  >
-                    <div onClick={this.handleGoalsBtn}>GOALS ☰</div>
-                    {this.state.goalsOpen && (
-                      <Goals handleChange={this.handleChange} />
-                    )}
+              <div className="list-header">
+                <div
+                  style={{
+                    flex: 0.7
+                  }}
+                  onClick={() => this.sortBy("locale")}
+                >
+                  <div>
+                    {" "}
+                    DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
                   </div>
                 </div>
-              ) : (
-                ""
-              )}
+                <div
+                  style={{
+                    flex: 0.4
+                  }}
+                  // onClick={() => this.sortBy("name")}
+                >
+                  <div>
+                    NAME <span>{/* {ascending ? "▲" : "▼"} */}</span>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    flex: 0.7
+                  }}
+                  // onClick={() => this.sortBy("frontSelfie")}
+                >
+                  <div>SELFIE</div>
+                </div>
+                <div
+                  style={{
+                    flex: 0.5
+                  }}
+                  onClick={() => this.sortBy("thickness")}
+                >
+                  <div>
+                    THICK <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    flex: 0.5
+                  }}
+                  onClick={() => this.sortBy("texture")}
+                >
+                  <div>
+                    TEXTURE <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
+                </div>
+
+                <div
+                  className="container"
+                  id="conditions-goals"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                    flex: 0.5
+                  }}
+                  ref={this.container0}
+                >
+                  <div onClick={this.handleColorBtn}>COLOR ☰</div>
+                  {this.state.colorOpen && (
+                    <Color
+                      // checked={this.state.checked}
+                      handleChange={this.handleChange}
+                    />
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    flex: 0.5
+                  }}
+                  onClick={() => this.sortBy("length")}
+                >
+                  <div>
+                    LENGTH <span>{ascending ? "▲" : "▼"}</span>
+                  </div>
+                </div>
+
+                <div
+                  className="container"
+                  id="conditions-goals"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                    flex: 1
+                  }}
+                  ref={this.container1}
+                >
+                  <div onClick={this.handleConditionBtn}>CONDITIONS ☰</div>
+                  {this.state.conditionOpen && (
+                    <Conditions
+                      // checked={this.state.checked}
+                      handleChange={this.handleChange}
+                    />
+                  )}
+                </div>
+
+                <div
+                  id="conditions-goals"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                    flex: 1
+                  }}
+                  ref={this.container2}
+                >
+                  <div onClick={this.handleGoalsBtn}>GOALS ☰</div>
+                  {this.state.goalsOpen && (
+                    <Goals handleChange={this.handleChange} />
+                  )}
+                </div>
+              </div>
+
               <div>
                 {filteredData.map(rowData => {
                   return (
@@ -551,12 +609,12 @@ export default class StylistPanelList extends Component {
                     </Link>
                   );
                 })}
-                <RingLoader
+                {/* <RingLoader
                   css={override}
                   size={150}
                   color={"#545454"}
                   loading={this.state.loading}
-                />
+                /> */}
               </div>
             </div>
           </Paper>
