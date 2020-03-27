@@ -78,7 +78,7 @@ export default class StylistPanelList extends Component {
         "https://bespoke-backend-db.herokuapp.com/fekkai"
       );
       let responses = await axios(
-        "http://localhost:4000/orders"
+        "https://bespoke-backend-db.herokuapp.com/orders"
       );
       console.log(responses.data)
 
