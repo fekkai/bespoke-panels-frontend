@@ -94,7 +94,7 @@ export default class StylistPanelList extends Component {
   fetchQuizData = async () => {
     try {
       let response = await axios(
-        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=${process.env.REACT_APP_FEKKAI_BACKEND_API_KEY}`
+        `https://bespoke-backend-db.herokuapp.com/fekkai-backend`
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
