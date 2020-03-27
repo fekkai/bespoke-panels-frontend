@@ -425,7 +425,7 @@ console.log(this.state.emails)
             {this.state.loading === false ? (
               <span>
                 {this.state.totalSales}{" "}
-                <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink>
+                {/* <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink> */}
               </span>
             ) : (
               <span>
