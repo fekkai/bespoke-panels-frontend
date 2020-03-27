@@ -92,8 +92,9 @@ export default class StylistPanelList extends Component {
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       const emails = [];
-      let quizCount = 0;
+      let completedQuizCount = 0;
       let abandonedQuiz = 0;
+      let totalQuizCount = response.data.length;
 
       for (let userCode of response.data
         // .slice(response.data.length - 5, response.data.length)
@@ -101,9 +102,9 @@ export default class StylistPanelList extends Component {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
-
+       
         if (
-          userResponse.data.created > "2020-03-19T11:59:59" &&
+          // userResponse.data.created > "2020-03-19T23:59:59" &&
           userResponse.data.user_data.compute === false
         ) {
           abandonedQuiz++;
@@ -136,12 +137,16 @@ export default class StylistPanelList extends Component {
 
         // sort shampoo scores
         if (
-          userResponse.data.created > "2020-03-19T11:59:59" &&
+          // userResponse.data.created > "2020-03-19T23:59:59" &&
           userResponse.data.user_data.compute === true
         ) {
           // console.log(userResponse.data)
-          if (!emails.includes(userResponse.data.user_data.email.toLocaleLowerCase())){
-          emails.push(userResponse.data.user_data.email.toLocaleLowerCase());
+          if (
+            !emails.includes(
+              userResponse.data.user_data.email.toLocaleLowerCase()
+            )
+          ) {
+            emails.push(userResponse.data.user_data.email.toLocaleLowerCase());
           }
           let shampooKey;
           let conditionerKey;
@@ -149,10 +154,10 @@ export default class StylistPanelList extends Component {
           let shampooValue;
           let conditionerValue;
           let thirdValue;
-          quizCount++;
+          completedQuizCount++;
 
           this.setState({
-            quizCount
+            completedQuizCount
           });
 
           for (let key in userResponse.data.ingredients.master.formula) {
@@ -244,7 +249,8 @@ export default class StylistPanelList extends Component {
         }
         this.setState({
           data,
-          emails
+          emails,
+          totalQuizCount
         });
       }
     } catch (error) {
@@ -269,15 +275,15 @@ export default class StylistPanelList extends Component {
             order.subtotal_price,
             order.total_price
           ]);
-          console.log(order.created_at,
+          console.log(
+            order.created_at,
             order.email,
             order.subtotal_price,
-            order.total_price)
+            order.total_price
+          );
         }
       }
-      this.setState({ totalSales, 
-                csv 
-              });
+      this.setState({ totalSales, csv });
     }
   };
 
@@ -401,10 +407,13 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <span>
-          COMPLETED QUIZZES: {this.state.quizCount} ABANDONED QUIZZES:{" "}
-          {this.state.abandonedQuiz} <br /> <br />
+          TOTAL QUIZ COUNT: {this.state.totalQuizCount}
+          <br /> COMPLETED QUIZ COUNT: {this.state.completedQuizCount}
+          <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
+          {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
+          <br /> <br />
           <span style={{ display: "flex", flexDirection: "row" }}>
-            TOTAL SALES:{" "}
+            {/* TOTAL SALES:{" "}
             {this.state.loading === false ? (
               <span>
                 {this.state.totalSales}{" "}
@@ -415,7 +424,7 @@ export default class StylistPanelList extends Component {
                 {" "}
                 <PulseLoader size={8} />
               </span>
-            )}
+            )} */}
           </span>
           {/* {this.state.loading === true ? '' : <CSVLink data={this.state.csv}>Download me</CSVLink>} */}
         </span>
