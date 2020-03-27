@@ -77,8 +77,15 @@ export default class StylistPanelList extends Component {
       let response = await axios(
         "https://bespoke-backend-db.herokuapp.com/fekkai"
       );
-      const orders = response.data.orders;
+      let responses = await axios(
+        "http://localhost:4000/orders"
+      );
+      console.log(responses.data)
+
+      // const orders = response.data.orders;
+            const orders = responses.data;
       this.setState({ orders });
+      
     } catch (error) {
       console.error(error);
     }
@@ -263,24 +270,25 @@ export default class StylistPanelList extends Component {
     let nonSaleEmail = 0;
     let totalSales = 0;
     let csv = [["created_at", "email", "subtotal", "total"]];
-
+    // emails compute true
+console.log(this.state.emails)
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
-        if (email === order.email) {
-          totalSales += parseFloat(order.total_price);
+        if (order.total && email === order.email.toLocaleLowerCase()) {
+          totalSales += parseFloat(order.total);
           this.setState({ totalSales });
           csv.push([
             order.created_at,
             order.email,
-            order.subtotal_price,
-            order.total_price
+            order.subtotal,
+            order.total
           ]);
-          console.log(
-            order.created_at,
-            order.email,
-            order.subtotal_price,
-            order.total_price
-          );
+          // console.log(
+          //   order.created_at,
+          //   order.email,
+          //   order.subtotal_price,
+          //   order.total_price
+          // );
         }
       }
       this.setState({ totalSales, csv });
@@ -413,7 +421,7 @@ export default class StylistPanelList extends Component {
           {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
           <br /> <br />
           <span style={{ display: "flex", flexDirection: "row" }}>
-            {/* TOTAL SALES:{" "}
+            TOTAL SALES:{" "}
             {this.state.loading === false ? (
               <span>
                 {this.state.totalSales}{" "}
@@ -424,9 +432,9 @@ export default class StylistPanelList extends Component {
                 {" "}
                 <PulseLoader size={8} />
               </span>
-            )} */}
+            )}
           </span>
-          {/* {this.state.loading === true ? '' : <CSVLink data={this.state.csv}>Download me</CSVLink>} */}
+        
         </span>
         <Fade>
           {!this.state.loading ? (
