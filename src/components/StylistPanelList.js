@@ -23,7 +23,7 @@ import aws4 from 'aws4'
 
 const override = css`
   display: block;
-  margin: 0 auto;
+  margin: 0 auto
   margin-top: ${7}%;
 `
 
@@ -104,17 +104,9 @@ export default class StylistPanelList extends Component {
       let totalQuizCount = response.data.length
       let userData = response.data.reverse()
       let page = this.state.page
-      // for (let userCode of userData
-
-      for (
-        let i = page * 50 - 50;
-        i < page * 50;
-        i++ // .slice(response.data.length - 100, response.data.length) // )
-      ) {
-        let userCode = userData[i].user_code
-        console.log(userCode)
+      for (let userCode of userData) {
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         )
 
         if (
@@ -236,8 +228,8 @@ export default class StylistPanelList extends Component {
 
           data.push({
             id: userResponse.data._id,
-            userCode: userData[i].user_code,
-            locale: userData[i].created || userData[i].updated,
+            userCode: userResponse.data.user_code,
+            locale: userResponse.data.created || userResponse.data.updated,
             name: userResponse.data.user_data.name,
             email: userResponse.data.user_data.email,
             hairThickness: userResponse.data.user_data.answers.hair_thickness,
@@ -262,14 +254,16 @@ export default class StylistPanelList extends Component {
             shampooKey,
             conditionerKey,
             thirdKey,
-            frontSelfie: userResponse.data.user_data.front_selfie
+            frontSelfie: userResponse.data.user_data.front_selfie,
+            page: this.state.page
+          })
+          this.setState({
+            data,
+            emails,
+            totalQuizCount,
+            loading: false
           })
         }
-        this.setState({
-          data,
-          emails,
-          totalQuizCount
-        })
       }
     } catch (error) {
       console.error(error)
@@ -436,19 +430,43 @@ export default class StylistPanelList extends Component {
     await this.fetchQuizData()
   }
 
-  renderPagination = () => {
-    let numPages = Math.floor(this.state.totalQuizCount / 50)
-    let pagesArr = []
-    for (let i = 0; i < numPages; i++) {
-      pagesArr.push(i+1)
-    }
-    console.log(pagesArr)
-    return(
-    pagesArr.map(num => {
-    return <button onClick={this.handlePage} value={num}>{num}</button>}
-    )
-    )
+  handlePageDrop = async e => {
+    await this.setState({
+      page: e.target.value,
+      loading: true
+    })
+    await this.fetchQuizData()
   }
+
+  // renderPagination = () => {
+  //   let numPages = Math.floor(this.state.totalQuizCount / 35)
+  //   let pagesArr = []
+  //   for (let i = 0; i < numPages; i++) {
+  //     pagesArr.push(i + 1)
+  //   }
+
+  //   // dropdown
+  //   return (
+  //     <select className="select-css" onChange={this.handlePageDrop}>
+  //       {pagesArr.map(num => {
+  //         return <option>{num}</option>
+  //       })}
+  //     </select>
+  //   )
+
+  //   // individual pages
+  //   // return pagesArr.map(num => {
+  //   //   return (
+  //   //     <button
+  //   //       className="page-number-btn"
+  //   //       onClick={this.handlePage}
+  //   //       value={num}
+  //   //     >
+  //   //       {num}
+  //   //     </button>
+  //   //   )
+  //   // })
+  // }
 
   render() {
     let counter = 0
@@ -466,7 +484,7 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
-        <span>
+        <div>
           TOTAL QUIZ COUNT: {this.state.totalQuizCount}
           <br /> COMPLETED QUIZ COUNT: {this.state.completedQuizCount}
           <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
@@ -486,47 +504,41 @@ export default class StylistPanelList extends Component {
               </span>
             )}
           </span> */}
-        </span>
-        {this.renderPagination()}
-        <button onClick={this.handleFirstPage}>First</button>
+        </div>
+        {/* <span>{this.renderPagination()}</span> */}
+        <span>{!this.state.loading ? '' : <PulseLoader size={8} />}</span>
+        {/* <button onClick={this.handleFirstPage}>First</button>
         <button onClick={this.handlePrevPage}>Previous</button>
-        <button onClick={this.handleNextPage}>Next</button>
-
-        <button onClick={this.handlePage} value={this.state.page}>
-          {this.state.page}
-        </button>
+        <button onClick={this.handleNextPage}>Next</button> */}
         <Fade>
-          {!this.state.loading ? (
-            <span align="left" id="filter">
-              {this.state.filter ? (
-                <Fade>
-                  <div style={{ fontSize: '13px' }}>
-                    FILTER:{' '}
+          <span align="left" id="filter">
+            {this.state.filter ? (
+              <Fade>
+                <div style={{ fontSize: '13px' }}>
+                  FILTER:{' '}
+                  <span
+                    style={{
+                      border: '2px solid #545454',
+                      padding: '0 7px'
+                    }}
+                  >
+                    {this.state.filter}{' '}
                     <span
                       style={{
-                        border: '2px solid #545454',
-                        padding: '0 7px'
+                        cursor: 'pointer'
                       }}
+                      onClick={this.reset}
                     >
-                      {this.state.filter}{' '}
-                      <span
-                        style={{
-                          cursor: 'pointer'
-                        }}
-                        onClick={this.reset}
-                      >
-                        x
-                      </span>
+                      x
                     </span>
-                  </div>
-                </Fade>
-              ) : (
-                ''
-              )}
-            </span>
-          ) : (
-            ''
-          )}
+                  </span>
+                </div>
+              </Fade>
+            ) : (
+              ''
+            )}
+          </span>
+
           <Paper elevation={0}>
             <div className="table">
               <div className="list-header">
@@ -679,7 +691,8 @@ export default class StylistPanelList extends Component {
                           shampooKey: rowData.shampooKey,
                           conditionerKey: rowData.conditionerKey,
                           thirdKey: rowData.thirdKey,
-                          frontSelfie: rowData.frontSelfie
+                          frontSelfie: rowData.frontSelfie,
+                          page: rowData.page
                         }
                       }}
                     >
@@ -687,11 +700,11 @@ export default class StylistPanelList extends Component {
                     </Link>
                   )
                 })}
-
-                {/* <RingLoader
+{/* 
+                <RingLoader
                   css={override}
                   size={150}
-                  color={"#545454"}
+                  color={'#545454'}
                   loading={this.state.loading}
                 /> */}
               </div>
