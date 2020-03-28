@@ -1,58 +1,58 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 //components
-import Color from "./Color";
-import Conditions from "./Conditions";
-import Goals from "./Goals";
-import { Row } from "./common";
-import { Link } from "react-router-dom";
-import Fade from "react-reveal/Fade";
-import { Paper } from "@material-ui/core";
-import { RingLoader, PulseLoader } from "react-spinners";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Color from './Color'
+import Conditions from './Conditions'
+import Goals from './Goals'
+import { Row } from './common'
+import { Link } from 'react-router-dom'
+import Fade from 'react-reveal/Fade'
+import { Paper } from '@material-ui/core'
+import { RingLoader, PulseLoader } from 'react-spinners'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 // styling
-import "../styles/Panel.scss";
-import { css } from "@emotion/core";
+import '../styles/Panel.scss'
+import { css } from '@emotion/core'
 
 // react CSV
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink, CSVDownload } from 'react-csv'
 
-import axios from "axios";
-import aws4 from "aws4";
+import axios from 'axios'
+import aws4 from 'aws4'
 
 const override = css`
   display: block;
   margin: 0 auto;
   margin-top: ${7}%;
-`;
+`
 
-const primary = [600];
+const primary = [600]
 
 let request = {
-  hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
-  method: "GET",
-  url: "https://5qdtfxj5j5.execute-api.us-east-1.amazonaws.com/latest",
-  path: "/latest"
-};
+  hostname: '5qdtfxj5j5.execute-api.us-east-1.amazonaws.com',
+  method: 'GET',
+  url: 'https://5qdtfxj5j5.execute-api.us-east-1.amazonaws.com/latest',
+  path: '/latest'
+}
 
 let signedRequest = aws4.sign(request, {
   accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
   secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-});
+})
 
-delete signedRequest.headers["Host"];
-delete signedRequest.headers["Content-Length"];
+delete signedRequest.headers['Host']
+delete signedRequest.headers['Content-Length']
 
-const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY;
+const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY
 
 export default class StylistPanelList extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       reload: false,
-      filter: "",
+      filter: '',
       data: [],
       ascending: false,
       loading: true,
@@ -60,87 +60,86 @@ export default class StylistPanelList extends Component {
       colorOpen: false,
       conditionOpen: false,
       goalsOpen: false
-    };
+    }
   }
 
   async componentDidMount() {
-    this.fetchOrders();
-    await this.fetchQuizData();
-    await this.findSales();
+    this.fetchOrders()
+    await this.fetchQuizData()
+    await this.findSales()
     await this.setState({
       loading: false
-    });
+    })
   }
 
   fetchOrders = async () => {
     try {
       let response = await axios(
-        "https://bespoke-backend-db.herokuapp.com/fekkai"
-      );
+        'https://bespoke-backend-db.herokuapp.com/fekkai'
+      )
       let responses = await axios(
-        "https://bespoke-backend-db.herokuapp.com/orders"
-      );
+        'https://bespoke-backend-db.herokuapp.com/orders'
+      )
       console.log(responses.data)
 
       // const orders = response.data.orders;
-            const orders = responses.data;
-      this.setState({ orders });
-      
+      const orders = responses.data
+      this.setState({ orders })
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   fetchQuizData = async () => {
     try {
       let response = await axios(
         `https://bespoke-backend-db.herokuapp.com/fekkai-backend`
-      );
+      )
       // response = JSON.parse(JSON.stringify(response));
-      const data = [];
-      const emails = [];
-      let completedQuizCount = 0;
-      let abandonedQuiz = 0;
-      let totalQuizCount = response.data.length;
+      const data = []
+      const emails = []
+      let completedQuizCount = 0
+      let abandonedQuiz = 0
+      let totalQuizCount = response.data.length
 
       for (let userCode of response.data
-        // .slice(response.data.length - 5, response.data.length)
+        // .slice(response.data.length - 100, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
-        );
-       
+        )
+
         if (
           // userResponse.data.created > "2020-03-19T23:59:59" &&
           userResponse.data.user_data.compute === false
         ) {
-          abandonedQuiz++;
+          abandonedQuiz++
 
           this.setState({
             abandonedQuiz
-          });
+          })
         }
 
         // arrays for sorting quiz scores
-        const shampooScores = [];
-        const conditionerScores = [];
-        const thirdScores = [];
+        const shampooScores = []
+        const conditionerScores = []
+        const thirdScores = []
         const skeletons = [
-          "moi1_SH",
-          "moi1_CN",
-          "moi1_TH",
-          "col1_SH",
-          "col1_CN",
-          "col1_TH",
-          "vol1_SH",
-          "vol1_CN",
-          "vol1_TH",
-          "rep1_SH",
-          "rep1_CN",
-          "rep1_TH",
-          "bl1_SH",
-          "bl1_TH"
-        ];
+          'moi1_SH',
+          'moi1_CN',
+          'moi1_TH',
+          'col1_SH',
+          'col1_CN',
+          'col1_TH',
+          'vol1_SH',
+          'vol1_CN',
+          'vol1_TH',
+          'rep1_SH',
+          'rep1_CN',
+          'rep1_TH',
+          'bl1_SH',
+          'bl1_TH'
+        ]
 
         // sort shampoo scores
         if (
@@ -153,79 +152,79 @@ export default class StylistPanelList extends Component {
               userResponse.data.user_data.email.toLocaleLowerCase()
             )
           ) {
-            emails.push(userResponse.data.user_data.email.toLocaleLowerCase());
+            emails.push(userResponse.data.user_data.email.toLocaleLowerCase())
           }
-          let shampooKey;
-          let conditionerKey;
-          let thirdKey;
-          let shampooValue;
-          let conditionerValue;
-          let thirdValue;
-          completedQuizCount++;
+          let shampooKey
+          let conditionerKey
+          let thirdKey
+          let shampooValue
+          let conditionerValue
+          let thirdValue
+          completedQuizCount++
 
           this.setState({
             completedQuizCount
-          });
+          })
 
           for (let key in userResponse.data.ingredients.master.formula) {
-            if (key.includes("SH") && skeletons.indexOf(key) > -1) {
+            if (key.includes('SH') && skeletons.indexOf(key) > -1) {
               // indexOf returns first index where an element can be found. -1 is not present.
               shampooScores.push(
                 parseInt(userResponse.data.ingredients.master.formula[key])
-              );
-              shampooScores.sort((a, b) => b - a);
+              )
+              shampooScores.sort((a, b) => b - a)
             }
             if (
               shampooScores[0] ===
                 userResponse.data.ingredients.master.formula[key] &&
-              key.includes("SH")
+              key.includes('SH')
             ) {
-              shampooKey = key;
-              shampooValue = userResponse.data.ingredients.master.formula[key];
+              shampooKey = key
+              shampooValue = userResponse.data.ingredients.master.formula[key]
             }
           }
-          shampooScores.sort((a, b) => b - a);
+          shampooScores.sort((a, b) => b - a)
 
           // sort conditioner scores
           for (let key in userResponse.data.ingredients.master.formula) {
-            if (key.includes("CN") && skeletons.indexOf(key) > -1) {
+            if (key.includes('CN') && skeletons.indexOf(key) > -1) {
               // indexOf returns first index where an element can be found. -1 is not present.
               conditionerScores.push(
                 parseInt(userResponse.data.ingredients.master.formula[key])
-              );
-              conditionerScores.sort((a, b) => b - a);
+              )
+              conditionerScores.sort((a, b) => b - a)
             }
             if (
               conditionerScores[0] ===
                 userResponse.data.ingredients.master.formula[key] &&
-              key.includes("CN")
+              key.includes('CN')
             ) {
-              conditionerKey = key;
+              conditionerKey = key
               conditionerValue =
-                userResponse.data.ingredients.master.formula[key];
+                userResponse.data.ingredients.master.formula[key]
             }
           }
-          conditionerScores.sort((a, b) => b - a);
+          conditionerScores.sort((a, b) => b - a)
 
           // sort third scores
           for (let key in userResponse.data.ingredients.master.formula) {
-            if (key.includes("TH") && skeletons.indexOf(key) > -1) {
+            if (key.includes('TH') && skeletons.indexOf(key) > -1) {
               // indexOf returns first index where an element can be found. -1 is not present.
               thirdScores.push(
                 parseInt(userResponse.data.ingredients.master.formula[key])
-              );
-              thirdScores.sort((a, b) => b - a);
+              )
+              thirdScores.sort((a, b) => b - a)
             }
             if (
               thirdScores[0] ===
                 userResponse.data.ingredients.master.formula[key] &&
-              key.includes("TH")
+              key.includes('TH')
             ) {
-              thirdKey = key;
-              thirdValue = userResponse.data.ingredients.master.formula[key];
+              thirdKey = key
+              thirdValue = userResponse.data.ingredients.master.formula[key]
             }
           }
-          thirdScores.sort((a, b) => b - a);
+          thirdScores.sort((a, b) => b - a)
 
           data.push({
             id: userResponse.data._id,
@@ -236,7 +235,7 @@ export default class StylistPanelList extends Component {
             thickness: userResponse.data.user_data.answers.hair_thickness,
             texture: userResponse.data.user_data.answers.hair_texture,
             hairColor: !userResponse.data.user_data.answers.hair_color
-              ? "n/a"
+              ? 'n/a'
               : userResponse.data.user_data.answers.hair_color,
             condition: userResponse.data.user_data.answers.hair_condition,
             hairGoals: userResponse.data.user_data.answers.hair_goals,
@@ -252,37 +251,32 @@ export default class StylistPanelList extends Component {
             conditionerKey,
             thirdKey,
             frontSelfie: userResponse.data.user_data.front_selfie
-          });
+          })
         }
         this.setState({
           data,
           emails,
           totalQuizCount
-        });
+        })
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   findSales = () => {
-    let saleEmail = 0;
-    let nonSaleEmail = 0;
-    let totalSales = 0;
-    let csv = [["created_at", "email", "subtotal", "total"]];
+    let saleEmail = 0
+    let nonSaleEmail = 0
+    let totalSales = 0
+    let csv = [['created_at', 'email', 'subtotal', 'total']]
     // emails compute true
-console.log(this.state.emails)
+    console.log(this.state.emails)
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
         if (order.total && email === order.email.toLocaleLowerCase()) {
-          totalSales += parseFloat(order.total);
-          this.setState({ totalSales });
-          csv.push([
-            order.created_at,
-            order.email,
-            order.subtotal,
-            order.total
-          ]);
+          totalSales += parseFloat(order.total)
+          this.setState({ totalSales })
+          csv.push([order.created_at, order.email, order.subtotal, order.total])
           // console.log(
           //   order.created_at,
           //   order.email,
@@ -291,42 +285,42 @@ console.log(this.state.emails)
           // );
         }
       }
-      this.setState({ totalSales, csv });
+      this.setState({ totalSales, csv })
     }
-  };
+  }
 
   compareAsc = key => {
     this.setState({
       ascending: true
-    });
+    })
     return function(a, b) {
       if (a[key] < b[key]) {
-        return -1;
+        return -1
       }
-    };
-  };
+    }
+  }
 
   compareDsc = key => {
     this.setState({
       ascending: false
-    });
+    })
     return function(a, b) {
       if (a[key] > b[key]) {
-        return -1;
+        return -1
       }
-    };
-  };
+    }
+  }
 
   sortBy = key => {
-    let arrayCopy = [...this.state.data];
+    let arrayCopy = [...this.state.data]
     if (this.state.ascending === true) {
-      arrayCopy.sort(this.compareDsc(key));
-      this.setState({ data: arrayCopy });
+      arrayCopy.sort(this.compareDsc(key))
+      this.setState({ data: arrayCopy })
     } else if (this.state.ascending === false) {
-      arrayCopy.sort(this.compareAsc(key));
-      this.setState({ data: arrayCopy });
+      arrayCopy.sort(this.compareAsc(key))
+      this.setState({ data: arrayCopy })
     }
-  };
+  }
 
   handleChange = e => {
     this.setState({
@@ -335,41 +329,41 @@ console.log(this.state.emails)
       colorOpen: false,
       conditionOpen: false,
       goalsOpen: false
-    });
-  };
+    })
+  }
 
   reset = e => {
     this.setState({
-      filter: "",
+      filter: '',
       colorOpen: false,
       conditionOpen: false,
       goalsOpen: false
-    });
-  };
+    })
+  }
 
   handleColorBtn = () => {
     this.setState(state => {
       return {
         colorOpen: !state.colorOpen
-      };
-    });
-  };
+      }
+    })
+  }
 
   handleConditionBtn = () => {
     this.setState(state => {
       return {
         conditionOpen: !state.conditionOpen
-      };
-    });
-  };
+      }
+    })
+  }
 
   handleGoalsBtn = () => {
     this.setState(state => {
       return {
         goalsOpen: !state.goalsOpen
-      };
-    });
-  };
+      }
+    })
+  }
 
   handleClickOutside = event => {
     if (
@@ -378,7 +372,7 @@ console.log(this.state.emails)
     ) {
       this.setState({
         colorOpen: false
-      });
+      })
     }
     if (
       this.container1.current &&
@@ -386,7 +380,7 @@ console.log(this.state.emails)
     ) {
       this.setState({
         conditionOpen: false
-      });
+      })
     }
     if (
       this.container2.current &&
@@ -394,23 +388,23 @@ console.log(this.state.emails)
     ) {
       this.setState({
         goalsOpen: false
-      });
+      })
     }
-  };
+  }
 
   render() {
-    let counter = 0;
-    const { filter, data, ascending } = this.state;
+    let counter = 0
+    const { filter, data, ascending } = this.state
     const filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
-        key === "condition" || key === "hairGoals" || key === "hairColor"
+        key === 'condition' || key === 'hairGoals' || key === 'hairColor'
           ? item[key]
               .toString()
               .toLocaleLowerCase()
               .includes(filter.toLocaleLowerCase())
-          : ""
-      );
-    });
+          : ''
+      )
+    })
 
     return (
       <div className="dashboard">
@@ -420,38 +414,37 @@ console.log(this.state.emails)
           <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
           {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
           <br /> <br />
-          <span style={{ display: "flex", flexDirection: "row" }}>
-            TOTAL SALES:{" "}
+          {/* <span style={{ display: 'flex', flexDirection: 'row' }}>
+            TOTAL SALES:{' '}
             {this.state.loading === false ? (
               <span>
-                {this.state.totalSales}{" "}
-                {/* <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink> */}
+                {this.state.totalSales}{' '}
+                <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink>
               </span>
             ) : (
               <span>
-                {" "}
+                {' '}
                 <PulseLoader size={8} />
               </span>
             )}
-          </span>
-        
+          </span> */}
         </span>
         <Fade>
           {!this.state.loading ? (
             <span align="left" id="filter">
               {this.state.filter ? (
-                <div style={{ fontSize: "13px" }}>
-                  FILTER:{" "}
+                <div style={{ fontSize: '13px' }}>
+                  FILTER:{' '}
                   <span
                     style={{
-                      border: "2px solid #545454",
-                      padding: "0 7px"
+                      border: '2px solid #545454',
+                      padding: '0 7px'
                     }}
                   >
-                    {this.state.filter}{" "}
+                    {this.state.filter}{' '}
                     <span
                       style={{
-                        cursor: "pointer"
+                        cursor: 'pointer'
                       }}
                       onClick={this.reset}
                     >
@@ -460,11 +453,11 @@ console.log(this.state.emails)
                   </span>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </span>
           ) : (
-            ""
+            ''
           )}
           <Paper elevation={0}>
             <div className="table">
@@ -473,11 +466,11 @@ console.log(this.state.emails)
                   style={{
                     flex: 0.7
                   }}
-                  onClick={() => this.sortBy("locale")}
+                  onClick={() => this.sortBy('locale')}
                 >
                   <div>
-                    {" "}
-                    DATE_TIME <span>{ascending ? "▲" : "▼"}</span>
+                    {' '}
+                    DATE_TIME <span>{ascending ? '▲' : '▼'}</span>
                   </div>
                 </div>
                 <div
@@ -503,20 +496,20 @@ console.log(this.state.emails)
                   style={{
                     flex: 0.5
                   }}
-                  onClick={() => this.sortBy("thickness")}
+                  onClick={() => this.sortBy('hair_thickness' && 'thickness')}
                 >
                   <div>
-                    THICK <span>{ascending ? "▲" : "▼"}</span>
+                    THICK <span>{ascending ? '▲' : '▼'}</span>
                   </div>
                 </div>
                 <div
                   style={{
                     flex: 0.5
                   }}
-                  onClick={() => this.sortBy("texture")}
+                  onClick={() => this.sortBy('hair_texture' && 'texture')}
                 >
                   <div>
-                    TEXTURE <span>{ascending ? "▲" : "▼"}</span>
+                    TEXTURE <span>{ascending ? '▲' : '▼'}</span>
                   </div>
                 </div>
 
@@ -524,9 +517,9 @@ console.log(this.state.emails)
                   className="container"
                   id="conditions-goals"
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexWrap: "wrap",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
                     flex: 0.5
                   }}
                   ref={this.container0}
@@ -544,10 +537,10 @@ console.log(this.state.emails)
                   style={{
                     flex: 0.5
                   }}
-                  onClick={() => this.sortBy("length")}
+                  onClick={() => this.sortBy('hair_length' && 'length')}
                 >
                   <div>
-                    LENGTH <span>{ascending ? "▲" : "▼"}</span>
+                    LENGTH <span>{ascending ? '▲' : '▼'}</span>
                   </div>
                 </div>
 
@@ -555,9 +548,9 @@ console.log(this.state.emails)
                   className="container"
                   id="conditions-goals"
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexWrap: "wrap",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
                     flex: 1
                   }}
                   ref={this.container1}
@@ -574,9 +567,9 @@ console.log(this.state.emails)
                 <div
                   id="conditions-goals"
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexWrap: "wrap",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
                     flex: 1
                   }}
                   ref={this.container2}
@@ -594,10 +587,10 @@ console.log(this.state.emails)
                     <Link
                       key={rowData.id}
                       style={{
-                        textDecoration: "none"
+                        textDecoration: 'none'
                       }}
                       to={{
-                        pathname: "/stylist-panel-customer",
+                        pathname: '/stylist-panel-customer',
                         state: {
                           userCode: rowData.userCode,
                           name: rowData.name,
@@ -624,7 +617,7 @@ console.log(this.state.emails)
                     >
                       <Row {...rowData} />
                     </Link>
-                  );
+                  )
                 })}
                 {/* <RingLoader
                   css={override}
@@ -637,6 +630,6 @@ console.log(this.state.emails)
           </Paper>
         </Fade>
       </div>
-    );
+    )
   }
 }
