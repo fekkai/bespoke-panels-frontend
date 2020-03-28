@@ -106,10 +106,30 @@ export default class StylistPanelList extends Component {
       let page = this.state.page
       // for (let userCode of userData
 
+      // for (let userCode of response.data) {
+      //   let abandonedQuizzes
+      //   let userResponse = await axios.get(
+      //     `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
+      //   )
+
+      //   if (
+      //     // userResponse.data.created > "2020-03-19T23:59:59" &&
+      //     userResponse.data.user_data.compute === false
+      //   ) {
+      //     abandonedQuizzes++
+
+      //     this.setState({
+      //       abandonedQuizzes
+      //     })
+      //     console.log(abandonedQuizzes)
+      //   }
+      // }
+
       for (
+        // page multiplied by number of rows items on each page
         let i = page * 35 - 35;
         i < page * 35;
-        i++ // .slice(response.data.length - 100, response.data.length) // )
+        i++
       ) {
         let userCode = userData[i].user_code
         console.log(userCode)
@@ -262,14 +282,16 @@ export default class StylistPanelList extends Component {
             shampooKey,
             conditionerKey,
             thirdKey,
-            frontSelfie: userResponse.data.user_data.front_selfie
+            frontSelfie: userResponse.data.user_data.front_selfie,
+            page: this.state.page
           })
         }
       }
       this.setState({
         data,
         emails,
-        totalQuizCount
+        totalQuizCount,
+        loading: false
       })
     } catch (error) {
       console.error(error)
@@ -436,23 +458,42 @@ export default class StylistPanelList extends Component {
     await this.fetchQuizData()
   }
 
+  handlePageDrop = async e => {
+    await this.setState({
+      page: e.target.value,
+      loading: true
+    })
+    await this.fetchQuizData()
+  }
+
   renderPagination = () => {
     let numPages = Math.floor(this.state.totalQuizCount / 35)
     let pagesArr = []
     for (let i = 0; i < numPages; i++) {
       pagesArr.push(i + 1)
     }
-    return pagesArr.map(num => {
-      return (
-        <button
-          className="page-number-btn"
-          onClick={this.handlePage}
-          value={num}
-        >
-          {num}
-        </button>
-      )
-    })
+
+    // dropdown
+    return (
+      <select className="select-css" onChange={this.handlePageDrop}>
+        {pagesArr.map(num => {
+          return <option>{num}</option>
+        })}
+      </select>
+    )
+
+    // individual pages
+    // return pagesArr.map(num => {
+    //   return (
+    //     <button
+    //       className="page-number-btn"
+    //       onClick={this.handlePage}
+    //       value={num}
+    //     >
+    //       {num}
+    //     </button>
+    //   )
+    // })
   }
 
   render() {
@@ -492,11 +533,15 @@ export default class StylistPanelList extends Component {
             )}
           </span> */}
         </div>
-        {this.renderPagination()}
+        <div className="pagination-section">
+          <span>{this.renderPagination()}</span>
+          <span style={{ paddingLeft: '10px' }}>
+            {!this.state.loading ? '' : <PulseLoader size={8} />}
+          </span>
+        </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
         <button onClick={this.handlePrevPage}>Previous</button>
         <button onClick={this.handleNextPage}>Next</button> */}
-
         <Fade>
           <span align="left" id="filter">
             {this.state.filter ? (
@@ -649,45 +694,44 @@ export default class StylistPanelList extends Component {
               </div>
 
               <div>
-                {(
-                  filteredData.map(rowData => {
-                    return (
-                      <Link
-                        key={rowData.id}
-                        style={{
-                          textDecoration: 'none'
-                        }}
-                        to={{
-                          pathname: '/stylist-panel-customer',
-                          state: {
-                            userCode: rowData.userCode,
-                            name: rowData.name,
-                            locale: rowData.locale,
-                            email: rowData.email,
-                            hairThickness: rowData.hairThickness,
-                            hairTexture: rowData.hairTexture,
-                            hairColor: rowData.hairColor,
-                            condition: rowData.condition,
-                            hairGoals: rowData.hairGoals,
-                            hairLength: rowData.hairLength,
-                            city: rowData.city,
-                            uvRisk: rowData.uvRisk,
-                            airQuality: rowData.airQuality,
-                            waterHardness: rowData.waterHardness,
-                            humidity: rowData.humidity,
-                            windSpeed: rowData.windSpeed,
-                            shampooKey: rowData.shampooKey,
-                            conditionerKey: rowData.conditionerKey,
-                            thirdKey: rowData.thirdKey,
-                            frontSelfie: rowData.frontSelfie
-                          }
-                        }}
-                      >
-                        <Row {...rowData} />
-                      </Link>
-                    )
-                  })
-                )}
+                {filteredData.map(rowData => {
+                  return (
+                    <Link
+                      key={rowData.id}
+                      style={{
+                        textDecoration: 'none'
+                      }}
+                      to={{
+                        pathname: '/stylist-panel-customer',
+                        state: {
+                          userCode: rowData.userCode,
+                          name: rowData.name,
+                          locale: rowData.locale,
+                          email: rowData.email,
+                          hairThickness: rowData.hairThickness,
+                          hairTexture: rowData.hairTexture,
+                          hairColor: rowData.hairColor,
+                          condition: rowData.condition,
+                          hairGoals: rowData.hairGoals,
+                          hairLength: rowData.hairLength,
+                          city: rowData.city,
+                          uvRisk: rowData.uvRisk,
+                          airQuality: rowData.airQuality,
+                          waterHardness: rowData.waterHardness,
+                          humidity: rowData.humidity,
+                          windSpeed: rowData.windSpeed,
+                          shampooKey: rowData.shampooKey,
+                          conditionerKey: rowData.conditionerKey,
+                          thirdKey: rowData.thirdKey,
+                          frontSelfie: rowData.frontSelfie,
+                          page: rowData.page
+                        }
+                      }}
+                    >
+                      <Row {...rowData} />
+                    </Link>
+                  )
+                })}
 
                 <RingLoader
                   css={override}
