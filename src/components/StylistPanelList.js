@@ -23,7 +23,7 @@ import aws4 from 'aws4'
 
 const override = css`
   display: block;
-  margin: 0 auto
+  margin: 0 auto;
   margin-top: ${7}%;
 `
 
@@ -148,7 +148,7 @@ export default class StylistPanelList extends Component {
       ) {
         let userCode = userData[i].user_code
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
         )
 
         if (
@@ -270,8 +270,8 @@ export default class StylistPanelList extends Component {
 
           data.push({
             id: userResponse.data._id,
-            userCode: userResponse.data.user_code,
-            locale: userResponse.data.created || userResponse.data.updated,
+            userCode: userData[i].user_code,
+            locale: userData[i].created || userData[i].updated,
             name: userResponse.data.user_data.name,
             email: userResponse.data.user_data.email,
             hairThickness: userResponse.data.user_data.answers.hair_thickness,
@@ -516,36 +516,6 @@ export default class StylistPanelList extends Component {
     //   )
     // })
   }
-
-  // renderPagination = () => {
-  //   let numPages = Math.floor(this.state.totalQuizCount / 35)
-  //   let pagesArr = []
-  //   for (let i = 0; i < numPages; i++) {
-  //     pagesArr.push(i + 1)
-  //   }
-
-  //   // dropdown
-  //   return (
-  //     <select className="select-css" onChange={this.handlePageDrop}>
-  //       {pagesArr.map(num => {
-  //         return <option>{num}</option>
-  //       })}
-  //     </select>
-  //   )
-
-  //   // individual pages
-  //   // return pagesArr.map(num => {
-  //   //   return (
-  //   //     <button
-  //   //       className="page-number-btn"
-  //   //       onClick={this.handlePage}
-  //   //       value={num}
-  //   //     >
-  //   //       {num}
-  //   //     </button>
-  //   //   )
-  //   // })
-  // }
 
   render() {
     let counter = 0
@@ -795,6 +765,7 @@ export default class StylistPanelList extends Component {
                     </Link>
                   )
                 })}
+
                 <RingLoader
                   css={override}
                   size={150}
