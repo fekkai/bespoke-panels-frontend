@@ -37,18 +37,17 @@ export const Row = ({
   name,
   email,
   locale,
-  thickness,
-  texture,
+  hairThickness,
+  hairTexture,
   hairColor,
-  length,
+  hairLength,
   condition,
   hairGoals,
   frontSelfie
 }) => {
   let dateTime = new Date(locale)
- let newDateTime = dateTime.setHours(dateTime.getHours()-4)
-dateTime = new Date(newDateTime).toLocaleString()
-console.log(dateTime)
+  let newDateTime = dateTime.setHours(dateTime.getHours() - 4)
+  dateTime = new Date(newDateTime).toLocaleString()
   return (
     <div>
       <Card
@@ -99,7 +98,7 @@ console.log(dateTime)
                 : ""
               : ""}
                */}
-            {!thickness ? 'n/a' : thickness}
+            {!hairThickness ? 'n/a' : hairThickness}
           </div>
           <div
             className="user-attributes"
@@ -108,18 +107,18 @@ console.log(dateTime)
             }}
             color="textSecondary"
           >
-            {typeof texture === 'number'
-              ? texture === 1 || '1'
+            {typeof hairTexture === 'number'
+              ? hairTexture === 1 || '1'
                 ? 'straight'
-                : '' || texture === '2' || 2
+                : '' || hairTexture === '2' || 2
                 ? 'wavy'
-                : '' || texture === 3
+                : '' || hairTexture === 3
                 ? 'curly'
-                : '' || texture === 4
+                : '' || hairTexture === 4
                 ? 'coily'
                 : ''
-              : typeof texture === 'string'
-              ? texture
+              : typeof hairTexture === 'string'
+              ? hairTexture
               : 'n/a'}
           </div>
           <div
@@ -138,7 +137,7 @@ console.log(dateTime)
             }}
             color="textSecondary"
           >
-            {length ? length : 'n/a'}
+            {hairLength ? hairLength : 'n/a'}
           </div>
           <div className="user-attributes" color="textSecondary">
             {!condition

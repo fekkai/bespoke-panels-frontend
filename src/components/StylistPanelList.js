@@ -103,7 +103,7 @@ export default class StylistPanelList extends Component {
       let totalQuizCount = response.data.length
 
       for (let userCode of response.data
-        // .slice(response.data.length - 100, response.data.length)
+        .slice(response.data.length - 100, response.data.length)
         .reverse()) {
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
@@ -232,14 +232,18 @@ export default class StylistPanelList extends Component {
             locale: userCode.created || userCode.updated,
             name: userResponse.data.user_data.name,
             email: userResponse.data.user_data.email,
-            thickness: userResponse.data.user_data.answers.hair_thickness,
-            texture: userResponse.data.user_data.answers.hair_texture,
+            hairThickness: userResponse.data.user_data.answers.hair_thickness,
+            hairTexture: userResponse.data.user_data.answers.hair_texture,
             hairColor: !userResponse.data.user_data.answers.hair_color
               ? 'n/a'
               : userResponse.data.user_data.answers.hair_color,
             condition: userResponse.data.user_data.answers.hair_condition,
-            hairGoals: userResponse.data.user_data.answers.hair_goals,
-            length: userResponse.data.user_data.answers.hair_length,
+            hairGoals: !userResponse.data.user_data.answers.hair_goals
+              ? 'n/a'
+              : userResponse.data.user_data.answers.hair_goals,
+            hairLength: !userResponse.data.user_data.answers.hair_length
+              ? 'n/a'
+              : userResponse.data.user_data.answers.hair_length,
             city: userResponse.data.user_data.weather.city,
             uvRisk: userResponse.data.user_data.weather.scores.uv_risk,
             airQuality: userResponse.data.user_data.weather.scores.air_quality,
@@ -496,7 +500,7 @@ export default class StylistPanelList extends Component {
                   style={{
                     flex: 0.5
                   }}
-                  onClick={() => this.sortBy('hair_thickness' && 'thickness')}
+                  onClick={() => this.sortBy('hairThickness')}
                 >
                   <div>
                     THICK <span>{ascending ? '▲' : '▼'}</span>
@@ -506,7 +510,7 @@ export default class StylistPanelList extends Component {
                   style={{
                     flex: 0.5
                   }}
-                  onClick={() => this.sortBy('hair_texture' && 'texture')}
+                  onClick={() => this.sortBy('hairTexture')}
                 >
                   <div>
                     TEXTURE <span>{ascending ? '▲' : '▼'}</span>
@@ -537,7 +541,7 @@ export default class StylistPanelList extends Component {
                   style={{
                     flex: 0.5
                   }}
-                  onClick={() => this.sortBy('hair_length' && 'length')}
+                  onClick={() => this.sortBy('hair_length' && 'hairLength')}
                 >
                   <div>
                     LENGTH <span>{ascending ? '▲' : '▼'}</span>
@@ -596,12 +600,12 @@ export default class StylistPanelList extends Component {
                           name: rowData.name,
                           locale: rowData.locale,
                           email: rowData.email,
-                          thickness: rowData.thickness,
-                          texture: rowData.texture,
+                          hairThickness: rowData.hairThickness,
+                          hairTexture: rowData.hairTexture,
                           hairColor: rowData.hairColor,
                           condition: rowData.condition,
                           hairGoals: rowData.hairGoals,
-                          length: rowData.length,
+                          hairLength: rowData.hairLength,
                           city: rowData.city,
                           uvRisk: rowData.uvRisk,
                           airQuality: rowData.airQuality,
