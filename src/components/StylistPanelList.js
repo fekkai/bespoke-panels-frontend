@@ -60,7 +60,8 @@ export default class StylistPanelList extends Component {
       colorOpen: false,
       conditionOpen: false,
       goalsOpen: false,
-      page: 1
+      page: 1,
+      rowQty: 75
     }
   }
 
@@ -81,13 +82,45 @@ export default class StylistPanelList extends Component {
       let responses = await axios(
         'https://bespoke-backend-db.herokuapp.com/orders'
       )
-      console.log(responses.data)
 
       // const orders = response.data.orders;
       const orders = responses.data
       this.setState({ orders })
     } catch (error) {
       console.error(error)
+    }
+  }
+
+  fetchQuizCount = async () => {
+    let response = await axios(
+      `https://bespoke-backend-db.herokuapp.com/fekkai-backend`
+    )
+    // response = JSON.parse(JSON.stringify(response));
+    const data = []
+    const emails = []
+    let completedQuizCount = 0
+    let abandonedQuiz = 0
+    let totalAbandonedQuiz = 0
+    let totalQuizCount = response.data.length
+    let userData = response.data.reverse()
+    let page = this.state.page
+    // for (let userCode of userData
+
+    for (let usercodes of userData) {
+      let userResponse = await axios.get(
+        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+      )
+
+      if (
+        // userResponse.data.created > "2020-03-19T23:59:59" &&
+        userResponse.data.user_data.compute === false
+      ) {
+        totalAbandonedQuiz++
+
+        this.setState({
+          totalAbandonedQuiz
+        })
+      }
     }
   }
 
@@ -101,10 +134,19 @@ export default class StylistPanelList extends Component {
       const emails = []
       let completedQuizCount = 0
       let abandonedQuiz = 0
+      let totalAbandonedQuiz = 0
       let totalQuizCount = response.data.length
       let userData = response.data.reverse()
       let page = this.state.page
-      for (let userCode of userData) {
+      const { rowQty } = this.state
+
+      for (
+        // page multiplied by number of rows items on each page
+        let i = page * rowQty - rowQty;
+        i < page * rowQty;
+        i++
+      ) {
+        let userCode = userData[i].user_code
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         )
@@ -257,14 +299,14 @@ export default class StylistPanelList extends Component {
             frontSelfie: userResponse.data.user_data.front_selfie,
             page: this.state.page
           })
-          this.setState({
-            data,
-            emails,
-            totalQuizCount,
-            loading: false
-          })
         }
       }
+      this.setState({
+        data,
+        emails,
+        totalQuizCount,
+        loading: false
+      })
     } catch (error) {
       console.error(error)
     }
@@ -276,7 +318,6 @@ export default class StylistPanelList extends Component {
     let totalSales = 0
     let csv = [['created_at', 'email', 'subtotal', 'total']]
     // emails compute true
-    console.log(this.state.emails)
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
         if (order.total && email === order.email.toLocaleLowerCase()) {
@@ -438,6 +479,44 @@ export default class StylistPanelList extends Component {
     await this.fetchQuizData()
   }
 
+  handleAllPages = async e => {
+    await this.setState({
+      rowQty: this.state.totalQuizCount,
+      loading: true
+    })
+  }
+
+  renderPagination = () => {
+    const { rowQty } = this.state
+    let numPages = Math.floor(this.state.totalQuizCount / rowQty)
+    let pagesArr = []
+    for (let i = 0; i < numPages; i++) {
+      pagesArr.push(i + 1)
+    }
+
+    // dropdown
+    return (
+      <select className="select-css" onChange={this.handlePageDrop}>
+        {pagesArr.map(num => {
+          return <option>{num}</option>
+        })}
+      </select>
+    )
+
+    // individual pages
+    // return pagesArr.map(num => {
+    //   return (
+    //     <button
+    //       className="page-number-btn"
+    //       onClick={this.handlePage}
+    //       value={num}
+    //     >
+    //       {num}
+    //     </button>
+    //   )
+    // })
+  }
+
   // renderPagination = () => {
   //   let numPages = Math.floor(this.state.totalQuizCount / 35)
   //   let pagesArr = []
@@ -485,12 +564,19 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <div>
-          TOTAL QUIZ COUNT: {this.state.totalQuizCount}
-          <br /> COMPLETED QUIZ COUNT: {this.state.completedQuizCount}
-          <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
-          {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
-          <br /> <br />
-          {/* <span style={{ display: 'flex', flexDirection: 'row' }}>
+          <div id="data-table">
+            <span>
+              TOTAL QUIZ COUNT: {this.state.totalQuizCount}
+              <br /> COMPLETED QUIZ COUNT: {this.state.completedQuizCount}
+              <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
+            </span>
+            {/* <span>
+              COMPLETED QUIZ COUNT TOTAL: <br />
+              ABANDONED QUIZ COUNT TOTAL:
+            </span> */}
+            {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
+
+            {/* <span style={{ display: 'flex', flexDirection: 'row' }}>
             TOTAL SALES:{' '}
             {this.state.loading === false ? (
               <span>
@@ -504,9 +590,18 @@ export default class StylistPanelList extends Component {
               </span>
             )}
           </span> */}
+          </div>
+          <br /> <br />
         </div>
-        {/* <span>{this.renderPagination()}</span> */}
-        <span>{!this.state.loading ? '' : <PulseLoader size={8} />}</span>
+        <div className="pagination-section">
+          <span>Page: {this.renderPagination()}</span>
+          <span>
+            {/* <button onClick={this.handleAllPages}>SHOW ALL</button> */}
+          </span>
+          <span style={{ paddingLeft: '10px' }}>
+            {!this.state.loading ? '' : <PulseLoader size={8} />}
+          </span>
+        </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
         <button onClick={this.handlePrevPage}>Previous</button>
         <button onClick={this.handleNextPage}>Next</button> */}
@@ -700,13 +795,12 @@ export default class StylistPanelList extends Component {
                     </Link>
                   )
                 })}
-{/* 
                 <RingLoader
                   css={override}
                   size={150}
                   color={'#545454'}
                   loading={this.state.loading}
-                /> */}
+                />
               </div>
             </div>
           </Paper>

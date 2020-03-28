@@ -15,23 +15,23 @@ export default function Conditions(props) {
           bleached
         </li>
         {/* <li onClick={props.handleChange}>permed</li> */}
-        <li key="color-treated-highlights" onClick={props.handleChange}>
-          color-treated-highlights
+        <li key="highlights" onClick={props.handleChange}>
+          highlights
         </li>
-        <li key="color-treated-single-process" onClick={props.handleChange}>
-          color-treated-single-process
+        <li key="color_treated" onClick={props.handleChange}>
+          color_treated
         </li>
-        <li key="chemically-treated" onClick={props.handleChange}>
-          chemically-treated
+        <li key="chemically_treated" onClick={props.handleChange}>
+          chemically_treated
         </li>
-        <li key="chemically-straightened" onClick={props.handleChange}>
-          chemically-straightened
+        <li key="chemically_straightened" onClick={props.handleChange}>
+          chemically_straightened
         </li>
-        <li key="split-ends" onClick={props.handleChange}>
-          split-ends
+        <li key="split_ends" onClick={props.handleChange}>
+          split_ends
         </li>
-        <li key="frequent-heat-styling-tools" onClick={props.handleChange}>
-          frequent-heat-styling-tools
+        <li key="frequent_heat_styling" onClick={props.handleChange}>
+          frequent_heat_styling
         </li>
         <li key="none" onClick={props.handleChange}>
           none
