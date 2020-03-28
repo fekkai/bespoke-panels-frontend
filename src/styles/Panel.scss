@@ -40,7 +40,7 @@ button {
   // width: 100%;
   // max-width: 100%;
   box-sizing: border-box;
-  margin: 0;
+  margin: 0 5px;
   border: 1px solid #aaa;
   box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
   border-radius: 0.5em;
@@ -73,11 +73,22 @@ button {
 
 .dashboard {
   width: 100vw;
+  #data-table {
+    display: flex;
+    flex-direction: row;
+    span {
+      margin: 0 5px;
+    }
+  }
   .pagination-section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    
+    span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
   }
   .page-number-btn {
     margin: 2px;
