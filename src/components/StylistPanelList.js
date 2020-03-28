@@ -537,8 +537,10 @@ export default class StylistPanelList extends Component {
           <div id="data-table">
             <span>
               TOTAL QUIZ COUNT: {this.state.totalQuizCount}
-              <br /> COMPLETED QUIZ COUNT: {this.state.completedQuizCount}
-              <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
+              {/* <br /> COMPLETED QUIZ COUNT (current page):{' '}
+              {this.state.completedQuizCount}
+              <br /> ABANDONED QUIZ COUNT (current page):{' '}
+              {this.state.abandonedQuiz} */}
             </span>
             {/* <span>
               COMPLETED QUIZ COUNT TOTAL: <br />
@@ -571,39 +573,50 @@ export default class StylistPanelList extends Component {
           <span style={{ paddingLeft: '10px' }}>
             {!this.state.loading ? '' : <PulseLoader size={8} />}
           </span>
+          {this.state.filter ? (
+            <Fade>
+              <div
+                style={{
+                  fontSize: '13px',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  margin: '0 5px'
+                }}
+              >
+                <span
+                  style={{
+                    margin: '5px'
+                  }}
+                ></span>{' '}
+                <span
+                  style={{
+                    border: '2px solid #545454',
+                    padding: '0 7px'
+                  }}
+                >
+                  {' '}
+                  {this.state.filter}{' '}
+                  <span
+                    style={{
+                      cursor: 'pointer'
+                    }}
+                    onClick={this.reset}
+                  >
+                    x
+                  </span>
+                </span>
+              </div>
+            </Fade>
+          ) : (
+            ''
+          )}
         </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
         <button onClick={this.handlePrevPage}>Previous</button>
         <button onClick={this.handleNextPage}>Next</button> */}
-        <Fade>
-          <span align="left" id="filter">
-            {this.state.filter ? (
-              <Fade>
-                <div style={{ fontSize: '13px' }}>
-                  FILTER:{' '}
-                  <span
-                    style={{
-                      border: '2px solid #545454',
-                      padding: '0 7px'
-                    }}
-                  >
-                    {this.state.filter}{' '}
-                    <span
-                      style={{
-                        cursor: 'pointer'
-                      }}
-                      onClick={this.reset}
-                    >
-                      x
-                    </span>
-                  </span>
-                </div>
-              </Fade>
-            ) : (
-              ''
-            )}
-          </span>
 
+        <Fade>
           <Paper elevation={0}>
             <div className="table">
               <div className="list-header">
