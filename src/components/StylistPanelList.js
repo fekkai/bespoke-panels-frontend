@@ -59,7 +59,8 @@ export default class StylistPanelList extends Component {
       checked: false,
       colorOpen: false,
       conditionOpen: false,
-      goalsOpen: false
+      goalsOpen: false,
+      page: 1
     }
   }
 
@@ -101,12 +102,19 @@ export default class StylistPanelList extends Component {
       let completedQuizCount = 0
       let abandonedQuiz = 0
       let totalQuizCount = response.data.length
+      let userData = response.data.reverse()
+      let page = this.state.page
+      // for (let userCode of userData
 
-      for (let userCode of response.data
-        // .slice(response.data.length - 100, response.data.length)
-        .reverse()) {
+      for (
+        let i = page * 50 - 50;
+        i < page * 50;
+        i++ // .slice(response.data.length - 100, response.data.length) // )
+      ) {
+        let userCode = userData[i].user_code
+        console.log(userCode)
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
         )
 
         if (
@@ -228,8 +236,8 @@ export default class StylistPanelList extends Component {
 
           data.push({
             id: userResponse.data._id,
-            userCode: userCode.user_code,
-            locale: userCode.created || userCode.updated,
+            userCode: userData[i].user_code,
+            locale: userData[i].created || userData[i].updated,
             name: userResponse.data.user_data.name,
             email: userResponse.data.user_data.email,
             hairThickness: userResponse.data.user_data.answers.hair_thickness,
@@ -396,6 +404,52 @@ export default class StylistPanelList extends Component {
     }
   }
 
+  handlePage = async e => {
+    console.log(e.target.value)
+    await this.setState({
+      page: e.target.value
+    })
+    await this.fetchQuizData()
+  }
+
+  handlePrevPage = async e => {
+    console.log(e.target.value)
+    this.setState({
+      page: this.state.page - 1
+    })
+    this.fetchQuizData()
+  }
+
+  handleNextPage = async e => {
+    console.log(e.target.value)
+    await this.setState({
+      page: this.state.page + 1
+    })
+    await this.fetchQuizData()
+  }
+
+  handleFirstPage = async e => {
+    console.log(e.target.value)
+    await this.setState({
+      page: 1
+    })
+    await this.fetchQuizData()
+  }
+
+  renderPagination = () => {
+    let numPages = Math.floor(this.state.totalQuizCount / 50)
+    let pagesArr = []
+    for (let i = 0; i < numPages; i++) {
+      pagesArr.push(i+1)
+    }
+    console.log(pagesArr)
+    return(
+    pagesArr.map(num => {
+    return <button onClick={this.handlePage} value={num}>{num}</button>}
+    )
+    )
+  }
+
   render() {
     let counter = 0
     const { filter, data, ascending } = this.state
@@ -433,29 +487,39 @@ export default class StylistPanelList extends Component {
             )}
           </span> */}
         </span>
+        {this.renderPagination()}
+        <button onClick={this.handleFirstPage}>First</button>
+        <button onClick={this.handlePrevPage}>Previous</button>
+        <button onClick={this.handleNextPage}>Next</button>
+
+        <button onClick={this.handlePage} value={this.state.page}>
+          {this.state.page}
+        </button>
         <Fade>
           {!this.state.loading ? (
             <span align="left" id="filter">
               {this.state.filter ? (
-                <div style={{ fontSize: '13px' }}>
-                  FILTER:{' '}
-                  <span
-                    style={{
-                      border: '2px solid #545454',
-                      padding: '0 7px'
-                    }}
-                  >
-                    {this.state.filter}{' '}
+                <Fade>
+                  <div style={{ fontSize: '13px' }}>
+                    FILTER:{' '}
                     <span
                       style={{
-                        cursor: 'pointer'
+                        border: '2px solid #545454',
+                        padding: '0 7px'
                       }}
-                      onClick={this.reset}
                     >
-                      x
+                      {this.state.filter}{' '}
+                      <span
+                        style={{
+                          cursor: 'pointer'
+                        }}
+                        onClick={this.reset}
+                      >
+                        x
+                      </span>
                     </span>
-                  </span>
-                </div>
+                  </div>
+                </Fade>
               ) : (
                 ''
               )}
@@ -623,6 +687,7 @@ export default class StylistPanelList extends Component {
                     </Link>
                   )
                 })}
+
                 {/* <RingLoader
                   css={override}
                   size={150}
