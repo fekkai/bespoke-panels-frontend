@@ -107,8 +107,8 @@ export default class StylistPanelList extends Component {
       // for (let userCode of userData
 
       for (
-        let i = page * 50 - 50;
-        i < page * 50;
+        let i = page * 35 - 35;
+        i < page * 35;
         i++ // .slice(response.data.length - 100, response.data.length) // )
       ) {
         let userCode = userData[i].user_code
@@ -265,12 +265,12 @@ export default class StylistPanelList extends Component {
             frontSelfie: userResponse.data.user_data.front_selfie
           })
         }
-        this.setState({
-          data,
-          emails,
-          totalQuizCount
-        })
       }
+      this.setState({
+        data,
+        emails,
+        totalQuizCount
+      })
     } catch (error) {
       console.error(error)
     }
@@ -437,17 +437,22 @@ export default class StylistPanelList extends Component {
   }
 
   renderPagination = () => {
-    let numPages = Math.floor(this.state.totalQuizCount / 50)
+    let numPages = Math.floor(this.state.totalQuizCount / 35)
     let pagesArr = []
     for (let i = 0; i < numPages; i++) {
-      pagesArr.push(i+1)
+      pagesArr.push(i + 1)
     }
-    console.log(pagesArr)
-    return(
-    pagesArr.map(num => {
-    return <button onClick={this.handlePage} value={num}>{num}</button>}
-    )
-    )
+    return pagesArr.map(num => {
+      return (
+        <button
+          className="page-number-btn"
+          onClick={this.handlePage}
+          value={num}
+        >
+          {num}
+        </button>
+      )
+    })
   }
 
   render() {
@@ -466,7 +471,7 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
-        <span>
+        <div>
           TOTAL QUIZ COUNT: {this.state.totalQuizCount}
           <br /> COMPLETED QUIZ COUNT: {this.state.completedQuizCount}
           <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
@@ -486,47 +491,41 @@ export default class StylistPanelList extends Component {
               </span>
             )}
           </span> */}
-        </span>
+        </div>
         {this.renderPagination()}
-        <button onClick={this.handleFirstPage}>First</button>
+        {/* <button onClick={this.handleFirstPage}>First</button>
         <button onClick={this.handlePrevPage}>Previous</button>
-        <button onClick={this.handleNextPage}>Next</button>
+        <button onClick={this.handleNextPage}>Next</button> */}
 
-        <button onClick={this.handlePage} value={this.state.page}>
-          {this.state.page}
-        </button>
         <Fade>
-          {!this.state.loading ? (
-            <span align="left" id="filter">
-              {this.state.filter ? (
-                <Fade>
-                  <div style={{ fontSize: '13px' }}>
-                    FILTER:{' '}
+          <span align="left" id="filter">
+            {this.state.filter ? (
+              <Fade>
+                <div style={{ fontSize: '13px' }}>
+                  FILTER:{' '}
+                  <span
+                    style={{
+                      border: '2px solid #545454',
+                      padding: '0 7px'
+                    }}
+                  >
+                    {this.state.filter}{' '}
                     <span
                       style={{
-                        border: '2px solid #545454',
-                        padding: '0 7px'
+                        cursor: 'pointer'
                       }}
+                      onClick={this.reset}
                     >
-                      {this.state.filter}{' '}
-                      <span
-                        style={{
-                          cursor: 'pointer'
-                        }}
-                        onClick={this.reset}
-                      >
-                        x
-                      </span>
+                      x
                     </span>
-                  </div>
-                </Fade>
-              ) : (
-                ''
-              )}
-            </span>
-          ) : (
-            ''
-          )}
+                  </span>
+                </div>
+              </Fade>
+            ) : (
+              ''
+            )}
+          </span>
+
           <Paper elevation={0}>
             <div className="table">
               <div className="list-header">
@@ -650,50 +649,52 @@ export default class StylistPanelList extends Component {
               </div>
 
               <div>
-                {filteredData.map(rowData => {
-                  return (
-                    <Link
-                      key={rowData.id}
-                      style={{
-                        textDecoration: 'none'
-                      }}
-                      to={{
-                        pathname: '/stylist-panel-customer',
-                        state: {
-                          userCode: rowData.userCode,
-                          name: rowData.name,
-                          locale: rowData.locale,
-                          email: rowData.email,
-                          hairThickness: rowData.hairThickness,
-                          hairTexture: rowData.hairTexture,
-                          hairColor: rowData.hairColor,
-                          condition: rowData.condition,
-                          hairGoals: rowData.hairGoals,
-                          hairLength: rowData.hairLength,
-                          city: rowData.city,
-                          uvRisk: rowData.uvRisk,
-                          airQuality: rowData.airQuality,
-                          waterHardness: rowData.waterHardness,
-                          humidity: rowData.humidity,
-                          windSpeed: rowData.windSpeed,
-                          shampooKey: rowData.shampooKey,
-                          conditionerKey: rowData.conditionerKey,
-                          thirdKey: rowData.thirdKey,
-                          frontSelfie: rowData.frontSelfie
-                        }
-                      }}
-                    >
-                      <Row {...rowData} />
-                    </Link>
-                  )
-                })}
+                {(
+                  filteredData.map(rowData => {
+                    return (
+                      <Link
+                        key={rowData.id}
+                        style={{
+                          textDecoration: 'none'
+                        }}
+                        to={{
+                          pathname: '/stylist-panel-customer',
+                          state: {
+                            userCode: rowData.userCode,
+                            name: rowData.name,
+                            locale: rowData.locale,
+                            email: rowData.email,
+                            hairThickness: rowData.hairThickness,
+                            hairTexture: rowData.hairTexture,
+                            hairColor: rowData.hairColor,
+                            condition: rowData.condition,
+                            hairGoals: rowData.hairGoals,
+                            hairLength: rowData.hairLength,
+                            city: rowData.city,
+                            uvRisk: rowData.uvRisk,
+                            airQuality: rowData.airQuality,
+                            waterHardness: rowData.waterHardness,
+                            humidity: rowData.humidity,
+                            windSpeed: rowData.windSpeed,
+                            shampooKey: rowData.shampooKey,
+                            conditionerKey: rowData.conditionerKey,
+                            thirdKey: rowData.thirdKey,
+                            frontSelfie: rowData.frontSelfie
+                          }
+                        }}
+                      >
+                        <Row {...rowData} />
+                      </Link>
+                    )
+                  })
+                )}
 
-                {/* <RingLoader
+                <RingLoader
                   css={override}
                   size={150}
-                  color={"#545454"}
+                  color={'#545454'}
                   loading={this.state.loading}
-                /> */}
+                />
               </div>
             </div>
           </Paper>
