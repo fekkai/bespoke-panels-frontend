@@ -56,10 +56,10 @@ export default class Sales extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        'https://bespoke-backend-db.herokuapp.com/fekkai'
+        'https://bespoke-backend.herokuapp.com/fekkai'
       )
       let responses = await axios(
-        'https://bespoke-backend-db.herokuapp.com/orders'
+        'https://bespoke-backend.herokuapp.com/orders'
       )
       console.log(responses.data)
 
@@ -74,7 +74,7 @@ export default class Sales extends Component {
   fetchQuizData = async () => {
     try {
       let response = await axios(
-        `https://bespoke-backend-db.herokuapp.com/fekkai-backend`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend`
       )
       // response = JSON.parse(JSON.stringify(response));
       const emails = []

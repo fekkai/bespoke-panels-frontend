@@ -77,12 +77,11 @@ export default class StylistPanelList extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        "https://bespoke-backend.herokuapp.com/fekkai"
-      );
+        'https://bespoke-backend.herokuapp.com/fekkai'
+      )
       let responses = await axios(
-        "https://bespoke-backend.herokuapp.com/orders"
-      );
-      console.log(responses.data)
+        'https://bespoke-backend.herokuapp.com/orders'
+      )
 
       // const orders = response.data.orders;
       const orders = responses.data
@@ -97,14 +96,9 @@ export default class StylistPanelList extends Component {
       `https://bespoke-backend.herokuapp.com/fekkai-backend`
     )
     // response = JSON.parse(JSON.stringify(response));
-    const data = []
-    const emails = []
-    let completedQuizCount = 0
-    let abandonedQuiz = 0
+    
     let totalAbandonedQuiz = 0
-    let totalQuizCount = response.data.length
     let userData = response.data.reverse()
-    let page = this.state.page
     // for (let userCode of userData
 
     for (let usercodes of userData) {
@@ -129,7 +123,7 @@ export default class StylistPanelList extends Component {
     try {
       let response = await axios(
         `https://bespoke-backend.herokuapp.com/fekkai-backend`
-      );
+      )
       // response = JSON.parse(JSON.stringify(response));
       const data = []
       const emails = []
@@ -301,13 +295,13 @@ export default class StylistPanelList extends Component {
             page: this.state.page
           })
         }
+        this.setState({
+          data,
+          emails,
+          totalQuizCount,
+          loading: false
+        })
       }
-      this.setState({
-        data,
-        emails,
-        totalQuizCount,
-        loading: false
-      })
     } catch (error) {
       console.error(error)
     }
