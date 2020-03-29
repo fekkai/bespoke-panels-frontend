@@ -28,6 +28,7 @@ button {
 
 #list-view-btn {
   margin: 0;
+  padding: 0 7px;
 }
 
 .select-css {
@@ -84,6 +85,8 @@ button {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+
     span {
       display: flex;
       flex-direction: row;

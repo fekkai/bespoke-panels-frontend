@@ -533,93 +533,52 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
-        <div>
-          <div id="data-table">
-            <span>
-              TOTAL QUIZ COUNT: {this.state.totalQuizCount}
-              {/* <br /> COMPLETED QUIZ COUNT (current page):{' '}
-              {this.state.completedQuizCount}
-              <br /> ABANDONED QUIZ COUNT (current page):{' '}
-              {this.state.abandonedQuiz} */}
-            </span>
-            {/* <span>
-              COMPLETED QUIZ COUNT TOTAL: <br />
-              ABANDONED QUIZ COUNT TOTAL:
-            </span> */}
-            {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
-
-            {/* <span style={{ display: 'flex', flexDirection: 'row' }}>
-            TOTAL SALES:{' '}
-            {this.state.loading === false ? (
-              <span>
-                {this.state.totalSales}{' '}
-                <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink>
-              </span>
+        <div className="pagination-section">
+          <span style={{ paddingLeft: '5px' }}>
+            {!this.state.loading ? (
+              <Link to={{ pathname: '/sales' }}>
+                <button style={{ width: '100%' }} id="list-view-btn">
+                  QUIZ DATA
+                </button>
+              </Link>
+            
             ) : (
-              <span>
-                {' '}
-                <PulseLoader size={8} />
+              <span style={{ display: 'flex' }}>
+                LOADING <PulseLoader size={6} />
               </span>
             )}
-          </span> */}
-          </div>
-          <br /> <br />
-        </div>
-        <div className="pagination-section">
-          <span style={{ margin: '0 5px' }}>
-            Page: {this.renderPagination()}
           </span>
+          
           <span>
-            {/* <button onClick={this.handleAllPages}>SHOW ALL</button> */}
-          </span>
-          <span style={{ paddingLeft: '10px' }}>
-            {!this.state.loading ? '' : <PulseLoader size={8} />}
-          </span>
           {this.state.filter ? (
-            <Fade>
-              <div
-                style={{
-                  fontSize: '13px',
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  margin: '0 5px'
-                }}
-              >
-                <span
-                  style={{
-                    margin: '5px'
-                  }}
-                ></span>{' '}
-                <span
-                  style={{
-                    border: '2px solid #545454',
-                    padding: '0 7px'
-                  }}
-                >
-                  {' '}
-                  {this.state.filter}{' '}
-                  <span
-                    style={{
-                      cursor: 'pointer',
-                      paddingLeft: '5px'
-                    }}
-                    onClick={this.reset}
-                  >
-                    {' '}
-                    x
-                  </span>
-                </span>
-              </div>
-            </Fade>
-          ) : (
-            ''
-          )}
+                <Fade style={{marginLeft: '5px'}}>
+                    FILTER: &nbsp;
+                    <span
+                      style={{
+                        border: '2px solid #545454',
+                        padding: '0 7px',
+                        
+                      }}
+                    >
+                      {this.state.filter}{' '}
+                      <span
+                        style={{
+                          cursor: 'pointer'
+                        }}
+                        onClick={this.reset}
+                      >&nbsp;
+                        x
+                      </span>
+                    </span>
+                </Fade>
+              ) : (
+                ''
+              )}&nbsp; &nbsp;
+            Page: {this.renderPagination()}</span>
         </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
         <button onClick={this.handlePrevPage}>Previous</button>
         <button onClick={this.handleNextPage}>Next</button> */}
-
         <Fade>
           <Paper elevation={0}>
             <div className="table">
