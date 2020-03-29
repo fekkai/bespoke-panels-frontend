@@ -75,10 +75,10 @@ export default class StylistPanelList extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        "https://bespoke-backend-db.herokuapp.com/fekkai"
+        "https://bespoke-backend.herokuapp.com/fekkai"
       );
       let responses = await axios(
-        "http://localhost:4000/orders"
+        "https://bespoke-backend.herokuapp.com/orders"
       );
       console.log(responses.data)
 
@@ -94,7 +94,7 @@ export default class StylistPanelList extends Component {
   fetchQuizData = async () => {
     try {
       let response = await axios(
-        `https://bespoke-backend-db.herokuapp.com/fekkai-backend`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend`
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
@@ -425,7 +425,7 @@ console.log(this.state.emails)
             {this.state.loading === false ? (
               <span>
                 {this.state.totalSales}{" "}
-                {/* <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink> */}
+                <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink>
               </span>
             ) : (
               <span>

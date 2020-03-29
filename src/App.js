@@ -94,7 +94,7 @@ class App extends React.Component {
   fetchOrders = async () => {
     try {
       let response = await axios.get(
-        "https://bespoke-backend-db.herokuapp.com/"
+        "https://bespoke-backend.herokuapp.com/"
       );
       this.setState({
         orders: response.data.orders
