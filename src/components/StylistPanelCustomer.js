@@ -186,12 +186,14 @@ export default class StylistPanelCustomer extends Component {
       shampooKey,
       conditionerKey,
       thirdKey,
-      frontSelfie
+      frontSelfie,
+      page
     } = this.props.location.state;
+    console.log(page)
     return (
       <div>
         <Link to="/stylist-panel-list">
-          <button id="list-view-btn">← LIST VIEW</button>
+          <button id="list-view-btn">← LIST</button>
         </Link>
         <RingLoader
           css={override}

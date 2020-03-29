@@ -1,35 +1,35 @@
-import React from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import React from 'react'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
 
-import { makeStyles } from "@material-ui/core/styles";
-import "../../styles/Row.scss";
-import noPhoto from "../../assets/no-photo.png";
+import { makeStyles } from '@material-ui/core/styles'
+import '../../styles/Row.scss'
+import noPhoto from '../../assets/no-photo.png'
 
 const useStyles = makeStyles({
   bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
     padding: 0
   },
   title: {
     fontSize: 15,
     color: `#000000`,
-    fontFamily: "urwdin-regular",
+    fontFamily: 'urwdin-regular',
     padding: 0
   },
   pos: {
     marginBottom: 12
   }
-});
+})
 
 //convert function - readable date format
-Date.prototype.addDays = function(days) {
-  var date = new Date(this.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-};
+// Date.prototype.addDays = function(days) {
+//   var date = new Date(this.valueOf())
+//   date.setDate(date.getDate() + days)
+//   return date
+// }
 
 export const Row = ({
   date,
@@ -37,70 +37,35 @@ export const Row = ({
   name,
   email,
   locale,
-  thickness,
-  texture,
+  hairThickness,
+  hairTexture,
   hairColor,
-  length,
+  hairLength,
   condition,
   hairGoals,
   frontSelfie
 }) => {
-  // console.log(email)
-  dueDate = new Date(date)
-    .addDays(2)
-    .toLocaleString("en-US", { timeZone: "America/New_York" })
-    .split(",")[0];
-  const classes = useStyles();
-
-  // hover img zoom
-  // const modal = $("#modal");
-  // $(function() {
-  //   var currentMousePos = { x: -1, y: -1 };
-  //   $(document).mousemove(function(event) {
-  //     currentMousePos.x = event.pageX;
-  //     currentMousePos.y = event.pageY;
-  //     if ($("#modal").css("display") != "none") {
-  //       $("#modal").css({
-  //         top: currentMousePos.y - 100,
-  //         left: currentMousePos.x + 50
-  //       });
-  //     }
-  //   });
-  //   $(".image").on("mouseover", function() {
-  //     var image = $(this).find("img");
-  //     var modal = $("#modal");
-  //     $(modal).html(image.clone());
-  //     $(modal).css({
-  //       top: currentMousePos.y,
-  //       left: currentMousePos.x + 12
-  //     });
-  //     $(modal).show();
-  //   });
-  //   $(".image").on("mouseleave", function() {
-  //     $(modal).hide();
-  //   });
-  // });
+  let dateTime = new Date(locale)
+  let newDateTime = dateTime.setHours(dateTime.getHours() - 4)
+  dateTime = new Date(newDateTime).toLocaleString()
   return (
     <div>
       <Card
-        // className={classes.card}
         style={{
-          overflowX: "hidden",
-          overflowY: "auto",
+          overflowX: 'hidden',
+          overflowY: 'auto',
           marginBottom: `${5}px`
         }}
       >
         <div className="card-content">
           <div className="locale" color="textSecondary">
-            {new Date(locale).toLocaleString("en-US", {
-              timeZone: "America/New_York"
-            })}
+            {dateTime}
           </div>
           <div className="name" color="textSecondary">
-            {name ? name : "n/a"}
+            {name ? name : 'n/a'}
           </div>
           <div className="image">
-            {!frontSelfie || frontSelfie === "none" ? (
+            {!frontSelfie || frontSelfie === 'none' ? (
               <img id="selfie" alt={noPhoto} src={noPhoto} />
             ) : (
               <img id="selfie" alt={frontSelfie} src={frontSelfie} />
@@ -114,7 +79,7 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {" "}
+            {' '}
             {/* {thickness
               ? thickness === 1
                 ? "finest"
@@ -133,7 +98,7 @@ export const Row = ({
                 : ""
               : ""}
                */}
-            {!thickness ? "n/a" : thickness}
+            {!hairThickness ? 'n/a' : hairThickness}
           </div>
           <div
             className="user-attributes"
@@ -142,19 +107,19 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {typeof texture === "number"
-              ? texture === 1 || "1"
-                ? "straight"
-                : "" || texture === "2" || 2
-                ? "wavy"
-                : "" || texture === 3
-                ? "curly"
-                : "" || texture === 4
-                ? "coily"
-                : ""
-              : typeof texture === "string"
-              ? texture
-              : "n/a"}
+            {typeof hairTexture === 'number'
+              ? hairTexture === 1 || '1'
+                ? 'straight'
+                : '' || hairTexture === '2' || 2
+                ? 'wavy'
+                : '' || hairTexture === 3
+                ? 'curly'
+                : '' || hairTexture === 4
+                ? 'coily'
+                : ''
+              : typeof hairTexture === 'string'
+              ? hairTexture
+              : 'n/a'}
           </div>
           <div
             className="user-attributes"
@@ -163,7 +128,7 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {hairColor ? hairColor : "n/a"}
+            {hairColor ? hairColor : 'n/a'}
           </div>
           <div
             className="user-attributes"
@@ -172,30 +137,30 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {length ? length : "n/a"}
+            {hairLength ? hairLength : 'n/a'}
           </div>
           <div className="user-attributes" color="textSecondary">
             {!condition
-              ? "n/a"
-              : condition === "none"
-              ? "none"
+              ? 'n/a'
+              : condition === 'none'
+              ? 'none'
               : condition.map(e => {
                   return (
                     <div key={e}>
                       {e} <br />
                     </div>
-                  );
+                  )
                 })}
           </div>
           <div
             className="user-attributes"
             style={{
               flex: 1,
-              lineHeight: "24px"
+              lineHeight: '24px'
             }}
             color="textSecondary"
           >
-            {!hairGoals ? "n/a" : hairGoals ? hairGoals.join(", ") : ""}
+            {!hairGoals ? 'n/a' : hairGoals ? hairGoals.join(', ') : ''}
           </div>
 
           <br />
@@ -226,5 +191,5 @@ export const Row = ({
         </div>
       </Card>
     </div>
-  );
-};
+  )
+}
