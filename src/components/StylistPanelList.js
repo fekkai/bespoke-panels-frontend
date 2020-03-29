@@ -566,7 +566,9 @@ export default class StylistPanelList extends Component {
           <br /> <br />
         </div>
         <div className="pagination-section">
-          <span>Page: {this.renderPagination()}</span>
+          <span style={{ margin: '0 5px' }}>
+            Page: {this.renderPagination()}
+          </span>
           <span>
             {/* <button onClick={this.handleAllPages}>SHOW ALL</button> */}
           </span>
@@ -599,10 +601,12 @@ export default class StylistPanelList extends Component {
                   {this.state.filter}{' '}
                   <span
                     style={{
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      paddingLeft: '5px'
                     }}
                     onClick={this.reset}
                   >
+                    {' '}
                     x
                   </span>
                 </span>
