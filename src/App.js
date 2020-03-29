@@ -233,11 +233,17 @@ class App extends React.Component {
         <div id="header">
           <Fade big>
             <header className="img-container">
-              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
-
-              <button onClick={this.refreshPage} id="list-view-btn">
+              <a href="/">
+                <img
+                  id="fekkai-logo"
+                  style={{ marginBottom: '10px' }}
+                  alt="fekkai-logo"
+                  src={fekkaiLogo}
+                />
+              </a>
+              {/* <button onClick={this.refreshPage} id="list-view-btn">
                 REFRESH
-              </button>
+              </button> */}
               {/* <p style={{ fontSize: "40px", margin: 0, paddingLeft: "0" }}>
                 RECO
               </p> */}

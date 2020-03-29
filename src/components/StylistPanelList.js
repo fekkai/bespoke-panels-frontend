@@ -533,24 +533,20 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
-        <div>
-          <div id="data-table"></div>
-          <br /> <br />
-        </div>
         <div className="pagination-section">
-          <span>Page: {this.renderPagination()}</span>
-          <span>
-            {/* <button onClick={this.handleAllPages}>SHOW ALL</button> */}
-          </span>
-          <span style={{ paddingLeft: '10px' }}>
+          <span style={{ paddingLeft: '5px'}}>
             {!this.state.loading ? (
               <Link to={{ pathname: '/sales' }}>
-                <button id="list-view-btn">CHAT QUIZ DATA</button>
+                <button style={{ width: '100%' }} id="list-view-btn">
+                  CHAT QUIZ DATA
+                </button>
               </Link>
             ) : (
-              <PulseLoader size={8} />
+              <span style={{display: 'flex'}}>LOADING DATA <PulseLoader size={6} /></span>
             )}
           </span>
+          <span>Page: {this.renderPagination()}</span>
+
         </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
         <button onClick={this.handlePrevPage}>Previous</button>

@@ -193,7 +193,7 @@ export default class StylistPanelCustomer extends Component {
     return (
       <div>
         <Link to="/stylist-panel-list">
-          <button id="list-view-btn">← LIST VIEW</button>
+          <button id="list-view-btn">← LIST</button>
         </Link>
         <RingLoader
           css={override}

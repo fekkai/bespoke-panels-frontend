@@ -1,12 +1,12 @@
 @font-face {
-  font-family: "urwdin-regular";
+  font-family: 'urwdin-regular';
   font-style: normal;
-  src: local("urwdin-regular-webfont"), local("urwdin-regular-webfont"),
-    url("../assets/urwdin-regular-webfont.woff") format("woff");
+  src: local('urwdin-regular-webfont'), local('urwdin-regular-webfont'),
+    url('../assets/urwdin-regular-webfont.woff') format('woff');
 }
 
 @mixin button($bg, $cl) {
-  font-family: "urwdin-regular";
+  font-family: 'urwdin-regular';
   background: $bg;
   color: $cl;
   height: 3%;
@@ -24,6 +24,7 @@
   font-size: 1em;
 }
 
+
 .btn,
 button {
   @include button(transparent, #545454);
@@ -33,7 +34,7 @@ button {
 }
 
 .app {
-  font-family: "urwdin-regular";
+  font-family: 'urwdin-regular';
   padding: 3%;
   header {
     margin-bottom: 30px;
@@ -61,8 +62,8 @@ button {
     }
     #fekkai-logo {
       margin-left: 0;
-      padding: 0;
-      width: 10%;
+      padding: 5px;
+      min-width: 20%;
       height: 100%;
     }
   }
@@ -108,6 +109,9 @@ button {
     .img-container {
       display: flex;
       flex-direction: column;
+      a {
+        text-align: center;
+      }
       #fekkai-logo {
         width: 60%;
         margin: 0 auto;
@@ -123,6 +127,9 @@ button {
 @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
   .app {
     .img-container {
+      a {
+        text-align: center;
+      }
       #fekkai-logo {
         width: 25%;
         margin: 0 auto;
@@ -135,6 +142,9 @@ button {
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
   .app {
     .img-container {
+      a {
+        text-align: center;
+      }
       #fekkai-logo {
         width: 50%;
         margin: 0 auto;
