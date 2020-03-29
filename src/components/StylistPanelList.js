@@ -534,33 +534,7 @@ export default class StylistPanelList extends Component {
     return (
       <div className="dashboard">
         <div>
-          <div id="data-table">
-            <span>
-              TOTAL QUIZ COUNT: {this.state.totalQuizCount}
-              <br /> COMPLETED QUIZ COUNT: {this.state.completedQuizCount}
-              <br /> ABANDONED QUIZ COUNT: {this.state.abandonedQuiz}
-            </span>
-            {/* <span>
-              COMPLETED QUIZ COUNT TOTAL: <br />
-              ABANDONED QUIZ COUNT TOTAL:
-            </span> */}
-            {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
-
-            {/* <span style={{ display: 'flex', flexDirection: 'row' }}>
-            TOTAL SALES:{' '}
-            {this.state.loading === false ? (
-              <span>
-                {this.state.totalSales}{' '}
-                <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink>
-              </span>
-            ) : (
-              <span>
-                {' '}
-                <PulseLoader size={8} />
-              </span>
-            )}
-          </span> */}
-          </div>
+          <div id="data-table"></div>
           <br /> <br />
         </div>
         <div className="pagination-section">
@@ -569,7 +543,13 @@ export default class StylistPanelList extends Component {
             {/* <button onClick={this.handleAllPages}>SHOW ALL</button> */}
           </span>
           <span style={{ paddingLeft: '10px' }}>
-            {!this.state.loading ? '' : <PulseLoader size={8} />}
+            {!this.state.loading ? (
+              <Link to={{ pathname: '/sales' }}>
+                <button id="list-view-btn">CHAT QUIZ DATA</button>
+              </Link>
+            ) : (
+              <PulseLoader size={8} />
+            )}
           </span>
         </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
