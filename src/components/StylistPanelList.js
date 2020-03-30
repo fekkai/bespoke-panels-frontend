@@ -298,7 +298,7 @@ export default class StylistPanelList extends Component {
         totalQuizCount,
         loading: false
       });
-      console.log(emails)
+      console.log(emails);
     } catch (error) {
       console.error(error);
     }
@@ -446,14 +446,16 @@ export default class StylistPanelList extends Component {
 
   handlePrevPage = async e => {
     this.setState({
-      page: this.state.page - 1
+      page: this.state.page - 1,
+      loading: true
     });
     this.fetchQuizData();
   };
 
   handleNextPage = async e => {
     await this.setState({
-      page: this.state.page + 1
+      page: this.state.page + 1,
+      loading: true
     });
     await this.fetchQuizData();
   };
@@ -545,28 +547,26 @@ export default class StylistPanelList extends Component {
           <span>
             {this.state.filter ? (
               <Fade style={{ marginLeft: "5px" }}>
-                FILTER: &nbsp;
-                <span
-                  style={{
-                    border: "2px solid #545454",
-                    padding: "0 7px"
-                  }}
-                >
-                  {this.state.filter}{" "}
-                  <span
-                    style={{
-                      cursor: "pointer"
-                    }}
-                    onClick={this.reset}
-                  >
-                    &nbsp; x
+                <span id="filter">
+                  FILTER: &nbsp;
+                  <span id="filter-box">
+                    {this.state.filter}{" "}
+                    <span id="filter-x" onClick={this.reset}>
+                      &nbsp; x
+                    </span>
                   </span>
                 </span>
               </Fade>
             ) : (
               ""
             )}
-            &nbsp; &nbsp; Page: {this.renderPagination()}
+            <span className="page-arrow" onClick={this.handlePrevPage}>
+              ❮
+            </span>{" "}
+            &nbsp; &nbsp; Page: {this.renderPagination()}{" "}
+            <span className="page-arrow" onClick={this.handleNextPage}>
+              ❯
+            </span>
           </span>
         </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
