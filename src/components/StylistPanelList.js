@@ -560,13 +560,13 @@ export default class StylistPanelList extends Component {
             ) : (
               ""
             )}
-            <span className="page-arrow" onClick={this.handlePrevPage}>
+            {/* <span className="page-arrow" onClick={this.handlePrevPage}>
               ❮
-            </span>{" "}
+            </span>{" "} */}
             &nbsp; &nbsp; Page: {this.renderPagination()}{" "}
-            <span className="page-arrow" onClick={this.handleNextPage}>
+            {/* <span className="page-arrow" onClick={this.handleNextPage}>
               ❯
-            </span>
+            </span> */}
           </span>
         </div>
         {/* <button onClick={this.handleFirstPage}>First</button>
