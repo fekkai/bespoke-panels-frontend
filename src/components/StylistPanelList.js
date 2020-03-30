@@ -704,7 +704,7 @@ export default class StylistPanelList extends Component {
                         textDecoration: "none"
                       }}
                       to={{
-                        pathname: "/stylist-panel-customer",
+                        pathname: "/stylist-panel-user",
                         state: {
                           userCode: rowData.userCode,
                           name: rowData.name,
