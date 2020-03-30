@@ -171,12 +171,12 @@ export default class StylistPanelUser extends Component {
       name,
       locale,
       email,
-      thickness,
-      texture,
+      hairThickness,
+      hairTexture,
       condition,
       hairGoals,
       hairColor,
-      length,
+      hairLength,
       city,
       uvRisk,
       airQuality,
@@ -247,7 +247,7 @@ export default class StylistPanelUser extends Component {
                     ? "thickest"
                     : ""
                   : ""} */}
-                {thickness ? thickness : "n/a"}
+                {hairThickness ? hairThickness : "n/a"}
                 <br />
                 <br />
                 TEXTURE:{" "}
@@ -262,7 +262,7 @@ export default class StylistPanelUser extends Component {
                     ? "coily"
                     : ""
                   : "n/a"} */}
-                {texture ? texture : "n/a"}
+                {hairTexture ? hairTexture : "n/a"}
                 <br />
                 <br />
                 COLOR:{" "}
@@ -298,7 +298,7 @@ export default class StylistPanelUser extends Component {
                     ? "long"
                     : ""
                   : "n/a"} */}
-                {length ? length : "n/a"}
+                {hairLength ? hairLength : "n/a"}
                 <br />
                 <br />
                 CONDITION:{" "}
