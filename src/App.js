@@ -6,7 +6,7 @@ import Fade from 'react-reveal/Fade'
 // Components
 import Sales from './components/Sales'
 import StylistPanelList from './components/StylistPanelList'
-import StylistPanelCustomer from './components/StylistPanelCustomer'
+import StylistPanelUser from './components/StylistPanelUser'
 
 // Assets
 import fekkaiLogo from './assets/fekkai-logo.png'
@@ -314,9 +314,9 @@ class App extends React.Component {
               sideSelfie={sideSelfie}
               frontSelfie={frontSelfie}
               isLoading={isLoading}
-              path="/stylist-panel-customer"
+              path="/stylist-panel-user"
               user={user}
-              component={StylistPanelCustomer}
+              component={StylistPanelUser}
             />
           </Switch>
         </main>

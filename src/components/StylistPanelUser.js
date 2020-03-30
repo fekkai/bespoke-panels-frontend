@@ -38,7 +38,7 @@ let signedRequest = aws4.sign(request, {
 delete signedRequest.headers["Host"];
 delete signedRequest.headers["Content-Length"];
 
-export default class StylistPanelCustomer extends Component {
+export default class StylistPanelUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -189,7 +189,7 @@ export default class StylistPanelCustomer extends Component {
       frontSelfie,
       page
     } = this.props.location.state;
-    console.log(page)
+    console.log(page);
     return (
       <div>
         <Link to="/stylist-panel-list">
@@ -330,18 +330,18 @@ export default class StylistPanelCustomer extends Component {
 
               <div className="selfie-container">
                 {/* <Carousel showThumbs={false} showIndicators={false}> */}
-                  <div>
-                    {frontSelfie ? (
-                      <img id="selfie" alt={frontSelfie} src={frontSelfie} />
-                    ) : (
-                      <img
-                        id="selfie"
-                        style={{ height: "100%" }}
-                        alt={noPhoto}
-                        src={noPhoto}
-                      />
-                    )}
-                  </div>
+                <div>
+                  {frontSelfie ? (
+                    <img id="selfie" alt={frontSelfie} src={frontSelfie} />
+                  ) : (
+                    <img
+                      id="selfie"
+                      style={{ height: "100%" }}
+                      alt={noPhoto}
+                      src={noPhoto}
+                    />
+                  )}
+                </div>
                 {/* </Carousel> */}
               </div>
             </div>
