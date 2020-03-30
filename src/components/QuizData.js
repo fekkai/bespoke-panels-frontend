@@ -156,11 +156,11 @@ export default class QuizData extends Component {
           {!loading
             ? "(" +
               ((completedQuizCount / totalQuizCount) * 100).toFixed(2) +
-              " %)"
+              "%)"
             : ""}
           <br /> ABANDONED QUIZ COUNT: {abandonedQuiz}&nbsp;
           {!loading
-            ? "(" + ((abandonedQuiz / totalQuizCount) * 100).toFixed(2) + " %)"
+            ? "(" + ((abandonedQuiz / totalQuizCount) * 100).toFixed(2) + "%)"
             : ""}
           {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
           <br />
