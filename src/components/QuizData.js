@@ -12,7 +12,7 @@ import { css } from "@emotion/core";
 import axios from "axios";
 import { CSVLink } from "react-csv";
 
-export default class Sales extends Component {
+export default class QuizData extends Component {
   constructor(props) {
     super(props);
 
@@ -26,6 +26,7 @@ export default class Sales extends Component {
   }
 
   async componentDidMount() {
+    await this.fetchEmails();
     await this.fetchOrders();
     await this.fetchQuizData();
     await this.findOrders();
@@ -34,12 +35,27 @@ export default class Sales extends Component {
     });
   }
 
+  fetchEmails = async () => {
+    try {
+      let response = await axios(
+        "https://bespoke-backend.herokuapp.com/klaviyo-emails"
+      );
+      const klaviyoEmails = response.data.records;
+      this.setState({
+        klaviyoEmails: klaviyoEmails.length
+      });
+      console.log(this.state.klaviyoEmails);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   fetchOrders = async () => {
     try {
-      let responses = await axios(
+      let response = await axios(
         "https://bespoke-backend.herokuapp.com/orders"
       );
-      const orders = responses.data;
+      const orders = response.data;
       this.setState({ orders });
     } catch (error) {
       console.error(error);
@@ -124,7 +140,8 @@ export default class Sales extends Component {
       loading,
       completedQuizCount,
       totalQuizCount,
-      abandonedQuiz
+      abandonedQuiz,
+      klaviyoEmails
     } = this.state;
     return (
       <div className="dashboard">
@@ -146,6 +163,8 @@ export default class Sales extends Component {
             ? "(" + ((abandonedQuiz / totalQuizCount) * 100).toFixed(2) + " %)"
             : ""}
           {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
+          <br />
+          TOTAL KLAVIYO EMAILS: {klaviyoEmails}
           <br /> <br />
           <span style={{ display: "flex", flexDirection: "row" }}>
             TOTAL SALES:{" "}

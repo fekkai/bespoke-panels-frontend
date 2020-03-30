@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import Fade from 'react-reveal/Fade'
 
 // Components
-import Sales from './components/Sales'
+import QuizData from './components/QuizData'
 import StylistPanelList from './components/StylistPanelList'
 import StylistPanelUser from './components/StylistPanelUser'
 
@@ -267,7 +267,7 @@ class App extends React.Component {
               orderNumber={orderNumber}
               name={name}
             />
-            <Route path="/sales" component={Sales} />
+            <Route path="/quiz-data" component={QuizData} />
             <Route
               thickness={
                 thickness

@@ -298,7 +298,7 @@ export default class StylistPanelList extends Component {
         totalQuizCount,
         loading: false
       });
-      console.log(emails);
+      // console.log(emails);
     } catch (error) {
       console.error(error);
     }
@@ -532,7 +532,7 @@ export default class StylistPanelList extends Component {
         <div className="pagination-section">
           <span style={{ paddingLeft: "5px" }}>
             {!this.state.loading ? (
-              <Link to={{ pathname: "/sales" }}>
+              <Link to={{ pathname: "/quiz-data" }}>
                 <button style={{ width: "100%" }} id="list-view-btn">
                   QUIZ DATA
                 </button>
