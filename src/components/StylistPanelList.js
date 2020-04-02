@@ -177,7 +177,12 @@ export default class StylistPanelList extends Component {
         // sort shampoo scores
         if (
           // userResponse.data.created > "2020-03-19T23:59:59" &&
-          userResponse.data.user_data.compute === true
+          userResponse.data.user_data.compute === true &&
+          !userResponse.data.user_data.name
+            .toLocaleLowerCase()
+            .includes("james kim")
+       
+         
         ) {
           // console.log(userResponse.data)
           if (

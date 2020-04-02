@@ -189,7 +189,7 @@ export default class StylistPanelUser extends Component {
       frontSelfie,
       page
     } = this.props.location.state;
-    console.log(page);
+    console.log(frontSelfie);
     return (
       <div>
         <Link to="/stylist-panel-list">
