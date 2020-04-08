@@ -51,12 +51,8 @@ export const Row = ({
         }}
       >
         <div className="card-content">
-          <div className="locale" color="textSecondary">
-            {dateTime}
-          </div>
-          <div className="name" color="textSecondary">
-            {name ? name : "n/a"}
-          </div>
+          <div className="locale">{dateTime}</div>
+          <div className="name">{name ? name : "n/a"}</div>
           <div className="image">
             {" "}
             {!frontSelfie || frontSelfie === "none" ? (
@@ -73,18 +69,25 @@ export const Row = ({
               {!cvData ? "" : <div>length: {lengthScore}%</div>}
               {!cvData ? "" : <div>color: {colorScore}%</div>}
             </span>
-            {cvDataTexture === hairTexture &&
-            cvDataLength === hairLength &&
-            cvDataColor === hairColor
-              ? ""
-              : "C"}
+            {cvData ? (
+              cvDataTexture === hairTexture &&
+              cvDataLength === hairLength &&
+              cvDataColor === hairColor ? (
+                ""
+              ) : (
+                <span className="image-container corrected">
+                  user corrected
+                </span>
+              )
+            ) : (
+              ""
+            )}
           </div>
           <div
             className="user-attributes"
             style={{
               flex: 0.5
             }}
-            color="textSecondary"
           >
             {" "}
             {!hairThickness ? "n/a" : hairThickness}
@@ -94,9 +97,24 @@ export const Row = ({
             style={{
               flex: 0.5
             }}
-            color="textSecondary"
           >
-            {typeof hairTexture === "number"
+            {!cvData ? (
+              hairTexture
+            ) : hairTexture ? (
+              cvDataTexture !== hairTexture ? (
+                <span>
+                  <b>{hairTexture} </b>
+                  <br />
+                  {cvDataTexture}
+                </span>
+              ) : (
+                hairTexture
+              )
+            ) : (
+              ""
+            )}
+            {/* {
+                typeof hairTexture === "number"
               ? hairTexture === 1 || "1"
                 ? "straight"
                 : "" || hairTexture === "2" || 2
@@ -109,26 +127,53 @@ export const Row = ({
               : typeof hairTexture === "string"
               ? hairTexture
               : "n/a"}
+               */}
           </div>
           <div
             className="user-attributes"
             style={{
               flex: 0.5
             }}
-            color="textSecondary"
           >
-            {hairColor ? hairColor : "n/a"}
+            {!cvData ? (
+              hairColor
+            ) : hairColor ? (
+              cvDataColor !== hairColor ? (
+                <span>
+                  <b>{hairColor}</b>
+                  <br />
+                  {cvDataColor}
+                </span>
+              ) : (
+                hairColor
+              )
+            ) : (
+              ""
+            )}
           </div>
           <div
             className="user-attributes"
             style={{
               flex: 0.5
             }}
-            color="textSecondary"
           >
-            {hairLength ? hairLength : "n/a"}
+            {!cvData ? (
+              hairLength
+            ) : hairLength ? (
+              cvDataLength !== hairLength ? (
+                <span>
+                  <b>{hairLength}</b>
+                  <br />
+                  {cvDataLength}
+                </span>
+              ) : (
+                hairLength
+              )
+            ) : (
+              ""
+            )}
           </div>
-          <div className="user-attributes" color="textSecondary">
+          <div className="user-attributes">
             {!condition
               ? "n/a"
               : condition === "none"
@@ -147,7 +192,6 @@ export const Row = ({
               flex: 1,
               lineHeight: "24px"
             }}
-            color="textSecondary"
           >
             {!hairGoals ? "n/a" : hairGoals ? hairGoals.join(", ") : ""}
           </div>
