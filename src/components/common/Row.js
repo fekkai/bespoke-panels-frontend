@@ -1,41 +1,11 @@
-import React from 'react'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
+import React from "react";
+import Card from "@material-ui/core/Card";
 
-import { makeStyles } from '@material-ui/core/styles'
-import '../../styles/Row.scss'
-import noPhoto from '../../assets/no-photo.png'
-
-const useStyles = makeStyles({
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-    padding: 0
-  },
-  title: {
-    fontSize: 15,
-    color: `#000000`,
-    fontFamily: 'urwdin-regular',
-    padding: 0
-  },
-  pos: {
-    marginBottom: 12
-  }
-})
-
-//convert function - readable date format
-// Date.prototype.addDays = function(days) {
-//   var date = new Date(this.valueOf())
-//   date.setDate(date.getDate() + days)
-//   return date
-// }
+import "../../styles/Row.scss";
+import noPhoto from "../../assets/no-photo.png";
 
 export const Row = ({
-  date,
-  dueDate,
   name,
-  email,
   locale,
   hairThickness,
   hairTexture,
@@ -43,17 +13,40 @@ export const Row = ({
   hairLength,
   condition,
   hairGoals,
-  frontSelfie
+  frontSelfie,
+  cvData
 }) => {
-  let dateTime = new Date(locale)
-  let newDateTime = dateTime.setHours(dateTime.getHours() - 4)
-  dateTime = new Date(newDateTime).toLocaleString()
+  let dateTime = new Date(locale);
+  let newDateTime = dateTime.setHours(dateTime.getHours() - 4);
+  dateTime = new Date(newDateTime).toLocaleString();
+
+  const textureScore = cvData && (cvData.texture.score * 100).toFixed(2);
+  const lengthScore = cvData && (cvData.length.score * 100).toFixed(2);
+  const colorScore = cvData && (cvData.color.score * 100).toFixed(2);
+
+  const cvDataTexture = cvData && cvData.texture.value.toLocaleLowerCase();
+  const cvDataLength = cvData && cvData.length.value.toLocaleLowerCase();
+  let cvDataColor = cvData && cvData.color.value.toLocaleLowerCase();
+
+  if (cvDataColor === "black" || "grey" || "silver") {
+    cvDataColor = "black";
+  }
+
+  console.log(
+    cvDataTexture,
+    hairTexture,
+    cvDataLength,
+    hairLength,
+    cvDataColor,
+    hairColor
+  );
+
   return (
     <div>
       <Card
         style={{
-          overflowX: 'hidden',
-          overflowY: 'auto',
+          overflowX: "hidden",
+          overflowY: "auto",
           marginBottom: `${5}px`
         }}
       >
@@ -62,15 +55,29 @@ export const Row = ({
             {dateTime}
           </div>
           <div className="name" color="textSecondary">
-            {name ? name : 'n/a'}
+            {name ? name : "n/a"}
           </div>
           <div className="image">
-            {!frontSelfie || frontSelfie === 'none' ? (
-              <img id="selfie" alt={noPhoto} src={noPhoto} />
+            {" "}
+            {!frontSelfie || frontSelfie === "none" ? (
+              <span className="image-container">
+                <img id="selfie" alt={noPhoto} src={noPhoto} />{" "}
+              </span>
             ) : (
-              <img id="selfie" alt={frontSelfie} src={frontSelfie} />
+              <span className="image-container">
+                <img id="selfie" alt={frontSelfie} src={frontSelfie} />{" "}
+              </span>
             )}
-            <div id="modal"></div>
+            <span className="image-container">
+              {!cvData ? "cv_data n/a" : <div>texture: {textureScore}%</div>}
+              {!cvData ? "" : <div>length: {lengthScore}%</div>}
+              {!cvData ? "" : <div>color: {colorScore}%</div>}
+            </span>
+            {cvDataTexture === hairTexture &&
+            cvDataLength === hairLength &&
+            cvDataColor === hairColor
+              ? ""
+              : "C"}
           </div>
           <div
             className="user-attributes"
@@ -79,47 +86,29 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {' '}
-            {/* {thickness
-              ? thickness === 1
-                ? "finest"
-                : "" || thickness === 2
-                ? "finer"
-                : "" || thickness === 3
-                ? "fine"
-                : "" || thickness === 4
-                ? "medium"
-                : "" || thickness === 5
-                ? "thick"
-                : "" || thickness === 6
-                ? "thicker"
-                : "" || thickness === 7
-                ? "thickest"
+            {" "}
+            {!hairThickness ? "n/a" : hairThickness}
+          </div>
+          <div
+            className="user-attributes"
+            style={{
+              flex: 0.5
+            }}
+            color="textSecondary"
+          >
+            {typeof hairTexture === "number"
+              ? hairTexture === 1 || "1"
+                ? "straight"
+                : "" || hairTexture === "2" || 2
+                ? "wavy"
+                : "" || hairTexture === 3
+                ? "curly"
+                : "" || hairTexture === 4
+                ? "coily"
                 : ""
-              : ""}
-               */}
-            {!hairThickness ? 'n/a' : hairThickness}
-          </div>
-          <div
-            className="user-attributes"
-            style={{
-              flex: 0.5
-            }}
-            color="textSecondary"
-          >
-            {typeof hairTexture === 'number'
-              ? hairTexture === 1 || '1'
-                ? 'straight'
-                : '' || hairTexture === '2' || 2
-                ? 'wavy'
-                : '' || hairTexture === 3
-                ? 'curly'
-                : '' || hairTexture === 4
-                ? 'coily'
-                : ''
-              : typeof hairTexture === 'string'
+              : typeof hairTexture === "string"
               ? hairTexture
-              : 'n/a'}
+              : "n/a"}
           </div>
           <div
             className="user-attributes"
@@ -128,7 +117,7 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {hairColor ? hairColor : 'n/a'}
+            {hairColor ? hairColor : "n/a"}
           </div>
           <div
             className="user-attributes"
@@ -137,59 +126,34 @@ export const Row = ({
             }}
             color="textSecondary"
           >
-            {hairLength ? hairLength : 'n/a'}
+            {hairLength ? hairLength : "n/a"}
           </div>
           <div className="user-attributes" color="textSecondary">
             {!condition
-              ? 'n/a'
-              : condition === 'none'
-              ? 'none'
+              ? "n/a"
+              : condition === "none"
+              ? "none"
               : condition.map(e => {
                   return (
                     <div key={e}>
                       {e} <br />
                     </div>
-                  )
+                  );
                 })}
           </div>
           <div
             className="user-attributes"
             style={{
               flex: 1,
-              lineHeight: '24px'
+              lineHeight: "24px"
             }}
             color="textSecondary"
           >
-            {!hairGoals ? 'n/a' : hairGoals ? hairGoals.join(', ') : ''}
+            {!hairGoals ? "n/a" : hairGoals ? hairGoals.join(", ") : ""}
           </div>
-
           <br />
-          {/* {shampooSkeletonKey
-              ? shampooSkeletonKey === "volume1"
-                ? "Full Blown (Lightest Weight)"
-                : "" || shampooSkeletonKey === "colorprotect1"
-                ? "Technician Color (Medium Moisture)"
-                : "" || shampooSkeletonKey === "moisture1"
-                ? "Brilliant Shine (Medium Moisture)"
-                : "" || shampooSkeletonKey === "repair1"
-                ? "Super Strength (Strong Moisture)"
-                : "" || shampooSkeletonKey === "smooth1"
-                ? "Smoothing 'Essential Shea' (Heavy)"
-                : ""
-              : "" + " "} */}
-          {/* <Typography
-            style={{
-              width: `${20}%`
-            }}
-            className={classes.title}
-            color="textSecondary"
-          >
-            {" "}
-            {status}
-            <br />
-          </Typography> */}
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};

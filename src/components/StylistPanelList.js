@@ -139,10 +139,8 @@ export default class StylistPanelList extends Component {
         // page multiplied by number of rows items on each page
         let i = page * rowQty - rowQty;
         i < page * rowQty;
-        i++
-      ) // let i = 0;
-      // i < response.length;
-      // i++
+        i++ // let i = 0; // i < response.length;
+      ) // i++
       {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
@@ -300,6 +298,7 @@ export default class StylistPanelList extends Component {
             conditionerKey,
             thirdKey,
             frontSelfie: userResponse.data.user_data.front_selfie,
+            cvData: userResponse.data.user_data.cv_data,
             page: this.state.page
           });
         }
@@ -333,12 +332,6 @@ export default class StylistPanelList extends Component {
             order.subtotal,
             order.total
           ]);
-          // console.log(
-          //   order.created_at,
-          //   order.email,
-          //   order.subtotal_price,
-          //   order.total_price
-          // );
         }
       }
       this.setState({ totalSales, csv });
@@ -510,19 +503,6 @@ export default class StylistPanelList extends Component {
         })}
       </select>
     );
-
-    // individual pages
-    // return pagesArr.map(num => {
-    //   return (
-    //     <button
-    //       className="page-number-btn"
-    //       onClick={this.handlePage}
-    //       value={num}
-    //     >
-    //       {num}
-    //     </button>
-    //   )
-    // })
   };
 
   render() {
@@ -572,18 +552,10 @@ export default class StylistPanelList extends Component {
             ) : (
               ""
             )}
-            {/* <span className="page-arrow" onClick={this.handlePrevPage}>
-              ❮
-            </span>{" "} */}
             &nbsp; &nbsp; Page: {this.renderPagination()}{" "}
-            {/* <span className="page-arrow" onClick={this.handleNextPage}>
-              ❯
-            </span> */}
           </span>
         </div>
-        {/* <button onClick={this.handleFirstPage}>First</button>
-        <button onClick={this.handlePrevPage}>Previous</button>
-        <button onClick={this.handleNextPage}>Next</button> */}
+
         <Fade>
           <Paper elevation={0}>
             <div className="table">
