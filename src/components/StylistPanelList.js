@@ -90,8 +90,8 @@ export default class StylistPanelList extends Component {
 
   fetchQuizCount = async () => {
     let response = await axios(
-      // `https://bespoke-backend.herokuapp.com/fekkai-backend`
-      `https://fekkai-backend-dev.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+      `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      // `https://fekkai-backend-dev.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
 
     // response = JSON.parse(JSON.stringify(response));
@@ -102,7 +102,7 @@ export default class StylistPanelList extends Component {
 
     for (let usercodes of userData) {
       let userResponse = await axios.get(
-        `https://fekkai-backend-dev.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
       );
 
       if (
@@ -121,8 +121,8 @@ export default class StylistPanelList extends Component {
   fetchQuizData = async () => {
     try {
       let response = await axios(
-        // `https://bespoke-backend.herokuapp.com/fekkai-backend`
-        `https://fekkai-backend-dev.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        // `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
@@ -139,12 +139,11 @@ export default class StylistPanelList extends Component {
         // page multiplied by number of rows items on each page
         let i = page * rowQty - rowQty;
         i < page * rowQty;
-        i++ // let i = 0; // i < response.length;
-      ) // i++
-      {
+        i++ // let i = 0; // i < response.length; // i++
+      ) {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
-          `https://fekkai-backend-dev.herokuapp.com/backend/formula?user_code=${userCode}`
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
         );
 
         // console.log(userResponse.data.user_data.email);
@@ -276,7 +275,9 @@ export default class StylistPanelList extends Component {
             name: userResponse.data.user_data.name,
             email: userResponse.data.user_data.email,
             hairThickness: userResponse.data.user_data.answers.hair_thickness,
-            hairTexture: userResponse.data.user_data.answers.hair_texture,
+            hairTexture: !userResponse.data.user_data.answers.hair_texture
+              ? "n/a"
+              : userResponse.data.user_data.answers.hair_texture,
             hairColor: !userResponse.data.user_data.answers.hair_color
               ? "n/a"
               : userResponse.data.user_data.answers.hair_color,
