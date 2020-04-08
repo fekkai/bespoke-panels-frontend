@@ -2,16 +2,18 @@
 
 const axios = require("axios");
 
-const BASE_URL = "http://localhost:8001";
+const BASE_URL = "https://bespoke-backend-db.herokuapp.com/";
 
-// const BASE_URL = "https://bespoke-backend-db.herokuapp.com/";
+// const BASE_URL = "https://james-portfolio-api.herokuapp.com/";
 
+// const BASE_URL = "http://localhost:8001/";
 
 const JWT_TOKEN = localStorage.getItem("token"); //returns false if does not exist
 
 //create axios client that is reusable
 const apiClient = axios.create({
-  baseURL: BASE_URL, // this is where the api is coming from
+  // baseURL: BASE_URL, // this is where the api is coming from
+  baseURL: BASE_URL,
   headers: {
     Authorization: `Bearer ${JWT_TOKEN}`
   }
@@ -32,7 +34,6 @@ export const login = async data => {
     throw error;
   }
 };
-
 export const getProfile = async () => {
   try {
     const response = await apiClient.get("/app/profile");
@@ -53,4 +54,11 @@ export const signUp = async data => {
   } catch (error) {
     throw error;
   }
+<<<<<<< HEAD
 };
+=======
+};
+
+const API_KEY = process.env.API_KEY;
+const PASSWORD = process.env.PASSWORD;
+>>>>>>> d34d0290a5913af2ba3a3ca2408c16a75a914993
