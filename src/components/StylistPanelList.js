@@ -77,6 +77,7 @@ export default class StylistPanelList extends Component {
     try {
       let response = await axios(
         "https://bespoke-backend.herokuapp.com/orders"
+        // `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
 
       // const orders = response.data.orders;
@@ -89,8 +90,10 @@ export default class StylistPanelList extends Component {
 
   fetchQuizCount = async () => {
     let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      `https://fekkai-backend-dev.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
+
     // response = JSON.parse(JSON.stringify(response));
 
     let totalAbandonedQuiz = 0;
@@ -118,7 +121,8 @@ export default class StylistPanelList extends Component {
   fetchQuizData = async () => {
     try {
       let response = await axios(
-        `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        `https://fekkai-backend-dev.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
@@ -181,8 +185,6 @@ export default class StylistPanelList extends Component {
           !userResponse.data.user_data.name
             .toLocaleLowerCase()
             .includes("james kim")
-       
-         
         ) {
           // console.log(userResponse.data)
           if (
@@ -342,7 +344,7 @@ export default class StylistPanelList extends Component {
     this.setState({
       ascending: true
     });
-    return function(a, b) {
+    return function (a, b) {
       if (a[key] < b[key]) {
         return -1;
       }
@@ -353,7 +355,7 @@ export default class StylistPanelList extends Component {
     this.setState({
       ascending: false
     });
-    return function(a, b) {
+    return function (a, b) {
       if (a[key] > b[key]) {
         return -1;
       }
