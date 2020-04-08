@@ -140,11 +140,16 @@ export default class StylistPanelList extends Component {
         let i = page * rowQty - rowQty;
         i < page * rowQty;
         i++
-      ) {
+      ) // let i = 0;
+      // i < response.length;
+      // i++
+      {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
           `https://fekkai-backend-dev.herokuapp.com/backend/formula?user_code=${userCode}`
         );
+
+        // console.log(userResponse.data.user_data.email);
 
         if (
           // userResponse.data.created > "2020-03-19T23:59:59" &&
