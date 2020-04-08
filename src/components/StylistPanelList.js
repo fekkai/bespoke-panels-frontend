@@ -99,7 +99,7 @@ export default class StylistPanelList extends Component {
 
     for (let usercodes of userData) {
       let userResponse = await axios.get(
-        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+        `https://fekkai-backend-dev.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
       );
 
       if (
@@ -139,7 +139,7 @@ export default class StylistPanelList extends Component {
       ) {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
+          `https://fekkai-backend-dev.herokuapp.com/backend/formula?user_code=${userCode}`
         );
 
         if (

@@ -58,7 +58,7 @@ export default class StylistPanelUser extends Component {
   fetchUserCodeData = async () => {
     let userResponse = await axios.get(
       // https://fekk.ai/backend/get_formula?user_code=
-      `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${this.props.location.state.userCode}`
+      `https://fekkai-backend-dev.herokuapp.com/backend/formula?user_code=${this.props.location.state.userCode}`
     );
     await this.setState({
       loading: false,
