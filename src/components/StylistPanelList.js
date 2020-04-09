@@ -124,6 +124,7 @@ export default class StylistPanelList extends Component {
         // `https://bespoke-backend.herokuapp.com/fekkai-backend`
         `https://fekkai-backend-dev.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
+      
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       const emails = [];
@@ -187,7 +188,7 @@ export default class StylistPanelList extends Component {
           userResponse.data.user_data.compute === true &&
           !userResponse.data.user_data.name
             .toLocaleLowerCase()
-            .includes("james kim")
+            .includes("jame kim")
         ) {
           // console.log(userResponse.data)
           if (

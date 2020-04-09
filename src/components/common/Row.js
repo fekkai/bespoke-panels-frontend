@@ -64,10 +64,25 @@ export const Row = ({
                 <img id="selfie" alt={frontSelfie} src={frontSelfie} />{" "}
               </span>
             )}
+            <span id="cv-data-title">
+              <b>cv_data</b>
+            </span>
             <span className="image-container">
-              {!cvData ? "cv_data n/a" : <div>texture: {textureScore}%</div>}
-              {!cvData ? "" : <div>length: {lengthScore}%</div>}
-              {!cvData ? "" : <div>color: {colorScore}%</div>}
+              {!cvData ? (
+                "cv_data n/a"
+              ) : (
+                <div className="cv-data">texture: {textureScore}%</div>
+              )}
+              {!cvData ? (
+                ""
+              ) : (
+                <div className="cv-data">length: {lengthScore}%</div>
+              )}
+              {!cvData ? (
+                ""
+              ) : (
+                <div className="cv-data">color: {colorScore}%</div>
+              )}
             </span>
             {cvData ? (
               cvDataTexture === hairTexture &&
@@ -75,8 +90,13 @@ export const Row = ({
               cvDataColor === hairColor ? (
                 ""
               ) : (
-                <span className="image-container corrected">
-                  user corrected
+                <span>
+                  <span className="image-container correction">
+                    corrections
+                  </span>
+                  <span className="image-container correction-mobile">
+                    corrections
+                  </span>
                 </span>
               )
             ) : (
@@ -103,9 +123,11 @@ export const Row = ({
             ) : hairTexture ? (
               cvDataTexture !== hairTexture ? (
                 <span>
-                  <b>{hairTexture} </b>
+                  <b>{hairTexture}</b>
                   <br />
-                  {cvDataTexture}
+                  <span style={{ textDecoration: "line-through" }}>
+                    {cvDataTexture}
+                  </span>
                 </span>
               ) : (
                 hairTexture
@@ -142,7 +164,10 @@ export const Row = ({
                 <span>
                   <b>{hairColor}</b>
                   <br />
-                  {cvDataColor}
+                  <span style={{ textDecoration: "line-through" }}>
+                    {" "}
+                    {cvDataColor}
+                  </span>
                 </span>
               ) : (
                 hairColor
@@ -164,7 +189,10 @@ export const Row = ({
                 <span>
                   <b>{hairLength}</b>
                   <br />
-                  {cvDataLength}
+                  <span style={{ textDecoration: "line-through" }}>
+                    {" "}
+                    {cvDataLength}
+                  </span>
                 </span>
               ) : (
                 hairLength

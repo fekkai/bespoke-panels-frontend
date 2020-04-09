@@ -1,56 +1,56 @@
 // Packages and Libraries
-import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-import Fade from 'react-reveal/Fade'
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import Fade from "react-reveal/Fade";
 
 // Components
-import QuizData from './components/QuizData'
-import StylistPanelList from './components/StylistPanelList'
-import StylistPanelUser from './components/StylistPanelUser'
+import QuizData from "./components/QuizData";
+import StylistPanelList from "./components/StylistPanelList";
+import StylistPanelUser from "./components/StylistPanelUser";
 
 // Assets
-import fekkaiLogo from './assets/fekkai-logo.png'
+import fekkaiLogo from "./assets/fekkai-logo.png";
 // Helper functions
-import { getProfile } from './services/apiService'
+import { getProfile } from "./services/apiService";
 // Packages
-import aws4 from 'aws4'
-import axios from 'axios'
+import aws4 from "aws4";
+import axios from "axios";
 // Css
-import './styles/App.scss'
-import authService from './services/authService'
+import "./styles/App.scss";
+import authService from "./services/authService";
 
-import './styles/Lightbox.scss'
+import "./styles/Lightbox.scss";
 
 //AWS4 auth
 let request = {
-  hostname: '5qdtfxj5j5.execute-api.us-east-1.amazonaws.com',
-  method: 'GET',
-  url: 'https://5qdtfxj5j5.execute-api.us-east-1.amazonaws.com/latest',
-  path: '/latest'
-}
+  hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
+  method: "GET",
+  url: "https://5qdtfxj5j5.execute-api.us-east-1.amazonaws.com/latest",
+  path: "/latest"
+};
 
 let signedRequest = aws4.sign(request, {
   accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
   secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
-})
+});
 
-delete signedRequest.headers['Host']
-delete signedRequest.headers['Content-Length']
+delete signedRequest.headers["Host"];
+delete signedRequest.headers["Content-Length"];
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       user: {},
       orders: null,
-      validationError: '',
-      name: '',
-      address: '',
-      zip: '',
-      email: '',
-      phone: '',
-      orderNumber: '',
-      createdAt: '',
+      validationError: "",
+      name: "",
+      address: "",
+      zip: "",
+      email: "",
+      phone: "",
+      orderNumber: "",
+      createdAt: "",
       note_attributes: null,
       thickness: null,
       texture: null,
@@ -66,43 +66,41 @@ class App extends React.Component {
       shampooFormula: null,
       photoIndex: 0,
       isOpen: false
-    }
+    };
   }
 
   async componentDidMount() {
     try {
-      const fetchedUser = await getProfile()
+      const fetchedUser = await getProfile();
       this.setState(state => {
         return {
           isSignedIn: authService.isAuthenticated(),
           user: fetchedUser
-        }
-      })
+        };
+      });
     } catch (e) {
-      throw e
+      throw e;
     }
-    this.fetchOrders()
+    this.fetchOrders();
     this.setState({
       currentLocation: window.location.pathname
-    })
+    });
   }
 
   refreshPage = () => {
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   fetchOrders = async () => {
     try {
-      let response = await axios.get(
-        "https://bespoke-backend.herokuapp.com/"
-      );
+      let response = await axios.get("https://bespoke-backend.herokuapp.com/");
       this.setState({
         orders: response.data.orders
-      })
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   fetchUserCode = async () => {
     try {
@@ -115,42 +113,42 @@ class App extends React.Component {
             csv: res.data,
             thickness: res.data.user_data.answers.hair_thickness,
             texture: res.data.user_data.answers.hair_texture,
-            hairCondition: res.data.user_data.answers['hair-condition'],
-            hairGoals: res.data.user_data.answers['hair-goals'],
+            hairCondition: res.data.user_data.answers["hair-condition"],
+            hairGoals: res.data.user_data.answers["hair-goals"],
             age: res.data.user_data.answers.age,
             diet: res.data.user_data.answers.diet,
             zip: res.data.user_data.answers.zipcode.zip,
             city: res.data.user_data.weather.city,
             wash: res.data.user_data.answers.wash_frequency,
             afterwash: res.data.user_data.answers.afterwash,
-            hairGoals2: res.data.user_data.answers['hair-goals-2'],
-            sideSelfie: res.data.user_data['side_selfie'],
-            frontSelfie: res.data.user_data['front_selfie'],
+            hairGoals2: res.data.user_data.answers["hair-goals-2"],
+            sideSelfie: res.data.user_data["side_selfie"],
+            frontSelfie: res.data.user_data["front_selfie"],
             shampooFormula: res.data.ingredients.shampoo.formula,
             conditionerFormula: res.data.ingredients.conditioner.formula
-          })
-        })
+          });
+        });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   renderOrders = () => {
     return (
       <div>
         <ul
           style={{
-            listStyle: 'none',
-            textAlign: 'left',
-            overflow: 'scroll',
+            listStyle: "none",
+            textAlign: "left",
+            overflow: "scroll",
             height: `${400}px`,
-            paddingLeft: '0',
+            paddingLeft: "0",
             paddingRight: `${10}px`,
             marginBottom: 0
           }}
         >
           {!this.state.orders
-            ? ''
+            ? ""
             : this.state.orders.map(element => (
                 <div
                   className="order"
@@ -161,13 +159,13 @@ class App extends React.Component {
                         address:
                           element.shipping_address.address1 +
                           (element.shipping_address.address2
-                            ? ' ' + element.shipping_address.address2
-                            : '') +
-                          ' ' +
+                            ? " " + element.shipping_address.address2
+                            : "") +
+                          " " +
                           element.shipping_address.city +
-                          ' ' +
+                          " " +
                           element.shipping_address.province_code +
-                          ' ' +
+                          " " +
                           element.shipping_address.zip,
                         zip: element.shipping_address.zip,
                         email: element.email,
@@ -178,12 +176,12 @@ class App extends React.Component {
                         gateway: element.gateway,
                         note_attributes:
                           undefined || !element.note_attributes[0] || null
-                            ? ''
+                            ? ""
                             : element.note_attributes[0].value,
                         isLoading: true
                       }),
                       await this.fetchUserCode()
-                    )
+                    );
                     // await this.setState({
                     //   isLoading: false
                     // });
@@ -201,8 +199,8 @@ class App extends React.Component {
               ))}
         </ul>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     const {
@@ -226,21 +224,14 @@ class App extends React.Component {
       frontSelfie,
       currentLocation,
       isLoading
-    } = this.state
+    } = this.state;
 
     return (
       <div className="app">
         <div id="header">
           <Fade big>
             <header className="img-container">
-              <a href="/">
-                <img
-                  id="fekkai-logo"
-                  style={{ marginBottom: '10px' }}
-                  alt="fekkai-logo"
-                  src={fekkaiLogo}
-                />
-              </a>
+              <img id="fekkai-logo" alt="fekkai-logo" src={fekkaiLogo} />
               {/* <button onClick={this.refreshPage} id="list-view-btn">
                 REFRESH
               </button> */}
@@ -272,40 +263,40 @@ class App extends React.Component {
               thickness={
                 thickness
                   ? thickness === 1
-                    ? 'finest'
-                    : '' || thickness === 2
-                    ? 'finer'
-                    : '' || thickness === 3
-                    ? 'fine'
-                    : '' || thickness === 4
-                    ? 'medium'
-                    : '' || thickness === 5
-                    ? 'thick'
-                    : '' || thickness === 6
-                    ? 'thicker'
-                    : '' || thickness === 7
-                    ? 'thickest'
-                    : ''
-                  : ''
+                    ? "finest"
+                    : "" || thickness === 2
+                    ? "finer"
+                    : "" || thickness === 3
+                    ? "fine"
+                    : "" || thickness === 4
+                    ? "medium"
+                    : "" || thickness === 5
+                    ? "thick"
+                    : "" || thickness === 6
+                    ? "thicker"
+                    : "" || thickness === 7
+                    ? "thickest"
+                    : ""
+                  : ""
               }
               texture={
                 texture
                   ? texture === 1
-                    ? 'straight'
-                    : '' || texture === 2
-                    ? 'wavy'
-                    : '' || texture === 3
-                    ? 'curly'
-                    : '' || texture === 4
-                    ? 'coily'
-                    : ''
-                  : ''
+                    ? "straight"
+                    : "" || texture === 2
+                    ? "wavy"
+                    : "" || texture === 3
+                    ? "curly"
+                    : "" || texture === 4
+                    ? "coily"
+                    : ""
+                  : ""
               }
               hairCondition={hairCondition}
               hairGoals={hairGoals}
               age={age}
               diet={diet}
-              zip={!this.state.zip ? '' : this.state.zip}
+              zip={!this.state.zip ? "" : this.state.zip}
               orderNumber={orderNumber}
               city={city}
               wash={wash}
@@ -322,7 +313,7 @@ class App extends React.Component {
         </main>
         <footer></footer>
       </div>
-    )
+    );
   }
 }
-export default App
+export default App;

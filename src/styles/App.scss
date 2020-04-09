@@ -1,12 +1,12 @@
 @font-face {
-  font-family: 'urwdin-regular';
+  font-family: "urwdin-regular";
   font-style: normal;
-  src: local('urwdin-regular-webfont'), local('urwdin-regular-webfont'),
-    url('../assets/urwdin-regular-webfont.woff') format('woff');
+  src: local("urwdin-regular-webfont"), local("urwdin-regular-webfont"),
+    url("../assets/urwdin-regular-webfont.woff") format("woff");
 }
 
 @mixin button($bg, $cl) {
-  font-family: 'urwdin-regular';
+  font-family: "urwdin-regular";
   background: $bg;
   color: $cl;
   height: 3%;
@@ -24,7 +24,6 @@
   font-size: 1em;
 }
 
-
 .btn,
 button {
   @include button(transparent, #545454);
@@ -34,7 +33,7 @@ button {
 }
 
 .app {
-  font-family: 'urwdin-regular';
+  font-family: "urwdin-regular";
   padding: 3%;
   header {
     margin-bottom: 30px;
@@ -62,9 +61,10 @@ button {
     }
     #fekkai-logo {
       margin-left: 0;
+      margin-bottom: 10px;
       padding: 5px;
-      min-width: 20%;
-      height: 100%;
+      width: 10%;
+      // height: 100%;
     }
   }
   #logout-approve-btn {
