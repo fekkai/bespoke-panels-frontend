@@ -67,7 +67,7 @@ export const Row = ({
             <span id="cv-data-title">
               <b>cv_data</b>
             </span>
-            <span className="image-container">
+            <span id="cv-data-container" className="image-container">
               {!cvData ? (
                 "cv_data n/a"
               ) : (
@@ -92,10 +92,10 @@ export const Row = ({
               ) : (
                 <span>
                   <span className="image-container correction">
-                    corrections
+                    user corrections
                   </span>
                   <span className="image-container correction-mobile">
-                    corrections
+                    user corrections
                   </span>
                 </span>
               )

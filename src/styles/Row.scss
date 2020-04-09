@@ -33,6 +33,9 @@
       align-self: center;
       padding: 5px;
     }
+    #cv-data-container {
+      flex-direction: column;
+    }
     .image-container {
       display: flex;
       justify-content: center;
@@ -50,7 +53,7 @@
       display: none;
     }
     #selfie {
-      width: 100%;
+      width: 50%;
       display: block;
       padding: 5px;
       // padding: 7px;
@@ -70,26 +73,35 @@
 
 //ipad landscape
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
-  .locale {
-    text-align: center;
-    font-size: 11px;
-  }
-  .name {
-    text-align: center;
-    font-size: 11px;
-  }
-  .image {
-    display: inline-block;
-    display: flex;
-    flex: 0.7;
-    justify-content: center;
-    height: auto;
-  }
-  .user-attributes {
-    font-size: 11px;
-    div {
+  .card-content {
+    .locale {
+      text-align: center;
       font-size: 11px;
     }
+    .name {
+      text-align: center;
+      font-size: 11px;
+    }
+    .image {
+      display: inline-block;
+      display: flex;
+      flex: 0.7;
+      justify-content: center;
+      height: auto;
+    }
+
+    .user-attributes {
+      font-size: 11px;
+      div {
+        font-size: 11px;
+      }
+    }
+  }
+  #selfie {
+    width: 50%;
+    display: block;
+    padding: 5px;
+    // padding: 7px;
   }
 }
 
