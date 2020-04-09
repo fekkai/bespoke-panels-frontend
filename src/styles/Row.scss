@@ -88,7 +88,12 @@
       flex: 0.7;
       justify-content: center;
       height: auto;
-      #selfie
+      .selfie {
+        width: 50%;
+        height: 50%;
+        // border-radius: 17px;
+        display: inline-block;
+      }
     }
 
     .user-attributes {
@@ -97,12 +102,6 @@
         font-size: 11px;
       }
     }
-  }
-  #selfie {
-    width: 50%;
-    height: 50%;
-    // border-radius: 17px;
-    display: inline-block;
   }
 }
 
