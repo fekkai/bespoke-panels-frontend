@@ -39,7 +39,7 @@
       font-weight: bold;
     }
     #selfie {
-      width: 100%;
+      width: 50%;
       display: block;
       // padding: 7px;
     }
@@ -58,6 +58,7 @@
 
 //ipad landscape
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .card-content {
   .locale {
     text-align: center;
     font-size: 11px;
@@ -72,6 +73,9 @@
     flex: 0.7;
     justify-content: center;
     height: auto;
+    #selfie {
+      width: 50%;
+    }
   }
   .user-attributes {
     font-size: 11px;
@@ -79,6 +83,7 @@
       font-size: 11px;
     }
   }
+}
 }
 
 //ipad portrait
