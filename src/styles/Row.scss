@@ -88,6 +88,7 @@
       flex: 0.7;
       justify-content: center;
       height: auto;
+      #selfie
     }
 
     .user-attributes {
@@ -99,9 +100,9 @@
   }
   #selfie {
     width: 50%;
-    display: block;
-    padding: 5px;
-    // padding: 7px;
+    height: 50%;
+    // border-radius: 17px;
+    display: inline-block;
   }
 }
 
