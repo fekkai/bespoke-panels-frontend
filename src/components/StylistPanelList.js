@@ -121,6 +121,7 @@ export default class StylistPanelList extends Component {
       let response = await axios(
         `https://bespoke-backend.herokuapp.com/fekkai-backend`
       );
+      
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       const emails = [];
@@ -183,7 +184,7 @@ export default class StylistPanelList extends Component {
           userResponse.data.user_data.compute === true &&
           !userResponse.data.user_data.name
             .toLocaleLowerCase()
-            .includes("james kim")
+            .includes("jame kim")
         ) {
           // console.log(userResponse.data)
           if (
