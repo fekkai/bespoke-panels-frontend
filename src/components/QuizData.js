@@ -129,16 +129,21 @@ export default class QuizData extends Component {
     // emails compute true
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
-        if (order.total && email === order.email.toLocaleLowerCase()) {
-          totalSales += parseFloat(order.total);
-          this.setState({ totalSales });
+        if (email === order.email.toLocaleLowerCase()) {
+          
           csv.push([
             order.created_at,
             order.email,
             order.subtotal,
-            order.total
+            order.total,
+            order.lineitem_name,
+            order.lineitem_quantity
           ]);
+          if (order.total) {
+            totalSales += parseFloat(order.total);
+          }
         }
+        
       }
       this.setState({ totalSales, csv });
     }
