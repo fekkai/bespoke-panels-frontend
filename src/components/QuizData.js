@@ -167,7 +167,10 @@ export default class QuizData extends Component {
           </Link>
           <br />
           <br />
-          TOTAL QUIZ COUNT: {loading ? <ClipLoader size={6} /> : totalQuizCount}
+          SINCE 03-20-20 LAUNCH
+          <br />
+          COMPLETED QUIZZES/EMAILS ENTERED:{" "}
+          {loading ? <ClipLoader size={6} /> : totalQuizCount}
           <br /> COMPLETED QUIZ COUNT: {completedQuizCount}&nbsp;
           {!loading
             ? "(" +
@@ -180,7 +183,7 @@ export default class QuizData extends Component {
             : ""}
           {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
           <br />
-          TOTAL KLAVIYO EMAILS: {klaviyoEmails}
+          {/* TOTAL KLAVIYO EMAILS: {klaviyoEmails} */}
           <br /> <br />
           <span style={{ display: "flex", flexDirection: "row" }}>
             TOTAL SALES:{" "}
