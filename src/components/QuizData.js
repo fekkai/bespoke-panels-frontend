@@ -169,9 +169,9 @@ export default class QuizData extends Component {
           <br />
           SINCE 03-20-20 LAUNCH
           <br />
-          COMPLETED QUIZZES/EMAILS ENTERED:{" "}
+          TOTAL QUIZZES:{" "}
           {loading ? <ClipLoader size={6} /> : totalQuizCount}
-          <br /> COMPLETED QUIZ COUNT: {completedQuizCount}&nbsp;
+          <br /> COMPLETED QUIZ COUNT/EMAILS ENTERED: {completedQuizCount}&nbsp;
           {!loading
             ? "(" +
               ((completedQuizCount / totalQuizCount) * 100).toFixed(2) +
