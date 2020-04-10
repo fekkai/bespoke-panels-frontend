@@ -116,7 +116,16 @@ export default class QuizData extends Component {
 
   findOrders = () => {
     let totalSales = 0;
-    let csv = [["created_at", "email", "subtotal", "total"]];
+    let csv = [
+      [
+        "created_at",
+        "email",
+        "subtotal",
+        "total",
+        "lineitem_name",
+        "lineitem_quantity"
+      ]
+    ];
     // emails compute true
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
