@@ -76,7 +76,7 @@ export default class QuizData extends Component {
       // query user data instances w/ user_code
       for (let userCode of response.data.reverse()) {
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
+          `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
         );
 
         // increment abandoned quiz instance if quiz compute is false
@@ -169,8 +169,7 @@ export default class QuizData extends Component {
           <br />
           SINCE 03-20-20 LAUNCH
           <br />
-          TOTAL QUIZZES:{" "}
-          {loading ? <ClipLoader size={6} /> : totalQuizCount}
+          TOTAL QUIZZES: {loading ? <ClipLoader size={6} /> : totalQuizCount}
           <br /> COMPLETED QUIZ COUNT/EMAILS ENTERED: {completedQuizCount}&nbsp;
           {!loading
             ? "(" +

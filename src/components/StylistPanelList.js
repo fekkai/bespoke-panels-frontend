@@ -67,7 +67,7 @@ export default class StylistPanelList extends Component {
   async componentDidMount() {
     this.fetchOrders();
     await this.fetchQuizData();
-    await this.findSales();
+    // await this.findSales();
     await this.setState({
       loading: false
     });
@@ -89,7 +89,10 @@ export default class StylistPanelList extends Component {
 
   fetchQuizCount = async () => {
     let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      // // prod
+      // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      // qa
+      `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
 
     // response = JSON.parse(JSON.stringify(response));
@@ -100,7 +103,7 @@ export default class StylistPanelList extends Component {
 
     for (let usercodes of userData) {
       let userResponse = await axios.get(
-        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+        `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
       );
 
       if (
@@ -119,9 +122,12 @@ export default class StylistPanelList extends Component {
   fetchQuizData = async () => {
     try {
       let response = await axios(
-        `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        // prod
+        // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        // qa
+        `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
-      
+
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       const emails = [];
@@ -141,7 +147,7 @@ export default class StylistPanelList extends Component {
       ) {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
+          `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`
         );
 
         // console.log(userResponse.data.user_data.email);
