@@ -268,7 +268,9 @@ export default class QuizData extends Component {
           <br />
           ABANDONED: {abandonedQuizToday}
           <br /> <br />
-          PREVIOUS DAY: {quizPrevDay}
+          PREVIOUS DAY
+          <br />
+          QUIZ COUNT: {quizPrevDay}
           <br />
           COMPLETE: {completeQuizPrevDay}
           <br />
