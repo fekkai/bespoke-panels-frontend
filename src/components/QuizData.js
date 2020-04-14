@@ -44,7 +44,7 @@ export default class QuizData extends Component {
       this.setState({
         klaviyoEmails: klaviyoEmails.length
       });
-      console.log(this.state.klaviyoEmails);
+      // console.log(this.state.klaviyoEmails);
     } catch (error) {
       console.error(error);
     }
@@ -57,6 +57,7 @@ export default class QuizData extends Component {
       );
       const orders = response.data;
       this.setState({ orders });
+      // console.log(orders[0]);
     } catch (error) {
       console.error(error);
     }
@@ -71,32 +72,109 @@ export default class QuizData extends Component {
       const emails = [];
       let completedQuizCount = 0;
       let abandonedQuiz = 0;
+      let abandonedQuizToday = 0;
+      let abandonedQuizPrevDay = 0;
       let totalQuizCount = response.data.length;
+      let completeQuizToday = 0;
+      let completeQuizPrevDay = 0;
+      let quizPrevDay = 0;
+      let quizToday = 0;
+      let userData = response.data.reverse();
+      const today = new Date().getDate();
+      const yesterday = new Date(today) - 1;
 
       // query user data instances w/ user_code
-      for (let userCode of response.data.reverse()) {
+      for (let i = 0; i < userData.length; i++) {
+        // for (let userCode of response.data.reverse()) {
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userData[i].user_code}`
         );
 
-        // increment abandoned quiz instance if quiz compute is false
+        // total abandoned quizzes
         if (userResponse.data.user_data.compute === false) {
           abandonedQuiz++;
-
           this.setState({
             abandonedQuiz
+          });
+        }
+
+        // total quizzes today
+        if (new Date(userResponse.data.created).getDate() === today) {
+          // console.log("today's", userResponse.data.created);
+          quizToday++;
+          this.setState({
+            quizToday
+          });
+        }
+
+        // completed quizzes today
+        if (
+          userResponse.data.user_data.compute === true &&
+          new Date(userResponse.data.created.toString()).getDate() === today
+        ) {
+          completeQuizToday++;
+
+          this.setState({
+            completeQuizToday
+          });
+        }
+
+        // abandoned quizzes today
+        if (
+          userResponse.data.user_data.compute === false &&
+          new Date(userResponse.data.created.toString()).getDate() === today
+        ) {
+          abandonedQuizToday++;
+
+          this.setState({
+            abandonedQuizToday
+          });
+        }
+
+        // total quizzes prev day
+        if (new Date(userResponse.data.created).getDate() === yesterday) {
+          // console.log("yesterday's", userResponse.data.created);
+          quizPrevDay++;
+          this.setState({
+            quizPrevDay
+          });
+        }
+
+        // completed quizzes prev day
+        if (
+          userResponse.data.user_data.compute === true &&
+          new Date(userResponse.data.created.toString()).getDate() === yesterday
+        ) {
+          completeQuizPrevDay++;
+
+          this.setState({
+            completeQuizPrevDay
+          });
+        }
+
+        // abandoned quizzes prev day
+        if (
+          userResponse.data.user_data.compute === false &&
+          new Date(userResponse.data.created.toString()).getDate() === yesterday
+        ) {
+          abandonedQuizPrevDay++;
+
+          this.setState({
+            abandonedQuizPrevDay
           });
         }
 
         // increment abandoned quiz instance if quiz compute is true
         if (userResponse.data.user_data.compute === true) {
           // avoid pushing duplicate emails in emails array
+
           if (
             !emails.includes(
               userResponse.data.user_data.email.toLocaleLowerCase()
             )
           ) {
             emails.push(userResponse.data.user_data.email.toLocaleLowerCase());
+            // console.log(emails);
           }
           completedQuizCount++;
 
@@ -131,7 +209,12 @@ export default class QuizData extends Component {
     // emails compute true
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
-        if (email === order.email.toLocaleLowerCase()) {
+        if (
+          // check for matching email
+
+          email === order.email.toLocaleLowerCase()
+        ) {
+          console.log(order);
           csv.push([
             order.created_at,
             order.email,
@@ -157,7 +240,13 @@ export default class QuizData extends Component {
       completedQuizCount,
       totalQuizCount,
       abandonedQuiz,
-      klaviyoEmails
+      abandonedQuizToday,
+      // klaviyoEmails,
+      completeQuizToday,
+      completeQuizPrevDay,
+      abandonedQuizPrevDay,
+      quizToday,
+      quizPrevDay
     } = this.state;
     return (
       <div className="dashboard">
@@ -167,10 +256,26 @@ export default class QuizData extends Component {
           </Link>
           <br />
           <br />
-          SINCE 03-20-20 LAUNCH
+          LAUNCH 03-20-20
           <br />
-          TOTAL QUIZZES:{" "}
-          {loading ? <ClipLoader size={6} /> : totalQuizCount}
+          {/* {new Date().toString()} */}
+          <br />
+          TODAY
+          <br />
+          QUIZ COUNT: {quizToday}
+          <br />
+          COMPLETE: {completeQuizToday}
+          <br />
+          ABANDONED: {abandonedQuizToday}
+          <br /> <br />
+          PREVIOUS DAY: {quizPrevDay}
+          <br />
+          COMPLETE: {completeQuizPrevDay}
+          <br />
+          ABANDONED: {abandonedQuizPrevDay}
+          <br />
+          <br />
+          TOTAL QUIZZES: {loading ? <ClipLoader size={6} /> : totalQuizCount}
           <br /> COMPLETED QUIZ COUNT/EMAILS ENTERED: {completedQuizCount}&nbsp;
           {!loading
             ? "(" +
