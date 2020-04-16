@@ -1,0 +1,53 @@
+.flex-grid {
+  display: flex;
+}
+.col {
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  text-align: left;
+}
+
+.quiz-data-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 50%;
+  text-align: left;
+}
+
+.quiz-data-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 0.7;
+  text-align: left;
+  padding: 5px;
+}
+
+.quiz-data-column:hover {
+  background-color: #ddd;
+}
+
+.button-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 0.7;
+  text-align: left;
+  padding: 5px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 0.7;
+  text-align: left;
+  padding: 20px;
+}

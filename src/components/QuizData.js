@@ -6,6 +6,7 @@ import { ClipLoader, PulseLoader } from "react-spinners";
 
 // styling
 import "../styles/Panel.scss";
+import "../styles/Table.scss";
 import { css } from "@emotion/core";
 
 // dependencies
@@ -444,85 +445,154 @@ export default class QuizData extends Component {
     return (
       <div className="dashboard">
         <span>
-          <Link to="/stylist-panel-list">
-            <button id="list-view-btn">← LIST</button>
-          </Link>
+          <div class="quiz-data-row">
+            <div class="button-column">
+              {" "}
+              <Link to="/stylist-panel-list">
+                <button id="list-view-btn">← LIST</button>
+              </Link>
+            </div>
+          </div>
           <br />
           <br />
-          LAUNCH 03-20-20
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">LAUNCH 03-20-20</div>
+          </div>
           <br />
           {/* {new Date().toString()} */}
-          <br />
-          TODAY
-          <br />
-          QUIZ COUNT: {quizToday}
-          <br />
-          COMPLETE: {completeQuizToday}{" "}
-          {"(" + ((completeQuizToday / quizToday) * 100).toFixed(2) + "%)"}
-          <br />
-          ABANDONED: {abandonedQuizToday}
-          {"(" + ((abandonedQuizToday / quizToday) * 100).toFixed(2) + "%)"}
-          <br />
-          COMPLETED QUIZ CONVERSION:{" "}
-          {((orderCountToday / completeQuizToday) * 100).toFixed(2) + "%"}{" "}
-          {orderCountToday}
-          <br />
-          TOTAL QUIZ CONVERSION:{" "}
+          <div class="quiz-data-row" style={{ width: "50vw" }}>
+            <div class="quiz-data-column">TODAY</div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">QUIZ COUNT:</div>
+            <div class="quiz-data-column">{quizToday}</div>{" "}
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">COMPLETE:</div>{" "}
+            <div class="quiz-data-column">
+              {completeQuizToday}{" "}
+              {"(" + ((completeQuizToday / quizToday) * 100).toFixed(2) + "%)"}
+            </div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">ABANDONED:</div>{" "}
+            <div class="quiz-data-column">
+              {abandonedQuizToday}
+              {"(" + ((abandonedQuizToday / quizToday) * 100).toFixed(2) + "%)"}
+            </div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">COMPLETED QUIZ CONVERSION: </div>
+            <div class="quiz-data-column">
+              {" "}
+              {((orderCountToday / completeQuizToday) * 100).toFixed(2) +
+                "%"}{" "}
+            </div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column"> ORDER COUNT:</div>{" "}
+            <div class="quiz-data-column">{orderCountToday}</div>
+          </div>
+          {/* <br /> */}
+          {/* TOTAL QUIZ CONVERSION:{" "}
           {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
           {/* {orderCountToday} */}
-          <br />
-          TOTAL SALES: {parseFloat(totalSalesToday).toFixed(2)}
-          <br />
-          {!loading ? (
-            <Link
-              to={{
-                pathname: "/orders",
-                state: {
-                  ordersToday: ordersToday
-                }
-              }}
-            >
-              <button id="list-view-btn">ORDERS</button>
-            </Link>
-          ) : (
-            ""
-          )}
+          <div class="quiz-data-row">
+            <div class="quiz-data-column"> TOTAL SALES:</div>{" "}
+            <div class="quiz-data-column">
+              {" "}
+              {parseFloat(totalSalesToday).toFixed(2)}
+            </div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="button-column">
+              {" "}
+              {!loading ? (
+                <Link
+                  to={{
+                    pathname: "/orders",
+                    state: {
+                      ordersToday: ordersToday
+                    }
+                  }}
+                >
+                  <button id="list-view-btn">ORDERS</button>
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
           <br /> <br />
-          PREVIOUS DAY
-          <br />
-          QUIZ COUNT: {quizPrevDay}
-          <br />
-          COMPLETE: {completeQuizPrevDay}{" "}
-          {"(" + ((completeQuizPrevDay / quizPrevDay) * 100).toFixed(2) + "%)"}
-          <br />
-          ABANDONED: {abandonedQuizPrevDay}{" "}
-          {"(" + ((abandonedQuizPrevDay / quizPrevDay) * 100).toFixed(2) + "%)"}
-          <br />
-          COMPLETED QUIZ CONVERSION:{" "}
-          {((orderCountPrevDay / completeQuizPrevDay) * 100).toFixed(2) +
-            "%"}{" "}
-          {orderCountPrevDay}
-          <br />
-          TOTAL QUIZ CONVERSION:{" "}
+          <div class="quiz-data-row">
+            <div class="quiz-data-column"> PREVIOUS DAY</div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">QUIZ COUNT: </div>{" "}
+            <div class="quiz-data-column"> {quizPrevDay}</div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">COMPLETE:</div>
+            <div class="quiz-data-column">
+              {" "}
+              {completeQuizPrevDay}{" "}
+              {"(" +
+                ((completeQuizPrevDay / quizPrevDay) * 100).toFixed(2) +
+                "%)"}
+            </div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">ABANDONED:</div>
+            <div class="quiz-data-column">
+              {" "}
+              {abandonedQuizPrevDay}{" "}
+              {"(" +
+                ((abandonedQuizPrevDay / quizPrevDay) * 100).toFixed(2) +
+                "%)"}
+            </div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">COMPLETED QUIZ CONVERSION: </div>
+            <div class="quiz-data-column">
+              {" "}
+              {((orderCountPrevDay / completeQuizPrevDay) * 100).toFixed(2) +
+                "%"}{" "}
+            </div>
+          </div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column"> ORDER COUNT:</div>
+            <div class="quiz-data-column"> {orderCountPrevDay}</div>
+          </div>
+          {/* <br /> */}
+          {/* TOTAL QUIZ CONVERSION:{" "}
           {((orderCountPrevDay / quizPrevDay) * 100).toFixed(2) + "%"}{" "}
           {/* {orderCountPrevDay} */}
+          <div class="quiz-data-row">
+            <div class="quiz-data-column"> TOTAL SALES:</div>{" "}
+            <div class="quiz-data-column">
+              {parseFloat(totalSalesPrevDay).toFixed(2)}
+            </div>
+          </div>
           <br />
-          TOTAL SALES: {parseFloat(totalSalesPrevDay).toFixed(2)}
-          <br />
-          {!loading ? (
-            <Link
-              to={{
-                pathname: "/orders",
-                state: {
-                  ordersPrevDay: ordersPrevDay
-                }
-              }}
-            >
-              <button id="list-view-btn">ORDERS</button>
-            </Link>
-          ) : (
-            ""
-          )}
+          <div class="quiz-data-row">
+            <div class="button-column">
+              {" "}
+              {!loading ? (
+                <Link
+                  to={{
+                    pathname: "/orders",
+                    state: {
+                      ordersPrevDay: ordersPrevDay
+                    }
+                  }}
+                >
+                  <button id="list-view-btn">ORDERS</button>
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
           <br />
           <br />
           TOTAL QUIZZES: {loading ? <ClipLoader size={6} /> : totalQuizCount}
@@ -540,7 +610,7 @@ export default class QuizData extends Component {
           <br />
           {/* TOTAL KLAVIYO EMAILS: {klaviyoEmails} */}
           <br /> <br />
-          {/* <span style={{ display: "flex", flexDirection: "row" }}>
+          {/* <span style={{ display: "flex", flexDirection: "quiz-data-row" }}>
             QUIZ TO TRANSACTION SALES: {this.state.loading === false ? (
               <span>
                 {parseFloat(totalSales).toFixed(2)}{" "} */}
@@ -550,7 +620,7 @@ export default class QuizData extends Component {
           {/* <span
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "quiz-data-row",
                   marginLeft: "5px"
                 }}
               > */}
@@ -559,14 +629,14 @@ export default class QuizData extends Component {
               </span>
             )}
           </span> */}
-          {/* <span style={{ display: "flex", flexDirection: "row" }}>
+          {/* <span style={{ display: "flex", flexDirection: "quiz-data-row" }}>
             QUIZ USER RETURNING CUSTOMER SALES: {this.state.loading === false ? (
               <span>{parseFloat(returningTotalSales).toFixed(2)} </span>
             ) : (
               <span
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "quiz-data-row",
                   marginLeft: "5px"
                 }}
               >
@@ -574,7 +644,7 @@ export default class QuizData extends Component {
               </span>
             )}
           </span> */}
-          <span style={{ display: "flex", flexDirection: "row" }}>
+          <span style={{ display: "flex", flexDirection: "quiz-data-row" }}>
             TOTA SALES:{" "}
             {!totalQuizLoading ? (
               <span>{parseFloat(totalQuizUserSales).toFixed(2)} </span>
@@ -582,7 +652,7 @@ export default class QuizData extends Component {
               <span
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: "quiz-data-row",
                   marginLeft: "5px"
                 }}
               >

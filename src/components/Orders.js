@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "../styles/Orders.scss";
+import "../styles/Table.scss";
 import "../styles/Panel.scss";
 
 export default class Orders extends React.Component {
@@ -108,9 +108,21 @@ export default class Orders extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/quiz-data">
-          <button id="list-view-btn">← QUIZ DATA</button>
-        </Link>
+        {" "}
+        <div class="quiz-data-row">
+          <div class="button-column">
+            <Link to="/quiz-data">
+              <button
+                id="list-view-btn"
+                style={{
+                  fontSize: "13px"
+                }}
+              >
+                ← QUIZ DATA
+              </button>
+            </Link>
+          </div>
+        </div>
         <div style={{ marginTop: "20px" }}>
           <div class="row">
             <div class="column">
