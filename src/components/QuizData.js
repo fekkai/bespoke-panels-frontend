@@ -441,6 +441,12 @@ export default class QuizData extends Component {
       ordersToday,
       ordersPrevDay
     } = this.state;
+
+    const today = new Date();
+    const yesterday = new Date(today);
+
+    yesterday.setDate(yesterday.getDate() - 1);
+
     // console.log(this.state);
     return (
       <div className="dashboard">
@@ -460,9 +466,12 @@ export default class QuizData extends Component {
           </div>
           <br />
           {/* {new Date().toString()} */}
-          <div class="quiz-data-row" style={{ width: "50vw" }}>
-            <div class="quiz-data-column">TODAY</div>
+          <div class="quiz-data-row">
+            <div class="quiz-data-column">
+              <b>TODAY - {today.toDateString()}</b>
+            </div>
           </div>
+          <br />
           <div class="quiz-data-row">
             <div class="quiz-data-column">QUIZ COUNT:</div>
             <div class="quiz-data-column">{quizToday}</div>{" "}
@@ -525,7 +534,10 @@ export default class QuizData extends Component {
           </div>
           <br /> <br />
           <div class="quiz-data-row">
-            <div class="quiz-data-column"> PREVIOUS DAY</div>
+            <div class="quiz-data-column">
+              {" "}
+              <b> PREVIOUS DAY - {yesterday.toDateString()}</b>
+            </div>
           </div>
           <div class="quiz-data-row">
             <div class="quiz-data-column">QUIZ COUNT: </div>{" "}
