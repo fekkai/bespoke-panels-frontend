@@ -9,8 +9,10 @@ import "../styles/Panel.scss";
 import { css } from "@emotion/core";
 
 // dependencies
-import axios from "axios";
 import { CSVLink } from "react-csv";
+import axios from "axios";
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 
 export default class QuizData extends Component {
   constructor(props) {
@@ -450,7 +452,7 @@ export default class QuizData extends Component {
           <br />
           COMPLETED QUIZ CONVERSION:{" "}
           {((orderCountToday / completeQuizToday) * 100).toFixed(2) + "%"}{" "}
-          {/* {orderCountToday} */}
+          {orderCountToday}
           <br />
           TOTAL QUIZ CONVERSION:{" "}
           {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
@@ -471,7 +473,7 @@ export default class QuizData extends Component {
           COMPLETED QUIZ CONVERSION:{" "}
           {((orderCountPrevDay / completeQuizPrevDay) * 100).toFixed(2) +
             "%"}{" "}
-          {/* {orderCountPrevDay} */}
+          {orderCountPrevDay}
           <br />
           TOTAL QUIZ CONVERSION:{" "}
           {((orderCountPrevDay / quizPrevDay) * 100).toFixed(2) + "%"}{" "}
@@ -530,7 +532,8 @@ export default class QuizData extends Component {
             )}
           </span> */}
           <span style={{ display: "flex", flexDirection: "row" }}>
-            TOTA SALES: {this.state.loading === false ? (
+            TOTA SALES:{" "}
+            {this.state.loading === false ? (
               <span>{parseFloat(totalQuizUserSales).toFixed(2)} </span>
             ) : (
               <span
