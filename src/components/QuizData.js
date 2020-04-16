@@ -495,26 +495,26 @@ export default class QuizData extends Component {
           <br />
           {/* TOTAL KLAVIYO EMAILS: {klaviyoEmails} */}
           <br /> <br />
-          <span style={{ display: "flex", flexDirection: "row" }}>
+          {/* <span style={{ display: "flex", flexDirection: "row" }}>
             QUIZ TO TRANSACTION SALES: {this.state.loading === false ? (
               <span>
-                {parseFloat(totalSales).toFixed(2)}{" "}
-                {/* <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink> */}
-              </span>
-            ) : (
-              <span
+                {parseFloat(totalSales).toFixed(2)}{" "} */}
+          {/* <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink> */}
+          {/* </span> */}
+          {/* ) : ( */}
+          {/* <span
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   marginLeft: "5px"
                 }}
-              >
-                {/* COMPILING CSV  */}
-                <PulseLoader size={6} />
+              > */}
+          {/* COMPILING CSV  */}
+          {/* <PulseLoader size={6} />
               </span>
             )}
-          </span>
-          <span style={{ display: "flex", flexDirection: "row" }}>
+          </span> */}
+          {/* <span style={{ display: "flex", flexDirection: "row" }}>
             QUIZ USER RETURNING CUSTOMER SALES: {this.state.loading === false ? (
               <span>{parseFloat(returningTotalSales).toFixed(2)} </span>
             ) : (
@@ -528,9 +528,9 @@ export default class QuizData extends Component {
                 <PulseLoader size={6} />
               </span>
             )}
-          </span>
+          </span> */}
           <span style={{ display: "flex", flexDirection: "row" }}>
-            TOTAL QUIZ USER SALES: {this.state.loading === false ? (
+            TOTA SALES: {this.state.loading === false ? (
               <span>{parseFloat(totalQuizUserSales).toFixed(2)} </span>
             ) : (
               <span
