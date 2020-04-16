@@ -7,6 +7,7 @@ import Fade from "react-reveal/Fade";
 import QuizData from "./components/QuizData";
 import StylistPanelList from "./components/StylistPanelList";
 import StylistPanelUser from "./components/StylistPanelUser";
+import Orders from "./components/Orders";
 
 // Assets
 import fekkaiLogo from "./assets/fekkai-logo.png";
@@ -250,6 +251,8 @@ class App extends React.Component {
         <main id="main-page">
           <Switch>
             <Route exact path="/" component={StylistPanelList} />
+            <Route exact path="/orders" component={Orders} />
+
             <Route
               path="/stylist-panel-list"
               user={user}

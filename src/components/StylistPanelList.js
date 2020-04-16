@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader, PulseLoader } from "react-spinners";
+import { Loader } from "react-loaders";
 
 // styling
 import "../styles/Panel.scss";
@@ -92,7 +93,7 @@ export default class StylistPanelList extends Component {
       // // prod
       // `https://bespoke-backend.herokuapp.com/fekkai-backend`
       // qa
-      `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+      `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
 
     // response = JSON.parse(JSON.stringify(response));
@@ -103,7 +104,7 @@ export default class StylistPanelList extends Component {
 
     for (let usercodes of userData) {
       let userResponse = await axios.get(
-        `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
       );
 
       if (
@@ -125,7 +126,7 @@ export default class StylistPanelList extends Component {
         // prod
         // `https://bespoke-backend.herokuapp.com/fekkai-backend`
         // qa
-        `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
 
       // response = JSON.parse(JSON.stringify(response));
@@ -147,7 +148,7 @@ export default class StylistPanelList extends Component {
       ) {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
-          `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
         );
 
         // console.log(userResponse.data.user_data.email);
@@ -307,13 +308,13 @@ export default class StylistPanelList extends Component {
             page: this.state.page
           });
         }
+        this.setState({
+          data,
+          emails,
+          totalQuizCount,
+          loading: false
+        });
       }
-      this.setState({
-        data,
-        emails,
-        totalQuizCount,
-        loading: false
-      });
       // console.log(emails);
     } catch (error) {
       console.error(error);
@@ -723,13 +724,13 @@ export default class StylistPanelList extends Component {
                     </Link>
                   );
                 })}
-
-                <RingLoader
+                <Loader className="loader-active" type="ball-triangle-path" />
+                {/* <RingLoader
                   css={override}
                   size={150}
                   color={"#545454"}
                   loading={this.state.loading}
-                />
+                /> */}
               </div>
             </div>
           </Paper>
