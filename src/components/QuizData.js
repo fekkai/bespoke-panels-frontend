@@ -37,12 +37,20 @@ export default class QuizData extends Component {
   }
 
   shopifyOrders = async () => {
-    let response = await axios("https://bespoke-backend.herokuapp.com/fekkai");
+    let response = await axios(
+      // "http://localhost:4000/fekkai"
+      "https://bespoke-backend.herokuapp.com/fekkai"
+    );
     let discountedItems = 0;
     let totalSalesToday = 0;
     let totalSalesPrevDay = 0;
     let orderCountToday = 0;
     let orderCountPrevDay = 0;
+
+    console.log(response.data);
+    for (let i = 0; i < response.data.orders.length; i++) {
+      console.log(response.data.orders[i].id);
+    }
 
     const today = new Date().getDate();
     const yesterday = new Date().getDate() - 1;
@@ -120,6 +128,7 @@ export default class QuizData extends Component {
         "https://bespoke-backend.herokuapp.com/orders"
       );
       const orders = response.data;
+
       this.setState({ orders });
       // console.log(orders[0]);
     } catch (error) {
@@ -441,11 +450,11 @@ export default class QuizData extends Component {
           <br />
           COMPLETED QUIZ CONVERSION:{" "}
           {((orderCountToday / completeQuizToday) * 100).toFixed(2) + "%"}{" "}
-          {orderCountToday}
+          {/* {orderCountToday} */}
           <br />
           TOTAL QUIZ CONVERSION:{" "}
           {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
-          {orderCountToday}
+          {/* {orderCountToday} */}
           <br />
           TOTAL SALES: {parseFloat(totalSalesToday).toFixed(2)}
           <br /> <br />
@@ -462,11 +471,11 @@ export default class QuizData extends Component {
           COMPLETED QUIZ CONVERSION:{" "}
           {((orderCountPrevDay / completeQuizPrevDay) * 100).toFixed(2) +
             "%"}{" "}
-          {orderCountPrevDay}
+          {/* {orderCountPrevDay} */}
           <br />
           TOTAL QUIZ CONVERSION:{" "}
           {((orderCountPrevDay / quizPrevDay) * 100).toFixed(2) + "%"}{" "}
-          {orderCountPrevDay}
+          {/* {orderCountPrevDay} */}
           <br />
           TOTAL SALES: {parseFloat(totalSalesPrevDay).toFixed(2)}
           <br />
@@ -487,11 +496,10 @@ export default class QuizData extends Component {
           {/* TOTAL KLAVIYO EMAILS: {klaviyoEmails} */}
           <br /> <br />
           <span style={{ display: "flex", flexDirection: "row" }}>
-            QUIZ TO TRANSACTION SALES:{" "}
-            {this.state.loading === false ? (
+            QUIZ TO TRANSACTION SALES: {this.state.loading === false ? (
               <span>
                 {parseFloat(totalSales).toFixed(2)}{" "}
-                <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink>
+                {/* <CSVLink data={this.state.csv}>DOWNLOAD CSV</CSVLink> */}
               </span>
             ) : (
               <span
@@ -501,13 +509,13 @@ export default class QuizData extends Component {
                   marginLeft: "5px"
                 }}
               >
-                COMPILING CSV <PulseLoader size={6} />
+                {/* COMPILING CSV  */}
+                <PulseLoader size={6} />
               </span>
             )}
           </span>
           <span style={{ display: "flex", flexDirection: "row" }}>
-            QUIZ USER RETURNING CUSTOMER SALES:{" "}
-            {this.state.loading === false ? (
+            QUIZ USER RETURNING CUSTOMER SALES: {this.state.loading === false ? (
               <span>{parseFloat(returningTotalSales).toFixed(2)} </span>
             ) : (
               <span
@@ -522,8 +530,7 @@ export default class QuizData extends Component {
             )}
           </span>
           <span style={{ display: "flex", flexDirection: "row" }}>
-            TOTAL QUIZ USER SALES:{" "}
-            {this.state.loading === false ? (
+            TOTAL QUIZ USER SALES: {this.state.loading === false ? (
               <span>{parseFloat(totalQuizUserSales).toFixed(2)} </span>
             ) : (
               <span
