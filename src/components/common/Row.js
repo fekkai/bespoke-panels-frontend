@@ -32,15 +32,6 @@ export const Row = ({
     cvDataColor = "black";
   }
 
-  // console.log(
-  //   cvDataTexture,
-  //   hairTexture,
-  //   cvDataLength,
-  //   hairLength,
-  //   cvDataColor,
-  //   hairColor
-  // );
-
   return (
     <div>
       <Card

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader, PulseLoader } from "react-spinners";
+import { Loader } from "react-loaders";
 
 // styling
 import "../styles/Panel.scss";
@@ -121,7 +122,7 @@ export default class StylistPanelList extends Component {
       let response = await axios(
         `https://bespoke-backend.herokuapp.com/fekkai-backend`
       );
-      
+
       // response = JSON.parse(JSON.stringify(response));
       const data = [];
       const emails = [];
@@ -301,13 +302,13 @@ export default class StylistPanelList extends Component {
             page: this.state.page
           });
         }
+        this.setState({
+          data,
+          emails,
+          totalQuizCount,
+          loading: false
+        });
       }
-      this.setState({
-        data,
-        emails,
-        totalQuizCount,
-        loading: false
-      });
       // console.log(emails);
     } catch (error) {
       console.error(error);
@@ -717,13 +718,13 @@ export default class StylistPanelList extends Component {
                     </Link>
                   );
                 })}
-
-                <RingLoader
+                <Loader className="loader-active" type="ball-triangle-path" />
+                {/* <RingLoader
                   css={override}
                   size={150}
                   color={"#545454"}
                   loading={this.state.loading}
-                />
+                /> */}
               </div>
             </div>
           </Paper>
