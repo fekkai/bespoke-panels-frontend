@@ -21,6 +21,9 @@ import { CSVLink, CSVDownload } from "react-csv";
 import axios from "axios";
 import aws4 from "aws4";
 
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
+
 const override = css`
   display: block;
   margin: 0 auto;
@@ -68,7 +71,7 @@ export default class StylistPanelList extends Component {
   async componentDidMount() {
     this.fetchOrders();
     await this.fetchQuizData();
-    await this.findSales();
+    // await this.findSales();
     await this.setState({
       loading: false
     });
@@ -90,7 +93,10 @@ export default class StylistPanelList extends Component {
 
   fetchQuizCount = async () => {
     let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      // // prod
+      // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      // qa
+      `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
 
     // response = JSON.parse(JSON.stringify(response));
@@ -101,7 +107,7 @@ export default class StylistPanelList extends Component {
 
     for (let usercodes of userData) {
       let userResponse = await axios.get(
-        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+        `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
       );
 
       if (
@@ -120,7 +126,10 @@ export default class StylistPanelList extends Component {
   fetchQuizData = async () => {
     try {
       let response = await axios(
-        `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        // prod
+        // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        // qa
+        `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
 
       // response = JSON.parse(JSON.stringify(response));
@@ -142,7 +151,8 @@ export default class StylistPanelList extends Component {
       ) {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
+          `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`,
+          { cancelToken: source.token }
         );
 
         // console.log(userResponse.data.user_data.email);
@@ -443,6 +453,7 @@ export default class StylistPanelList extends Component {
 
   handlePage = async e => {
     console.log(e.target.value);
+    await source.cancel("Operation canceled by the user.");
     await this.setState({
       page: e.target.value
     });
@@ -474,9 +485,13 @@ export default class StylistPanelList extends Component {
 
   handlePageDrop = async e => {
     await this.setState({
+      // display: "none",
+      filteredData: [],
       page: e.target.value,
       loading: true
     });
+    // await source.cancel("Operation canceled by the user.");
+
     await this.fetchQuizData();
   };
 
@@ -508,7 +523,7 @@ export default class StylistPanelList extends Component {
   render() {
     let counter = 0;
     const { filter, data, ascending } = this.state;
-    const filteredData = data.filter(item => {
+    let filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
         key === "condition" || key === "hairGoals" || key === "hairColor"
           ? item[key]
@@ -518,6 +533,21 @@ export default class StylistPanelList extends Component {
           : ""
       );
     });
+
+    if (this.state.loading) {
+      filteredData = [];
+    } else {
+      filteredData = data.filter(item => {
+        return Object.keys(item).some(key =>
+          key === "condition" || key === "hairGoals" || key === "hairColor"
+            ? item[key]
+                .toString()
+                .toLocaleLowerCase()
+                .includes(filter.toLocaleLowerCase())
+            : ""
+        );
+      });
+    }
 
     return (
       <div className="dashboard">
@@ -679,7 +709,7 @@ export default class StylistPanelList extends Component {
                 </div>
               </div>
 
-              <div>
+              <div style={{ display: this.state.display }}>
                 {filteredData.map(rowData => {
                   return (
                     <Link

@@ -20,6 +20,7 @@
 }
 
 
+
 .loader-active {
   display: block;
 }
@@ -32,9 +33,10 @@ button {
 }
 
 #list-view-btn {
-  margin: 0;
+  margin: 7px 0;
   padding: 0 7px;
 }
+
 
 .dashboard {
   width: 100vw;
@@ -394,9 +396,6 @@ li:hover {
   background-color: rgba(0, 0, 0, 0.14);
   cursor: pointer;
 }
-
-
-
 
 // fade animation keyframes
 @keyframes fadein {
