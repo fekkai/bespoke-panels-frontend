@@ -30,8 +30,6 @@ const override = css`
   margin-top: ${7}%;
 `;
 
-const primary = [600];
-
 let request = {
   hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
   method: "GET",
@@ -64,14 +62,14 @@ export default class StylistPanelList extends Component {
       conditionOpen: false,
       goalsOpen: false,
       page: 1,
-      rowQty: 75
+      rowQty: 60
     };
   }
 
   async componentDidMount() {
     this.fetchOrders();
     await this.fetchQuizData();
-    // await this.findSales();
+    await this.findSales();
     await this.setState({
       loading: false
     });
@@ -123,7 +121,7 @@ export default class StylistPanelList extends Component {
     }
   };
 
-  fetchQuizData = async () => {
+  fetchQuizData = async page => {
     try {
       let response = await axios(
         // prod
@@ -142,7 +140,9 @@ export default class StylistPanelList extends Component {
       let userData = response.data.reverse();
       let page = this.state.page;
       const { rowQty } = this.state;
-
+      this.setState({
+        page: page
+      });
       for (
         // page multiplied by number of rows items on each page
         let i = page * rowQty - rowQty;
@@ -312,13 +312,13 @@ export default class StylistPanelList extends Component {
             page: this.state.page
           });
         }
-        this.setState({
-          data,
-          emails,
-          totalQuizCount,
-          loading: false
-        });
       }
+      this.setState({
+        data,
+        emails,
+        totalQuizCount,
+        loading: false
+      });
       // console.log(emails);
     } catch (error) {
       console.error(error);
@@ -453,7 +453,6 @@ export default class StylistPanelList extends Component {
 
   handlePage = async e => {
     console.log(e.target.value);
-    await source.cancel("Operation canceled by the user.");
     await this.setState({
       page: e.target.value
     });
@@ -748,13 +747,13 @@ export default class StylistPanelList extends Component {
                     </Link>
                   );
                 })}
-                <Loader className="loader-active" type="ball-triangle-path" />
-                {/* <RingLoader
+                {/* <Loader className="loader-active" type="ball-triangle-path" /> */}
+                <RingLoader
                   css={override}
                   size={150}
                   color={"#545454"}
                   loading={this.state.loading}
-                /> */}
+                />
               </div>
             </div>
           </Paper>
