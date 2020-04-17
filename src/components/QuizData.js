@@ -22,6 +22,7 @@ export default class QuizData extends Component {
     this.state = {
       data: [],
       loading: true,
+      shopifyLoading: true,
       totalQuizLoading: true,
       completedQuizCount: "",
       totalQuizCount: "",
@@ -115,8 +116,7 @@ export default class QuizData extends Component {
       orderCountPrevDay,
       ordersToday,
       ordersPrevDay,
-
-      loading: false
+      shopifyLoading: false
     });
     // console.log(orderCountPrevDay);
     this.lineItemsQty(lineItemsToday);
@@ -615,6 +615,7 @@ export default class QuizData extends Component {
   render() {
     const {
       loading,
+      shopifyLoading,
       totalQuizLoading,
       completedQuizCount,
       totalQuizCount,
@@ -684,36 +685,53 @@ export default class QuizData extends Component {
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">QUIZ COUNT:</div>
-                <div class="quiz-data-column">{quizToday}</div>{" "}
+                <div class="quiz-data-column">
+                  {shopifyLoading ? <ClipLoader size={6} /> : quizToday}
+                </div>{" "}
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">COMPLETE:</div>{" "}
                 <div class="quiz-data-column">
-                  {completeQuizToday}{" "}
-                  {"(" +
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    completeQuizToday +
+                    "(" +
                     ((completeQuizToday / quizToday) * 100).toFixed(2) +
-                    "%)"}
+                    "%)"
+                  )}{" "}
                 </div>
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">ABANDONED:</div>{" "}
                 <div class="quiz-data-column">
-                  {abandonedQuizToday} {"(" +
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    abandonedQuizToday +
+                    "(" +
                     ((abandonedQuizToday / quizToday) * 100).toFixed(2) +
-                    "%)"}
+                    "%)"
+                  )}{" "}
                 </div>
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">COMPLETED QUIZ CONVERSION: </div>
                 <div class="quiz-data-column">
                   {" "}
-                  {((orderCountToday / completeQuizToday) * 100).toFixed(2) +
-                    "%"}{" "}
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    ((orderCountToday / completeQuizToday) * 100).toFixed(2) +
+                    "%"
+                  )}{" "}
                 </div>
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column"> ORDER COUNT:</div>{" "}
-                <div class="quiz-data-column">{orderCountToday}</div>
+                <div class="quiz-data-column">
+                  {shopifyLoading ? <ClipLoader size={6} /> : orderCountToday}
+                </div>
               </div>
               {/* <br /> */}
               {/* TOTAL QUIZ CONVERSION:{" "}
@@ -723,7 +741,11 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column"> TOTAL SALES:</div>{" "}
                 <div class="quiz-data-column">
                   {" "}
-                  {parseFloat(totalSalesToday).toFixed(2)}
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    parseFloat(totalSalesToday).toFixed(2)
+                  )}
                 </div>
               </div>
               <div class="quiz-data-row">
@@ -754,40 +776,58 @@ export default class QuizData extends Component {
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">QUIZ COUNT: </div>{" "}
-                <div class="quiz-data-column"> {quizPrevDay}</div>
+                <div class="quiz-data-column">
+                  {" "}
+                  {shopifyLoading ? <ClipLoader size={6} /> : quizPrevDay}
+                </div>
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">COMPLETE:</div>
                 <div class="quiz-data-column">
                   {" "}
-                  {completeQuizPrevDay}{" "}
-                  {"(" +
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    completeQuizPrevDay +
+                    "(" +
                     ((completeQuizPrevDay / quizPrevDay) * 100).toFixed(2) +
-                    "%)"}
+                    "%)"
+                  )}{" "}
                 </div>
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">ABANDONED:</div>
                 <div class="quiz-data-column">
                   {" "}
-                  {abandonedQuizPrevDay}{" "}
-                  {"(" +
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    abandonedQuizPrevDay +
+                    "(" +
                     ((abandonedQuizPrevDay / quizPrevDay) * 100).toFixed(2) +
-                    "%)"}
+                    "%)"
+                  )}{" "}
                 </div>
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column">COMPLETED QUIZ CONVERSION: </div>
                 <div class="quiz-data-column">
                   {" "}
-                  {((orderCountPrevDay / completeQuizPrevDay) * 100).toFixed(
-                    2
-                  ) + "%"}{" "}
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    ((orderCountPrevDay / completeQuizPrevDay) * 100).toFixed(
+                      2
+                    ) + "%"
+                  )}{" "}
                 </div>
               </div>
               <div class="quiz-data-row">
                 <div class="quiz-data-column"> ORDER COUNT:</div>
-                <div class="quiz-data-column"> {orderCountPrevDay}</div>
+                <div class="quiz-data-column">
+                  {" "}
+                  {shopifyLoading ? <ClipLoader size={6} /> : orderCountPrevDay}
+                </div>
               </div>
               {/* <br /> */}
               {/* TOTAL QUIZ CONVERSION:{" "}
@@ -796,7 +836,11 @@ export default class QuizData extends Component {
               <div class="quiz-data-row">
                 <div class="quiz-data-column"> TOTAL SALES:</div>{" "}
                 <div class="quiz-data-column">
-                  {parseFloat(totalSalesPrevDay).toFixed(2)}
+                  {shopifyLoading ? (
+                    <ClipLoader size={6} />
+                  ) : (
+                    parseFloat(totalSalesPrevDay).toFixed(2)
+                  )}
                 </div>
               </div>
               <br />
@@ -882,7 +926,6 @@ export default class QuizData extends Component {
                 <div class="button-column">{superStrBalm}</div>
               </div>
               <br /> <br />
-           
             </div>
           </div>
           <br />
