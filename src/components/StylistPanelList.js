@@ -96,7 +96,7 @@ export default class StylistPanelList extends Component {
       // // prod
       // `https://bespoke-backend.herokuapp.com/fekkai-backend`
       // qa
-      `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+      `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
 
     // response = JSON.parse(JSON.stringify(response));
@@ -107,7 +107,7 @@ export default class StylistPanelList extends Component {
 
     for (let usercodes of userData) {
       let userResponse = await axios.get(
-        `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
       );
 
       if (
@@ -129,7 +129,7 @@ export default class StylistPanelList extends Component {
         // prod
         // `https://bespoke-backend.herokuapp.com/fekkai-backend`
         // qa
-        `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
 
       // response = JSON.parse(JSON.stringify(response));
@@ -151,7 +151,7 @@ export default class StylistPanelList extends Component {
       ) {
         let userCode = userData[i].user_code;
         let userResponse = await axios.get(
-          `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`,
+          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`,
           { cancelToken: source.token }
         );
 
