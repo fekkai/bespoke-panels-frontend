@@ -51,17 +51,19 @@ export default class QuizData extends Component {
     let orderCountToday = 0;
     let orderCountPrevDay = 0;
 
-    // console.log(response.data);
-    for (let i = 0; i < response.data.orders.length; i++) {
+    console.log(response.data);
+    // for (let i = 0; i < response.data.length; i++) {
+    for (let i = 0; i < response.data.length; i++) {
       // console.log(response.data.orders[i].id);
     }
 
     let ordersPrevDay = [];
     let ordersToday = [];
     const today = new Date().getDate();
-    const yesterday = new Date().getDate() - 1;
+    const yesterday = new Date().getDate() - 7;
 
-    for (let order of response.data.orders) {
+    // for (let order of response.data) {
+    for (let order of response.data) {
       if (
         new Date(order.created_at).getDate() === today &&
         order.discount_applications
@@ -101,6 +103,7 @@ export default class QuizData extends Component {
             orderCountPrevDay++;
             discountedItems++;
             ordersPrevDay.push(order);
+            // console.log(order)
           }
           break;
         }
