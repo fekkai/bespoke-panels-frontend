@@ -50,14 +50,13 @@ export default class QuizData extends Component {
     let orderCountPrevDay = 0;
 
     console.log(response.data);
-    for (let i = 0; i < response.data.orders.length; i++) {
-      console.log(response.data.orders[i].id);
+    for (let i = 0; i < response.data.length; i++) {
     }
 
     const today = new Date().getDate();
     const yesterday = new Date().getDate() - 1;
 
-    for (let order of response.data.orders) {
+    for (let order of response.data) {
       if (
         new Date(order.created_at).getDate() === today &&
         order.discount_applications
