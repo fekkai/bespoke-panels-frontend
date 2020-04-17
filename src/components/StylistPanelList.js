@@ -311,14 +311,21 @@ export default class StylistPanelList extends Component {
             cvData: userResponse.data.user_data.cv_data,
             page: this.state.page
           });
+      //     if (
+      //       new Date(userData[i].created).getDate() === new Date().getDate()
+      //     ) {
+      //       console.log(data);
+      //     }
         }
       }
+
       this.setState({
         data,
         emails,
         totalQuizCount,
         loading: false
       });
+      console.log(data)
       // console.log(emails);
     } catch (error) {
       console.error(error);
@@ -452,7 +459,7 @@ export default class StylistPanelList extends Component {
   };
 
   handlePage = async e => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     await this.setState({
       page: e.target.value
     });
@@ -533,21 +540,9 @@ export default class StylistPanelList extends Component {
       );
     });
 
-    if (this.state.loading) {
-      filteredData = [];
-    } else {
-      filteredData = data.filter(item => {
-        return Object.keys(item).some(key =>
-          key === "condition" || key === "hairGoals" || key === "hairColor"
-            ? item[key]
-                .toString()
-                .toLocaleLowerCase()
-                .includes(filter.toLocaleLowerCase())
-            : ""
-        );
-      });
-    }
+    console.log(filteredData)
 
+  
     return (
       <div className="dashboard">
         <div className="pagination-section">
@@ -710,6 +705,7 @@ export default class StylistPanelList extends Component {
 
               <div style={{ display: this.state.display }}>
                 {filteredData.map(rowData => {
+                  console.log(rowData)
                   return (
                     <Link
                       key={rowData.id}

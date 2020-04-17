@@ -574,6 +574,7 @@ export default class QuizData extends Component {
           quizCreated === today &&
           orderCreated === today
         ) {
+          
           if (order.total) {
             totalSalesToday += parseFloat(order.total);
             // console.log(totalSalesToday);
@@ -719,7 +720,7 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column">COMPLETED QUIZ CONVERSION: </div>
                 <div class="quiz-data-column">
                   {" "}
-                  {shopifyLoading ? (
+                  {!shopifyLoading ? (
                     <ClipLoader size={6} />
                   ) : (
                     ((orderCountToday / completeQuizToday) * 100).toFixed(2) +
@@ -730,7 +731,7 @@ export default class QuizData extends Component {
               <div class="quiz-data-row">
                 <div class="quiz-data-column"> ORDER COUNT:</div>{" "}
                 <div class="quiz-data-column">
-                  {shopifyLoading ? <ClipLoader size={6} /> : orderCountToday}
+                  {!shopifyLoading ? <ClipLoader size={6} /> : orderCountToday}
                 </div>
               </div>
               {/* <br /> */}
@@ -741,7 +742,7 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column"> TOTAL SALES:</div>{" "}
                 <div class="quiz-data-column">
                   {" "}
-                  {shopifyLoading ? (
+                  {!shopifyLoading ? (
                     <ClipLoader size={6} />
                   ) : (
                     parseFloat(totalSalesToday).toFixed(2)
