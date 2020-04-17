@@ -751,7 +751,7 @@ export default class QuizData extends Component {
               <div class="quiz-data-row">
                 <div class="button-column">
                   {" "}
-                  {!loading ? (
+                  {!shopifyLoading ? (
                     <Link
                       to={{
                         pathname: "/orders",
@@ -847,7 +847,7 @@ export default class QuizData extends Component {
               <div class="quiz-data-row">
                 <div class="button-column">
                   {" "}
-                  {!loading ? (
+                  {!shopifyLoading ? (
                     <Link
                       to={{
                         pathname: "/orders",
