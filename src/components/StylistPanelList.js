@@ -10,6 +10,7 @@ import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader, PulseLoader } from "react-spinners";
 import { Loader } from "react-loaders";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 
 // styling
 import "../styles/Panel.scss";
@@ -69,6 +70,7 @@ export default class StylistPanelList extends Component {
   async componentDidMount() {
     this.fetchOrders();
     await this.fetchQuizData();
+    await this.answerCount();
     await this.findSales();
     await this.setState({
       loading: false
@@ -290,7 +292,7 @@ export default class StylistPanelList extends Component {
             hairColor: !userResponse.data.user_data.answers.hair_color
               ? "n/a"
               : userResponse.data.user_data.answers.hair_color,
-            condition: userResponse.data.user_data.answers.hair_condition,
+            hairCondition: userResponse.data.user_data.answers.hair_condition,
             hairGoals: !userResponse.data.user_data.answers.hair_goals
               ? "n/a"
               : userResponse.data.user_data.answers.hair_goals,
@@ -311,11 +313,11 @@ export default class StylistPanelList extends Component {
             cvData: userResponse.data.user_data.cv_data,
             page: this.state.page
           });
-      //     if (
-      //       new Date(userData[i].created).getDate() === new Date().getDate()
-      //     ) {
-      //       console.log(data);
-      //     }
+          //     if (
+          //       new Date(userData[i].created).getDate() === new Date().getDate()
+          //     ) {
+          //       console.log(data);
+          //     }
         }
       }
 
@@ -325,8 +327,7 @@ export default class StylistPanelList extends Component {
         totalQuizCount,
         loading: false
       });
-      console.log(data)
-      // console.log(emails);
+      await this.answerCount();
     } catch (error) {
       console.error(error);
     }
@@ -497,7 +498,6 @@ export default class StylistPanelList extends Component {
       loading: true
     });
     // await source.cancel("Operation canceled by the user.");
-
     await this.fetchQuizData();
   };
 
@@ -516,6 +516,11 @@ export default class StylistPanelList extends Component {
       pagesArr.push(i + 1);
     }
 
+    // handleChartData = () => {
+
+    //   this.setState({chartData})
+    // }
+
     // dropdown
     return (
       <select className="select-css" onChange={this.handlePageDrop}>
@@ -526,12 +531,11 @@ export default class StylistPanelList extends Component {
     );
   };
 
-  render() {
-    let counter = 0;
-    const { filter, data, ascending } = this.state;
+  renderRows = () => {
+    const { filter, data } = this.state;
     let filteredData = data.filter(item => {
       return Object.keys(item).some(key =>
-        key === "condition" || key === "hairGoals" || key === "hairColor"
+        key === "hairCondition" || key === "hairGoals" || key === "hairColor"
           ? item[key]
               .toString()
               .toLocaleLowerCase()
@@ -540,11 +544,332 @@ export default class StylistPanelList extends Component {
       );
     });
 
-    console.log(filteredData)
+    return filteredData.map(rowData => {
+      // console.log(rowData);
+      return (
+        <Link
+          key={rowData.id}
+          style={{
+            textDecoration: "none"
+          }}
+          to={{
+            pathname: "/stylist-panel-user",
+            state: {
+              userCode: rowData.userCode,
+              name: rowData.name,
+              locale: rowData.locale,
+              email: rowData.email,
+              hairThickness: rowData.hairThickness,
+              hairTexture: rowData.hairTexture,
+              hairColor: rowData.hairColor,
+              hairCondition: rowData.hairCondition,
+              hairGoals: rowData.hairGoals,
+              hairLength: rowData.hairLength,
+              city: rowData.city,
+              uvRisk: rowData.uvRisk,
+              airQuality: rowData.airQuality,
+              waterHardness: rowData.waterHardness,
+              humidity: rowData.humidity,
+              windSpeed: rowData.windSpeed,
+              shampooKey: rowData.shampooKey,
+              conditionerKey: rowData.conditionerKey,
+              thirdKey: rowData.thirdKey,
+              frontSelfie: rowData.frontSelfie,
+              page: rowData.page
+            }
+          }}
+        >
+          <Row {...rowData} />
+        </Link>
+      );
+    });
+  };
 
-  
+  answerCount = () => {
+    const { filter, data } = this.state;
+    let filteredData = data.filter(item => {
+      return Object.keys(item).some(key =>
+        key === "hairCondition" || key === "hairGoals" || key === "hairColor"
+          ? item[key]
+              .toString()
+              .toLocaleLowerCase()
+              .includes(filter.toLocaleLowerCase())
+          : ""
+      );
+    });
+
+    let short = 0;
+    let chin_length = 0;
+    let shoulder_length = 0;
+    let long = 0;
+    let straight = 0;
+    let wavy = 0;
+    let curly = 0;
+    let coily = 0;
+    let blonde = 0;
+    let brown = 0;
+    let black = 0;
+    let red = 0;
+    let silver = 0;
+    let fine = 0;
+    let medium = 0;
+    let thick = 0;
+    let color_treated = 0;
+    let highlights = 0;
+    let chemically_straightened = 0;
+    let split_ends = 0;
+    let frequent_heat_styling = 0;
+    let none = 0;
+    let color_protect = 0;
+    let uv_protect = 0;
+    let damage_repair = 0;
+    let frizz_control = 0;
+    let smoothing = 0;
+    let healthy_shine = 0;
+    let hydrate = 0;
+    let volumizing = 0;
+
+    filteredData.map(rowData => {
+      console.log(rowData.hairCondition[0]);
+      if (rowData.hairLength === "short") {
+        short++;
+      }
+      if (rowData.hairLength === "chin_length") {
+        chin_length++;
+      }
+      if (rowData.hairLength === "shoulder_length") {
+        shoulder_length++;
+      }
+      if (rowData.hairLength === "long") {
+        long++;
+      }
+      if (rowData.hairTexture === "straight") {
+        straight++;
+      }
+      if (rowData.hairTexture === "wavy") {
+        wavy++;
+      } else if (rowData.hairTexture === "curly") {
+        curly++;
+      }
+      if (rowData.hairTexture === "coily") {
+        coily++;
+      }
+      if (rowData.hairColor === "blonde") {
+        blonde++;
+      }
+      if (rowData.hairColor === "brown") {
+        brown++;
+      }
+      if (rowData.hairColor === "black") {
+        black++;
+      }
+      if (rowData.hairColor === "red") {
+        red++;
+      }
+      if (rowData.hairColor === "silver") {
+        silver++;
+      }
+      if (rowData.hairThickness === "fine") {
+        fine++;
+      }
+      if (rowData.hairThickness === "medium") {
+        medium++;
+      }
+      if (rowData.hairThickness === "thick") {
+        thick++;
+      }
+      if (
+        // rowData.hairCondition &&
+        rowData.hairCondition.includes("color_treated")
+      ) {
+        color_treated++;
+      }
+      if (rowData.hairCondition.includes("highlights")) {
+        highlights++;
+      }
+      if (rowData.hairCondition.includes("chemically_straightened")) {
+        chemically_straightened++;
+      }
+      if (rowData.hairCondition.includes("split_ends")) {
+        split_ends++;
+      }
+      if (rowData.hairCondition.includes("frequent_heat_styling")) {
+        frequent_heat_styling++;
+      }
+      if (rowData.hairCondition.includes("none")) {
+        none++;
+      }
+      if (rowData.hairGoals.includes("color_protect")) {
+        color_protect++;
+      }
+      if (rowData.hairGoals.includes("uv_protect")) {
+        uv_protect++;
+      }
+      if (rowData.hairGoals.includes("damage_repair")) {
+        damage_repair++;
+      }
+      if (rowData.hairGoals.includes("frizz_control")) {
+        frizz_control++;
+      }
+      if (rowData.hairGoals.includes("smoothing")) {
+        smoothing++;
+      }
+      if (rowData.hairGoals.includes("healthy_shine")) {
+        healthy_shine++;
+      }
+      if (rowData.hairGoals.includes("hydrate")) {
+        hydrate++;
+      }
+      if (rowData.hairGoals.includes("volumizing")) {
+        volumizing++;
+      }
+    });
+
+    let chartData = [
+      { answer: "short", count: short },
+      { answer: "chin_length", count: chin_length },
+      { answer: "shoulder_length", count: shoulder_length },
+      { answer: "long", count: long },
+      { answer: "straight", count: straight },
+      { answer: "wavy", count: wavy },
+      { answer: "curly", count: curly },
+      { answer: "coily", count: coily }
+    ];
+
+    let chartData2 = [
+      { answer: "blonde", count: blonde },
+      { answer: "brown", count: brown },
+      { answer: "black", count: black },
+      { answer: "red", count: red },
+      { answer: "silver", count: silver },
+      { answer: "fine", count: fine },
+      { answer: "medium", count: medium },
+      { answer: "thick", count: thick }
+    ];
+
+    let chartData3 = [
+      { answer: "color_treated", count: color_treated },
+      { answer: "highlights", count: highlights },
+      { answer: "chemically_straightened", count: chemically_straightened },
+      { answer: "split_ends", count: split_ends },
+      { answer: "frequent_heat_styling", count: frequent_heat_styling },
+      { answer: "none", count: none }
+    ];
+
+    let chartData4 = [
+      { answer: "color_protect", count: color_protect },
+      { answer: "uv_protect", count: uv_protect },
+      { answer: "damage_repair", count: damage_repair },
+      { answer: "frizz_control", count: frizz_control },
+      { answer: "smoothing", count: smoothing },
+      { answer: "healthy_shine", count: healthy_shine },
+      { answer: "hydrate", count: hydrate },
+      { answer: "volumizing", count: volumizing }
+    ];
+    this.setState({
+      chartData,
+      chartData2,
+      chartData3,
+      chartData4
+    });
+    // console.log(this.state.chartData4);
+  };
+
+  getStyles() {
+    return {
+      // DATA SET ONE
+      axisOne: {
+        axis: { stroke: "#000000", strokeWidth: 0 },
+        tickLabels: {
+          fontFamily: "avenir",
+          fontSize: 4
+        }
+      },
+
+      // DATA SET TWO
+      axisTwo: {
+        tickLabels: {
+          fill: "#000000",
+          fontFamily: "urwdin-regular",
+          fontSize: 4
+        }
+      }
+    };
+  }
+
+  render() {
+    const {
+      ascending,
+      chartData,
+      chartData2,
+      chartData3,
+      chartData4
+    } = this.state;
+    const styles = this.getStyles();
+
     return (
       <div className="dashboard">
+        <VictoryChart domainPadding={20}>
+          <VictoryAxis
+            // tickValues={[2.11, 3.9, 6.1, 8.05]}
+            // tickValues specifies both the number of ticks and where
+            // they are placed on the axis
+            style={styles.axisOne}
+          />
+          <VictoryAxis
+            style={styles.axisTwo}
+            dependentAxis
+            // tickFormat specifies how ticks should be displayed
+            // tickFormat={x => `$${x /5}`}
+          />
+          <VictoryBar theme={VictoryTheme.material} data={chartData} x="answer" y="count" />
+        </VictoryChart>
+        <VictoryChart domainPadding={20}>
+          <VictoryAxis
+            // tickValues={[2.11, 3.9, 6.1, 8.05]}
+            // tickValues specifies both the number of ticks and where
+            // they are placed on the axis
+            style={styles.axisOne}
+          />
+          <VictoryAxis
+            style={styles.axisTwo}
+            dependentAxis
+            // tickFormat specifies how ticks should be displayed
+            // tickFormat={x => `$${x /5}`}
+          />
+          <VictoryBar data={chartData2} x="answer" y="count" />
+        </VictoryChart>
+        <VictoryChart domainPadding={20}>
+          <VictoryAxis
+            // tickValues={[2.11, 3.9, 6.1, 8.05]}
+            // tickValues specifies both the number of ticks and where
+            // they are placed on the axis
+            style={styles.axisOne}
+          />
+          <VictoryAxis
+            style={styles.axisTwo}
+            dependentAxis
+            // tickFormat specifies how ticks should be displayed
+            // tickFormat={x => `$${x /5}`}
+          />
+          <VictoryBar data={chartData3} x="answer" y="count" />
+        </VictoryChart>
+        <VictoryChart domainPadding={20}>
+          <VictoryAxis
+            // tickValues={[2.11, 3.9, 6.1, 8.05]}
+            // tickValues specifies both the number of ticks and where
+            // they are placed on the axis
+            style={styles.axisOne}
+          />
+          <VictoryAxis
+            style={styles.axisTwo}
+            dependentAxis
+            // tickFormat specifies how ticks should be displayed
+            // tickFormat={x => `$${x /5}`}
+          />
+          <VictoryBar data={chartData4} x="answer" y="count" />
+        </VictoryChart>
+
         <div className="pagination-section">
           <span style={{ paddingLeft: "5px" }}>
             {!this.state.loading ? (
@@ -704,45 +1029,7 @@ export default class StylistPanelList extends Component {
               </div>
 
               <div style={{ display: this.state.display }}>
-                {filteredData.map(rowData => {
-                  console.log(rowData)
-                  return (
-                    <Link
-                      key={rowData.id}
-                      style={{
-                        textDecoration: "none"
-                      }}
-                      to={{
-                        pathname: "/stylist-panel-user",
-                        state: {
-                          userCode: rowData.userCode,
-                          name: rowData.name,
-                          locale: rowData.locale,
-                          email: rowData.email,
-                          hairThickness: rowData.hairThickness,
-                          hairTexture: rowData.hairTexture,
-                          hairColor: rowData.hairColor,
-                          condition: rowData.condition,
-                          hairGoals: rowData.hairGoals,
-                          hairLength: rowData.hairLength,
-                          city: rowData.city,
-                          uvRisk: rowData.uvRisk,
-                          airQuality: rowData.airQuality,
-                          waterHardness: rowData.waterHardness,
-                          humidity: rowData.humidity,
-                          windSpeed: rowData.windSpeed,
-                          shampooKey: rowData.shampooKey,
-                          conditionerKey: rowData.conditionerKey,
-                          thirdKey: rowData.thirdKey,
-                          frontSelfie: rowData.frontSelfie,
-                          page: rowData.page
-                        }
-                      }}
-                    >
-                      <Row {...rowData} />
-                    </Link>
-                  );
-                })}
+                {this.renderRows()}
                 {/* <Loader className="loader-active" type="ball-triangle-path" /> */}
                 <RingLoader
                   css={override}

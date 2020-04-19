@@ -342,7 +342,7 @@ export default class QuizData extends Component {
       let response = await axios(
         `https://bespoke-backend.herokuapp.com/fekkai-backend`
       );
-      const emails = [{ email: "asdf@asdf.com" }];
+      const emails = [];
       let uniqueEmails = [];
       let completedQuizCount = 0;
       let abandonedQuiz = 0;
@@ -355,11 +355,13 @@ export default class QuizData extends Component {
       let quizToday = 0;
       let userData = response.data.reverse();
       const today = new Date().getDate();
+      const month = new Date().getMonth();
       const yesterday = new Date(today) - 1;
 
       for (let i = 0; i < userData.length; i++) {
-        if (userData[i].created > "2020-03-20T00:00:00") {
+        if (userData[i].created < "2020-04-19T00:00:00") {
           totalQuizCount++;
+          console.log(totalQuizCount);
         }
       }
       // console.log(totalQuizCount);
@@ -372,20 +374,18 @@ export default class QuizData extends Component {
         i++
       ) {
         // for (let userCode of response.data.reverse()) {
+        if (userData[i].user_code === undefined) {
+          continue;
+        }
         let userResponse = await axios.get(
           `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userData[i].user_code}`
         );
 
-        // total abandoned quizzes
-        if (userResponse.data.user_data.compute === false) {
-          abandonedQuiz++;
-          this.setState({
-            abandonedQuiz
-          });
-        }
-
         // total quizzes today
-        if (new Date(userResponse.data.created).getDate() === today) {
+        if (
+          new Date(userResponse.data.created).getMonth() === month &&
+          new Date(userResponse.data.created).getDate() === today
+        ) {
           // console.log("today's", userResponse.data.created);
           quizToday++;
           this.setState({
@@ -396,6 +396,7 @@ export default class QuizData extends Component {
         // completed quizzes today
         if (
           userResponse.data.user_data.compute === true &&
+          new Date(userResponse.data.created).getMonth() === month &&
           new Date(userResponse.data.created.toString()).getDate() === today
         ) {
           completeQuizToday++;
@@ -408,6 +409,7 @@ export default class QuizData extends Component {
         // abandoned quizzes today
         if (
           userResponse.data.user_data.compute === false &&
+          new Date(userResponse.data.created).getMonth() === month &&
           new Date(userResponse.data.created.toString()).getDate() === today
         ) {
           abandonedQuizToday++;
@@ -418,7 +420,10 @@ export default class QuizData extends Component {
         }
 
         // total quizzes prev day
-        if (new Date(userResponse.data.created).getDate() === yesterday) {
+        if (
+          new Date(userResponse.data.created).getMonth() === month &&
+          new Date(userResponse.data.created).getDate() === yesterday
+        ) {
           // console.log("yesterday's", userResponse.data.created);
           quizPrevDay++;
           this.setState({
@@ -429,6 +434,7 @@ export default class QuizData extends Component {
         // completed quizzes prev day
         if (
           userResponse.data.user_data.compute === true &&
+          new Date(userResponse.data.created).getMonth() === month &&
           new Date(userResponse.data.created.toString()).getDate() === yesterday
         ) {
           completeQuizPrevDay++;
@@ -441,6 +447,7 @@ export default class QuizData extends Component {
         // abandoned quizzes prev day
         if (
           userResponse.data.user_data.compute === false &&
+          new Date(userResponse.data.created).getMonth() === month &&
           new Date(userResponse.data.created.toString()).getDate() === yesterday
         ) {
           abandonedQuizPrevDay++;
@@ -450,7 +457,14 @@ export default class QuizData extends Component {
           });
         }
 
-        // increment abandoned quiz instance if quiz compute is true
+        // total abandoned quizzes
+        if (userResponse.data.user_data.compute === false) {
+          abandonedQuiz++;
+          this.setState({
+            abandonedQuiz
+          });
+        }
+
         if (userResponse.data.user_data.compute === true) {
           // avoid pushing duplicate emails in emails array
           if (
@@ -466,18 +480,19 @@ export default class QuizData extends Component {
               created: userResponse.data.created
             });
           }
-          // console.log(uniqueEmails);
           completedQuizCount++;
 
+          // increment completed quiz instance if quiz compute is true
           this.setState({
             completedQuizCount
           });
         }
       }
+
       this.setState({
         emails,
-        totalQuizCount,
-        totalQuizLoading: false
+        totalQuizCount
+        // totalQuizLoading: false
       });
     } catch (error) {
       console.error(error);
@@ -504,22 +519,24 @@ export default class QuizData extends Component {
       ]
     ];
     // emails compute true
+
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
-        let userCreated = email.created;
-        let userEmail = email.email;
+        let userCreated = email && email.created;
+        let userEmail = email && email.email;
         let quizCreated = new Date(userCreated).getDate();
         let orderEmail = order.email.toLocaleLowerCase();
         let orderCreated = new Date(order.created_at).getDate();
         let today = new Date().getDate();
         let yesterday = new Date().getDate() - 1;
-
+        console.log(order.total);
         if (
           // check for matching email
           userEmail === orderEmail
         ) {
           if (order.total) {
             totalQuizUserSales += parseFloat(order.total);
+
             console.log(totalQuizUserSales);
           }
         }
@@ -574,7 +591,6 @@ export default class QuizData extends Component {
           quizCreated === today &&
           orderCreated === today
         ) {
-          
           if (order.total) {
             totalSalesToday += parseFloat(order.total);
             // console.log(totalSalesToday);
@@ -688,6 +704,7 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column">QUIZ COUNT:</div>
                 <div class="quiz-data-column">
                   {shopifyLoading ? <ClipLoader size={6} /> : quizToday}
+                  {console.log(quizToday)}
                 </div>{" "}
               </div>
               <div class="quiz-data-row">
@@ -720,7 +737,7 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column">COMPLETED QUIZ CONVERSION: </div>
                 <div class="quiz-data-column">
                   {" "}
-                  {!shopifyLoading ? (
+                  {shopifyLoading ? (
                     <ClipLoader size={6} />
                   ) : (
                     ((orderCountToday / completeQuizToday) * 100).toFixed(2) +
@@ -731,7 +748,7 @@ export default class QuizData extends Component {
               <div class="quiz-data-row">
                 <div class="quiz-data-column"> ORDER COUNT:</div>{" "}
                 <div class="quiz-data-column">
-                  {!shopifyLoading ? <ClipLoader size={6} /> : orderCountToday}
+                  {shopifyLoading ? <ClipLoader size={6} /> : orderCountToday}
                 </div>
               </div>
               {/* <br /> */}
@@ -742,11 +759,13 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column"> TOTAL SALES:</div>{" "}
                 <div class="quiz-data-column">
                   {" "}
-                  {!shopifyLoading ? (
-                    <ClipLoader size={6} />
-                  ) : (
+                  {
+                    // shopifyLoading ? (
+                    //   <ClipLoader size={6} />
+                    // ) : (
                     parseFloat(totalSalesToday).toFixed(2)
-                  )}
+                    // )
+                  }
                 </div>
               </div>
               <div class="quiz-data-row">
@@ -780,6 +799,7 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column">
                   {" "}
                   {shopifyLoading ? <ClipLoader size={6} /> : quizPrevDay}
+                  {console.log(quizPrevDay)}
                 </div>
               </div>
               <div class="quiz-data-row">
@@ -931,7 +951,8 @@ export default class QuizData extends Component {
           </div>
           <br />
           <br />
-          TOTAL QUIZZES: {loading ? <ClipLoader size={6} /> : totalQuizCount}
+          TOTAL QUIZZES:{" "}
+          {totalQuizLoading ? <ClipLoader size={6} /> : totalQuizCount}
           <br /> COMPLETED QUIZ COUNT/EMAILS ENTERED: {completedQuizCount}&nbsp;
           {!totalQuizLoading
             ? "(" +

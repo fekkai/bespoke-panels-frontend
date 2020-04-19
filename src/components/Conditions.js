@@ -14,7 +14,6 @@ export default function Conditions(props) {
         <li key="bleached" onClick={props.handleChange}>
           bleached
         </li>
-        {/* <li onClick={props.handleChange}>permed</li> */}
         <li key="highlights" onClick={props.handleChange}>
           highlights
         </li>

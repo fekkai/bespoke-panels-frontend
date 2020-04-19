@@ -65,7 +65,7 @@ export default class StylistPanelUser extends Component {
       thickness: userResponse.data.user_data.answers.hair_thickness,
       texture: parseInt(userResponse.data.user_data.answers.hair_texture),
       length: parseInt(userResponse.data.user_data.answers.hair_length),
-      condition: userResponse.data.user_data.answers.hair_condition,
+      hairCondition: userResponse.data.user_data.answers.hair_condition,
       hairGoals: userResponse.data.user_data.answers.hair_goals,
       zip: userResponse.data.user_data.answers.zipcode
         ? userResponse.data.user_data.answers.zipcode
@@ -173,7 +173,7 @@ export default class StylistPanelUser extends Component {
       email,
       hairThickness,
       hairTexture,
-      condition,
+      hairCondition,
       hairGoals,
       hairColor,
       hairLength,
@@ -302,11 +302,11 @@ export default class StylistPanelUser extends Component {
                 <br />
                 <br />
                 CONDITION:{" "}
-                {!condition
+                {!hairCondition
                   ? "n/a"
-                  : condition === "none"
+                  : hairCondition === "none"
                   ? ""
-                  : condition.join(", ")}
+                  : hairCondition.join(", ")}
                 <br />
                 <br />
                 MAIN GOALS:{" "}
