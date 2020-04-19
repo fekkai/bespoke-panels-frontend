@@ -760,11 +760,11 @@ export default class QuizData extends Component {
                 <div class="quiz-data-column">
                   {" "}
                   {
-                    // shopifyLoading ? (
-                    //   <ClipLoader size={6} />
-                    // ) : (
+                    shopifyLoading ? (
+                      <ClipLoader size={6} />
+                    ) : (
                     parseFloat(totalSalesToday).toFixed(2)
-                    // )
+                    )
                   }
                 </div>
               </div>
