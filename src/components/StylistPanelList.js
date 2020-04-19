@@ -809,7 +809,7 @@ export default class StylistPanelList extends Component {
 
     return (
       <div className="dashboard">
-        <VictoryChart domainPadding={20}>
+        {/* <VictoryChart domainPadding={20}>
           <VictoryAxis
             // tickValues={[2.11, 3.9, 6.1, 8.05]}
             // tickValues specifies both the number of ticks and where
@@ -868,7 +868,7 @@ export default class StylistPanelList extends Component {
             // tickFormat={x => `$${x /5}`}
           />
           <VictoryBar data={chartData4} x="answer" y="count" />
-        </VictoryChart>
+        </VictoryChart> */}
 
         <div className="pagination-section">
           <span style={{ paddingLeft: "5px" }}>
