@@ -7,10 +7,9 @@ import { ClipLoader, PulseLoader } from "react-spinners";
 // styling
 import "../styles/Panel.scss";
 import "../styles/Table.scss";
-import { css } from "@emotion/core";
 
 // dependencies
-import { CSVLink } from "react-csv";
+// import { CSVLink } from "react-csv";
 import axios from "axios";
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
@@ -52,12 +51,6 @@ export default class QuizData extends Component {
     let orderCountToday = 0;
     let orderCountPrevDay = 0;
 
-    // console.log(response.data);
-    // for (let i = 0; i < response.data.length; i++) {
-    for (let i = 0; i < response.data.length; i++) {
-      // console.log(response.data.orders[i].id);
-    }
-
     let ordersPrevDay = [];
     let ordersToday = [];
     const today = new Date().getDate();
@@ -93,17 +86,9 @@ export default class QuizData extends Component {
           if (title && title.toLocaleLowerCase() === "discount bundle") {
             lineItemsPrevDay = lineItemsPrevDay.concat(order.line_items);
             totalSalesPrevDay += parseFloat(order.total_price);
-            // console.log(
-            //   order.name,
-            //   order.number,
-            //   order.total_price,
-            //   order.created_at,
-            //   "discountbundle"
-            // );
             orderCountPrevDay++;
             discountedItems++;
             ordersPrevDay.push(order);
-            // console.log(order)
           }
           break;
         }
@@ -508,8 +493,8 @@ export default class QuizData extends Component {
         "created_at",
         "name",
         "email",
+        "total",
         // "subtotal",
-        "total"
         // "lineitem_name",
         // "lineitem_quantity",
         // "billing_province",
@@ -556,13 +541,7 @@ export default class QuizData extends Component {
           // check if quiz date and order date are the same
           quizCreated === orderCreated
         ) {
-          // console.log(
-          //   userEmail,
-          //   orderEmail,
-          //   quizCreated,
-          //   orderCreated,
-          //   order.total
-          // );
+       
           csv.push([
             order.created_at,
             order.name,
@@ -574,7 +553,6 @@ export default class QuizData extends Component {
             // order.billing_province,
             // order.shipping_province
           ]);
-          // console.log(csv);
 
           if (order.total) {
             totalSales += parseFloat(order.total);
@@ -591,7 +569,6 @@ export default class QuizData extends Component {
         ) {
           if (order.total) {
             totalSalesToday += parseFloat(order.total);
-            // console.log(totalSalesToday);
           }
         }
 
@@ -605,16 +582,8 @@ export default class QuizData extends Component {
         ) {
           if (order.total) {
             totalSalesPrevDay += parseFloat(order.total);
-            // console.log(totalSalesPrevDay);
           }
-          // console.log(
-          //   quizCreated,
-          //   order,
-          //   order.created_at,
-          //   userEmail,
-          //   userCreated,
-          //   order.total
-          // );
+        
         }
       }
       this.setState({

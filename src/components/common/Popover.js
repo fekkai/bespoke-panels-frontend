@@ -12,7 +12,7 @@ export default function PopoverComponent(props) {
       <Popover.Title as="h3"></Popover.Title>
       <div style={{ border: ".5px solid black", background: "white" }}>
         <Fade style={{ marginLeft: "5px" }}>
-          <Popover.Content style={{ width: "80vw" }}>
+          <Popover.Content style={{ width: "65vw" }}>
             <h3 style={{ fontFamily: "urwdin-regular" }}>{props.title}</h3>
             <BarGraph styles={props.styles} data={props.data} />
           </Popover.Content>
