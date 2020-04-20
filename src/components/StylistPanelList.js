@@ -378,7 +378,7 @@ export default class StylistPanelList extends Component {
     let volumizing = 0;
     let quizCount = 0;
 
-    if (localStorage) {
+    if (localStorage.getItem("short")) {
       let totalChartData1 = [
         {
           x: "short" + " " + parseInt(localStorage.getItem("short")),
