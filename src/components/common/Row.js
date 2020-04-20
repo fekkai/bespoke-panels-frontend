@@ -11,15 +11,14 @@ export const Row = ({
   hairTexture,
   hairColor,
   hairLength,
-  hairCondition,
+  condition,
   hairGoals,
   frontSelfie,
   cvData
 }) => {
-  let dateTime = new Date(locale).toString();
-  // .toLocaleString();
-  // console.log(dateTime, locale)
-  // dateTime = new Date(newDateTime).toLocaleString();
+  let dateTime = new Date(locale);
+  let newDateTime = dateTime.setHours(dateTime.getHours() - 4);
+  dateTime = new Date(newDateTime).toLocaleString();
 
   const textureScore = cvData && (cvData.texture.score * 100).toFixed(2);
   const lengthScore = cvData && (cvData.length.score * 100).toFixed(2);
@@ -32,6 +31,7 @@ export const Row = ({
   if (cvDataColor === "black" || "grey" || "silver") {
     cvDataColor = "black";
   }
+
   return (
     <div>
       <Card
@@ -193,11 +193,11 @@ export const Row = ({
             )}
           </div>
           <div className="user-attributes">
-            {!hairCondition
+            {!condition
               ? "n/a"
-              : hairCondition === "none"
+              : condition === "none"
               ? "none"
-              : hairCondition.map(e => {
+              : condition.map(e => {
                   return (
                     <div key={e}>
                       {e} <br />

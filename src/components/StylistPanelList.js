@@ -1,27 +1,28 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 //components
 import Color from "./Color";
 import Conditions from "./Conditions";
 import Goals from "./Goals";
+import BarGraph from "./BarGraph";
+import PopoverComponent from "./common/Popover";
 import { Row } from "./common";
-import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader, PulseLoader } from "react-spinners";
-import { Loader } from "react-loaders";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 
 // styling
 import "../styles/Panel.scss";
 import { css } from "@emotion/core";
+// loader styles
 
 // react CSV
 import { CSVLink, CSVDownload } from "react-csv";
 
+// services
 import axios from "axios";
 import aws4 from "aws4";
-
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 
@@ -725,7 +726,7 @@ export default class StylistPanelList extends Component {
       }
     });
 
-    let chartData = [
+    let chartData1 = [
       { answer: "short", count: short },
       { answer: "chin_length", count: chin_length },
       { answer: "shoulder_length", count: shoulder_length },
@@ -767,7 +768,7 @@ export default class StylistPanelList extends Component {
       { answer: "volumizing", count: volumizing }
     ];
     this.setState({
-      chartData,
+      chartData1,
       chartData2,
       chartData3,
       chartData4
@@ -775,101 +776,55 @@ export default class StylistPanelList extends Component {
     // console.log(this.state.chartData4);
   };
 
+  renderPopOver = () => {
+    const styles = this.getStyles();
+
+    const { chartData1, chartData2, chartData3, chartData4 } = this.state;
+    const chartData = [
+      { data: chartData1, title: "LENGTH/TEXTURE" },
+      { data: chartData2, title: "COLOR/THICKNESS" },
+      { data: chartData3, title: "CONDITIONS" },
+      { data: chartData4, title: "GOALS" }
+    ];
+
+    return chartData.map(chartData => {
+      return (
+        <PopoverComponent
+          styles={styles}
+          data={chartData.data}
+          title={chartData.title}
+        />
+      );
+    });
+  };
+
   getStyles() {
     return {
       // DATA SET ONE
       axisOne: {
-        axis: { stroke: "#000000", strokeWidth: 0 },
+        axis: { stroke: "#545454", strokeWidth: 0 },
         tickLabels: {
           fontFamily: "avenir",
-          fontSize: 4
+          fontSize: 6
         }
       },
 
       // DATA SET TWO
       axisTwo: {
         tickLabels: {
-          fill: "#000000",
+          fill: "#545454",
           fontFamily: "urwdin-regular",
-          fontSize: 4
+          fontSize: 6
         }
       }
     };
   }
 
   render() {
-    const {
-      ascending,
-      chartData,
-      chartData2,
-      chartData3,
-      chartData4
-    } = this.state;
-    const styles = this.getStyles();
+    const { ascending } = this.state;
 
     return (
       <div className="dashboard">
-        {/* <VictoryChart domainPadding={20}>
-          <VictoryAxis
-            // tickValues={[2.11, 3.9, 6.1, 8.05]}
-            // tickValues specifies both the number of ticks and where
-            // they are placed on the axis
-            style={styles.axisOne}
-          />
-          <VictoryAxis
-            style={styles.axisTwo}
-            dependentAxis
-            // tickFormat specifies how ticks should be displayed
-            // tickFormat={x => `$${x /5}`}
-          />
-          <VictoryBar theme={VictoryTheme.material} data={chartData} x="answer" y="count" />
-        </VictoryChart>
-        <VictoryChart domainPadding={20}>
-          <VictoryAxis
-            // tickValues={[2.11, 3.9, 6.1, 8.05]}
-            // tickValues specifies both the number of ticks and where
-            // they are placed on the axis
-            style={styles.axisOne}
-          />
-          <VictoryAxis
-            style={styles.axisTwo}
-            dependentAxis
-            // tickFormat specifies how ticks should be displayed
-            // tickFormat={x => `$${x /5}`}
-          />
-          <VictoryBar data={chartData2} x="answer" y="count" />
-        </VictoryChart>
-        <VictoryChart domainPadding={20}>
-          <VictoryAxis
-            // tickValues={[2.11, 3.9, 6.1, 8.05]}
-            // tickValues specifies both the number of ticks and where
-            // they are placed on the axis
-            style={styles.axisOne}
-          />
-          <VictoryAxis
-            style={styles.axisTwo}
-            dependentAxis
-            // tickFormat specifies how ticks should be displayed
-            // tickFormat={x => `$${x /5}`}
-          />
-          <VictoryBar data={chartData3} x="answer" y="count" />
-        </VictoryChart>
-        <VictoryChart domainPadding={20}>
-          <VictoryAxis
-            // tickValues={[2.11, 3.9, 6.1, 8.05]}
-            // tickValues specifies both the number of ticks and where
-            // they are placed on the axis
-            style={styles.axisOne}
-          />
-          <VictoryAxis
-            style={styles.axisTwo}
-            dependentAxis
-            // tickFormat specifies how ticks should be displayed
-            // tickFormat={x => `$${x /5}`}
-          />
-          <VictoryBar data={chartData4} x="answer" y="count" />
-        </VictoryChart> */}
-
         <div className="pagination-section">
           <span style={{ paddingLeft: "5px" }}>
             {!this.state.loading ? (
@@ -883,6 +838,7 @@ export default class StylistPanelList extends Component {
                 LOADING <PulseLoader size={6} />
               </span>
             )}
+            {!this.state.loading ? this.renderPopOver() : ""}
           </span>
 
           <span>
