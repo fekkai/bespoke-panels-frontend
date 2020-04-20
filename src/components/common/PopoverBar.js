@@ -1,13 +1,13 @@
 import React from "react";
-import BarGraph from "../BarGraph";
+import BarGraph from "./BarGraph";
 import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Button from "react-bootstrap/Button";
 import Fade from "react-reveal/Fade";
 import "../../styles/Panel.scss";
 
-export default function PopoverComponent(props) {
-  const popover = (
+export default function PopoverBar(props) {
+  const bargraph = (
     <Popover id="popover-basic">
       <Popover.Title as="h3"></Popover.Title>
       <div style={{ border: ".5px solid black", background: "white" }}>
@@ -22,7 +22,7 @@ export default function PopoverComponent(props) {
   );
   return (
     <div style={{ margin: "0 10px" }}>
-      <OverlayTrigger trigger="focus" placement="bottom" overlay={popover}>
+      <OverlayTrigger trigger="focus" placement="bottom" overlay={bargraph}>
         <button style={{ width: "100%" }} id="list-view-btn" variant="success">
           {props.title}
         </button>

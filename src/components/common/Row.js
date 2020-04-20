@@ -11,7 +11,7 @@ export const Row = ({
   hairTexture,
   hairColor,
   hairLength,
-  condition,
+  hairCondition,
   hairGoals,
   frontSelfie,
   cvData
@@ -193,11 +193,11 @@ export const Row = ({
             )}
           </div>
           <div className="user-attributes">
-            {!condition
+            {!hairCondition
               ? "n/a"
-              : condition === "none"
+              : hairCondition === "none"
               ? "none"
-              : condition.map(e => {
+              : hairCondition.map(e => {
                   return (
                     <div key={e}>
                       {e} <br />
