@@ -11,6 +11,7 @@ export default class Orders extends React.Component {
       //   ordersToday: this.props.location.state.ordersToday,
 
       ordersPrevDay:
+        this.props.location.state.ordersPrevDayMinus1 ||
         this.props.location.state.ordersPrevDay ||
         this.props.location.state.ordersToday
     };

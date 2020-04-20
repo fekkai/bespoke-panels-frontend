@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import Color from "./Color";
 import Conditions from "./Conditions";
 import Goals from "./Goals";
-import BarGraph from "./BarGraph";
-import PopoverComponent from "./common/Popover";
+import PopoverPie from "./common/PopoverPie";
+import PopoverBar from "./common/PopoverBar";
 import { Row } from "./common";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
@@ -59,6 +59,7 @@ export default class StylistPanelList extends Component {
       data: [],
       ascending: false,
       loading: true,
+      totalChartLoading: true,
       checked: false,
       colorOpen: false,
       conditionOpen: false,
@@ -70,7 +71,8 @@ export default class StylistPanelList extends Component {
 
   async componentDidMount() {
     this.fetchOrders();
-    await this.fetchQuizData();
+    this.fetchQuizData();
+    await this.fetchPageQuizData();
     await this.answerCount();
     await this.findSales();
     await this.setState({
@@ -124,7 +126,7 @@ export default class StylistPanelList extends Component {
     }
   };
 
-  fetchQuizData = async page => {
+  fetchPageQuizData = async page => {
     try {
       let response = await axios(
         // prod
@@ -149,179 +151,188 @@ export default class StylistPanelList extends Component {
       for (
         // page multiplied by number of rows items on each page
         let i = page * rowQty - rowQty;
+        // let i = 0;
         i < page * rowQty;
+        // i<1000;
         i++ // let i = 0; // i < response.length; // i++
       ) {
-        let userCode = userData[i].user_code;
-        let userResponse = await axios.get(
-          `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`,
-          { cancelToken: source.token }
-        );
+        if (userData[i].created > "2020-03-20T00:00:00") {
+          let userCode = userData[i].user_code;
+          let userResponse = await axios.get(
+            `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`,
+            { cancelToken: source.token }
+          );
 
-        // console.log(userResponse.data.user_data.email);
+          // console.log(userResponse.data.user_data.email);
 
-        if (
-          // userResponse.data.created > "2020-03-19T23:59:59" &&
-          userResponse.data.user_data.compute === false
-        ) {
-          abandonedQuiz++;
-
-          this.setState({
-            abandonedQuiz
-          });
-        }
-
-        // arrays for sorting quiz scores
-        const shampooScores = [];
-        const conditionerScores = [];
-        const thirdScores = [];
-        const skeletons = [
-          "moi1_SH",
-          "moi1_CN",
-          "moi1_TH",
-          "col1_SH",
-          "col1_CN",
-          "col1_TH",
-          "vol1_SH",
-          "vol1_CN",
-          "vol1_TH",
-          "rep1_SH",
-          "rep1_CN",
-          "rep1_TH",
-          "bl1_SH",
-          "bl1_TH"
-        ];
-
-        // sort shampoo scores
-        if (
-          // userResponse.data.created > "2020-03-19T23:59:59" &&
-          userResponse.data.user_data.compute === true &&
-          !userResponse.data.user_data.name
-            .toLocaleLowerCase()
-            .includes("jame kim")
-        ) {
-          // console.log(userResponse.data)
           if (
-            !emails.includes(
-              userResponse.data.user_data.email.toLocaleLowerCase()
-            )
+            // userResponse.data.created > "2020-03-19T23:59:59" &&
+            userResponse.data.user_data.compute === false
           ) {
-            emails.push(userResponse.data.user_data.email.toLocaleLowerCase());
+            abandonedQuiz++;
+
+            this.setState({
+              abandonedQuiz
+            });
           }
-          let shampooKey;
-          let conditionerKey;
-          let thirdKey;
-          let shampooValue;
-          let conditionerValue;
-          let thirdValue;
-          completedQuizCount++;
 
-          this.setState({
-            completedQuizCount
-          });
+          // arrays for sorting quiz scores
+          const shampooScores = [];
+          const conditionerScores = [];
+          const thirdScores = [];
+          const skeletons = [
+            "moi1_SH",
+            "moi1_CN",
+            "moi1_TH",
+            "col1_SH",
+            "col1_CN",
+            "col1_TH",
+            "vol1_SH",
+            "vol1_CN",
+            "vol1_TH",
+            "rep1_SH",
+            "rep1_CN",
+            "rep1_TH",
+            "bl1_SH",
+            "bl1_TH"
+          ];
 
-          for (let key in userResponse.data.ingredients.master.formula) {
-            if (key.includes("SH") && skeletons.indexOf(key) > -1) {
-              // indexOf returns first index where an element can be found. -1 is not present.
-              shampooScores.push(
-                parseInt(userResponse.data.ingredients.master.formula[key])
-              );
-              shampooScores.sort((a, b) => b - a);
-            }
+          // sort shampoo scores
+          if (
+            // userResponse.data.created > "2020-03-19T23:59:59" &&
+            userResponse.data.user_data.compute === true &&
+            !userResponse.data.user_data.name
+              .toLocaleLowerCase()
+              .includes("jame kim")
+          ) {
+            // console.log(userResponse.data)
             if (
-              shampooScores[0] ===
-                userResponse.data.ingredients.master.formula[key] &&
-              key.includes("SH")
+              !emails.includes(
+                userResponse.data.user_data.email.toLocaleLowerCase()
+              )
             ) {
-              shampooKey = key;
-              shampooValue = userResponse.data.ingredients.master.formula[key];
-            }
-          }
-          shampooScores.sort((a, b) => b - a);
-
-          // sort conditioner scores
-          for (let key in userResponse.data.ingredients.master.formula) {
-            if (key.includes("CN") && skeletons.indexOf(key) > -1) {
-              // indexOf returns first index where an element can be found. -1 is not present.
-              conditionerScores.push(
-                parseInt(userResponse.data.ingredients.master.formula[key])
+              emails.push(
+                userResponse.data.user_data.email.toLocaleLowerCase()
               );
-              conditionerScores.sort((a, b) => b - a);
             }
-            if (
-              conditionerScores[0] ===
-                userResponse.data.ingredients.master.formula[key] &&
-              key.includes("CN")
-            ) {
-              conditionerKey = key;
-              conditionerValue =
-                userResponse.data.ingredients.master.formula[key];
-            }
-          }
-          conditionerScores.sort((a, b) => b - a);
+            let shampooKey;
+            let conditionerKey;
+            let thirdKey;
+            let shampooValue;
+            let conditionerValue;
+            let thirdValue;
+            completedQuizCount++;
 
-          // sort third scores
-          for (let key in userResponse.data.ingredients.master.formula) {
-            if (key.includes("TH") && skeletons.indexOf(key) > -1) {
-              // indexOf returns first index where an element can be found. -1 is not present.
-              thirdScores.push(
-                parseInt(userResponse.data.ingredients.master.formula[key])
-              );
-              thirdScores.sort((a, b) => b - a);
-            }
-            if (
-              thirdScores[0] ===
-                userResponse.data.ingredients.master.formula[key] &&
-              key.includes("TH")
-            ) {
-              thirdKey = key;
-              thirdValue = userResponse.data.ingredients.master.formula[key];
-            }
-          }
-          thirdScores.sort((a, b) => b - a);
+            this.setState({
+              completedQuizCount
+            });
 
-          data.push({
-            id: userResponse.data._id,
-            userCode: userData[i].user_code,
-            locale: userData[i].created || userData[i].updated,
-            name: userResponse.data.user_data.name,
-            email: userResponse.data.user_data.email,
-            hairThickness: userResponse.data.user_data.answers.hair_thickness,
-            hairTexture: !userResponse.data.user_data.answers.hair_texture
-              ? "n/a"
-              : userResponse.data.user_data.answers.hair_texture,
-            hairColor: !userResponse.data.user_data.answers.hair_color
-              ? "n/a"
-              : userResponse.data.user_data.answers.hair_color,
-            hairCondition: userResponse.data.user_data.answers.hair_condition,
-            hairGoals: !userResponse.data.user_data.answers.hair_goals
-              ? "n/a"
-              : userResponse.data.user_data.answers.hair_goals,
-            hairLength: !userResponse.data.user_data.answers.hair_length
-              ? "n/a"
-              : userResponse.data.user_data.answers.hair_length,
-            city: userResponse.data.user_data.weather.city,
-            uvRisk: userResponse.data.user_data.weather.scores.uv_risk,
-            airQuality: userResponse.data.user_data.weather.scores.air_quality,
-            waterHardness:
-              userResponse.data.user_data.weather.scores.water_hardness,
-            humidity: userResponse.data.user_data.weather.scores.humidity,
-            windSpeed: userResponse.data.user_data.weather.scores.wind_speed,
-            shampooKey,
-            conditionerKey,
-            thirdKey,
-            frontSelfie: userResponse.data.user_data.front_selfie,
-            cvData: userResponse.data.user_data.cv_data,
-            page: this.state.page
-          });
-          //     if (
-          //       new Date(userData[i].created).getDate() === new Date().getDate()
-          //     ) {
-          //       console.log(data);
-          //     }
+            for (let key in userResponse.data.ingredients.master.formula) {
+              if (key.includes("SH") && skeletons.indexOf(key) > -1) {
+                // indexOf returns first index where an element can be found. -1 is not present.
+                shampooScores.push(
+                  parseInt(userResponse.data.ingredients.master.formula[key])
+                );
+                shampooScores.sort((a, b) => b - a);
+              }
+              if (
+                shampooScores[0] ===
+                  userResponse.data.ingredients.master.formula[key] &&
+                key.includes("SH")
+              ) {
+                shampooKey = key;
+                shampooValue =
+                  userResponse.data.ingredients.master.formula[key];
+              }
+            }
+            shampooScores.sort((a, b) => b - a);
+
+            // sort conditioner scores
+            for (let key in userResponse.data.ingredients.master.formula) {
+              if (key.includes("CN") && skeletons.indexOf(key) > -1) {
+                // indexOf returns first index where an element can be found. -1 is not present.
+                conditionerScores.push(
+                  parseInt(userResponse.data.ingredients.master.formula[key])
+                );
+                conditionerScores.sort((a, b) => b - a);
+              }
+              if (
+                conditionerScores[0] ===
+                  userResponse.data.ingredients.master.formula[key] &&
+                key.includes("CN")
+              ) {
+                conditionerKey = key;
+                conditionerValue =
+                  userResponse.data.ingredients.master.formula[key];
+              }
+            }
+            conditionerScores.sort((a, b) => b - a);
+
+            // sort third scores
+            for (let key in userResponse.data.ingredients.master.formula) {
+              if (key.includes("TH") && skeletons.indexOf(key) > -1) {
+                // indexOf returns first index where an element can be found. -1 is not present.
+                thirdScores.push(
+                  parseInt(userResponse.data.ingredients.master.formula[key])
+                );
+                thirdScores.sort((a, b) => b - a);
+              }
+              if (
+                thirdScores[0] ===
+                  userResponse.data.ingredients.master.formula[key] &&
+                key.includes("TH")
+              ) {
+                thirdKey = key;
+                thirdValue = userResponse.data.ingredients.master.formula[key];
+              }
+            }
+            thirdScores.sort((a, b) => b - a);
+
+            data.push({
+              id: userResponse.data._id,
+              userCode: userData[i].user_code,
+              locale: userData[i].created || userData[i].updated,
+              name: userResponse.data.user_data.name,
+              email: userResponse.data.user_data.email,
+              hairThickness: userResponse.data.user_data.answers.hair_thickness,
+              hairTexture: !userResponse.data.user_data.answers.hair_texture
+                ? "n/a"
+                : userResponse.data.user_data.answers.hair_texture,
+              hairColor: !userResponse.data.user_data.answers.hair_color
+                ? "n/a"
+                : userResponse.data.user_data.answers.hair_color,
+              hairCondition: userResponse.data.user_data.answers.hair_condition,
+              hairGoals: !userResponse.data.user_data.answers.hair_goals
+                ? "n/a"
+                : userResponse.data.user_data.answers.hair_goals,
+              hairLength: !userResponse.data.user_data.answers.hair_length
+                ? "n/a"
+                : userResponse.data.user_data.answers.hair_length,
+              city: userResponse.data.user_data.weather.city,
+              uvRisk: userResponse.data.user_data.weather.scores.uv_risk,
+              airQuality:
+                userResponse.data.user_data.weather.scores.air_quality,
+              waterHardness:
+                userResponse.data.user_data.weather.scores.water_hardness,
+              humidity: userResponse.data.user_data.weather.scores.humidity,
+              windSpeed: userResponse.data.user_data.weather.scores.wind_speed,
+              shampooKey,
+              conditionerKey,
+              thirdKey,
+              frontSelfie: userResponse.data.user_data.front_selfie,
+              cvData: userResponse.data.user_data.cv_data,
+              page: this.state.page
+            });
+            //     if (
+            //       new Date(userData[i].created).getDate() === new Date().getDate()
+            //     ) {
+            //       console.log(data);
+            //     }
+          }
+        } else {
+          break;
         }
       }
-
       this.setState({
         data,
         emails,
@@ -331,6 +342,574 @@ export default class StylistPanelList extends Component {
       await this.answerCount();
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  fetchQuizData = async () => {
+    let short = 0;
+    let chin_length = 0;
+    let shoulder_length = 0;
+    let long = 0;
+    let straight = 0;
+    let wavy = 0;
+    let curly = 0;
+    let coily = 0;
+    let blonde = 0;
+    let brown = 0;
+    let black = 0;
+    let red = 0;
+    let silver = 0;
+    let fine = 0;
+    let medium = 0;
+    let thick = 0;
+    let color_treated = 0;
+    let highlights = 0;
+    let chemically_straightened = 0;
+    let split_ends = 0;
+    let frequent_heat_styling = 0;
+    let none = 0;
+    let color_protect = 0;
+    let uv_protect = 0;
+    let damage_repair = 0;
+    let frizz_control = 0;
+    let smoothing = 0;
+    let healthy_shine = 0;
+    let hydrate = 0;
+    let volumizing = 0;
+    let quizCount = 0;
+
+    if (localStorage.getItem("short")) {
+      let totalChartData1 = [
+        {
+          x: "short" + " " + parseInt(localStorage.getItem("short")),
+          y: parseInt(localStorage.getItem("short"))
+        },
+        {
+          x:
+            "chin_length" + " " + parseInt(localStorage.getItem("chin_length")),
+          y: parseInt(localStorage.getItem("chin_length"))
+        },
+        {
+          x:
+            "shoulder_length" +
+            " " +
+            parseInt(localStorage.getItem("shoulder_length")),
+          y: parseInt(localStorage.getItem("shoulder_length"))
+        },
+        {
+          x: "long" + " " + parseInt(localStorage.getItem("long")),
+          y: parseInt(localStorage.getItem("long"))
+        },
+        {
+          x: "straight" + " " + parseInt(localStorage.getItem("straight")),
+          y: parseInt(localStorage.getItem("straight"))
+        },
+        {
+          x: "wavy" + " " + parseInt(localStorage.getItem("wavy")),
+          y: parseInt(localStorage.getItem("wavy"))
+        },
+        {
+          x: "curly" + " " + parseInt(localStorage.getItem("curly")),
+          y: parseInt(localStorage.getItem("curly"))
+        },
+        {
+          x: "coily" + " " + parseInt(localStorage.getItem("coily")),
+          y: parseInt(localStorage.getItem("coily"))
+        }
+      ];
+
+      let totalChartData2 = [
+        {
+          x: "blonde" + " " + parseInt(localStorage.getItem("blonde")),
+          y: parseInt(localStorage.getItem("blonde"))
+        },
+        {
+          x: "brown" + " " + parseInt(localStorage.getItem("brown")),
+          y: parseInt(localStorage.getItem("brown"))
+        },
+        {
+          x: "black" + " " + parseInt(localStorage.getItem("black")),
+          y: parseInt(localStorage.getItem("black"))
+        },
+        {
+          x: "red" + " " + parseInt(localStorage.getItem("red")),
+          y: parseInt(localStorage.getItem("red"))
+        },
+        {
+          x: "silver" + " " + parseInt(localStorage.getItem("silver")),
+          y: parseInt(localStorage.getItem("silver"))
+        },
+        {
+          x: "fine" + " " + parseInt(localStorage.getItem("fine")),
+          y: parseInt(localStorage.getItem("fine"))
+        },
+        {
+          x: "medium" + " " + parseInt(localStorage.getItem("medium")),
+          y: parseInt(localStorage.getItem("medium"))
+        },
+        {
+          x: "thick" + " " + parseInt(localStorage.getItem("thick")),
+          y: parseInt(localStorage.getItem("thick"))
+        }
+      ];
+
+      let totalChartData3 = [
+        {
+          x:
+            "color_treated" +
+            " " +
+            parseInt(localStorage.getItem("color_treated")),
+          y: parseInt(localStorage.getItem("color_treated"))
+        },
+        {
+          x: "highlights" + " " + parseInt(localStorage.getItem("highlights")),
+          y: parseInt(localStorage.getItem("highlights"))
+        },
+        {
+          x:
+            "chemically_straightened" +
+            " " +
+            parseInt(localStorage.getItem("chemically_straightened")),
+          y: parseInt(localStorage.getItem("chemically_straightened"))
+        },
+        {
+          x: "split_ends" + " " + parseInt(localStorage.getItem("split_ends")),
+          y: parseInt(localStorage.getItem("split_ends"))
+        },
+        {
+          x:
+            "frequent_heat_styling" +
+            " " +
+            parseInt(localStorage.getItem("frequent_heat_styling")),
+          y: parseInt(localStorage.getItem("frequent_heat_styling"))
+        },
+        {
+          x: "none" + " " + parseInt(localStorage.getItem("none")),
+          y: parseInt(localStorage.getItem("none"))
+        }
+      ];
+
+      let totalChartData4 = [
+        {
+          x:
+            "color_protect" +
+            " " +
+            parseInt(localStorage.getItem("color_protect")),
+          y: parseInt(localStorage.getItem("color_protect"))
+        },
+        {
+          x: "uv_protect" + " " + parseInt(localStorage.getItem("uv_protect")),
+          y: parseInt(localStorage.getItem("uv_protect"))
+        },
+        {
+          x:
+            "damage_repair" +
+            " " +
+            parseInt(localStorage.getItem("damage_repair")),
+          y: parseInt(localStorage.getItem("damage_repair"))
+        },
+        {
+          x:
+            "frizz_control" +
+            " " +
+            parseInt(localStorage.getItem("frizz_control")),
+          y: parseInt(localStorage.getItem("frizz_control"))
+        },
+        {
+          x: "smoothing" + " " + parseInt(localStorage.getItem("smoothing")),
+          y: parseInt(localStorage.getItem("smoothing"))
+        },
+        {
+          x:
+            "healthy_shine" +
+            " " +
+            parseInt(localStorage.getItem("healthy_shine")),
+          y: parseInt(localStorage.getItem("healthy_shine"))
+        },
+        {
+          x: "hydrate" + " " + parseInt(localStorage.getItem("hydrate")),
+          y: parseInt(localStorage.getItem("hydrate"))
+        },
+        {
+          x: "volumizing" + " " + parseInt(localStorage.getItem("volumizing")),
+          y: parseInt(localStorage.getItem("volumizing"))
+        }
+      ];
+
+      this.setState({
+        totalChartData1,
+        totalChartData2,
+        totalChartData3,
+        totalChartData4,
+        totalChartLoading: false
+      });
+    } else {
+      try {
+        let response = await axios(
+          `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        );
+
+        let userData = response.data.reverse();
+
+        for (let i = 0; i < userData.length; i++) {
+          if (userData[i].created > "2020-03-20T00:00:00") {
+            quizCount++;
+            let userCode = userData[i].user_code;
+            let userResponse = await axios.get(
+              `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
+            );
+
+            if (
+              userResponse.data.user_data.compute === true &&
+              !userResponse.data.user_data.name
+                .toLocaleLowerCase()
+                .includes("jame kim")
+            ) {
+              if (userResponse.data.user_data.answers.hair_length === "short") {
+                short++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_length ===
+                "chin_length"
+              ) {
+                chin_length++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_length ===
+                "shoulder_length"
+              ) {
+                shoulder_length++;
+              }
+              if (userResponse.data.user_data.answers.hair_length === "long") {
+                long++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_texture === "straight"
+              ) {
+                straight++;
+              }
+              if (userResponse.data.user_data.answers.hair_texture === "wavy") {
+                wavy++;
+              } else if (
+                userResponse.data.user_data.answers.hair_texture === "curly"
+              ) {
+                curly++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_texture === "coily"
+              ) {
+                coily++;
+              }
+              if (userResponse.data.user_data.answers.hair_color === "blonde") {
+                blonde++;
+              }
+              if (userResponse.data.user_data.answers.hair_color === "brown") {
+                brown++;
+              }
+              if (userResponse.data.user_data.answers.hair_color === "black") {
+                black++;
+              }
+              if (userResponse.data.user_data.answers.hair_color === "red") {
+                red++;
+              }
+              if (userResponse.data.user_data.answers.hair_color === "silver") {
+                silver++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_thickness === "fine"
+              ) {
+                fine++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_thickness === "medium"
+              ) {
+                medium++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_thickness === "thick"
+              ) {
+                thick++;
+              }
+              if (
+                // rowData.hairCondition &&
+                userResponse.data.user_data.answers.hair_condition.includes(
+                  "color_treated"
+                )
+              ) {
+                color_treated++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_condition.includes(
+                  "highlights"
+                )
+              ) {
+                highlights++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_condition.includes(
+                  "chemically_straightened"
+                )
+              ) {
+                chemically_straightened++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_condition.includes(
+                  "split_ends"
+                )
+              ) {
+                split_ends++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_condition.includes(
+                  "frequent_heat_styling"
+                )
+              ) {
+                frequent_heat_styling++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_condition.includes(
+                  "none"
+                )
+              ) {
+                none++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "color_protect"
+                )
+              ) {
+                color_protect++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "uv_protect"
+                )
+              ) {
+                uv_protect++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "damage_repair"
+                )
+              ) {
+                damage_repair++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "frizz_control"
+                )
+              ) {
+                frizz_control++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "smoothing"
+                )
+              ) {
+                smoothing++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "healthy_shine"
+                )
+              ) {
+                healthy_shine++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "hydrate"
+                )
+              ) {
+                hydrate++;
+              }
+              if (
+                userResponse.data.user_data.answers.hair_goals.includes(
+                  "volumizing"
+                )
+              ) {
+                volumizing++;
+              }
+            }
+          } else {
+            break;
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      console.log(short);
+
+      localStorage.setItem("short", short);
+      localStorage.setItem("chin_length", chin_length);
+      localStorage.setItem("shoulder_length", shoulder_length);
+      localStorage.setItem("long", long);
+      localStorage.setItem("straight", straight);
+      localStorage.setItem("wavy", wavy);
+      localStorage.setItem("curly", curly);
+      localStorage.setItem("coily", coily);
+      localStorage.setItem("blonde", blonde);
+      localStorage.setItem("brown", brown);
+      localStorage.setItem("black", black);
+      localStorage.setItem("red", red);
+      localStorage.setItem("silver", silver);
+      localStorage.setItem("fine", fine);
+      localStorage.setItem("medium", medium);
+      localStorage.setItem("thick", thick);
+      localStorage.setItem("color_treated", color_treated);
+      localStorage.setItem("highlights", highlights);
+      localStorage.setItem("chemically_straightened", chemically_straightened);
+      localStorage.setItem("split_ends", split_ends);
+      localStorage.setItem("frequent_heat_styling", frequent_heat_styling);
+      localStorage.setItem("none", none);
+      localStorage.setItem("color_protect", color_protect);
+      localStorage.setItem("uv_protect", uv_protect);
+      localStorage.setItem("damage_repair", damage_repair);
+      localStorage.setItem("frizz_control", frizz_control);
+      localStorage.setItem("smoothing", smoothing);
+      localStorage.setItem("healthy_shine", healthy_shine);
+      localStorage.setItem("hydrate", hydrate);
+      localStorage.setItem("volumizing", volumizing);
+
+      let totalChartData1 = [
+        {
+          x: "short",
+          y: parseInt(localStorage.getItem("short")) || short
+        },
+        {
+          x: "chin_length",
+          y: parseInt(localStorage.getItem("chin_length")) || chin_length
+        },
+        {
+          x: "shoulder_length",
+          y:
+            parseInt(localStorage.getItem("shoulder_length")) || shoulder_length
+        },
+        {
+          x: "long",
+          y: parseInt(localStorage.getItem("long")) || long
+        },
+        {
+          x: "straight",
+          y: parseInt(localStorage.getItem("straight")) || straight
+        },
+        {
+          x: "wavy",
+          y: parseInt(localStorage.getItem("wavy")) || wavy
+        },
+        {
+          x: "curly",
+          y: parseInt(localStorage.getItem("curly")) || curly
+        },
+        {
+          x: "coily",
+          y: parseInt(localStorage.getItem("coily")) || coily
+        }
+      ];
+
+      let totalChartData2 = [
+        {
+          x: "blonde",
+          y: parseInt(localStorage.getItem("blonde")) || blonde
+        },
+        {
+          x: "brown",
+          y: parseInt(localStorage.getItem("brown")) || brown
+        },
+        {
+          x: "black",
+          y: parseInt(localStorage.getItem("black")) || black
+        },
+        { x: "red", count: parseInt(localStorage.getItem("red")) || red },
+        {
+          x: "silver",
+          y: parseInt(localStorage.getItem("silver")) || silver
+        },
+        {
+          x: "fine",
+          y: parseInt(localStorage.getItem("fine")) || fine
+        },
+        {
+          x: "medium",
+          y: parseInt(localStorage.getItem("medium")) || medium
+        },
+        {
+          x: "thick",
+          y: parseInt(localStorage.getItem("thick")) || thick
+        }
+      ];
+
+      let totalChartData3 = [
+        {
+          x: "color_treated",
+          y: parseInt(localStorage.getItem("color_treated")) || color_treated
+        },
+        {
+          x: "highlights",
+          y: parseInt(localStorage.getItem("highlights")) || highlights
+        },
+        {
+          x: "chemically_straightened",
+          y:
+            parseInt(localStorage.getItem("chemically_straightened")) ||
+            chemically_straightened
+        },
+        {
+          x: "split_ends",
+          y: parseInt(localStorage.getItem("split_ends")) || split_ends
+        },
+        {
+          x: "frequent_heat_styling",
+          y:
+            parseInt(localStorage.getItem("frequent_heat_styling")) ||
+            frequent_heat_styling
+        },
+        {
+          x: "none",
+          y: parseInt(localStorage.getItem("none")) || none
+        }
+      ];
+
+      let totalChartData4 = [
+        {
+          x: "color_protect",
+          y: parseInt(localStorage.getItem("color_protect")) || color_protect
+        },
+        {
+          x: "uv_protect",
+          y: parseInt(localStorage.getItem("uv_protect")) || uv_protect
+        },
+        {
+          x: "damage_repair",
+          y: parseInt(localStorage.getItem("damage_repair")) || damage_repair
+        },
+        {
+          x: "frizz_control",
+          y: parseInt(localStorage.getItem("frizz_control")) || frizz_control
+        },
+        {
+          x: "smoothing",
+          y: parseInt(localStorage.getItem("smoothing")) || smoothing
+        },
+        {
+          x: "healthy_shine",
+          y: parseInt(localStorage.getItem("healthy_shine")) || healthy_shine
+        },
+        {
+          x: "hydrate",
+          y: parseInt(localStorage.getItem("hydrate")) || hydrate
+        },
+        {
+          x: "volumizing",
+          y: parseInt(localStorage.getItem("volumizing")) || volumizing
+        }
+      ];
+      this.setState({
+        totalChartData1,
+        totalChartData2,
+        totalChartData3,
+        totalChartData4,
+        totalChartLoading: false
+      });
     }
   };
 
@@ -465,7 +1044,7 @@ export default class StylistPanelList extends Component {
     await this.setState({
       page: e.target.value
     });
-    await this.fetchQuizData();
+    await this.fetchPageQuizData();
   };
 
   handlePrevPage = async e => {
@@ -499,7 +1078,7 @@ export default class StylistPanelList extends Component {
       loading: true
     });
     // await source.cancel("Operation canceled by the user.");
-    await this.fetchQuizData();
+    await this.fetchPageQuizData();
   };
 
   handleAllPages = async e => {
@@ -776,7 +1355,7 @@ export default class StylistPanelList extends Component {
     // console.log(this.state.chartData4);
   };
 
-  renderPopOver = () => {
+  renderPageCharts = () => {
     const styles = this.getStyles();
 
     const { chartData1, chartData2, chartData3, chartData4 } = this.state;
@@ -789,7 +1368,34 @@ export default class StylistPanelList extends Component {
 
     return chartData.map(chartData => {
       return (
-        <PopoverComponent
+        <PopoverBar
+          styles={styles}
+          data={chartData.data}
+          title={chartData.title}
+        />
+      );
+    });
+  };
+
+  renderTotalCharts = () => {
+    const styles = this.getStyles();
+
+    const {
+      totalChartData1,
+      totalChartData2,
+      totalChartData3,
+      totalChartData4
+    } = this.state;
+    const chartData = [
+      { data: totalChartData1, title: "LENGTH/TEXTURE TOTAL" },
+      { data: totalChartData2, title: "COLOR/THICKNESS TOTAL" },
+      { data: totalChartData3, title: "CONDITIONS TOTAL" },
+      { data: totalChartData4, title: "GOALS TOTAL" }
+    ];
+
+    return chartData.map(chartData => {
+      return (
+        <PopoverPie
           styles={styles}
           data={chartData.data}
           title={chartData.title}
@@ -838,9 +1444,18 @@ export default class StylistPanelList extends Component {
                 LOADING <PulseLoader size={6} />
               </span>
             )}
-            {!this.state.loading ? this.renderPopOver() : ""}
-          </span>
 
+            {!this.state.loading ? this.renderPageCharts() : ""}
+            {this.state.loading ? (
+              ""
+            ) : !this.state.totalChartLoading ? (
+              this.renderTotalCharts()
+            ) : (
+              <span>
+                LOADING ALL QUIZ DATA: <PulseLoader size={6} />
+              </span>
+            )}
+          </span>
           <span>
             {this.state.filter ? (
               <Fade style={{ marginLeft: "5px" }}>
