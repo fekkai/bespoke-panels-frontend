@@ -72,6 +72,7 @@ export default class StylistPanelList extends Component {
   async componentDidMount() {
     this.fetchOrders();
     this.fetchQuizData();
+    this.fetchQuizCount();
     await this.fetchPageQuizData();
     await this.answerCount();
     await this.findSales();
@@ -99,18 +100,19 @@ export default class StylistPanelList extends Component {
       // // prod
       // `https://bespoke-backend.herokuapp.com/fekkai-backend`
       // qa
-      `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+      `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
 
     // response = JSON.parse(JSON.stringify(response));
 
     let totalAbandonedQuiz = 0;
-    let userData = response.data.reverse();
+    let abandonedQuizEmails = [];
+
     // for (let userCode of userData
 
-    for (let usercodes of userData) {
+    for (let userCode of response.data.reverse()) {
       let userResponse = await axios.get(
-        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${usercodes.user_code}`
+        `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
       );
 
       if (
@@ -118,12 +120,16 @@ export default class StylistPanelList extends Component {
         userResponse.data.user_data.compute === false
       ) {
         totalAbandonedQuiz++;
-
+        abandonedQuizEmails.push(userResponse.data.user_data.email);
+        console.log(abandonedQuizEmails, "hello");
         this.setState({
           totalAbandonedQuiz
         });
       }
     }
+    this.setState({
+      abandonedQuizEmails
+    });
   };
 
   fetchPageQuizData = async page => {
@@ -132,7 +138,7 @@ export default class StylistPanelList extends Component {
         // prod
         // `https://bespoke-backend.herokuapp.com/fekkai-backend`
         // qa
-        `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
 
       // response = JSON.parse(JSON.stringify(response));
@@ -159,7 +165,7 @@ export default class StylistPanelList extends Component {
         if (userData[i].created > "2020-03-20T00:00:00") {
           let userCode = userData[i].user_code;
           let userResponse = await axios.get(
-            `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`,
+            `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`,
             { cancelToken: source.token }
           );
 
@@ -170,7 +176,8 @@ export default class StylistPanelList extends Component {
             userResponse.data.user_data.compute === false
           ) {
             abandonedQuiz++;
-
+            // abandonedQuizEmails.push(userResponse.user_data.email);
+            // console.log(abandonedQuizEmails, "hello");
             this.setState({
               abandonedQuiz
             });
@@ -546,7 +553,7 @@ export default class StylistPanelList extends Component {
     } else {
       try {
         let response = await axios(
-          `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+          `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
         );
 
         let userData = response.data.reverse();
@@ -556,7 +563,7 @@ export default class StylistPanelList extends Component {
             quizCount++;
             let userCode = userData[i].user_code;
             let userResponse = await axios.get(
-              `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
+              `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`
             );
 
             if (
@@ -772,79 +779,89 @@ export default class StylistPanelList extends Component {
 
       let totalChartData1 = [
         {
-          x: "short",
+          x: "short" + " " + parseInt(localStorage.getItem("short")),
           y: parseInt(localStorage.getItem("short")) || short
         },
         {
-          x: "chin_length",
+          x:
+            "chin_length" + " " + parseInt(localStorage.getItem("chin_length")),
           y: parseInt(localStorage.getItem("chin_length")) || chin_length
         },
         {
-          x: "shoulder_length",
+          x:
+            "shoulder_length" +
+            " " +
+            parseInt(localStorage.getItem("shoulder_length")),
           y:
             parseInt(localStorage.getItem("shoulder_length")) || shoulder_length
         },
         {
-          x: "long",
+          x: "long" + " " + parseInt(localStorage.getItem("long")),
           y: parseInt(localStorage.getItem("long")) || long
         },
         {
-          x: "straight",
+          x: "straight" + " " + parseInt(localStorage.getItem("straight")),
           y: parseInt(localStorage.getItem("straight")) || straight
         },
         {
-          x: "wavy",
+          x: "wavy" + " " + parseInt(localStorage.getItem("wavy")),
           y: parseInt(localStorage.getItem("wavy")) || wavy
         },
         {
-          x: "curly",
+          x: "curly" + " " + parseInt(localStorage.getItem("curly")),
           y: parseInt(localStorage.getItem("curly")) || curly
         },
         {
-          x: "coily",
+          x: "coily" + " " + parseInt(localStorage.getItem("coily")),
           y: parseInt(localStorage.getItem("coily")) || coily
         }
       ];
 
       let totalChartData2 = [
         {
-          x: "blonde",
+          x: "blonde" + " " + parseInt(localStorage.getItem("blonde")),
           y: parseInt(localStorage.getItem("blonde")) || blonde
         },
         {
-          x: "brown",
+          x: "brown" + " " + parseInt(localStorage.getItem("brown")),
           y: parseInt(localStorage.getItem("brown")) || brown
         },
         {
-          x: "black",
+          x: "black" + " " + parseInt(localStorage.getItem("black")),
           y: parseInt(localStorage.getItem("black")) || black
         },
-        { x: "red", count: parseInt(localStorage.getItem("red")) || red },
         {
-          x: "silver",
+          x: "red" + " " + parseInt(localStorage.getItem("red")),
+          count: parseInt(localStorage.getItem("red")) || red
+        },
+        {
+          x: "silver" + " " + parseInt(localStorage.getItem("silver")),
           y: parseInt(localStorage.getItem("silver")) || silver
         },
         {
-          x: "fine",
+          x: "fine" + " " + parseInt(localStorage.getItem("fine")),
           y: parseInt(localStorage.getItem("fine")) || fine
         },
         {
-          x: "medium",
+          x: "medium" + " " + parseInt(localStorage.getItem("medium")),
           y: parseInt(localStorage.getItem("medium")) || medium
         },
         {
-          x: "thick",
+          x: "thick" + " " + parseInt(localStorage.getItem("thick")),
           y: parseInt(localStorage.getItem("thick")) || thick
         }
       ];
 
       let totalChartData3 = [
         {
-          x: "color_treated",
+          x:
+            "color_treated" +
+            " " +
+            parseInt(localStorage.getItem("color_treated")),
           y: parseInt(localStorage.getItem("color_treated")) || color_treated
         },
         {
-          x: "highlights",
+          x: "highlights" + " " + parseInt(localStorage.getItem("highlights")),
           y: parseInt(localStorage.getItem("highlights")) || highlights
         },
         {
@@ -854,7 +871,7 @@ export default class StylistPanelList extends Component {
             chemically_straightened
         },
         {
-          x: "split_ends",
+          x: "split_ends" + " " + parseInt(localStorage.getItem("split_ends")),
           y: parseInt(localStorage.getItem("split_ends")) || split_ends
         },
         {
@@ -864,42 +881,54 @@ export default class StylistPanelList extends Component {
             frequent_heat_styling
         },
         {
-          x: "none",
+          x: "none" + " " + parseInt(localStorage.getItem("none")),
           y: parseInt(localStorage.getItem("none")) || none
         }
       ];
 
       let totalChartData4 = [
         {
-          x: "color_protect",
+          x:
+            "color_protect" +
+            " " +
+            parseInt(localStorage.getItem("color_protect")),
           y: parseInt(localStorage.getItem("color_protect")) || color_protect
         },
         {
-          x: "uv_protect",
+          x: "uv_protect" + " " + parseInt(localStorage.getItem("uv_protect")),
           y: parseInt(localStorage.getItem("uv_protect")) || uv_protect
         },
         {
-          x: "damage_repair",
+          x:
+            "damage_repair" +
+            " " +
+            parseInt(localStorage.getItem("damage_repair")),
           y: parseInt(localStorage.getItem("damage_repair")) || damage_repair
         },
         {
-          x: "frizz_control",
+          x:
+            "frizz_control" +
+            " " +
+            parseInt(localStorage.getItem("frizz_control")),
           y: parseInt(localStorage.getItem("frizz_control")) || frizz_control
         },
         {
-          x: "smoothing",
+          x: "smoothing" + " " + parseInt(localStorage.getItem("smoothing")),
           y: parseInt(localStorage.getItem("smoothing")) || smoothing
         },
         {
-          x: "healthy_shine",
+          x:
+            "healthy_shine" +
+            " " +
+            parseInt(localStorage.getItem("healthy_shine")),
           y: parseInt(localStorage.getItem("healthy_shine")) || healthy_shine
         },
         {
-          x: "hydrate",
+          x: "hydrate" + " " + parseInt(localStorage.getItem("hydrate")),
           y: parseInt(localStorage.getItem("hydrate")) || hydrate
         },
         {
-          x: "volumizing",
+          x: "volumizing" + " " + parseInt(localStorage.getItem("volumizing")),
           y: parseInt(localStorage.getItem("volumizing")) || volumizing
         }
       ];

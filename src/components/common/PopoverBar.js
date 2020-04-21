@@ -2,7 +2,6 @@ import React from "react";
 import BarGraph from "./BarGraph";
 import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Button from "react-bootstrap/Button";
 import Fade from "react-reveal/Fade";
 import "../../styles/Panel.scss";
 
