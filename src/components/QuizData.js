@@ -30,6 +30,7 @@ export default class QuizData extends Component {
   }
 
   async componentDidMount() {
+    // this.chatQuizOrders();
     await this.shopifyOrders();
     await this.fetchEmails();
     await this.fetchOrders();
@@ -39,6 +40,78 @@ export default class QuizData extends Component {
       loading: false
     });
   }
+
+  chatQuizOrders = async () => {
+    const orders = await axios.get(
+      "https://bespoke-backend.herokuapp.com/chat-quiz-orders-json"
+    );
+    let response = await axios(
+      `https://bespoke-backend.herokuapp.com/fekkai-backend`
+    );
+    let userData = response.data.reverse();
+
+    let total = 0;
+    let quizCount = 0;
+    let completeQuizCount = 0;
+    let abandonedQuizCount = 0;
+    const today = new Date().getDate();
+    const thisMonth = new Date().getMonth() + 1;
+
+    let bundleOrders = [];
+    // console.log(orders.data[0]);
+    for (let order of orders.data) {
+      if (
+        order["discount_applications-title"]
+          .toLowerCase()
+          .includes("discount bundle")
+      ) {
+        // console.lo
+        // console.log(order["line_items-name"])
+
+        function checkNull(value) {
+          return value === null;
+        }
+        order["line_items-name"].splice(
+          order["line_items-name"].findIndex(checkNull),
+          1
+        );
+
+        let split = order["discount_applications-title"].split("eD");
+
+        let newSplit = [];
+        for (let splitWord of split) {
+          splitWord = "Discount Bundle";
+          newSplit.push(splitWord);
+        }
+
+
+        order["discount_applications-title"] = newSplit;
+
+        // get total sales
+        total = total + order.total_price;
+        bundleOrders.push({
+          order_id: order.id,
+          order_created: order.created_at,
+          number: order.order_number,
+          email: order.email,
+          line_items: order["line_items-name"],
+          discount_applications: order["discount_applications-title"],
+          total_price: order.total_price
+        });
+      }
+    }
+
+for (let i = 0; i < bundleOrders.length; i++) {
+    axios.post(
+      "http://bespoke-backend.herokuapp.com/orders/chat-quiz-orders",
+      bundleOrders[i]
+    );
+}
+  };
+
+  // check for order data accuracy
+  // pull total count data for each day
+  // pull order data
 
   shopifyOrders = async () => {
     let response = await axios(
@@ -52,13 +125,12 @@ export default class QuizData extends Component {
     let orderCountPrevDay = 0;
     let totalSalesPrevDayMinus1 = 0;
     let orderCountPrevDayMinus1 = 0;
-
     let ordersToday = [];
     let ordersPrevDay = [];
     let ordersPrevDayMinus1 = [];
-
     const today = new Date().getDate();
     const yesterday = new Date().getDate() - 1;
+
     // line items today
     let lineItemsToday = [];
     let lineItemsPrevDay = [];
@@ -368,7 +440,7 @@ export default class QuizData extends Component {
       let quizPrevDayMinus1 = 0;
 
       const today = new Date().getDate();
-      const thisMonth = new Date().getMonth();
+      const thisMonth = new Date().getMonth() + 1;
       const yesterday = new Date(today) - 1;
 
       this.setState({ totalQuizCount });
@@ -390,7 +462,7 @@ export default class QuizData extends Component {
 
           // total quizzes today
           if (
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created).getDate() === today
           ) {
             // console.log("today's", userResponse.data.created);
@@ -403,7 +475,7 @@ export default class QuizData extends Component {
           // completed quizzes today
           if (
             userResponse.data.user_data.compute === true &&
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created.toString()).getDate() === today
           ) {
             completeQuizToday++;
@@ -416,7 +488,7 @@ export default class QuizData extends Component {
           // abandoned quizzes today
           if (
             userResponse.data.user_data.compute === false &&
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created.toString()).getDate() === today
           ) {
             abandonedQuizToday++;
@@ -428,7 +500,7 @@ export default class QuizData extends Component {
 
           // total quizzes prev day
           if (
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created).getDate() === yesterday
           ) {
             // console.log("yesterday's", userResponse.data.created);
@@ -441,7 +513,7 @@ export default class QuizData extends Component {
           // completed quizzes prev day
           if (
             userResponse.data.user_data.compute === true &&
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created.toString()).getDate() ===
               yesterday
           ) {
@@ -455,7 +527,7 @@ export default class QuizData extends Component {
           // abandoned quizzes prev day
           if (
             userResponse.data.user_data.compute === false &&
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created.toString()).getDate() ===
               yesterday
           ) {
@@ -467,7 +539,7 @@ export default class QuizData extends Component {
           }
 
           if (
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created).getDate() === yesterday - 1
           ) {
             // console.log("yesterday's", userResponse.data.created);
@@ -480,7 +552,7 @@ export default class QuizData extends Component {
           // completed quizzes prev day
           if (
             userResponse.data.user_data.compute === true &&
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created.toString()).getDate() ===
               yesterday - 1
           ) {
@@ -494,7 +566,7 @@ export default class QuizData extends Component {
           // abandoned quizzes prev day
           if (
             userResponse.data.user_data.compute === false &&
-            new Date(userResponse.data.created).getMonth() === thisMonth &&
+            new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created.toString()).getDate() ===
               yesterday - 1
           ) {

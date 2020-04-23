@@ -75,7 +75,7 @@ export default class StylistPanelList extends Component {
     this.fetchQuizCount();
     await this.fetchPageQuizData();
     await this.answerCount();
-    await this.findSales();
+    // await this.findSales();
     await this.setState({
       loading: false
     });
@@ -98,9 +98,9 @@ export default class StylistPanelList extends Component {
   fetchQuizCount = async () => {
     let response = await axios(
       // // prod
-      // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      `https://bespoke-backend.herokuapp.com/fekkai-backend`
       // qa
-      `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+      // `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
 
     // response = JSON.parse(JSON.stringify(response));
@@ -112,7 +112,7 @@ export default class StylistPanelList extends Component {
 
     for (let userCode of response.data.reverse()) {
       let userResponse = await axios.get(
-        `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
+        `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode.user_code}`
       );
 
       if (
@@ -121,7 +121,7 @@ export default class StylistPanelList extends Component {
       ) {
         totalAbandonedQuiz++;
         abandonedQuizEmails.push(userResponse.data.user_data.email);
-        console.log(abandonedQuizEmails, "hello");
+        // console.log(abandonedQuizEmails, "hello");
         this.setState({
           totalAbandonedQuiz
         });
@@ -136,9 +136,9 @@ export default class StylistPanelList extends Component {
     try {
       let response = await axios(
         // prod
-        // `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend`
         // qa
-        `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+        // `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
 
       // response = JSON.parse(JSON.stringify(response));
@@ -165,7 +165,7 @@ export default class StylistPanelList extends Component {
         if (userData[i].created > "2020-03-20T00:00:00") {
           let userCode = userData[i].user_code;
           let userResponse = await axios.get(
-            `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`,
+            `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`,
             { cancelToken: source.token }
           );
 
@@ -553,7 +553,7 @@ export default class StylistPanelList extends Component {
     } else {
       try {
         let response = await axios(
-          `https://fekkai-backend-qa.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
+          `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
         );
 
         let userData = response.data.reverse();
@@ -563,7 +563,7 @@ export default class StylistPanelList extends Component {
             quizCount++;
             let userCode = userData[i].user_code;
             let userResponse = await axios.get(
-              `https://fekkai-backend-qa.herokuapp.com/backend/formula?user_code=${userCode}`
+              `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userCode}`
             );
 
             if (
