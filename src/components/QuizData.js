@@ -44,10 +44,10 @@ export default class QuizData extends Component {
 
   chatQuizOrders = async () => {
     const orders = await axios.get(
-      `https://bespoke-backend.herokuapp.com/chat-quiz-orders-json?apikey=${REACT_APP_API_KEY}`
+      `https://bespoke-backend.herokuapp.com/chat-quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
     let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=${REACT_APP_API_KEY}`
+      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
     let userData = response.data.reverse();
 
@@ -116,7 +116,7 @@ export default class QuizData extends Component {
   shopifyOrders = async () => {
     let response = await axios(
       // "http://localhost:4000/fekkai"
-      `https://bespoke-backend.herokuapp.com/fekkai?apikey=${REACT_APP_API_KEY}`
+      `https://bespoke-backend.herokuapp.com/fekkai?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
     let discountedItems = 0;
     let totalSalesToday = 0;
