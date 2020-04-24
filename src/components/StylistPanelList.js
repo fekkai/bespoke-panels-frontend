@@ -48,7 +48,7 @@ delete signedRequest.headers["Host"];
 delete signedRequest.headers["Content-Length"];
 
 const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY;
-const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
 
 export default class StylistPanelList extends Component {
