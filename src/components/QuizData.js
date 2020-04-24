@@ -44,7 +44,7 @@ export default class QuizData extends Component {
 
   chatQuizOrders = async () => {
     const orders = await axios.get(
-      `https://bespoke-backend.herokuapp.com/chat-quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+      `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
     let response = await axios(
       `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
@@ -100,18 +100,15 @@ export default class QuizData extends Component {
         });
       }
     }
-
-    // for (let i = 0; i < bundleOrders.length; i++) {
-    //   axios.post(
-    //     "http://bespoke-backend.herokuapp.com/orders/chat-quiz-orders",
-    //     bundleOrders[i]
-    //   );
-    // }
+    console.log('hello',bundleOrders)
+    for (let i = 0; i < bundleOrders.length; i++) {
+      axios.post(
+        "http://bespoke-backend.herokuapp.com/quiz-orders",
+        bundleOrders[i]
+      );
+    }
   };
-
-  // check for order data accuracy
-  // pull total count data for each day
-  // pull order data
+ 
 
   shopifyOrders = async () => {
     let response = await axios(
