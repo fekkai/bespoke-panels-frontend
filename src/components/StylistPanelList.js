@@ -48,6 +48,8 @@ delete signedRequest.headers["Host"];
 delete signedRequest.headers["Content-Length"];
 
 const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY;
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY
+
 
 export default class StylistPanelList extends Component {
   constructor(props) {
@@ -84,7 +86,7 @@ export default class StylistPanelList extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        "https://bespoke-backend.herokuapp.com/orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO"
+        `https://bespoke-backend.herokuapp.com/orders?apikey=${REACT_APP_API_KEY}`
       );
 
       // const orders = response.data.orders;
@@ -98,7 +100,7 @@ export default class StylistPanelList extends Component {
   fetchQuizCount = async () => {
     let response = await axios(
       // // prod
-      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=${REACT_APP_API_KEY}`
       // qa
       // `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
@@ -136,7 +138,7 @@ export default class StylistPanelList extends Component {
     try {
       let response = await axios(
         // prod
-        `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=${REACT_APP_API_KEY}`
         // qa
         // `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );

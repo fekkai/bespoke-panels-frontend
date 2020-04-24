@@ -13,6 +13,7 @@ import "../styles/Table.scss";
 import axios from "axios";
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
 export default class QuizData extends Component {
   constructor(props) {
@@ -43,10 +44,10 @@ export default class QuizData extends Component {
 
   chatQuizOrders = async () => {
     const orders = await axios.get(
-      "https://bespoke-backend.herokuapp.com/chat-quiz-orders-json"
+      `https://bespoke-backend.herokuapp.com/chat-quiz-orders-json?apikey=${REACT_APP_API_KEY}`
     );
     let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=${REACT_APP_API_KEY}`
     );
     let userData = response.data.reverse();
 
@@ -115,7 +116,7 @@ export default class QuizData extends Component {
   shopifyOrders = async () => {
     let response = await axios(
       // "http://localhost:4000/fekkai"
-      "https://bespoke-backend.herokuapp.com/fekkai?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO"
+      `https://bespoke-backend.herokuapp.com/fekkai?apikey=${REACT_APP_API_KEY}`
     );
     let discountedItems = 0;
     let totalSalesToday = 0;
@@ -390,11 +391,12 @@ export default class QuizData extends Component {
   fetchEmails = async () => {
     try {
       const response = await axios(
-        "https://bespoke-backend.herokuapp.com/klaviyo-emails"
+        `https://bespoke-backend.herokuapp.com/klaviyo-emails?apikey=${REACT_APP_API_KEY}`
       );
-      const klaviyoEmails = response.data.records;
+      const klaviyoEmails = response.data.total_quiz_emails;
+      console.log(response.data);
       this.setState({
-        klaviyoEmails: klaviyoEmails.length
+        klaviyoEmails
       });
       // console.log(this.state.klaviyoEmails);
     } catch (error) {
@@ -405,7 +407,7 @@ export default class QuizData extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        "https://bespoke-backend.herokuapp.com/orders"
+        `https://bespoke-backend.herokuapp.com/orders?apikey=${REACT_APP_API_KEY}`
         // "http://localhost:4000/orders"
       );
       const orders = response.data;
@@ -420,7 +422,7 @@ export default class QuizData extends Component {
     try {
       // query user codes api
       let response = await axios(
-        `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=${REACT_APP_API_KEY}`
       );
       const emails = [];
       let userData = response.data.reverse();
@@ -743,7 +745,7 @@ export default class QuizData extends Component {
       totalQuizCount,
       abandonedQuiz,
       abandonedQuizToday,
-      // klaviyoEmails,
+      klaviyoEmails,
       completeQuizToday,
       completeQuizPrevDay,
       abandonedQuizPrevDay,
@@ -1184,7 +1186,7 @@ export default class QuizData extends Component {
           <br />
           <br />
           TOTAL QUIZZES: {totalQuizCount}
-          <br /> COMPLETED QUIZ COUNT/EMAILS ENTERED: {completedQuizCount}&nbsp;
+          <br /> COMPLETED QUIZ COUNT: {completedQuizCount}&nbsp;
           {!totalQuizLoading
             ? "(" +
               ((completedQuizCount / totalQuizCount) * 100).toFixed(2) +
@@ -1194,6 +1196,8 @@ export default class QuizData extends Component {
           {!totalQuizLoading
             ? "(" + ((abandonedQuiz / totalQuizCount) * 100).toFixed(2) + "%)"
             : ""}
+          <br />
+          KLAVIYO EMAILS ENTERED: {klaviyoEmails}
           {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
           <br />
           {/* TOTAL KLAVIYO EMAILS: {klaviyoEmails} */}
@@ -1232,7 +1236,7 @@ export default class QuizData extends Component {
               </span>
             )}
           </span> */}
-          <span style={{ display: "flex", flexDirection: "quiz-data-row" }}>
+          {/* <span style={{ display: "flex", flexDirection: "quiz-data-row" }}>
             TOTAL SALES OF QUIZ USERS:{" "}
             {!totalQuizLoading ? (
               <span>{parseFloat(totalQuizUserSales).toFixed(2)} </span>
@@ -1247,7 +1251,7 @@ export default class QuizData extends Component {
                 <PulseLoader size={6} />
               </span>
             )}
-          </span>
+          </span> */}
         </span>
       </div>
     );
