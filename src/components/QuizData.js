@@ -46,7 +46,7 @@ export default class QuizData extends Component {
       "https://bespoke-backend.herokuapp.com/chat-quiz-orders-json"
     );
     let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
     let userData = response.data.reverse();
 
@@ -84,7 +84,6 @@ export default class QuizData extends Component {
           newSplit.push(splitWord);
         }
 
-
         order["discount_applications-title"] = newSplit;
 
         // get total sales
@@ -101,12 +100,12 @@ export default class QuizData extends Component {
       }
     }
 
-for (let i = 0; i < bundleOrders.length; i++) {
-    axios.post(
-      "http://bespoke-backend.herokuapp.com/orders/chat-quiz-orders",
-      bundleOrders[i]
-    );
-}
+    // for (let i = 0; i < bundleOrders.length; i++) {
+    //   axios.post(
+    //     "http://bespoke-backend.herokuapp.com/orders/chat-quiz-orders",
+    //     bundleOrders[i]
+    //   );
+    // }
   };
 
   // check for order data accuracy
@@ -116,7 +115,7 @@ for (let i = 0; i < bundleOrders.length; i++) {
   shopifyOrders = async () => {
     let response = await axios(
       // "http://localhost:4000/fekkai"
-      "https://bespoke-backend.herokuapp.com/fekkai"
+      "https://bespoke-backend.herokuapp.com/fekkai?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO"
     );
     let discountedItems = 0;
     let totalSalesToday = 0;
@@ -421,7 +420,7 @@ for (let i = 0; i < bundleOrders.length; i++) {
     try {
       // query user codes api
       let response = await axios(
-        `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
       );
       const emails = [];
       let userData = response.data.reverse();

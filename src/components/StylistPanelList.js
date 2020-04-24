@@ -84,7 +84,7 @@ export default class StylistPanelList extends Component {
   fetchOrders = async () => {
     try {
       let response = await axios(
-        "https://bespoke-backend.herokuapp.com/orders"
+        "https://bespoke-backend.herokuapp.com/orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO"
       );
 
       // const orders = response.data.orders;
@@ -98,7 +98,7 @@ export default class StylistPanelList extends Component {
   fetchQuizCount = async () => {
     let response = await axios(
       // // prod
-      `https://bespoke-backend.herokuapp.com/fekkai-backend`
+      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
       // qa
       // `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
     );
@@ -136,7 +136,7 @@ export default class StylistPanelList extends Component {
     try {
       let response = await axios(
         // prod
-        `https://bespoke-backend.herokuapp.com/fekkai-backend`
+        `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
         // qa
         // `https://fekkai-backend.herokuapp.com/backend/get_user_codes?apikey=804727d788a44db68a47c64f10fa573f`
       );
