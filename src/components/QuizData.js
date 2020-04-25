@@ -32,6 +32,7 @@ export default class QuizData extends Component {
 
   async componentDidMount() {
     // this.chatQuizOrders();
+    this.fetchPastOrders();
     await this.shopifyOrders();
     await this.fetchEmails();
     await this.fetchOrders();
@@ -100,7 +101,7 @@ export default class QuizData extends Component {
         });
       }
     }
-    console.log('hello',bundleOrders)
+    console.log("hello", bundleOrders);
     for (let i = 0; i < bundleOrders.length; i++) {
       axios.post(
         "http://bespoke-backend.herokuapp.com/quiz-orders",
@@ -108,7 +109,49 @@ export default class QuizData extends Component {
       );
     }
   };
- 
+
+  fetchPastOrders = async () => {
+    const response = await axios(
+      `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+    const orders = response.data.sort((a, b) =>
+      a.order_created > b.order_created ? 1 : -1
+    );
+
+    // console.log(prevOrderMonth, prevOrderDay);
+    let currentOrderDay;
+    let currentOrderMonth;
+    const arrOfOrderDays = [];
+    let groupedOrdersbyDay = [];
+    let prevOrderDay = new Date("2020-03-20T14:06:42").getDate();
+    let prevOrderMonth = new Date("2020-03-20T14:06:42").getMonth() + 1;
+
+    for (let order of orders) {
+
+      currentOrderDay = new Date(order.order_created).getDate();
+      currentOrderMonth = new Date(order.order_created).getMonth() + 1;
+      console.log(prevOrderDay, prevOrderMonth);
+      //  groups all orders by date and push into array
+      if (
+        prevOrderMonth === currentOrderMonth &&
+        prevOrderDay === currentOrderDay
+      ) {
+        groupedOrdersbyDay.push(order);
+      }
+      if (
+        // check for different prev day. if diff prev day true, push grouped array into sorted orders arr
+        prevOrderDay !== currentOrderDay
+      ) {
+        arrOfOrderDays.push(groupedOrdersbyDay);
+        // empty grouped orders by day for new group of orders on new day
+        groupedOrdersbyDay = [];
+        prevOrderMonth = currentOrderMonth;
+        prevOrderDay = currentOrderDay;
+      }
+    }
+    this.setState({ arrOfOrderDays });
+    console.log(arrOfOrderDays);
+  };
 
   shopifyOrders = async () => {
     let response = await axios(
@@ -316,57 +359,6 @@ export default class QuizData extends Component {
       }
     });
 
-    console.log(
-      [
-        brilliantGlossShampoo,
-        brilliantGlossConditioner,
-        brilliantGlossCreme,
-        superStrShampoo,
-        superStrConditioner,
-        superStrBalm,
-        techColorShampoo,
-        techColorConditioner,
-        techColorMask,
-        fullBlownShampoo,
-        fullBlownConditioner,
-        fullBlownMist,
-        babyBlondeShampoo,
-        babyBlondeCreme
-      ]
-        .sort()
-        .reverse()
-    );
-
-    console.log(
-      "brilliantGlossShampoo",
-      brilliantGlossShampoo,
-      "brilliantGlossConditioner",
-      brilliantGlossConditioner,
-      "brilliantGlossCreme",
-      brilliantGlossCreme,
-      "superStrShampoo",
-      superStrShampoo,
-      "superStrConditioner",
-      superStrConditioner,
-      "superStrBalm",
-      superStrBalm,
-      "techColorShampoo",
-      techColorShampoo,
-      "techColorConditioner",
-      techColorConditioner,
-      "techColorMask",
-      techColorMask,
-      "fullBlownShampoo",
-      fullBlownShampoo,
-      "fullBlownConditioner",
-      fullBlownConditioner,
-      "fullBlownMist",
-      fullBlownMist,
-      "babyBlondeShampoo",
-      babyBlondeShampoo,
-      "babyBlondeCreme",
-      babyBlondeCreme
-    );
     this.setState({
       brilliantGlossShampoo,
       brilliantGlossConditioner,
