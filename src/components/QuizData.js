@@ -43,72 +43,72 @@ export default class QuizData extends Component {
     });
   }
 
-  chatQuizOrders = async () => {
-    const orders = await axios.get(
-      `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-    );
-    let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-    );
-    let userData = response.data.reverse();
+  // chatQuizOrders = async () => {
+  //   const orders = await axios.get(
+  //     `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+  //   );
+  //   let response = await axios(
+  //     `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+  //   );
+  //   let userData = response.data.reverse();
 
-    let total = 0;
-    let quizCount = 0;
-    let completeQuizCount = 0;
-    let abandonedQuizCount = 0;
-    const today = new Date().getDate();
-    const thisMonth = new Date().getMonth() + 1;
+  //   let total = 0;
+  //   let quizCount = 0;
+  //   let completeQuizCount = 0;
+  //   let abandonedQuizCount = 0;
+  //   const today = new Date().getDate();
+  //   const thisMonth = new Date().getMonth() + 1;
 
-    let bundleOrders = [];
-    // console.log(orders.data[0]);
-    for (let order of orders.data) {
-      if (
-        order["discount_applications-title"]
-          .toLowerCase()
-          .includes("discount bundle")
-      ) {
-        // console.lo
-        // console.log(order["line_items-name"])
+  //   let bundleOrders = [];
+  //   // console.log(orders.data[0]);
+  //   for (let order of orders.data) {
+  //     if (
+  //       order["discount_applications-title"]
+  //         .toLowerCase()
+  //         .includes("discount bundle")
+  //     ) {
+  //       // console.lo
+  //       // console.log(order["line_items-name"])
 
-        function checkNull(value) {
-          return value === null;
-        }
-        order["line_items-name"].splice(
-          order["line_items-name"].findIndex(checkNull),
-          1
-        );
+  //       function checkNull(value) {
+  //         return value === null;
+  //       }
+  //       order["line_items-name"].splice(
+  //         order["line_items-name"].findIndex(checkNull),
+  //         1
+  //       );
 
-        let split = order["discount_applications-title"].split("eD");
+  //       let split = order["discount_applications-title"].split("eD");
 
-        let newSplit = [];
-        for (let splitWord of split) {
-          splitWord = "Discount Bundle";
-          newSplit.push(splitWord);
-        }
+  //       let newSplit = [];
+  //       for (let splitWord of split) {
+  //         splitWord = "Discount Bundle";
+  //         newSplit.push(splitWord);
+  //       }
 
-        order["discount_applications-title"] = newSplit;
+  //       order["discount_applications-title"] = newSplit;
 
-        // get total sales
-        total = total + order.total_price;
-        bundleOrders.push({
-          order_id: order.id,
-          order_created: order.created_at,
-          number: order.order_number,
-          email: order.email,
-          line_items: order["line_items-name"],
-          discount_applications: order["discount_applications-title"],
-          total_price: order.total_price
-        });
-      }
-    }
-    console.log("hello", bundleOrders);
-    for (let i = 0; i < bundleOrders.length; i++) {
-      axios.post(
-        "http://bespoke-backend.herokuapp.com/quiz-orders",
-        bundleOrders[i]
-      );
-    }
-  };
+  //       // get total sales
+  //       total = total + order.total_price;
+  //       bundleOrders.push({
+  //         order_id: order.id,
+  //         order_created: order.created_at,
+  //         number: order.order_number,
+  //         email: order.email,
+  //         line_items: order["line_items-name"],
+  //         discount_applications: order["discount_applications-title"],
+  //         total_price: order.total_price
+  //       });
+  //     }
+  //   }
+  //   console.log("hello", bundleOrders);
+  //   for (let i = 0; i < bundleOrders.length; i++) {
+  //     axios.post(
+  //       "http://bespoke-backend.herokuapp.com/quiz-orders",
+  //       bundleOrders[i]
+  //     );
+  //   }
+  // };
 
   fetchPastOrders = async () => {
     const response = await axios(
