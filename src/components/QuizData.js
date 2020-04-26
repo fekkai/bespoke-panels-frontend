@@ -32,6 +32,7 @@ export default class QuizData extends Component {
 
   async componentDidMount() {
     // this.chatQuizOrders();
+    this.fetchPastOrders();
     await this.shopifyOrders();
     await this.fetchEmails();
     await this.fetchOrders();
@@ -42,81 +43,119 @@ export default class QuizData extends Component {
     });
   }
 
-  chatQuizOrders = async () => {
-    const orders = await axios.get(
-      `https://bespoke-backend.herokuapp.com/chat-quiz-orders-json?apikey=${REACT_APP_API_KEY}`
-    );
-    let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=${REACT_APP_API_KEY}`
-    );
-    let userData = response.data.reverse();
+  // chatQuizOrders = async () => {
+  //   const orders = await axios.get(
+  //     `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+  //   );
+  //   let response = await axios(
+  //     `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+  //   );
+  //   let userData = response.data.reverse();
 
-    let total = 0;
-    let quizCount = 0;
-    let completeQuizCount = 0;
-    let abandonedQuizCount = 0;
-    const today = new Date().getDate();
-    const thisMonth = new Date().getMonth() + 1;
+  //   let total = 0;
+  //   let quizCount = 0;
+  //   let completeQuizCount = 0;
+  //   let abandonedQuizCount = 0;
+  //   const today = new Date().getDate();
+  //   const thisMonth = new Date().getMonth() + 1;
 
-    let bundleOrders = [];
-    // console.log(orders.data[0]);
-    for (let order of orders.data) {
+  //   let bundleOrders = [];
+  //   // console.log(orders.data[0]);
+  //   for (let order of orders.data) {
+  //     if (
+  //       order["discount_applications-title"]
+  //         .toLowerCase()
+  //         .includes("discount bundle")
+  //     ) {
+  //       // console.lo
+  //       // console.log(order["line_items-name"])
+
+  //       function checkNull(value) {
+  //         return value === null;
+  //       }
+  //       order["line_items-name"].splice(
+  //         order["line_items-name"].findIndex(checkNull),
+  //         1
+  //       );
+
+  //       let split = order["discount_applications-title"].split("eD");
+
+  //       let newSplit = [];
+  //       for (let splitWord of split) {
+  //         splitWord = "Discount Bundle";
+  //         newSplit.push(splitWord);
+  //       }
+
+  //       order["discount_applications-title"] = newSplit;
+
+  //       // get total sales
+  //       total = total + order.total_price;
+  //       bundleOrders.push({
+  //         order_id: order.id,
+  //         order_created: order.created_at,
+  //         number: order.order_number,
+  //         email: order.email,
+  //         line_items: order["line_items-name"],
+  //         discount_applications: order["discount_applications-title"],
+  //         total_price: order.total_price
+  //       });
+  //     }
+  //   }
+  //   console.log("hello", bundleOrders);
+  //   for (let i = 0; i < bundleOrders.length; i++) {
+  //     axios.post(
+  //       "http://bespoke-backend.herokuapp.com/quiz-orders",
+  //       bundleOrders[i]
+  //     );
+  //   }
+  // };
+
+  fetchPastOrders = async () => {
+    const response = await axios(
+      `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+    const orders = response.data.sort((a, b) =>
+      a.order_created > b.order_created ? 1 : -1
+    );
+
+    // console.log(prevOrderMonth, prevOrderDay);
+    let currentOrderDay;
+    let currentOrderMonth;
+    const arrOfOrderDays = [];
+    let groupedOrdersbyDay = [];
+    let prevOrderDay = new Date("2020-03-20T14:06:42").getDate();
+    let prevOrderMonth = new Date("2020-03-20T14:06:42").getMonth() + 1;
+
+    for (let order of orders) {
+      currentOrderDay = new Date(order.order_created).getDate();
+      currentOrderMonth = new Date(order.order_created).getMonth() + 1;
+      console.log(prevOrderDay, prevOrderMonth);
+      //  groups all orders by date and push into array
       if (
-        order["discount_applications-title"]
-          .toLowerCase()
-          .includes("discount bundle")
+        prevOrderMonth === currentOrderMonth &&
+        prevOrderDay === currentOrderDay
       ) {
-        // console.lo
-        // console.log(order["line_items-name"])
-
-        function checkNull(value) {
-          return value === null;
-        }
-        order["line_items-name"].splice(
-          order["line_items-name"].findIndex(checkNull),
-          1
-        );
-
-        let split = order["discount_applications-title"].split("eD");
-
-        let newSplit = [];
-        for (let splitWord of split) {
-          splitWord = "Discount Bundle";
-          newSplit.push(splitWord);
-        }
-
-        order["discount_applications-title"] = newSplit;
-
-        // get total sales
-        total = total + order.total_price;
-        bundleOrders.push({
-          order_id: order.id,
-          order_created: order.created_at,
-          number: order.order_number,
-          email: order.email,
-          line_items: order["line_items-name"],
-          discount_applications: order["discount_applications-title"],
-          total_price: order.total_price
-        });
+        groupedOrdersbyDay.push(order);
+      }
+      if (
+        // check for different prev day. if diff prev day true, push grouped array into sorted orders arr
+        prevOrderDay !== currentOrderDay
+      ) {
+        arrOfOrderDays.push(groupedOrdersbyDay);
+        // empty grouped orders by day for new group of orders on new day
+        groupedOrdersbyDay = [];
+        prevOrderMonth = currentOrderMonth;
+        prevOrderDay = currentOrderDay;
       }
     }
-
-    // for (let i = 0; i < bundleOrders.length; i++) {
-    //   axios.post(
-    //     "http://bespoke-backend.herokuapp.com/orders/chat-quiz-orders",
-    //     bundleOrders[i]
-    //   );
-    // }
+    this.setState({ arrOfOrderDays });
+    console.log(arrOfOrderDays);
   };
-
-  // check for order data accuracy
-  // pull total count data for each day
-  // pull order data
 
   shopifyOrders = async () => {
     let response = await axios(
       // "http://localhost:4000/fekkai"
-      `https://bespoke-backend.herokuapp.com/fekkai?apikey=${REACT_APP_API_KEY}`
+      `https://bespoke-backend.herokuapp.com/fekkai?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
     let discountedItems = 0;
     let totalSalesToday = 0;
@@ -319,57 +358,6 @@ export default class QuizData extends Component {
       }
     });
 
-    console.log(
-      [
-        brilliantGlossShampoo,
-        brilliantGlossConditioner,
-        brilliantGlossCreme,
-        superStrShampoo,
-        superStrConditioner,
-        superStrBalm,
-        techColorShampoo,
-        techColorConditioner,
-        techColorMask,
-        fullBlownShampoo,
-        fullBlownConditioner,
-        fullBlownMist,
-        babyBlondeShampoo,
-        babyBlondeCreme
-      ]
-        .sort()
-        .reverse()
-    );
-
-    console.log(
-      "brilliantGlossShampoo",
-      brilliantGlossShampoo,
-      "brilliantGlossConditioner",
-      brilliantGlossConditioner,
-      "brilliantGlossCreme",
-      brilliantGlossCreme,
-      "superStrShampoo",
-      superStrShampoo,
-      "superStrConditioner",
-      superStrConditioner,
-      "superStrBalm",
-      superStrBalm,
-      "techColorShampoo",
-      techColorShampoo,
-      "techColorConditioner",
-      techColorConditioner,
-      "techColorMask",
-      techColorMask,
-      "fullBlownShampoo",
-      fullBlownShampoo,
-      "fullBlownConditioner",
-      fullBlownConditioner,
-      "fullBlownMist",
-      fullBlownMist,
-      "babyBlondeShampoo",
-      babyBlondeShampoo,
-      "babyBlondeCreme",
-      babyBlondeCreme
-    );
     this.setState({
       brilliantGlossShampoo,
       brilliantGlossConditioner,
@@ -440,6 +428,27 @@ export default class QuizData extends Component {
       let quizToday = 0;
       let quizPrevDayMinus1 = 0;
 
+      let email = 0;
+      let front_selfie = 0;
+      let no_front_selfie_edit = 0;
+      let front_selfie_edit = 0;
+      let hair_thickness = 0;
+      let hair_condition = 0;
+      let hair_goals = 0;
+      let weather = 0;
+      let complete = 0;
+      let totalAfterLaunch = 0;
+      let testComputeTrue = 0;
+          let testComputeFalse = 0;
+
+      // // if (data.front_selfie) front_selfie++
+      // // else if (!data.hair_texture) hair_texture++
+      // // else if (!data.hair_length) hair_length++
+      // // else if (!data.hair_color) hair_color++
+      // // else if (!data.hair_thickness) hair_thickness++
+      // // else if (!data.hair_condition) hair_condition++
+      // // else if (!data.hair_goals) hair_goals++
+
       const today = new Date().getDate();
       const thisMonth = new Date().getMonth() + 1;
       const yesterday = new Date(today) - 1;
@@ -455,11 +464,87 @@ export default class QuizData extends Component {
         userData.length;
         i++
       ) {
+
+        
         // check all instances after 03-20-20 launch
         if (userData[i].created > "2020-03-20T00:00:00") {
           let userResponse = await axios.get(
             `https://fekkai-backend.herokuapp.com/backend/formula?user_code=${userData[i].user_code}`
           );
+
+          const data = userResponse.data;
+
+          if (data.user_data.compute === true) {
+            testComputeTrue++;
+          } 
+          if (data.user_data.compute === false) {
+            testComputeFalse++
+          }
+
+          console.log(testComputeTrue,
+            testComputeFalse)
+
+
+
+
+
+
+          if (data.user_code) totalAfterLaunch++;
+
+          if (data.user_data.compute === true) {
+            complete++;
+          }
+          //  selfie does not exist and no CV compute characteristics - only email
+          else if (data.user_data.email && !data.user_data.answers) email++;
+          // selfie exists but no texture and no length and no color
+          else if (
+            data.user_data.front_selfie &&
+            (!data.user_data.answers.hair_texture ||
+              !data.user_data.answers.hair_length ||
+              !data.user_data.answers.hair_color)
+          )
+            front_selfie_edit++;
+          // no selfie and no cv data edits - user dropped off while editing
+          else if (
+            !data.user_data.front_selfie &&
+            (!data.user_data.answers.hair_texture ||
+              !data.user_data.answers.hair_length ||
+              !data.user_data.answers.hair_color)
+          )
+            no_front_selfie_edit++;
+          else if (
+            data.user_data.front_selfie &&
+            !data.user_data.answers.hair_thickness
+          )
+            front_selfie++;
+          // selfie exists and any one of the cv data missing - user dropped off after selfie
+          //user dropped off before answering any of these questions
+          else if (!data.user_data.answers.hair_thickness) hair_thickness++;
+          else if (!data.user_data.answers.hair_condition) hair_condition++;
+          else if (!data.user_data.answers.hair_goals) hair_goals++;
+          // user did not finish quiz at end - same as compute false
+          else if (!data.user_data.answers.weather) weather++;
+          else if (
+            !data.user_data.front_selfie &&
+            !data.user_data.answers.thickness
+          )
+            front_selfie++;
+
+          console.log(
+            "email:" + email,
+            "front_selfie:" + front_selfie,
+            "no_front_selfie_edit:" + no_front_selfie_edit,
+            "front_selfie_edit:" + front_selfie_edit,
+            "thickness" + hair_thickness,
+            "condition" + hair_condition,
+            "goals" + hair_goals,
+            "complete:" + complete,
+            "compute false:" + weather,
+            "total after launch:" + totalAfterLaunch
+          );
+
+          
+          
 
           // total quizzes today
           if (
@@ -661,7 +746,7 @@ export default class QuizData extends Component {
           if (order.total) {
             totalQuizUserSales += parseFloat(order.total);
 
-            console.log(totalQuizUserSales);
+            // console.log(totalQuizUserSales);
           }
         }
 
