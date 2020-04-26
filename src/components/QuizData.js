@@ -25,7 +25,6 @@ export default class QuizData extends Component {
       shopifyLoading: true,
       totalQuizLoading: true,
       completedQuizCount: "",
-      totalQuizCount: "",
       abandonedQuiz: ""
     };
   }
@@ -414,7 +413,6 @@ export default class QuizData extends Component {
       );
       const emails = [];
       let userData = response.data.reverse();
-      let totalQuizCount = response.data.length;
       let uniqueEmails = [];
       let abandonedQuiz = 0;
       let abandonedQuizToday = 0;
@@ -446,8 +444,6 @@ export default class QuizData extends Component {
       const thisMonth = new Date().getMonth() + 1;
       const yesterday = new Date(today) - 1;
 
-      this.setState({ totalQuizCount });
-      console.log(totalQuizCount);
 
       // query user data instances w/ user_code
       for (let i = 0; userData.length; i++) {
@@ -656,7 +652,7 @@ export default class QuizData extends Component {
       this.setState({
         // totalQuizLoading: false
         emails,
-        totalQuizCount,
+        
         drop_email,
         front_selfie,
         no_front_selfie_edit,
@@ -792,7 +788,7 @@ export default class QuizData extends Component {
       shopifyLoading,
       totalQuizLoading,
       completedQuizCount,
-      totalQuizCount,
+      
       abandonedQuiz,
       abandonedQuizToday,
       klaviyoEmails,
@@ -839,7 +835,8 @@ export default class QuizData extends Component {
       hair_condition,
       hair_goals,
       weather,
-      complete
+      complete,
+      totalAfterLaunch
     } = this.state;
 
     const today = new Date();
@@ -1066,111 +1063,71 @@ export default class QuizData extends Component {
               <div className="quiz-data-row">
                 <div className="quiz-data-column">
                   {" "}
-                  <b> TWO DAYS - {twoDaysPrior.toDateString()}</b>
+                  <b>QUIZ ANALYTICS</b>
                 </div>
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column">QUIZ COUNT: </div>{" "}
+                <div className="quiz-data-column">COMPLETE:</div>{" "}
                 <div className="quiz-data-column">
                   {" "}
-                  {shopifyLoading ? <ClipLoader size={6} /> : quizPrevDayMinus1}
+                  {complete}
                   {/* {console.log(quizPrevDay)} */}
                 </div>
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column">COMPLETE:</div>
+                <div className="quiz-data-column">
+                  DROPPED NAME/EMAIL INPUT:{" "}
+                </div>{" "}
                 <div className="quiz-data-column">
                   {" "}
-                  {shopifyLoading ? (
-                    <ClipLoader size={6} />
-                  ) : (
-                    completeQuizPrevDayMinus1 +
-                    "(" +
-                    (
-                      (completeQuizPrevDayMinus1 / quizPrevDayMinus1) *
-                      100
-                    ).toFixed(2) +
-                    "%)"
-                  )}{" "}
+                  {drop_email}
+                  {/* {console.log(quizPrevDay)} */}
                 </div>
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column">ABANDONED:</div>
-                <div className="quiz-data-column">
-                  {" "}
-                  {shopifyLoading ? (
-                    <ClipLoader size={6} />
-                  ) : (
-                    abandonedQuizPrevDayMinus1 +
-                    "(" +
-                    (
-                      (abandonedQuizPrevDayMinus1 / quizPrevDayMinus1) *
-                      100
-                    ).toFixed(2) +
-                    "%)"
-                  )}{" "}
-                </div>
+                <div className="quiz-data-column">DROPPED AFTER SELFIE:</div>
+                <div className="quiz-data-column"> {front_selfie} </div>
               </div>
               <div className="quiz-data-row">
                 <div className="quiz-data-column">
-                  COMPLETED QUIZ CONVERSION:{" "}
+                  DROPPED NO SELFIE + CORRECTING:
                 </div>
-                <div className="quiz-data-column">
-                  {" "}
-                  {shopifyLoading ? (
-                    <ClipLoader size={6} />
-                  ) : (
-                    (
-                      (orderCountPrevDayMinus1 / completeQuizPrevDayMinus1) *
-                      100
-                    ).toFixed(2) + "%"
-                  )}{" "}
-                </div>
+                <div className="quiz-data-column"> {no_front_selfie_edit} </div>
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column"> ORDER COUNT:</div>
+                <div className="quiz-data-column">
+                  DROPPED W/ SELFIE + WHILE CORRECTING :{" "}
+                </div>
+                <div className="quiz-data-column"> {front_selfie_edit} </div>
+              </div>
+              <div className="quiz-data-row">
                 <div className="quiz-data-column">
                   {" "}
-                  {shopifyLoading ? (
-                    <ClipLoader size={6} />
-                  ) : (
-                    orderCountPrevDayMinus1
-                  )}
+                  DROPPED AT HAIR THICKNESS:
                 </div>
+                <div className="quiz-data-column"> {hair_thickness}</div>
               </div>
               {/* <br /> */}
               {/* TOTAL QUIZ CONVERSION:{" "}
           {((orderCountPrevDay / quizPrevDay) * 100).toFixed(2) + "%"}{" "}
           {/* {orderCountPrevDay} */}
               <div className="quiz-data-row">
-                <div className="quiz-data-column"> TOTAL SALES:</div>{" "}
                 <div className="quiz-data-column">
-                  {shopifyLoading ? (
-                    <ClipLoader size={6} />
-                  ) : (
-                    parseFloat(totalSalesPrevDayMinus1).toFixed(2)
-                  )}
-                </div>
-              </div>
-              <br />
-              <div className="quiz-data-row">
-                <div className="button-column">
                   {" "}
-                  {!shopifyLoading ? (
-                    <Link
-                      to={{
-                        pathname: "/orders",
-                        state: {
-                          ordersPrevDayMinus1: ordersPrevDayMinus1
-                        }
-                      }}
-                    >
-                      <button id="list-view-btn">ORDERS</button>
-                    </Link>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                  DROPPED AT HAIR CONDITIONS:
+                </div>{" "}
+                <div className="quiz-data-column">{hair_condition}</div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="quiz-data-column"> DROPPED AT HAIR GOALS:</div>{" "}
+                <div className="quiz-data-column">{hair_goals}</div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="quiz-data-column">
+                  {" "}
+                  DROPPED AT HAIR WEATHER:
+                </div>{" "}
+                <div className="quiz-data-column">{weather}</div>
               </div>
             </div>
 
@@ -1225,8 +1182,8 @@ export default class QuizData extends Component {
               </div>
               {/* <br /> */}
               {/* TOTAL QUIZ CONVERSION:{" "}
-          {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
-          {/* {orderCountToday} */}
+               {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
+                {/* {orderCountToday} */}
               <div className="quiz-data-row">
                 <div className="quiz-data-column">techColorMask</div>{" "}
                 <div className="quiz-data-column">{techColorMask}</div>
@@ -1240,20 +1197,80 @@ export default class QuizData extends Component {
                 <div className="button-column">{superStrBalm}</div>
               </div>
               <br /> <br />
+              <div className="quiz-data-row">
+                <div className="quiz-data-column"></div>
+              </div>
+              {/* {new Date().toString()} */}
+              <div className="quiz-data-row">
+                <div className="quiz-data-column">
+                  <b>LINE ITEMS SOLD - {today.toDateString()}</b>
+                </div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="quiz-data-column">brilliantGlossShampoo</div>
+                <div className="quiz-data-column">
+                  {brilliantGlossShampoo}
+                </div>{" "}
+                <div className="quiz-data-column">fullBlownConditioner</div>
+                <div className="quiz-data-column">{fullBlownConditioner}</div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="quiz-data-column">
+                  brilliantGlossConditioner
+                </div>{" "}
+                <div className="quiz-data-column">
+                  {brilliantGlossConditioner}{" "}
+                </div>
+                <div className="quiz-data-column">fullBlownMist</div>{" "}
+                <div className="quiz-data-column">{fullBlownMist} </div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="quiz-data-column">brilliantGlossCreme</div>{" "}
+                <div className="quiz-data-column">{brilliantGlossCreme}</div>
+                <div className="quiz-data-column">babyBlondeShampoo</div>{" "}
+                <div className="quiz-data-column">{babyBlondeShampoo}</div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="quiz-data-column">techColorShampoo </div>
+                <div className="quiz-data-column">{techColorShampoo}</div>
+                <div className="quiz-data-column">babyBlondeCreme </div>
+                <div className="quiz-data-column">{babyBlondeCreme}</div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="quiz-data-column"> techColorConditioner</div>{" "}
+                <div className="quiz-data-column">{techColorConditioner}</div>
+                <div className="quiz-data-column"> superStrShampoo</div>{" "}
+                <div className="quiz-data-column">{superStrShampoo}</div>
+              </div>
+              {/* <br /> */}
+              {/* TOTAL QUIZ CONVERSION:{" "}
+               {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
+                {/* {orderCountToday} */}
+              <div className="quiz-data-row">
+                <div className="quiz-data-column">techColorMask</div>{" "}
+                <div className="quiz-data-column">{techColorMask}</div>
+                <div className="quiz-data-column">superStrConditioner</div>{" "}
+                <div className="quiz-data-column">{superStrConditioner}</div>
+              </div>
+              <div className="quiz-data-row">
+                <div className="button-column">fullBlownShampoo</div>
+                <div className="button-column">{fullBlownShampoo}</div>
+                <div className="button-column">superStrBalm</div>
+                <div className="button-column">{superStrBalm}</div>
+              </div>
             </div>
           </div>
           <br />
           <br />
-          TOTAL QUIZZES: {totalQuizCount}
-          <br /> COMPLETED QUIZ COUNT: {completedQuizCount}&nbsp;
+          TOTAL QUIZZES: {totalAfterLaunch}
           {!totalQuizLoading
             ? "(" +
-              ((completedQuizCount / totalQuizCount) * 100).toFixed(2) +
+              (totalAfterLaunch * 100).toFixed(2) +
               "%)"
             : ""}
           <br /> ABANDONED QUIZ COUNT: {abandonedQuiz}&nbsp;
-          {!totalQuizLoading
-            ? "(" + ((abandonedQuiz / totalQuizCount) * 100).toFixed(2) + "%)"
+          {!totalQuizLoading ?"(" +
+            (totalAfterLaunch * 100).toFixed(2) + "%)"
             : ""}
           <br />
           KLAVIYO EMAILS ENTERED: {klaviyoEmails}
