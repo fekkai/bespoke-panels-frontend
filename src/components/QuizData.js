@@ -428,7 +428,8 @@ export default class QuizData extends Component {
       let quizToday = 0;
       let quizPrevDayMinus1 = 0;
 
-      let email = 0;
+      // where users dropped off quiz
+      let drop_email = 0;
       let front_selfie = 0;
       let no_front_selfie_edit = 0;
       let front_selfie_edit = 0;
@@ -439,15 +440,7 @@ export default class QuizData extends Component {
       let complete = 0;
       let totalAfterLaunch = 0;
       let testComputeTrue = 0;
-          let testComputeFalse = 0;
-
-      // // if (data.front_selfie) front_selfie++
-      // // else if (!data.hair_texture) hair_texture++
-      // // else if (!data.hair_length) hair_length++
-      // // else if (!data.hair_color) hair_color++
-      // // else if (!data.hair_thickness) hair_thickness++
-      // // else if (!data.hair_condition) hair_condition++
-      // // else if (!data.hair_goals) hair_goals++
+      let testComputeFalse = 0;
 
       const today = new Date().getDate();
       const thisMonth = new Date().getMonth() + 1;
@@ -457,15 +450,7 @@ export default class QuizData extends Component {
       console.log(totalQuizCount);
 
       // query user data instances w/ user_code
-      for (
-        let i = 0;
-        // i < 300;
-        // userData[i].created <"2020-03-20T00:00:00";
-        userData.length;
-        i++
-      ) {
-
-        
+      for (let i = 0; userData.length; i++) {
         // check all instances after 03-20-20 launch
         if (userData[i].created > "2020-03-20T00:00:00") {
           let userResponse = await axios.get(
@@ -476,27 +461,19 @@ export default class QuizData extends Component {
 
           if (data.user_data.compute === true) {
             testComputeTrue++;
-          } 
-          if (data.user_data.compute === false) {
-            testComputeFalse++
           }
-
-          console.log(testComputeTrue,
-            testComputeFalse)
-
-
-
-
-
-
+          if (data.user_data.compute === false) {
+            testComputeFalse++;
+          }
+          console.log(testComputeTrue, testComputeFalse);
           if (data.user_code) totalAfterLaunch++;
-
           if (data.user_data.compute === true) {
             complete++;
           }
           //  selfie does not exist and no CV compute characteristics - only email
-          else if (data.user_data.email && !data.user_data.answers) email++;
-          // selfie exists but no texture and no length and no color
+          else if (data.user_data.email && !data.user_data.answers)
+            drop_email++;
+          // selfie exists and any one of the cv data missing - user dropped off after selfie
           else if (
             data.user_data.front_selfie &&
             (!data.user_data.answers.hair_texture ||
@@ -504,7 +481,7 @@ export default class QuizData extends Component {
               !data.user_data.answers.hair_color)
           )
             front_selfie_edit++;
-          // no selfie and no cv data edits - user dropped off while editing
+          // no selfie and at least one cv characterist exists and at least one is missing - user dropped off while editing
           else if (
             !data.user_data.front_selfie &&
             (!data.user_data.answers.hair_texture ||
@@ -517,34 +494,12 @@ export default class QuizData extends Component {
             !data.user_data.answers.hair_thickness
           )
             front_selfie++;
-          // selfie exists and any one of the cv data missing - user dropped off after selfie
           //user dropped off before answering any of these questions
           else if (!data.user_data.answers.hair_thickness) hair_thickness++;
           else if (!data.user_data.answers.hair_condition) hair_condition++;
           else if (!data.user_data.answers.hair_goals) hair_goals++;
           // user did not finish quiz at end - same as compute false
           else if (!data.user_data.answers.weather) weather++;
-          else if (
-            !data.user_data.front_selfie &&
-            !data.user_data.answers.thickness
-          )
-            front_selfie++;
-
-          console.log(
-            "email:" + email,
-            "front_selfie:" + front_selfie,
-            "no_front_selfie_edit:" + no_front_selfie_edit,
-            "front_selfie_edit:" + front_selfie_edit,
-            "thickness" + hair_thickness,
-            "condition" + hair_condition,
-            "goals" + hair_goals,
-            "complete:" + complete,
-            "compute false:" + weather,
-            "total after launch:" + totalAfterLaunch
-          );
-
-          
-          
 
           // total quizzes today
           if (
@@ -699,9 +654,19 @@ export default class QuizData extends Component {
       }
 
       this.setState({
-        emails,
-        totalQuizCount
         // totalQuizLoading: false
+        emails,
+        totalQuizCount,
+        drop_email,
+        front_selfie,
+        no_front_selfie_edit,
+        front_selfie_edit,
+        hair_thickness,
+        hair_condition,
+        hair_goals,
+        complete,
+        weather,
+        totalAfterLaunch
       });
     } catch (error) {
       console.error(error);
@@ -865,7 +830,16 @@ export default class QuizData extends Component {
       fullBlownConditioner,
       fullBlownMist,
       babyBlondeShampoo,
-      babyBlondeCreme
+      babyBlondeCreme,
+      drop_email,
+      front_selfie,
+      no_front_selfie_edit,
+      front_selfie_edit,
+      hair_thickness,
+      hair_condition,
+      hair_goals,
+      weather,
+      complete
     } = this.state;
 
     const today = new Date();
