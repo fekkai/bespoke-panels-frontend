@@ -1639,7 +1639,7 @@ export default class StylistPanelList extends Component {
                   left={-20}
                   color="black"
                   status={"loading"}
-                  style={{ marginLeft: "50%", marginTop: "15%" }}
+                  style={{ marginLeft: "48%", marginTop: "15%" }}
                 />
               </div>
             </div>
