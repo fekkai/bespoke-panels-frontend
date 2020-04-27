@@ -614,7 +614,7 @@ export default class QuizData extends Component {
           // console.log(testComputeTrue, testComputeFalse);
           if (data.user_code) totalAfterLaunch++;
 
-          if (data.user_data.front_selfie === true) {
+          if (data.user_data.front_selfie !== null) {
             front_selfie_count++;
           }
 
