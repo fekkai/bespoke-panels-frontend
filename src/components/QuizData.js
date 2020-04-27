@@ -26,6 +26,7 @@ export default class QuizData extends Component {
       loading: true,
       shopifyLoading: true,
       totalQuizLoading: true,
+      lineItemsLoading: true,
       completedQuizCount: "",
       abandonedQuiz: "",
       lineItems: {}
@@ -114,28 +115,6 @@ export default class QuizData extends Component {
 
   // for each day
   fetchPastOrders = async () => {
-    const response = await axios(
-      `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-    );
-
-    const lineItems = [3];
-    const lineItems2 = [1];
-    let allLineItems = [];
-    for (let i = 0; i < response.data.length; i++) {
-      const lineItemsList = response.data[i].line_items;
-      for (let j = 0; j < lineItemsList.length; j++) {
-        allLineItems.push(lineItemsList[j]);
-      }
-    }
-
-    // console.log(allLineItems.sort((a,b)=>{return b-a}));
-
-    for (let i = 0; i < allLineItems.length; i++) {
-      const splitLineItem = allLineItems[i].split(",  qty: ");
-      const items = splitLineItem[0] + ", " + splitLineItem[1];
-      // console.log(items)
-    }
-
     let brilliantGlossShampoo = 0;
     let brilliantGlossConditioner = 0;
     let brilliantGlossCreme = 0;
@@ -151,21 +130,33 @@ export default class QuizData extends Component {
     let babyBlondeShampoo = 0;
     let babyBlondeCreme = 0;
 
+    const response = await axios(
+      `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+
+    let allLineItems = [];
+    for (let i = 0; i < response.data.length; i++) {
+      let lineItemsList = response.data[i].line_items;
+      for (let j = 0; j < lineItemsList.length; j++) {
+        allLineItems.push(lineItemsList[j]);
+      }
+    }
+
+    console.log(allLineItems);
     allLineItems.map(e => {
       if (
-        e.toLowerCase().includes("brilliant gloss shampoo") &&
+        e.toLowerCase().includes("brilliant gloss shampoo - 8.5 oz") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         brilliantGlossShampoo = brilliantGlossShampoo + parseInt(splitItem[1]);
       } else if (
-        e.toLowerCase().includes("brilliant gloss conditioner") &&
+        e.toLowerCase().includes("brilliant gloss conditioner - 8.5 oz") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         brilliantGlossConditioner =
           brilliantGlossConditioner + parseInt(splitItem[1]);
-        brilliantGlossConditioner++;
       } else if (
         e.toLowerCase().includes("brilliant gloss multi-tasker perfecting") &&
         e.toLowerCase().indexOf("sample") === -1
@@ -173,103 +164,99 @@ export default class QuizData extends Component {
         let splitItem = e.split(",  qty: ");
         console.log(splitItem);
         brilliantGlossCreme = brilliantGlossCreme + parseInt(splitItem[1]);
-        brilliantGlossCreme++;
       } else if (
         e.toLowerCase().includes("super strength shampoo") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         superStrShampoo = superStrShampoo + parseInt(splitItem[1]);
-        superStrShampoo++;
       } else if (
         e.toLowerCase().includes("super strength conditioner") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         superStrConditioner = superStrConditioner + parseInt(splitItem[1]);
-        superStrConditioner++;
       } else if (
-        e.toLowerCase().includes("super strength roots-to-end strengthening balm") &&
+        (e
+          .toLowerCase()
+          .includes("super strength roots-to-ends strengthening balm") ||
+          e
+            .toLowerCase()
+            .includes("super strength roots-to-end strengthening balm")) &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         superStrBalm = superStrBalm + parseInt(splitItem[1]);
-        superStrBalm++;
       } else if (
-        e.toLowerCase().includes("technician color shampoo") &&
+        e.toLowerCase().includes("technician color shampoo - 8.5 oz") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         techColorShampoo = techColorShampoo + parseInt(splitItem[1]);
-        techColorShampoo++;
       } else if (
-        e.toLowerCase().includes("technician color conditioner") &&
+        e.toLowerCase().includes("technician color conditioner - 8.5 oz") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         techColorConditioner = techColorConditioner + parseInt(splitItem[1]);
-        techColorConditioner++;
       } else if (
         e.toLowerCase().includes("technician color powerful flash mask") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         techColorMask = techColorMask + parseInt(splitItem[1]);
-        techColorMask++;
       } else if (
         e.toLowerCase().includes("full blown volume shampoo") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         fullBlownShampoo = fullBlownShampoo + parseInt(splitItem[1]);
-        fullBlownShampoo++;
       } else if (
         e.toLowerCase().includes("full blown volume conditioner") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         fullBlownConditioner = fullBlownConditioner + parseInt(splitItem[1]);
-        fullBlownConditioner++;
       } else if (
         e.toLowerCase().includes("full blown volume dry texturizing mist") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         fullBlownMist = fullBlownMist + parseInt(splitItem[1]);
-        fullBlownMist++;
       } else if (
         e.toLowerCase().includes("baby blonde shampoo") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         babyBlondeShampoo = babyBlondeShampoo + parseInt(splitItem[1]);
-        babyBlondeShampoo++;
       } else if (
         e.toLowerCase().includes("baby blonde air-dry") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
         let splitItem = e.split(",  qty: ");
         babyBlondeCreme = babyBlondeCreme + parseInt(splitItem[1]);
-        babyBlondeCreme++;
       }
     });
 
-    console.log(
-      brilliantGlossShampoo,
-      brilliantGlossConditioner,
-      brilliantGlossCreme,
-      superStrShampoo,
-      superStrConditioner,
-      superStrBalm,
-      techColorShampoo,
-      techColorConditioner,
-      techColorMask,
-      fullBlownShampoo,
-      fullBlownConditioner,
-      fullBlownMist,
-      babyBlondeShampoo,
-      babyBlondeCreme
-    );
+    this.setState({
+      lineItems: {
+        brilliantGlossShampoo: brilliantGlossShampoo,
+        brilliantGlossConditioner: brilliantGlossConditioner,
+        brilliantGlossCreme: brilliantGlossCreme,
+        superStrShampoo: superStrShampoo,
+        superStrConditioner: superStrConditioner,
+        superStrBalm: superStrBalm,
+        techColorShampoo: techColorShampoo,
+        techColorConditioner: techColorConditioner,
+        techColorMask: techColorMask,
+        fullBlownShampoo: fullBlownShampoo,
+        fullBlownConditioner: fullBlownConditioner,
+        fullBlownMist: fullBlownMist,
+        babyBlondeShampoo: babyBlondeShampoo,
+        babyBlondeCreme: babyBlondeCreme
+      },
+      lineItemsLading: false
+    });
 
     const orders = response.data.sort((a, b) =>
       a.order_created > b.order_created ? 1 : -1
@@ -516,22 +503,22 @@ export default class QuizData extends Component {
     });
 
     this.setState({
-      lineItems: {
-        brilliantGlossShampoo: brilliantGlossShampoo,
-        brilliantGlossConditioner: brilliantGlossConditioner,
-        brilliantGlossCreme: brilliantGlossCreme,
-        superStrShampoo: superStrShampoo,
-        superStrConditioner: superStrConditioner,
-        superStrBalm: superStrBalm,
-        techColorShampoo: techColorShampoo,
-        techColorConditioner: techColorConditioner,
-        techColorMask: techColorMask,
-        fullBlownShampoo: fullBlownShampoo,
-        fullBlownConditioner: fullBlownConditioner,
-        fullBlownMist: fullBlownMist,
-        babyBlondeShampoo: babyBlondeShampoo,
-        babyBlondeCreme: babyBlondeCreme
-      }
+      // lineItems: {
+      //   brilliantGlossShampoo: brilliantGlossShampoo,
+      //   brilliantGlossConditioner: brilliantGlossConditioner,
+      //   brilliantGlossCreme: brilliantGlossCreme,
+      //   superStrShampoo: superStrShampoo,
+      //   superStrConditioner: superStrConditioner,
+      //   superStrBalm: superStrBalm,
+      //   techColorShampoo: techColorShampoo,
+      //   techColorConditioner: techColorConditioner,
+      //   techColorMask: techColorMask,
+      //   fullBlownShampoo: fullBlownShampoo,
+      //   fullBlownConditioner: fullBlownConditioner,
+      //   fullBlownMist: fullBlownMist,
+      //   babyBlondeShampoo: babyBlondeShampoo,
+      //   babyBlondeCreme: babyBlondeCreme
+      // }
     });
   };
 
@@ -1025,6 +1012,7 @@ export default class QuizData extends Component {
     const {
       loading,
       shopifyLoading,
+      lineItemsLading,
       totalQuizLoading,
       abandonedQuizToday,
       klaviyoEmails,
@@ -1178,6 +1166,7 @@ export default class QuizData extends Component {
               {/* {new Date().toString()} */}
               <div className="quiz-data-row">
                 <div className="quiz-data-column">
+                  
                   <b>TODAY - {today.toDateString()}</b>
                 </div>
               </div>
@@ -1390,17 +1379,14 @@ export default class QuizData extends Component {
               </div>
               <br />
               {/* {new Date().toString()} */}
+              
               <div className="quiz-data-row">
                 <div className="quiz-data-column">
-                  {/* <b>LINE ITEMS SOLD - {today.toDateString()}</b> */}
+                  {" "}
+                  <b>LINE ITEMS SOLD</b>
                 </div>
               </div>
-
-              {/* {!shopifyLoading ? (
-                <DataTemplate loading={loading} data={lineItems} />
-              ) : (
-                ""
-              )} */}
+              <DataTemplate loading={lineItemsLading} data={lineItems} storageItem={'lineItemsSold'} />
 
               {/* <PieGraph
                 styles={styles}

@@ -5,7 +5,6 @@ import "../../styles/Table.scss";
 export default function DataTemplate(props) {
   return (
     <div>
-      <br />
       <span>
         {Object.keys(props.data).map(e => {
           return (
@@ -14,18 +13,18 @@ export default function DataTemplate(props) {
               <div className="quiz-data-column">
                 {!localStorage.getItem(props.storageItem) ? 
                 (
-                  // props.loading ? (
+                   props.storageItem === 'quizAnalytics' && props.loading  ? (
                     <ClipLoader size={6} />
-                  // ) : e !== "KLAVIYO EMAILS CAPTURED" ||
-                  //   e !== "TOTAL QUIZ COUNT" ||
-                  //   e !== "COMPLETE" ||
-                  //   e !== "DROPPED" ? (
-                  //   props.data[e] + `${props.data[e] / props.data["DROPPED"]}`
+                  ) : e !== "KLAVIYO EMAILS CAPTURED" ||
+                    e !== "TOTAL QUIZ COUNT" ||
+                    e !== "COMPLETE" ||
+                    e !== "DROPPED" ? (
+                    props.data[e] + `${props.data[e] / props.data["DROPPED"]}`
                   ) : (
                     props.data[e]
-                  // )
-                // ) : (
-                //   props.data[e]
+                  )
+                ) : (
+                  props.data[e]
                 )
                 }{" "}
               </div>
