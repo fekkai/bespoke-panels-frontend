@@ -2,7 +2,9 @@ import React, { Component } from "react";
 
 // components
 import { Link } from "react-router-dom";
-import { ClipLoader, PulseLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
+import DataTemplate from "./common/DataTemplate";
+import PieGraph from "./common/PieGraph";
 
 // styling
 import "../styles/Panel.scss";
@@ -25,7 +27,8 @@ export default class QuizData extends Component {
       shopifyLoading: true,
       totalQuizLoading: true,
       completedQuizCount: "",
-      abandonedQuiz: ""
+      abandonedQuiz: "",
+      lineItems: {}
     };
   }
 
@@ -42,77 +45,92 @@ export default class QuizData extends Component {
     });
   }
 
-  // chatQuizOrders = async () => {
-  //   const orders = await axios.get(
-  //     `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-  //   );
-  //   let response = await axios(
-  //     `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-  //   );
-  //   let userData = response.data.reverse();
+  chatQuizOrders = async () => {
+    const orders = await axios.get(
+      `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+    let response = await axios(
+      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+    let userData = response.data.reverse();
 
-  //   let total = 0;
-  //   let quizCount = 0;
-  //   let completeQuizCount = 0;
-  //   let abandonedQuizCount = 0;
-  //   const today = new Date().getDate();
-  //   const thisMonth = new Date().getMonth() + 1;
+    let total = 0;
+    let quizCount = 0;
+    let completeQuizCount = 0;
+    let abandonedQuizCount = 0;
+    const today = new Date().getDate();
+    const thisMonth = new Date().getMonth() + 1;
 
-  //   let bundleOrders = [];
-  //   // console.log(orders.data[0]);
-  //   for (let order of orders.data) {
-  //     if (
-  //       order["discount_applications-title"]
-  //         .toLowerCase()
-  //         .includes("discount bundle")
-  //     ) {
-  //       // console.lo
-  //       // console.log(order["line_items-name"])
+    let bundleOrders = [];
+    // console.log(orders.data[0]);
+    for (let order of orders.data) {
+      if (
+        order["discount_applications-title"]
+          .toLowerCase()
+          .includes("discount bundle")
+      ) {
+        // console.lo
+        // console.log(order["line_items-name"])
 
-  //       function checkNull(value) {
-  //         return value === null;
-  //       }
-  //       order["line_items-name"].splice(
-  //         order["line_items-name"].findIndex(checkNull),
-  //         1
-  //       );
+        function checkNull(value) {
+          return value === null;
+        }
+        order["line_items-name"].splice(
+          order["line_items-name"].findIndex(checkNull),
+          1
+        );
 
-  //       let split = order["discount_applications-title"].split("eD");
+        let split = order["discount_applications-title"].split("eD");
 
-  //       let newSplit = [];
-  //       for (let splitWord of split) {
-  //         splitWord = "Discount Bundle";
-  //         newSplit.push(splitWord);
-  //       }
+        let newSplit = [];
+        for (let splitWord of split) {
+          splitWord = "Discount Bundle";
+          newSplit.push(splitWord);
+        }
 
-  //       order["discount_applications-title"] = newSplit;
+        order["discount_applications-title"] = newSplit;
 
-  //       // get total sales
-  //       total = total + order.total_price;
-  //       bundleOrders.push({
-  //         order_id: order.id,
-  //         order_created: order.created_at,
-  //         number: order.order_number,
-  //         email: order.email,
-  //         line_items: order["line_items-name"],
-  //         discount_applications: order["discount_applications-title"],
-  //         total_price: order.total_price
-  //       });
-  //     }
-  //   }
-  //   console.log("hello", bundleOrders);
-  //   for (let i = 0; i < bundleOrders.length; i++) {
-  //     axios.post(
-  //       "http://bespoke-backend.herokuapp.com/quiz-orders",
-  //       bundleOrders[i]
-  //     );
-  //   }
-  // };
+        // get total sales
+        total = total + order.total_price;
+        bundleOrders.push({
+          order_id: order.id,
+          order_created: order.created_at,
+          number: order.order_number,
+          email: order.email,
+          line_items: order["line_items-name"],
+          discount_applications: order["discount_applications-title"],
+          total_price: order.total_price
+        });
+      }
+    }
+    console.log("hello", bundleOrders);
+    for (let i = 0; i < bundleOrders.length; i++) {
+      axios.post(
+        "http://bespoke-backend.herokuapp.com/quiz-orders",
+        bundleOrders[i]
+      );
+    }
+  };
 
+  // for each day
   fetchPastOrders = async () => {
     const response = await axios(
       `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
+
+    var lineItems = []
+    for (let i = 0; i < response.data.length; i++) {
+console.log(response.data[i])
+      for (let j = 0; i < lineItems; i++) {
+        lineItems.push(response.data[i]&&response.data[i].line_items[j])
+       }
+    }
+    console.log(lineItems)
+
+    
+    
+
+
     const orders = response.data.sort((a, b) =>
       a.order_created > b.order_created ? 1 : -1
     );
@@ -128,7 +146,7 @@ export default class QuizData extends Component {
     for (let order of orders) {
       currentOrderDay = new Date(order.order_created).getDate();
       currentOrderMonth = new Date(order.order_created).getMonth() + 1;
-      console.log(prevOrderDay, prevOrderMonth);
+      // console.log(prevOrderDay, prevOrderMonth);
       //  groups all orders by date and push into array
       if (
         prevOrderMonth === currentOrderMonth &&
@@ -148,7 +166,7 @@ export default class QuizData extends Component {
       }
     }
     this.setState({ arrOfOrderDays });
-    console.log(arrOfOrderDays);
+    // console.log(arrOfOrderDays);
   };
 
   shopifyOrders = async () => {
@@ -358,20 +376,22 @@ export default class QuizData extends Component {
     });
 
     this.setState({
-      brilliantGlossShampoo,
-      brilliantGlossConditioner,
-      brilliantGlossCreme,
-      superStrShampoo,
-      superStrConditioner,
-      superStrBalm,
-      techColorShampoo,
-      techColorConditioner,
-      techColorMask,
-      fullBlownShampoo,
-      fullBlownConditioner,
-      fullBlownMist,
-      babyBlondeShampoo,
-      babyBlondeCreme
+      lineItems: {
+        brilliantGlossShampoo: brilliantGlossShampoo,
+        brilliantGlossConditioner: brilliantGlossConditioner,
+        brilliantGlossCreme: brilliantGlossCreme,
+        superStrShampoo: superStrShampoo,
+        superStrConditioner: superStrConditioner,
+        superStrBalm: superStrBalm,
+        techColorShampoo: techColorShampoo,
+        techColorConditioner: techColorConditioner,
+        techColorMask: techColorMask,
+        fullBlownShampoo: fullBlownShampoo,
+        fullBlownConditioner: fullBlownConditioner,
+        fullBlownMist: fullBlownMist,
+        babyBlondeShampoo: babyBlondeShampoo,
+        babyBlondeCreme: babyBlondeCreme
+      }
     });
   };
 
@@ -381,7 +401,7 @@ export default class QuizData extends Component {
         `https://bespoke-backend.herokuapp.com/klaviyo-emails?apikey=${REACT_APP_API_KEY}`
       );
       const klaviyoEmails = response.data.total_quiz_emails;
-      console.log(response.data);
+      // console.log(response.data);
       this.setState({
         klaviyoEmails
       });
@@ -407,6 +427,7 @@ export default class QuizData extends Component {
 
   fetchQuizData = async () => {
     try {
+      const { klaviyoEmails } = this.state;
       // query user codes api
       let response = await axios(
         `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=${REACT_APP_API_KEY}`
@@ -436,6 +457,7 @@ export default class QuizData extends Component {
       let hair_goals = 0;
       let weather = 0;
       let complete = 0;
+      let dropped = 0;
       let totalAfterLaunch = 0;
       let testComputeTrue = 0;
       let testComputeFalse = 0;
@@ -444,9 +466,8 @@ export default class QuizData extends Component {
       const thisMonth = new Date().getMonth() + 1;
       const yesterday = new Date(today) - 1;
 
-
       // query user data instances w/ user_code
-      for (let i = 0; userData.length; i++) {
+      for (let i = 0; i < userData.length; i++) {
         // check all instances after 03-20-20 launch
         if (userData[i].created > "2020-03-20T00:00:00") {
           let userResponse = await axios.get(
@@ -461,11 +482,15 @@ export default class QuizData extends Component {
           if (data.user_data.compute === false) {
             testComputeFalse++;
           }
-          console.log(testComputeTrue, testComputeFalse);
+          // console.log(testComputeTrue, testComputeFalse);
           if (data.user_code) totalAfterLaunch++;
+          if (data.user_data.compute === false) {
+            dropped++;
+          }
           if (data.user_data.compute === true) {
             complete++;
           }
+
           //  selfie does not exist and no CV compute characteristics - only email
           else if (data.user_data.email && !data.user_data.answers)
             drop_email++;
@@ -497,6 +522,18 @@ export default class QuizData extends Component {
           // user did not finish quiz at end - same as compute false
           else if (!data.user_data.answers.weather) weather++;
 
+          // console.log(
+          //   complete,
+          //   dropped,
+          //   drop_email,
+          //   front_selfie,
+          //   front_selfie_edit,
+          //   no_front_selfie_edit,
+          //   hair_thickness,
+          //   hair_condition,
+          //   hair_goals,
+          //   weather
+          // );
           // total quizzes today
           if (
             new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
@@ -652,7 +689,6 @@ export default class QuizData extends Component {
       this.setState({
         // totalQuizLoading: false
         emails,
-        
         drop_email,
         front_selfie,
         no_front_selfie_edit,
@@ -661,9 +697,27 @@ export default class QuizData extends Component {
         hair_condition,
         hair_goals,
         complete,
+        dropped,
         weather,
-        totalAfterLaunch
+        totalAfterLaunch,
+        loading: false
       });
+
+      const quizAnalytics = {
+        "KLAVIYO EMAILS CAPTURED": klaviyoEmails,
+        "TOTAL QUIZ COUNT": totalAfterLaunch,
+        COMPLETE: complete,
+        DROPPED: dropped,
+        "DROPPED NAME/EMAIL INPUT": drop_email,
+        "DROPPED AFTER SELFIE": front_selfie,
+        "DROPPED NO SELFIE + CORRECTING": no_front_selfie_edit,
+        "DROPPED W/ SELFIE + WHILE CORRECTING": front_selfie_edit,
+        "DROPPED AT HAIR THICKNESS": hair_thickness,
+        "DROPPED AT HAIR CONDTIONS": hair_condition,
+        "DROPPED AT HAIR GOALS": hair_goals,
+        "DROPPED AT GEOFACTORS": weather
+      };
+      localStorage.setItem("quizAnalytics", JSON.stringify(quizAnalytics));
     } catch (error) {
       console.error(error);
     }
@@ -782,14 +836,33 @@ export default class QuizData extends Component {
     }
   };
 
+  getStyles() {
+    return {
+      // DATA SET ONE
+      axisOne: {
+        axis: { stroke: "#545454", strokeWidth: 0 },
+        tickLabels: {
+          fontFamily: "avenir",
+          fontSize: 6
+        }
+      },
+
+      // DATA SET TWO
+      axisTwo: {
+        tickLabels: {
+          fill: "#545454",
+          fontFamily: "urwdin-regular",
+          fontSize: 6
+        }
+      }
+    };
+  }
+
   render() {
     const {
       loading,
       shopifyLoading,
       totalQuizLoading,
-      completedQuizCount,
-      
-      abandonedQuiz,
       abandonedQuizToday,
       klaviyoEmails,
       completeQuizToday,
@@ -813,20 +886,7 @@ export default class QuizData extends Component {
       abandonedQuizPrevDayMinus1,
       completeQuizPrevDayMinus1,
       quizPrevDayMinus1,
-      brilliantGlossShampoo,
-      brilliantGlossConditioner,
-      brilliantGlossCreme,
-      superStrShampoo,
-      superStrConditioner,
-      superStrBalm,
-      techColorShampoo,
-      techColorConditioner,
-      techColorMask,
-      fullBlownShampoo,
-      fullBlownConditioner,
-      fullBlownMist,
-      babyBlondeShampoo,
-      babyBlondeCreme,
+      lineItems,
       drop_email,
       front_selfie,
       no_front_selfie_edit,
@@ -836,13 +896,76 @@ export default class QuizData extends Component {
       hair_goals,
       weather,
       complete,
+      dropped,
       totalAfterLaunch
     } = this.state;
 
+    const styles = this.getStyles;
+
+    let quizAnalytics;
+
+    if (localStorage.getItem("quizAnalytics")) {
+      quizAnalytics = JSON.parse(localStorage.getItem("quizAnalytics"));
+    } else {
+      quizAnalytics = {
+        "KLAVIYO EMAILS CAPTURED": klaviyoEmails,
+        "TOTAL QUIZ COUNT": totalAfterLaunch,
+        COMPLETE: complete,
+        DROPPED: dropped,
+        "DROPPED NAME/EMAIL INPUT": drop_email,
+        "DROPPED AFTER SELFIE": front_selfie,
+        "DROPPED NO SELFIE + CORRECTING": no_front_selfie_edit,
+        "DROPPED W/ SELFIE + WHILE CORRECTING": front_selfie_edit,
+        "DROPPED AT HAIR THICKNESS": hair_thickness,
+        "DROPPED AT HAIR CONDTIONS": hair_condition,
+        "DROPPED AT HAIR GOALS": hair_goals,
+        "DROPPED AT GEOFACTORS": weather
+      };
+    }
+
+    // console.log(quizAnalytics);
+
+    let chartData = {
+      data: [
+        { x: "1", y: quizAnalytics["COMPLETE"] },
+        { x: "2", y: quizAnalytics["DROPPED"] },
+        {
+          x: "3",
+          y: quizAnalytics["DROPPED NAME/EMAIL INPUT"]
+        },
+        { x: "4", y: quizAnalytics["DROPPED AFTER SELFIE"] },
+        {
+          x: "5",
+          y: quizAnalytics["DROPPED NO SELFIE + CORRECTING"]
+        },
+        {
+          x: "6",
+          y: quizAnalytics["DROPPED W/ SELFIE + WHILE CORRECTING"]
+        },
+        {
+          x: "7",
+          y: quizAnalytics["DROPPED AT HAIR THICKNESS"]
+        },
+        {
+          x: "8",
+          y: quizAnalytics["DROPPED AT HAIR CONDTIONS"]
+        },
+        {
+          x: "9",
+          y: quizAnalytics["DROPPED AT HAIR GOALS"]
+        },
+        {
+          x: "10",
+          y: quizAnalytics["DROPPED AT GEOFACTORS"]
+        }
+      ],
+      title: "Quiz Analytics"
+    };
+
+    // handle dates
     const today = new Date();
     const yesterday = new Date(today);
     const twoDaysPrior = new Date(today);
-
     yesterday.setDate(yesterday.getDate() - 1);
     twoDaysPrior.setDate(twoDaysPrior.getDate() - 2);
 
@@ -1066,69 +1189,11 @@ export default class QuizData extends Component {
                   <b>QUIZ ANALYTICS</b>
                 </div>
               </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">COMPLETE:</div>{" "}
-                <div className="quiz-data-column">
-                  {" "}
-                  {complete}
-                  {/* {console.log(quizPrevDay)} */}
-                </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  DROPPED NAME/EMAIL INPUT:{" "}
-                </div>{" "}
-                <div className="quiz-data-column">
-                  {" "}
-                  {drop_email}
-                  {/* {console.log(quizPrevDay)} */}
-                </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">DROPPED AFTER SELFIE:</div>
-                <div className="quiz-data-column"> {front_selfie} </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  DROPPED NO SELFIE + CORRECTING:
-                </div>
-                <div className="quiz-data-column"> {no_front_selfie_edit} </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  DROPPED W/ SELFIE + WHILE CORRECTING :{" "}
-                </div>
-                <div className="quiz-data-column"> {front_selfie_edit} </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  {" "}
-                  DROPPED AT HAIR THICKNESS:
-                </div>
-                <div className="quiz-data-column"> {hair_thickness}</div>
-              </div>
-              {/* <br /> */}
-              {/* TOTAL QUIZ CONVERSION:{" "}
-          {((orderCountPrevDay / quizPrevDay) * 100).toFixed(2) + "%"}{" "}
-          {/* {orderCountPrevDay} */}
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  {" "}
-                  DROPPED AT HAIR CONDITIONS:
-                </div>{" "}
-                <div className="quiz-data-column">{hair_condition}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column"> DROPPED AT HAIR GOALS:</div>{" "}
-                <div className="quiz-data-column">{hair_goals}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  {" "}
-                  DROPPED AT HAIR WEATHER:
-                </div>{" "}
-                <div className="quiz-data-column">{weather}</div>
-              </div>
+              <DataTemplate
+                loading={loading}
+                data={quizAnalytics}
+                storageItem={"quizAnalytics"}
+              />
             </div>
 
             <div style={{ width: "50%" }}>
@@ -1144,140 +1209,23 @@ export default class QuizData extends Component {
                   <b>LINE ITEMS SOLD - {today.toDateString()}</b>
                 </div>
               </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">brilliantGlossShampoo</div>
-                <div className="quiz-data-column">
-                  {brilliantGlossShampoo}
-                </div>{" "}
-                <div className="quiz-data-column">fullBlownConditioner</div>
-                <div className="quiz-data-column">{fullBlownConditioner}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  brilliantGlossConditioner
-                </div>{" "}
-                <div className="quiz-data-column">
-                  {brilliantGlossConditioner}{" "}
-                </div>
-                <div className="quiz-data-column">fullBlownMist</div>{" "}
-                <div className="quiz-data-column">{fullBlownMist} </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">brilliantGlossCreme</div>{" "}
-                <div className="quiz-data-column">{brilliantGlossCreme}</div>
-                <div className="quiz-data-column">babyBlondeShampoo</div>{" "}
-                <div className="quiz-data-column">{babyBlondeShampoo}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">techColorShampoo </div>
-                <div className="quiz-data-column">{techColorShampoo}</div>
-                <div className="quiz-data-column">babyBlondeCreme </div>
-                <div className="quiz-data-column">{babyBlondeCreme}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column"> techColorConditioner</div>{" "}
-                <div className="quiz-data-column">{techColorConditioner}</div>
-                <div className="quiz-data-column"> superStrShampoo</div>{" "}
-                <div className="quiz-data-column">{superStrShampoo}</div>
-              </div>
-              {/* <br /> */}
-              {/* TOTAL QUIZ CONVERSION:{" "}
-               {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
-                {/* {orderCountToday} */}
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">techColorMask</div>{" "}
-                <div className="quiz-data-column">{techColorMask}</div>
-                <div className="quiz-data-column">superStrConditioner</div>{" "}
-                <div className="quiz-data-column">{superStrConditioner}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="button-column">fullBlownShampoo</div>
-                <div className="button-column">{fullBlownShampoo}</div>
-                <div className="button-column">superStrBalm</div>
-                <div className="button-column">{superStrBalm}</div>
-              </div>
-              <br /> <br />
-              <div className="quiz-data-row">
-                <div className="quiz-data-column"></div>
-              </div>
-              {/* {new Date().toString()} */}
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  <b>LINE ITEMS SOLD - {today.toDateString()}</b>
-                </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">brilliantGlossShampoo</div>
-                <div className="quiz-data-column">
-                  {brilliantGlossShampoo}
-                </div>{" "}
-                <div className="quiz-data-column">fullBlownConditioner</div>
-                <div className="quiz-data-column">{fullBlownConditioner}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">
-                  brilliantGlossConditioner
-                </div>{" "}
-                <div className="quiz-data-column">
-                  {brilliantGlossConditioner}{" "}
-                </div>
-                <div className="quiz-data-column">fullBlownMist</div>{" "}
-                <div className="quiz-data-column">{fullBlownMist} </div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">brilliantGlossCreme</div>{" "}
-                <div className="quiz-data-column">{brilliantGlossCreme}</div>
-                <div className="quiz-data-column">babyBlondeShampoo</div>{" "}
-                <div className="quiz-data-column">{babyBlondeShampoo}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">techColorShampoo </div>
-                <div className="quiz-data-column">{techColorShampoo}</div>
-                <div className="quiz-data-column">babyBlondeCreme </div>
-                <div className="quiz-data-column">{babyBlondeCreme}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="quiz-data-column"> techColorConditioner</div>{" "}
-                <div className="quiz-data-column">{techColorConditioner}</div>
-                <div className="quiz-data-column"> superStrShampoo</div>{" "}
-                <div className="quiz-data-column">{superStrShampoo}</div>
-              </div>
-              {/* <br /> */}
-              {/* TOTAL QUIZ CONVERSION:{" "}
-               {((orderCountToday / quizToday) * 100).toFixed(2) + "%"}{" "}
-                {/* {orderCountToday} */}
-              <div className="quiz-data-row">
-                <div className="quiz-data-column">techColorMask</div>{" "}
-                <div className="quiz-data-column">{techColorMask}</div>
-                <div className="quiz-data-column">superStrConditioner</div>{" "}
-                <div className="quiz-data-column">{superStrConditioner}</div>
-              </div>
-              <div className="quiz-data-row">
-                <div className="button-column">fullBlownShampoo</div>
-                <div className="button-column">{fullBlownShampoo}</div>
-                <div className="button-column">superStrBalm</div>
-                <div className="button-column">{superStrBalm}</div>
-              </div>
+
+              {!shopifyLoading ? (
+                <DataTemplate loading={loading} data={lineItems} />
+              ) : (
+                ""
+              )}
+
+              {/* <PieGraph
+                styles={styles}
+                data={chartData.data}
+                title={chartData.title}
+              /> */}
             </div>
           </div>
-          <br />
-          <br />
-          TOTAL QUIZZES: {totalAfterLaunch}
-          {!totalQuizLoading
-            ? "(" +
-              (totalAfterLaunch * 100).toFixed(2) +
-              "%)"
-            : ""}
-          <br /> ABANDONED QUIZ COUNT: {abandonedQuiz}&nbsp;
-          {!totalQuizLoading ?"(" +
-            (totalAfterLaunch * 100).toFixed(2) + "%)"
-            : ""}
-          <br />
-          KLAVIYO EMAILS ENTERED: {klaviyoEmails}
+
           {/* <br /> COMPUTE NULL: {this.state.computeNull} */}
-          <br />
           {/* TOTAL KLAVIYO EMAILS: {klaviyoEmails} */}
-          <br /> <br />
           {/* <span style={{ display: "flex", flexDirection: "quiz-data-row" }}>
             QUIZ TO TRANSACTION SALES: {this.state.loading === false ? (
               <span>
