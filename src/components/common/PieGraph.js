@@ -21,7 +21,7 @@ export default function PieGraph(props) {
   ];
   return (
     <VictoryPie
-      labelRadius={({ innerRadius }) => innerRadius + 75}
+      labelRadius={({ innerRadius }) => innerRadius + 55}
       colorScale={colors}
       style={{ labels: { fill: "black", fontSize: 4 } }}
       data={props.data}

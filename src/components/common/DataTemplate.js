@@ -2,7 +2,7 @@ import React from "react";
 import { ClipLoader } from "react-spinners";
 import "../../styles/Table.scss";
 
-export default function LineItemsData(props) {
+export default function DataTemplate(props) {
   return (
     <div>
       <br />

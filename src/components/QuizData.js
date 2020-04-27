@@ -103,7 +103,7 @@ export default class QuizData extends Component {
         });
       }
     }
-    console.log("hello", bundleOrders);
+    // console.log("hello", bundleOrders);
     for (let i = 0; i < bundleOrders.length; i++) {
       axios.post(
         "http://bespoke-backend.herokuapp.com/quiz-orders",
@@ -118,18 +118,158 @@ export default class QuizData extends Component {
       `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
 
-    var lineItems = []
+    const lineItems = [3];
+    const lineItems2 = [1];
+    let allLineItems = [];
     for (let i = 0; i < response.data.length; i++) {
-console.log(response.data[i])
-      for (let j = 0; i < lineItems; i++) {
-        lineItems.push(response.data[i]&&response.data[i].line_items[j])
-       }
+      const lineItemsList = response.data[i].line_items;
+      for (let j = 0; j < lineItemsList.length; j++) {
+        allLineItems.push(lineItemsList[j]);
+      }
     }
-    console.log(lineItems)
 
-    
-    
+    // console.log(allLineItems.sort((a,b)=>{return b-a}));
 
+    for (let i = 0; i < allLineItems.length; i++) {
+      const splitLineItem = allLineItems[i].split(",  qty: ");
+      const items = splitLineItem[0] + ", " + splitLineItem[1];
+      // console.log(items)
+    }
+
+    let brilliantGlossShampoo = 0;
+    let brilliantGlossConditioner = 0;
+    let brilliantGlossCreme = 0;
+    let superStrShampoo = 0;
+    let superStrConditioner = 0;
+    let superStrBalm = 0;
+    let techColorShampoo = 0;
+    let techColorConditioner = 0;
+    let techColorMask = 0;
+    let fullBlownShampoo = 0;
+    let fullBlownConditioner = 0;
+    let fullBlownMist = 0;
+    let babyBlondeShampoo = 0;
+    let babyBlondeCreme = 0;
+
+    allLineItems.map(e => {
+      if (
+        e.toLowerCase().includes("brilliant gloss shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        brilliantGlossShampoo = brilliantGlossShampoo + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("brilliant gloss conditioner") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        brilliantGlossConditioner =
+          brilliantGlossConditioner + parseInt(splitItem[1]);
+        brilliantGlossConditioner++;
+      } else if (
+        e.toLowerCase().includes("brilliant gloss multi-tasker perfecting") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        console.log(splitItem);
+        brilliantGlossCreme = brilliantGlossCreme + parseInt(splitItem[1]);
+        brilliantGlossCreme++;
+      } else if (
+        e.toLowerCase().includes("super strength shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        superStrShampoo = superStrShampoo + parseInt(splitItem[1]);
+        superStrShampoo++;
+      } else if (
+        e.toLowerCase().includes("super strength conditioner") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        superStrConditioner = superStrConditioner + parseInt(splitItem[1]);
+        superStrConditioner++;
+      } else if (
+        e.toLowerCase().includes("super strength roots-to-end strengthening balm") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        superStrBalm = superStrBalm + parseInt(splitItem[1]);
+        superStrBalm++;
+      } else if (
+        e.toLowerCase().includes("technician color shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        techColorShampoo = techColorShampoo + parseInt(splitItem[1]);
+        techColorShampoo++;
+      } else if (
+        e.toLowerCase().includes("technician color conditioner") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        techColorConditioner = techColorConditioner + parseInt(splitItem[1]);
+        techColorConditioner++;
+      } else if (
+        e.toLowerCase().includes("technician color powerful flash mask") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        techColorMask = techColorMask + parseInt(splitItem[1]);
+        techColorMask++;
+      } else if (
+        e.toLowerCase().includes("full blown volume shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        fullBlownShampoo = fullBlownShampoo + parseInt(splitItem[1]);
+        fullBlownShampoo++;
+      } else if (
+        e.toLowerCase().includes("full blown volume conditioner") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        fullBlownConditioner = fullBlownConditioner + parseInt(splitItem[1]);
+        fullBlownConditioner++;
+      } else if (
+        e.toLowerCase().includes("full blown volume dry texturizing mist") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        fullBlownMist = fullBlownMist + parseInt(splitItem[1]);
+        fullBlownMist++;
+      } else if (
+        e.toLowerCase().includes("baby blonde shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        babyBlondeShampoo = babyBlondeShampoo + parseInt(splitItem[1]);
+        babyBlondeShampoo++;
+      } else if (
+        e.toLowerCase().includes("baby blonde air-dry") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        babyBlondeCreme = babyBlondeCreme + parseInt(splitItem[1]);
+        babyBlondeCreme++;
+      }
+    });
+
+    console.log(
+      brilliantGlossShampoo,
+      brilliantGlossConditioner,
+      brilliantGlossCreme,
+      superStrShampoo,
+      superStrConditioner,
+      superStrBalm,
+      techColorShampoo,
+      techColorConditioner,
+      techColorMask,
+      fullBlownShampoo,
+      fullBlownConditioner,
+      fullBlownMist,
+      babyBlondeShampoo,
+      babyBlondeCreme
+    );
 
     const orders = response.data.sort((a, b) =>
       a.order_created > b.order_created ? 1 : -1
@@ -708,14 +848,37 @@ console.log(response.data[i])
         "TOTAL QUIZ COUNT": totalAfterLaunch,
         COMPLETE: complete,
         DROPPED: dropped,
-        "DROPPED NAME/EMAIL INPUT": drop_email,
-        "DROPPED AFTER SELFIE": front_selfie,
-        "DROPPED NO SELFIE + CORRECTING": no_front_selfie_edit,
-        "DROPPED W/ SELFIE + WHILE CORRECTING": front_selfie_edit,
-        "DROPPED AT HAIR THICKNESS": hair_thickness,
-        "DROPPED AT HAIR CONDTIONS": hair_condition,
-        "DROPPED AT HAIR GOALS": hair_goals,
-        "DROPPED AT GEOFACTORS": weather
+        "DROPPED NAME/EMAIL INPUT":
+          drop_email + " (" + ((drop_email / dropped) * 100).toFixed(2) + "%)",
+        "DROPPED AFTER SELFIE":
+          front_selfie +
+          " (" +
+          ((front_selfie / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED NO SELFIE + CORRECTING":
+          no_front_selfie_edit +
+          " (" +
+          ((no_front_selfie_edit / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED W/ SELFIE + WHILE CORRECTING":
+          front_selfie_edit +
+          " (" +
+          ((front_selfie_edit / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED AT HAIR THICKNESS":
+          hair_thickness +
+          " (" +
+          ((hair_thickness / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED AT HAIR CONDTIONS":
+          hair_condition +
+          " (" +
+          ((hair_condition / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED AT HAIR GOALS":
+          hair_goals + " (" + ((hair_goals / dropped) * 100).toFixed(2) + "%)",
+        "DROPPED AT GEOFACTORS":
+          weather + " (" + ((weather / dropped) * 100).toFixed(2) + "%)"
       };
       localStorage.setItem("quizAnalytics", JSON.stringify(quizAnalytics));
     } catch (error) {
@@ -912,14 +1075,37 @@ console.log(response.data[i])
         "TOTAL QUIZ COUNT": totalAfterLaunch,
         COMPLETE: complete,
         DROPPED: dropped,
-        "DROPPED NAME/EMAIL INPUT": drop_email,
-        "DROPPED AFTER SELFIE": front_selfie,
-        "DROPPED NO SELFIE + CORRECTING": no_front_selfie_edit,
-        "DROPPED W/ SELFIE + WHILE CORRECTING": front_selfie_edit,
-        "DROPPED AT HAIR THICKNESS": hair_thickness,
-        "DROPPED AT HAIR CONDTIONS": hair_condition,
-        "DROPPED AT HAIR GOALS": hair_goals,
-        "DROPPED AT GEOFACTORS": weather
+        "DROPPED NAME/EMAIL INPUT":
+          drop_email + " (" + ((drop_email / dropped) * 100).toFixed(2) + "%)",
+        "DROPPED AFTER SELFIE":
+          front_selfie +
+          " (" +
+          ((front_selfie / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED NO SELFIE + CORRECTING":
+          no_front_selfie_edit +
+          " (" +
+          ((no_front_selfie_edit / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED W/ SELFIE + WHILE CORRECTING":
+          front_selfie_edit +
+          " (" +
+          ((front_selfie_edit / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED AT HAIR THICKNESS":
+          hair_thickness +
+          " (" +
+          ((hair_thickness / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED AT HAIR CONDTIONS":
+          hair_condition +
+          " (" +
+          ((hair_condition / dropped) * 100).toFixed(2) +
+          "%)",
+        "DROPPED AT HAIR GOALS":
+          hair_goals + " (" + ((hair_goals / dropped) * 100).toFixed(2) + "%)",
+        "DROPPED AT GEOFACTORS":
+          weather + " (" + ((weather / dropped) * 100).toFixed(2) + "%)"
       };
     }
 
@@ -1003,7 +1189,7 @@ console.log(response.data[i])
                 </div>{" "}
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column">COMPLETE:</div>{" "}
+                <div className="quiz-data-column">COMPLETED:</div>{" "}
                 <div className="quiz-data-column">
                   {shopifyLoading ? (
                     <ClipLoader size={6} />
@@ -1206,15 +1392,15 @@ console.log(response.data[i])
               {/* {new Date().toString()} */}
               <div className="quiz-data-row">
                 <div className="quiz-data-column">
-                  <b>LINE ITEMS SOLD - {today.toDateString()}</b>
+                  {/* <b>LINE ITEMS SOLD - {today.toDateString()}</b> */}
                 </div>
               </div>
 
-              {!shopifyLoading ? (
+              {/* {!shopifyLoading ? (
                 <DataTemplate loading={loading} data={lineItems} />
               ) : (
                 ""
-              )}
+              )} */}
 
               {/* <PieGraph
                 styles={styles}
