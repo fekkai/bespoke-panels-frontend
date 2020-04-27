@@ -255,7 +255,7 @@ export default class QuizData extends Component {
         babyBlondeShampoo: babyBlondeShampoo,
         babyBlondeCreme: babyBlondeCreme
       },
-      lineItemsLading: false
+      lineItemsLoading: false
     });
 
     const orders = response.data.sort((a, b) =>
@@ -588,6 +588,8 @@ export default class QuizData extends Component {
       let totalAfterLaunch = 0;
       let testComputeTrue = 0;
       let testComputeFalse = 0;
+      let front_selfie_count = 0;
+      let no_front_selfie_count;
 
       const today = new Date().getDate();
       const thisMonth = new Date().getMonth() + 1;
@@ -611,6 +613,11 @@ export default class QuizData extends Component {
           }
           // console.log(testComputeTrue, testComputeFalse);
           if (data.user_code) totalAfterLaunch++;
+
+          if (data.user_data.front_selfie === true) {
+            front_selfie_count++;
+          }
+
           if (data.user_data.compute === false) {
             dropped++;
           }
@@ -813,12 +820,17 @@ export default class QuizData extends Component {
         }
       }
 
+      no_front_selfie_count = totalAfterLaunch - front_selfie_count;
+      console.log(no_front_selfie_count);
+
       this.setState({
         // totalQuizLoading: false
         emails,
         drop_email,
         front_selfie,
         no_front_selfie_edit,
+        front_selfie_count,
+        no_front_selfie_count,
         front_selfie_edit,
         hair_thickness,
         hair_condition,
@@ -833,6 +845,8 @@ export default class QuizData extends Component {
       const quizAnalytics = {
         "KLAVIYO EMAILS CAPTURED": klaviyoEmails,
         "TOTAL QUIZ COUNT": totalAfterLaunch,
+        "SELFIE COUNT": front_selfie_count,
+        "NO SELFIE COUNT": no_front_selfie_count,
         COMPLETE: complete,
         DROPPED: dropped,
         "DROPPED NAME/EMAIL INPUT":
@@ -1012,10 +1026,12 @@ export default class QuizData extends Component {
     const {
       loading,
       shopifyLoading,
-      lineItemsLading,
+      lineItemsLoading,
       totalQuizLoading,
       abandonedQuizToday,
       klaviyoEmails,
+      front_selfie_count,
+      no_front_selfie_count,
       completeQuizToday,
       completeQuizPrevDay,
       abandonedQuizPrevDay,
@@ -1061,6 +1077,8 @@ export default class QuizData extends Component {
       quizAnalytics = {
         "KLAVIYO EMAILS CAPTURED": klaviyoEmails,
         "TOTAL QUIZ COUNT": totalAfterLaunch,
+        "SELFIE COUNT": front_selfie_count,
+        "NO SELFIE COUNT": no_front_selfie_count,
         COMPLETE: complete,
         DROPPED: dropped,
         "DROPPED NAME/EMAIL INPUT":
@@ -1166,7 +1184,6 @@ export default class QuizData extends Component {
               {/* {new Date().toString()} */}
               <div className="quiz-data-row">
                 <div className="quiz-data-column">
-                  
                   <b>TODAY - {today.toDateString()}</b>
                 </div>
               </div>
@@ -1379,14 +1396,18 @@ export default class QuizData extends Component {
               </div>
               <br />
               {/* {new Date().toString()} */}
-              
+
               <div className="quiz-data-row">
                 <div className="quiz-data-column">
                   {" "}
                   <b>LINE ITEMS SOLD</b>
                 </div>
               </div>
-              <DataTemplate loading={lineItemsLading} data={lineItems} storageItem={'lineItemsSold'} />
+              <DataTemplate
+                loading={lineItemsLoading}
+                data={lineItems}
+                storageItem={"lineItemsSold"}
+              />
 
               {/* <PieGraph
                 styles={styles}
