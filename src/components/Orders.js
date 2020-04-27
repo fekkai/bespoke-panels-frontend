@@ -24,54 +24,60 @@ export default class Orders extends React.Component {
         <div class="row">
           <div class="column">
             <a
-              style={{ textDecoration: "none", color: "black" }}
               href={`https://fekkaibrands.myshopify.com/admin/orders/${order.id}`}
+              style={{ textDecoration: "none", color: "black" }}
               target="_blank"
+              rel="noopener noreferrer"
             >
               {order.created_at}
             </a>
           </div>
           <div class="column">
             <a
-              style={{ textDecoration: "none", color: "black" }}
               href={`https://fekkaibrands.myshopify.com/admin/orders/${order.id}`}
+              style={{ textDecoration: "none", color: "black" }}
               target="_blank"
+              rel="noopener noreferrer"
             >
               {order.name}
             </a>
           </div>
           <div class="column">
             <a
-              style={{ textDecoration: "none", color: "black" }}
               href={`https://fekkaibrands.myshopify.com/admin/orders/${order.id}`}
+              style={{ textDecoration: "none", color: "black" }}
               target="_blank"
+              rel="noopener noreferrer"
             >
               {order.id}
             </a>
           </div>
           <div class="column">
             <a
-              style={{ textDecoration: "none", color: "black" }}
               href={`https://fekkaibrands.myshopify.com/admin/orders/${order.id}`}
+              style={{ textDecoration: "none", color: "black" }}
               target="_blank"
+              rel="noopener noreferrer"
             >
               {order.email}
             </a>
           </div>
           <div class="column">
             <a
-              style={{ textDecoration: "none", color: "black" }}
               href={`https://fekkaibrands.myshopify.com/admin/orders/${order.id}`}
+              style={{ textDecoration: "none", color: "black" }}
               target="_blank"
+              rel="noopener noreferrer"
             >
               {order.total_price}
             </a>
           </div>
           <div class="column" style={{ textAlign: "left" }}>
             <a
-              style={{ textDecoration: "none", color: "black" }}
               href={`https://fekkaibrands.myshopify.com/admin/orders/${order.id}`}
+              style={{ textDecoration: "none", color: "black" }}
               target="_blank"
+              rel="noopener noreferrer"
             >
               {order &&
                 order.line_items.map(lineItem => {

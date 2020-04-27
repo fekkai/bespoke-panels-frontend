@@ -7,7 +7,6 @@ import { css } from "@emotion/core";
 import axios from "axios";
 import aws4 from "aws4";
 
-import { Carousel } from "react-responsive-carousel";
 import { RingLoader, PulseLoader } from "react-spinners";
 import { Paper } from "@material-ui/core";
 
@@ -169,7 +168,6 @@ export default class StylistPanelUser extends Component {
     const {
       userCode,
       name,
-      locale,
       email,
       hairThickness,
       hairTexture,
@@ -186,10 +184,8 @@ export default class StylistPanelUser extends Component {
       shampooKey,
       conditionerKey,
       thirdKey,
-      frontSelfie,
-      page
+      frontSelfie
     } = this.props.location.state;
-    console.log(frontSelfie);
     return (
       <div>
         <Link to="/stylist-panel-list">
@@ -229,76 +225,16 @@ export default class StylistPanelUser extends Component {
               <div className="column-title hidden">PROFILE</div>
               <div className="column-title hidden">SELFIE</div>
               <div className="info-container info-container2">
-                THICKNESS:{" "}
-                {/* {thickness
-                  ? thickness === 1
-                    ? "finest"
-                    : "" || thickness === 2
-                    ? "finer"
-                    : "" || thickness === 3
-                    ? "fine"
-                    : "" || thickness === 4
-                    ? "medium"
-                    : "" || thickness === 5
-                    ? "thick"
-                    : "" || thickness === 6
-                    ? "thicker"
-                    : "" || thickness === 7
-                    ? "thickest"
-                    : ""
-                  : ""} */}
-                {hairThickness ? hairThickness : "n/a"}
+                THICKNESS: {hairThickness ? hairThickness : "n/a"}
                 <br />
                 <br />
-                TEXTURE:{" "}
-                {/* {texture
-                  ? texture === 1
-                    ? "straight"
-                    : "" || texture === 2
-                    ? "wavy"
-                    : "" || texture === 3
-                    ? "curly"
-                    : "" || texture === 4
-                    ? "coily"
-                    : ""
-                  : "n/a"} */}
-                {hairTexture ? hairTexture : "n/a"}
+                TEXTURE: {hairTexture ? hairTexture : "n/a"}
                 <br />
                 <br />
-                COLOR:{" "}
-                {/* {!hairColor
-                  ? ""
-                  : hairColor === 1
-                  ? "blonde"
-                  : "" || hairColor === 2
-                  ? "brown"
-                  : "" || hairColor === 3
-                  ? "black"
-                  : "" || hairColor === 4
-                  ? "red"
-                  : "" || hairColor === 5
-                  ? "silver"
-                  : "" || hairColor === 6
-                  ? "rainbow"
-                  : "" || hairColor === 7
-                  ? "highlighted"
-                  : ""} */}
-                {hairColor ? hairColor : "n/a"}
+                COLOR: {hairColor ? hairColor : "n/a"}
                 <br />
                 <br />
-                HAIR LENGTH:{" "}
-                {/* {length
-                  ? length === 1
-                    ? "short"
-                    : "" || length === 2
-                    ? "chin length"
-                    : "" || length === 3
-                    ? "shoulder length"
-                    : "" || length === 4
-                    ? "long"
-                    : ""
-                  : "n/a"} */}
-                {hairLength ? hairLength : "n/a"}
+                HAIR LENGTH: {hairLength ? hairLength : "n/a"}
                 <br />
                 <br />
                 CONDITION:{" "}
@@ -329,7 +265,6 @@ export default class StylistPanelUser extends Component {
               </div>
 
               <div className="selfie-container">
-                {/* <Carousel showThumbs={false} showIndicators={false}> */}
                 <div>
                   {frontSelfie ? (
                     <img id="selfie" alt={frontSelfie} src={frontSelfie} />
@@ -342,7 +277,6 @@ export default class StylistPanelUser extends Component {
                     />
                   )}
                 </div>
-                {/* </Carousel> */}
               </div>
             </div>
           </Paper>

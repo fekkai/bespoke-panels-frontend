@@ -142,7 +142,6 @@ export default class QuizData extends Component {
       }
     }
 
-    console.log(allLineItems);
     allLineItems.map(e => {
       if (
         e.toLowerCase().includes("brilliant gloss shampoo - 8.5 oz") &&
@@ -161,8 +160,7 @@ export default class QuizData extends Component {
         e.toLowerCase().includes("brilliant gloss multi-tasker perfecting") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
-        let splitItem = e.split(",  qty: ");
-        console.log(splitItem);
+        let splitItem = e.split(",  qty: ") 
         brilliantGlossCreme = brilliantGlossCreme + parseInt(splitItem[1]);
       } else if (
         e.toLowerCase().includes("super strength shampoo") &&
