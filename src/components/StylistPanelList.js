@@ -11,6 +11,7 @@ import { Row } from "./common";
 import Fade from "react-reveal/Fade";
 import { Paper } from "@material-ui/core";
 import { RingLoader, PulseLoader } from "react-spinners";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // styling
 import "../styles/Panel.scss";
@@ -32,6 +33,8 @@ const override = css`
   margin-top: ${7}%;
 `;
 
+// material ui circular progress
+
 let request = {
   hostname: "5qdtfxj5j5.execute-api.us-east-1.amazonaws.com",
   method: "GET",
@@ -49,7 +52,6 @@ delete signedRequest.headers["Content-Length"];
 
 const apiKey = process.env.REACT_APP_FEKKAI_BACKEND_API_KEY;
 const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
-
 
 export default class StylistPanelList extends Component {
   constructor(props) {
@@ -1386,27 +1388,27 @@ export default class StylistPanelList extends Component {
     // console.log(this.state.chartData4);
   };
 
-  renderPageCharts = () => {
-    const styles = this.getStyles();
+  // renderPageCharts = () => {
+  //   const styles = this.getStyles();
 
-    const { chartData1, chartData2, chartData3, chartData4 } = this.state;
-    const chartData = [
-      { data: chartData1, title: "LENGTH/TEXTURE" },
-      { data: chartData2, title: "COLOR/THICKNESS" },
-      { data: chartData3, title: "CONDITIONS" },
-      { data: chartData4, title: "GOALS" }
-    ];
+  //   const { chartData1, chartData2, chartData3, chartData4 } = this.state;
+  //   const chartData = [
+  //     { data: chartData1, title: "LENGTH/TEXTURE" },
+  //     { data: chartData2, title: "COLOR/THICKNESS" },
+  //     { data: chartData3, title: "CONDITIONS" },
+  //     { data: chartData4, title: "GOALS" }
+  //   ];
 
-    return chartData.map(chartData => {
-      return (
-        <PopoverBar
-          styles={styles}
-          data={chartData.data}
-          title={chartData.title}
-        />
-      );
-    });
-  };
+  //   return chartData.map(chartData => {
+  //     return (
+  //       <PopoverBar
+  //         styles={styles}
+  //         data={chartData.data}
+  //         title={chartData.title}
+  //       />
+  //     );
+  //   });
+  // };
 
   renderTotalCharts = () => {
     const styles = this.getStyles();
@@ -1476,13 +1478,12 @@ export default class StylistPanelList extends Component {
               </span>
             )}
 
-            {!this.state.loading ? this.renderPageCharts() : ""}
             {this.state.loading ? (
               ""
             ) : !this.state.totalChartLoading ? (
               this.renderTotalCharts()
             ) : (
-              <span>
+              <span style={{marginLeft: '10px'}}>
                 LOADING ALL QUIZ DATA: <PulseLoader size={6} />
               </span>
             )}
@@ -1633,11 +1634,12 @@ export default class StylistPanelList extends Component {
               <div style={{ display: this.state.display }}>
                 {this.renderRows()}
                 {/* <Loader className="loader-active" type="ball-triangle-path" /> */}
-                <RingLoader
-                  css={override}
-                  size={150}
-                  color={"#545454"}
-                  loading={this.state.loading}
+                <CircularProgress
+                  size={40}
+                  left={-20}
+                  color="black"
+                  status={"loading"}
+                  style={{ marginLeft: "50%", marginTop: "15%" }}
                 />
               </div>
             </div>
