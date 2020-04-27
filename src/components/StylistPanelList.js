@@ -1483,7 +1483,7 @@ export default class StylistPanelList extends Component {
             ) : !this.state.totalChartLoading ? (
               this.renderTotalCharts()
             ) : (
-              <span style={{marginLeft: '10px'}}>
+              <span style={{ marginLeft: "10px" }}>
                 LOADING ALL QUIZ DATA: <PulseLoader size={6} />
               </span>
             )}

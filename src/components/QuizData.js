@@ -34,7 +34,7 @@ export default class QuizData extends Component {
   }
 
   async componentDidMount() {
-    // this.chatQuizOrders();
+    // this.chatQuizOrders(); uncomment to posting to Mongo
     this.fetchPastOrders();
     await this.shopifyOrders();
     await this.fetchEmails();
@@ -104,13 +104,13 @@ export default class QuizData extends Component {
         });
       }
     }
-    // console.log("hello", bundleOrders);
-    for (let i = 0; i < bundleOrders.length; i++) {
-      axios.post(
-        "http://bespoke-backend.herokuapp.com/quiz-orders",
-        bundleOrders[i]
-      );
-    }
+    // uncoment to post to mongo
+    // for (let i = 0; i < bundleOrders.length; i++) {
+    //   axios.post(
+    //     "http://bespoke-backend.herokuapp.com/quiz-orders",
+    //     bundleOrders[i]
+    //   );
+    // }
   };
 
   // for each day
@@ -134,6 +134,9 @@ export default class QuizData extends Component {
       `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
 
+    const numOrders = response.data.length;
+
+    console.log(numOrders);
     let allLineItems = [];
     for (let i = 0; i < response.data.length; i++) {
       let lineItemsList = response.data[i].line_items;
@@ -160,7 +163,7 @@ export default class QuizData extends Component {
         e.toLowerCase().includes("brilliant gloss multi-tasker perfecting") &&
         e.toLowerCase().indexOf("sample") === -1
       ) {
-        let splitItem = e.split(",  qty: ") 
+        let splitItem = e.split(",  qty: ");
         brilliantGlossCreme = brilliantGlossCreme + parseInt(splitItem[1]);
       } else if (
         e.toLowerCase().includes("super strength shampoo") &&
@@ -237,6 +240,7 @@ export default class QuizData extends Component {
     });
 
     this.setState({
+      numOrders,
       lineItems: {
         brilliantGlossShampoo: brilliantGlossShampoo,
         brilliantGlossConditioner: brilliantGlossConditioner,
@@ -845,7 +849,12 @@ export default class QuizData extends Component {
         "TOTAL QUIZ COUNT": totalAfterLaunch,
         "SELFIE COUNT": front_selfie_count,
         "NO SELFIE COUNT": no_front_selfie_count,
-        COMPLETE: complete,
+        "ORDER COUNT": this.state.numOrders,
+        COMPLETED: complete,
+        "COMPLETED CONVERSION":
+          ((this.state.numOrders / complete) * 100).toFixed(2) + "%",
+        "TOTAL CONVERSION":
+          ((this.state.numOrders / totalAfterLaunch) * 100).toFixed(2) + "%",
         DROPPED: dropped,
         "DROPPED NAME/EMAIL INPUT":
           drop_email + " (" + ((drop_email / dropped) * 100).toFixed(2) + "%)",
@@ -1077,7 +1086,12 @@ export default class QuizData extends Component {
         "TOTAL QUIZ COUNT": totalAfterLaunch,
         "SELFIE COUNT": front_selfie_count,
         "NO SELFIE COUNT": no_front_selfie_count,
-        COMPLETE: complete,
+        "ORDER COUNT": this.state.numOrders,
+        COMPLETED: complete,
+        "COMPLETED CONVERSION":
+          (this.state.numOrders / complete).toFixed(2) * 100 + "%",
+        "TOTAL CONVERSION":
+          ((this.state.numOrders / totalAfterLaunch) * 100).toFixed(2) + "%",
         DROPPED: dropped,
         "DROPPED NAME/EMAIL INPUT":
           drop_email + " (" + ((drop_email / dropped) * 100).toFixed(2) + "%)",
@@ -1117,7 +1131,7 @@ export default class QuizData extends Component {
 
     let chartData = {
       data: [
-        { x: "1", y: quizAnalytics["COMPLETE"] },
+        { x: "1", y: quizAnalytics["COMPLETED"] },
         { x: "2", y: quizAnalytics["DROPPED"] },
         {
           x: "3",
@@ -1206,7 +1220,7 @@ export default class QuizData extends Component {
                 </div>
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column">ABANDONED:</div>{" "}
+                <div className="quiz-data-column">DROPPED:</div>{" "}
                 <div className="quiz-data-column">
                   {shopifyLoading ? (
                     <ClipLoader size={6} />
@@ -1289,7 +1303,7 @@ export default class QuizData extends Component {
                 </div>
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column">COMPLETE:</div>
+                <div className="quiz-data-column">COMPLETED:</div>
                 <div className="quiz-data-column">
                   {" "}
                   {shopifyLoading ? (
@@ -1303,7 +1317,7 @@ export default class QuizData extends Component {
                 </div>
               </div>
               <div className="quiz-data-row">
-                <div className="quiz-data-column">ABANDONED:</div>
+                <div className="quiz-data-column">DROPPED:</div>
                 <div className="quiz-data-column">
                   {" "}
                   {shopifyLoading ? (
