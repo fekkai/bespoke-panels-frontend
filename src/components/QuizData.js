@@ -46,77 +46,218 @@ export default class QuizData extends Component {
     });
   }
 
-  // chatQuizOrders = async () => {
-  //   const orders = await axios.get(
-  //     `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-  //   );
-  //   let response = await axios(
-  //     `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-  //   );
-  //   let userData = response.data.reverse();
+  chatQuizOrders = async () => {
+    const orders = await axios.get(
+      `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+    let response = await axios(
+      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+    let userData = response.data.reverse();
 
-  //   let total = 0;
-  //   let quizCount = 0;
-  //   let completeQuizCount = 0;
-  //   let abandonedQuizCount = 0;
-  //   const today = new Date().getDate();
-  //   const thisMonth = new Date().getMonth() + 1;
+    let total = 0;
+    let quizCount = 0;
+    let completeQuizCount = 0;
+    let abandonedQuizCount = 0;
+    const today = new Date().getDate();
+    const thisMonth = new Date().getMonth() + 1;
 
-  //   let bundleOrders = [];
-  //   // console.log(orders.data[0]);
-  //   for (let order of orders.data) {
-  //     if (
-  //       order["discount_applications-title"]
-  //         .toLowerCase()
-  //         .includes("discount bundle")
-  //     ) {
-  //       // console.lo
-  //       // console.log(order["line_items-name"])
+    let bundleOrders = [];
+    // console.log(orders.data[0]);
+    for (let order of orders.data) {
+      if (
+        order["discount_applications-title"]
+          .toLowerCase()
+          .includes("discount bundle")
+      ) {
+        // console.lo
+        // console.log(order["line_items-name"])
 
-  //       function checkNull(value) {
-  //         return value === null;
-  //       }
-  //       order["line_items-name"].splice(
-  //         order["line_items-name"].findIndex(checkNull),
-  //         1
-  //       );
+        function checkNull(value) {
+          return value === null;
+        }
+        order["line_items-name"].splice(
+          order["line_items-name"].findIndex(checkNull),
+          1
+        );
 
-  //       let split = order["discount_applications-title"].split("eD");
+        let split = order["discount_applications-title"].split("eD");
 
-  //       let newSplit = [];
-  //       for (let splitWord of split) {
-  //         splitWord = "Discount Bundle";
-  //         newSplit.push(splitWord);
-  //       }
+        let newSplit = [];
+        for (let splitWord of split) {
+          splitWord = "Discount Bundle";
+          newSplit.push(splitWord);
+        }
 
-  //       order["discount_applications-title"] = newSplit;
+        order["discount_applications-title"] = newSplit;
 
-  //       // get total sales
-  //       total = total + order.total_price;
-  //       bundleOrders.push({
-  //         order_id: order.id,
-  //         order_created: order.created_at,
-  //         number: order.order_number,
-  //         email: order.email,
-  //         line_items: order["line_items-name"],
-  //         discount_applications: order["discount_applications-title"],
-  //         total_price: order.total_price
-  //       });
-  //     }
-  //   }
-  //   console.log("hello", bundleOrders);
-  //   for (let i = 0; i < bundleOrders.length; i++) {
-  //     axios.post(
-  //       "http://bespoke-backend.herokuapp.com/quiz-orders",
-  //       bundleOrders[i]
-  //     );
-  //   }
-  // };
+        // get total sales
+        total = total + order.total_price;
+        bundleOrders.push({
+          order_id: order.id,
+          order_created: order.created_at,
+          number: order.order_number,
+          email: order.email,
+          line_items: order["line_items-name"],
+          discount_applications: order["discount_applications-title"],
+          total_price: order.total_price
+        });
+      }
+    }
+    // console.log("hello", bundleOrders);
+    for (let i = 0; i < bundleOrders.length; i++) {
+      axios.post(
+        "http://bespoke-backend.herokuapp.com/quiz-orders",
+        bundleOrders[i]
+      );
+    }
+  };
 
+  // for each day
   fetchPastOrders = async () => {
+    let brilliantGlossShampoo = 0;
+    let brilliantGlossConditioner = 0;
+    let brilliantGlossCreme = 0;
+    let superStrShampoo = 0;
+    let superStrConditioner = 0;
+    let superStrBalm = 0;
+    let techColorShampoo = 0;
+    let techColorConditioner = 0;
+    let techColorMask = 0;
+    let fullBlownShampoo = 0;
+    let fullBlownConditioner = 0;
+    let fullBlownMist = 0;
+    let babyBlondeShampoo = 0;
+    let babyBlondeCreme = 0;
+
     const response = await axios(
       `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
+
+    let allLineItems = [];
+    for (let i = 0; i < response.data.length; i++) {
+      let lineItemsList = response.data[i].line_items;
+      for (let j = 0; j < lineItemsList.length; j++) {
+        allLineItems.push(lineItemsList[j]);
+      }
+    }
+
+    console.log(allLineItems);
+    allLineItems.map(e => {
+      if (
+        e.toLowerCase().includes("brilliant gloss shampoo - 8.5 oz") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        brilliantGlossShampoo = brilliantGlossShampoo + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("brilliant gloss conditioner - 8.5 oz") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        brilliantGlossConditioner =
+          brilliantGlossConditioner + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("brilliant gloss multi-tasker perfecting") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        console.log(splitItem);
+        brilliantGlossCreme = brilliantGlossCreme + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("super strength shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        superStrShampoo = superStrShampoo + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("super strength conditioner") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        superStrConditioner = superStrConditioner + parseInt(splitItem[1]);
+      } else if (
+        (e
+          .toLowerCase()
+          .includes("super strength roots-to-ends strengthening balm") ||
+          e
+            .toLowerCase()
+            .includes("super strength roots-to-end strengthening balm")) &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        superStrBalm = superStrBalm + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("technician color shampoo - 8.5 oz") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        techColorShampoo = techColorShampoo + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("technician color conditioner - 8.5 oz") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        techColorConditioner = techColorConditioner + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("technician color powerful flash mask") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        techColorMask = techColorMask + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("full blown volume shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        fullBlownShampoo = fullBlownShampoo + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("full blown volume conditioner") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        fullBlownConditioner = fullBlownConditioner + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("full blown volume dry texturizing mist") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        fullBlownMist = fullBlownMist + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("baby blonde shampoo") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        babyBlondeShampoo = babyBlondeShampoo + parseInt(splitItem[1]);
+      } else if (
+        e.toLowerCase().includes("baby blonde air-dry") &&
+        e.toLowerCase().indexOf("sample") === -1
+      ) {
+        let splitItem = e.split(",  qty: ");
+        babyBlondeCreme = babyBlondeCreme + parseInt(splitItem[1]);
+      }
+    });
+
+    this.setState({
+      lineItems: {
+        brilliantGlossShampoo: brilliantGlossShampoo,
+        brilliantGlossConditioner: brilliantGlossConditioner,
+        brilliantGlossCreme: brilliantGlossCreme,
+        superStrShampoo: superStrShampoo,
+        superStrConditioner: superStrConditioner,
+        superStrBalm: superStrBalm,
+        techColorShampoo: techColorShampoo,
+        techColorConditioner: techColorConditioner,
+        techColorMask: techColorMask,
+        fullBlownShampoo: fullBlownShampoo,
+        fullBlownConditioner: fullBlownConditioner,
+        fullBlownMist: fullBlownMist,
+        babyBlondeShampoo: babyBlondeShampoo,
+        babyBlondeCreme: babyBlondeCreme
+      },
+      lineItemsLoading: false
+    });
+
     const orders = response.data.sort((a, b) =>
       a.order_created > b.order_created ? 1 : -1
     );
@@ -130,10 +271,9 @@ export default class QuizData extends Component {
     let prevOrderMonth = new Date("2020-03-20T14:06:42").getMonth() + 1;
 
     for (let order of orders) {
-
       currentOrderDay = new Date(order.order_created).getDate();
       currentOrderMonth = new Date(order.order_created).getMonth() + 1;
-      console.log(prevOrderDay, prevOrderMonth);
+      // console.log(prevOrderDay, prevOrderMonth);
       //  groups all orders by date and push into array
       if (
         prevOrderMonth === currentOrderMonth &&
@@ -153,7 +293,7 @@ export default class QuizData extends Component {
       }
     }
     this.setState({ arrOfOrderDays });
-    console.log(arrOfOrderDays);
+    // console.log(arrOfOrderDays);
   };
 
   shopifyOrders = async () => {
