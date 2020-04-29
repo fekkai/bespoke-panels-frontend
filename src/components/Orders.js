@@ -10,15 +10,15 @@ export default class Orders extends React.Component {
     this.state = {
       //   ordersToday: this.props.location.state.ordersToday,
 
-      ordersPrevDay:
-        this.props.location.state.ordersPrevDayMinus1 ||
-        this.props.location.state.ordersPrevDay ||
-        this.props.location.state.ordersToday
+      orders:
+        this.props.location.state.orders ||
+        this.props.location.state.orders ||
+        this.props.location.state.orders
     };
   }
 
   renderOrders = () => {
-    return this.state.ordersPrevDay.map(order => {
+    return this.state.orders.map(order => {
       console.log(order);
       return (
         <div class="row">
