@@ -11,8 +11,6 @@ export default class Orders extends React.Component {
       //   ordersToday: this.props.location.state.ordersToday,
 
       orders:
-        this.props.location.state.orders ||
-        this.props.location.state.orders ||
         this.props.location.state.orders
     };
   }
