@@ -14,7 +14,6 @@ import "../styles/Table.scss";
 // import { CSVLink } from "react-csv";
 import axios from "axios";
 const CancelToken = axios.CancelToken;
-const source = CancelToken.source();
 const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
 
 export default class QuizData extends Component {
@@ -34,7 +33,8 @@ export default class QuizData extends Component {
   }
 
   async componentDidMount() {
-    // this.chatQuizOrders(); uncomment to posting to Mongo
+    // uncomment to posting to Mongo
+    this.chatQuizOrders();
     this.fetchPastOrders();
     await this.shopifyOrders();
     await this.fetchEmails();
@@ -50,29 +50,16 @@ export default class QuizData extends Component {
     const orders = await axios.get(
       `https://bespoke-backend.herokuapp.com/quiz-orders-json?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
-    let response = await axios(
-      `https://bespoke-backend.herokuapp.com/fekkai-backend?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
-    );
-    let userData = response.data.reverse();
 
     let total = 0;
-    let quizCount = 0;
-    let completeQuizCount = 0;
-    let abandonedQuizCount = 0;
-    const today = new Date().getDate();
-    const thisMonth = new Date().getMonth() + 1;
-
     let bundleOrders = [];
-    // console.log(orders.data[0]);
-    for (let order of orders.data) {
+    for (let order of orders.data.reverse()) {
+      // console.log(order.created_at);
       if (
         order["discount_applications-title"]
           .toLowerCase()
           .includes("discount bundle")
       ) {
-        // console.lo
-        // console.log(order["line_items-name"])
-
         function checkNull(value) {
           return value === null;
         }
@@ -82,13 +69,11 @@ export default class QuizData extends Component {
         );
 
         let split = order["discount_applications-title"].split("eD");
-
         let newSplit = [];
         for (let splitWord of split) {
           splitWord = "Discount Bundle";
           newSplit.push(splitWord);
         }
-
         order["discount_applications-title"] = newSplit;
 
         // get total sales
@@ -136,7 +121,6 @@ export default class QuizData extends Component {
 
     const numOrders = response.data.length;
 
-    console.log(numOrders);
     let allLineItems = [];
     for (let i = 0; i < response.data.length; i++) {
       let lineItemsList = response.data[i].line_items;
@@ -264,7 +248,6 @@ export default class QuizData extends Component {
       a.order_created > b.order_created ? 1 : -1
     );
 
-    // console.log(prevOrderMonth, prevOrderDay);
     let currentOrderDay;
     let currentOrderMonth;
     const arrOfOrderDays = [];
@@ -275,7 +258,6 @@ export default class QuizData extends Component {
     for (let order of orders) {
       currentOrderDay = new Date(order.order_created).getDate();
       currentOrderMonth = new Date(order.order_created).getMonth() + 1;
-      // console.log(prevOrderDay, prevOrderMonth);
       //  groups all orders by date and push into array
       if (
         prevOrderMonth === currentOrderMonth &&
@@ -295,14 +277,73 @@ export default class QuizData extends Component {
       }
     }
     this.setState({ arrOfOrderDays });
-    // console.log(arrOfOrderDays);
   };
 
   shopifyOrders = async () => {
-    let response = await axios(
-      // "http://localhost:4000/fekkai"
+    let fekkaiOrders = await axios(
       `https://bespoke-backend.herokuapp.com/fekkai?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
     );
+    let bundleOrderRes = await axios.get(
+      `https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO`
+    );
+
+    console.log(bundleOrderRes.data.length)
+    // find all order dates from mongo as unique identifiers
+    const orderIds = [];
+    for (let order of bundleOrderRes.data) {
+      orderIds.push(order.order_id);
+    }
+
+    // search for new bundle discount orders (chat quiz)
+    for (let order of fekkaiOrders.data) {
+      let orderDate = new Date(order.created_at);
+      let today = new Date();
+
+      let lineItemsArr = [];
+      let discountApplications = [];
+
+      for (let i = 0; i < order.discount_applications.length; i++) {
+        let discountApplication =
+          order &&
+          order.discount_applications[i] &&
+          order.discount_applications[i].title;
+        if (
+          // check for today
+          orderDate.getMonth() === today.getMonth() &&
+          orderDate.getDate() === today.getDate() &&
+          discountApplication === "Discount Bundle" &&
+          //  check if new order exists in mongo through unique identifer
+          orderIds.includes(order.id) === false
+        ) {
+          console.log(orderIds.includes(order.id), order.id, order.created, order.discount_applications, order.email, order.total_price);
+          discountApplications.push(discountApplication);
+          for (let i = 0; i < order.line_items.length; i++) {
+            const lineItems =
+              order.line_items[i].title +
+              ",  qty: " +
+              order.line_items[i].quantity.toString();
+            lineItemsArr.push(lineItems);
+          }
+          const orderObj = {
+            line_items: lineItemsArr,
+            discount_applications: discountApplications,
+            order_id: order.id,
+            order_created: order.created_at,
+            number: parseInt(order.number),
+            email: order.email,
+            total_price: order.total_price
+          };
+          axios.post(
+            "http://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO",
+            orderObj
+            );
+            console.log("order id not found. posting to db!!");
+        }
+        // break to prevent posting lineItems more than once
+        break;
+      }
+    }
+
     let discountedItems = 0;
     let totalSalesToday = 0;
     let totalSalesPrevDay = 0;
@@ -322,7 +363,7 @@ export default class QuizData extends Component {
     let lineItemsPrevDayMinus1 = [];
 
     // for (let order of response.data) {
-    for (let order of response.data) {
+    for (let order of fekkaiOrders.data) {
       if (
         order.discount_applications &&
         // change date here for line item query
@@ -613,20 +654,17 @@ export default class QuizData extends Component {
           if (data.user_data.compute === false) {
             testComputeFalse++;
           }
-          // console.log(testComputeTrue, testComputeFalse);
           if (data.user_code) totalAfterLaunch++;
 
           if (data.user_data.front_selfie !== null) {
             front_selfie_count++;
           }
-
           if (data.user_data.compute === false) {
             dropped++;
           }
           if (data.user_data.compute === true) {
             complete++;
           }
-
           //  selfie does not exist and no CV compute characteristics - only email
           else if (data.user_data.email && !data.user_data.answers)
             drop_email++;
@@ -657,31 +695,16 @@ export default class QuizData extends Component {
           else if (!data.user_data.answers.hair_goals) hair_goals++;
           // user did not finish quiz at end - same as compute false
           else if (!data.user_data.answers.weather) weather++;
-
-          // console.log(
-          //   complete,
-          //   dropped,
-          //   drop_email,
-          //   front_selfie,
-          //   front_selfie_edit,
-          //   no_front_selfie_edit,
-          //   hair_thickness,
-          //   hair_condition,
-          //   hair_goals,
-          //   weather
-          // );
           // total quizzes today
           if (
             new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created).getDate() === today
           ) {
-            // console.log("today's", userResponse.data.created);
             quizToday++;
             this.setState({
               quizToday
             });
           }
-
           // completed quizzes today
           if (
             userResponse.data.user_data.compute === true &&
@@ -689,12 +712,10 @@ export default class QuizData extends Component {
             new Date(userResponse.data.created.toString()).getDate() === today
           ) {
             completeQuizToday++;
-
             this.setState({
               completeQuizToday
             });
           }
-
           // abandoned quizzes today
           if (
             userResponse.data.user_data.compute === false &&
@@ -702,24 +723,20 @@ export default class QuizData extends Component {
             new Date(userResponse.data.created.toString()).getDate() === today
           ) {
             abandonedQuizToday++;
-
             this.setState({
               abandonedQuizToday
             });
           }
-
           // total quizzes prev day
           if (
             new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created).getDate() === yesterday
           ) {
-            // console.log("yesterday's", userResponse.data.created);
             quizPrevDay++;
             this.setState({
               quizPrevDay
             });
           }
-
           // completed quizzes prev day
           if (
             userResponse.data.user_data.compute === true &&
@@ -733,7 +750,6 @@ export default class QuizData extends Component {
               completeQuizPrevDay
             });
           }
-
           // abandoned quizzes prev day
           if (
             userResponse.data.user_data.compute === false &&
@@ -742,23 +758,19 @@ export default class QuizData extends Component {
               yesterday
           ) {
             abandonedQuizPrevDay++;
-
             this.setState({
               abandonedQuizPrevDay
             });
           }
-
           if (
             new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
             new Date(userResponse.data.created).getDate() === yesterday - 1
           ) {
-            // console.log("yesterday's", userResponse.data.created);
             quizPrevDayMinus1++;
             this.setState({
               quizPrevDayMinus1
             });
           }
-
           // completed quizzes prev day
           if (
             userResponse.data.user_data.compute === true &&
@@ -786,7 +798,6 @@ export default class QuizData extends Component {
               abandonedQuizPrevDayMinus1
             });
           }
-
           // total abandoned quizzes
           if (userResponse.data.user_data.compute === false) {
             abandonedQuiz++;
@@ -794,7 +805,6 @@ export default class QuizData extends Component {
               abandonedQuiz
             });
           }
-
           if (userResponse.data.user_data.compute === true) {
             // avoid pushing duplicate emails in emails array
             if (
@@ -811,7 +821,6 @@ export default class QuizData extends Component {
               });
             }
             completedQuizCount++;
-
             // increment completed quiz instance if quiz compute is true
             this.setState({
               completedQuizCount
@@ -823,7 +832,6 @@ export default class QuizData extends Component {
       }
 
       no_front_selfie_count = totalAfterLaunch - front_selfie_count;
-      console.log(no_front_selfie_count);
 
       this.setState({
         // totalQuizLoading: false
@@ -913,8 +921,8 @@ export default class QuizData extends Component {
         // "shipping_province"
       ]
     ];
-    // emails compute true
 
+    // emails compute true
     for (let email of this.state.emails) {
       for (let order of this.state.orders) {
         let userCreated = email && email.created;
@@ -969,7 +977,6 @@ export default class QuizData extends Component {
             totalSales += parseFloat(order.total);
           }
         }
-
         //  today's orders through chat quiz
         if (
           // check for matching email in quiz db and fekkai shopify orders db
@@ -982,7 +989,6 @@ export default class QuizData extends Component {
             totalSalesToday += parseFloat(order.total);
           }
         }
-
         //  previous day's orders through chat quiz
         if (
           // check for matching email in quiz db and fekkai shopify orders db
@@ -1034,7 +1040,6 @@ export default class QuizData extends Component {
       loading,
       shopifyLoading,
       lineItemsLoading,
-      totalQuizLoading,
       abandonedQuizToday,
       klaviyoEmails,
       front_selfie_count,
@@ -1044,22 +1049,12 @@ export default class QuizData extends Component {
       abandonedQuizPrevDay,
       quizToday,
       quizPrevDay,
-      totalQuizUserSales,
-      totalSales,
-      returningTotalSales,
       totalSalesToday,
       totalSalesPrevDay,
       orderCountToday,
       orderCountPrevDay,
       ordersToday,
       ordersPrevDay,
-      totalSalesPrevDayMinus1,
-      orderCountPrevDayMinus1,
-      ordersPrevDayMinus1,
-      lineItemsPrevDayMinus1,
-      abandonedQuizPrevDayMinus1,
-      completeQuizPrevDayMinus1,
-      quizPrevDayMinus1,
       lineItems,
       drop_email,
       front_selfie,
@@ -1074,10 +1069,7 @@ export default class QuizData extends Component {
       totalAfterLaunch
     } = this.state;
 
-    const styles = this.getStyles;
-
     let quizAnalytics;
-
     if (localStorage.getItem("quizAnalytics")) {
       quizAnalytics = JSON.parse(localStorage.getItem("quizAnalytics"));
     } else {
@@ -1127,45 +1119,6 @@ export default class QuizData extends Component {
       };
     }
 
-    // console.log(quizAnalytics);
-
-    let chartData = {
-      data: [
-        { x: "1", y: quizAnalytics["COMPLETED"] },
-        { x: "2", y: quizAnalytics["DROPPED"] },
-        {
-          x: "3",
-          y: quizAnalytics["DROPPED NAME/EMAIL INPUT"]
-        },
-        { x: "4", y: quizAnalytics["DROPPED AFTER SELFIE"] },
-        {
-          x: "5",
-          y: quizAnalytics["DROPPED NO SELFIE + CORRECTING"]
-        },
-        {
-          x: "6",
-          y: quizAnalytics["DROPPED W/ SELFIE + WHILE CORRECTING"]
-        },
-        {
-          x: "7",
-          y: quizAnalytics["DROPPED AT HAIR THICKNESS"]
-        },
-        {
-          x: "8",
-          y: quizAnalytics["DROPPED AT HAIR CONDTIONS"]
-        },
-        {
-          x: "9",
-          y: quizAnalytics["DROPPED AT HAIR GOALS"]
-        },
-        {
-          x: "10",
-          y: quizAnalytics["DROPPED AT GEOFACTORS"]
-        }
-      ],
-      title: "Quiz Analytics"
-    };
-
     // handle dates
     const today = new Date();
     const yesterday = new Date(today);
@@ -1173,7 +1126,6 @@ export default class QuizData extends Component {
     yesterday.setDate(yesterday.getDate() - 1);
     twoDaysPrior.setDate(twoDaysPrior.getDate() - 2);
 
-    // console.log(this.state);
     return (
       <div className="dashboard">
         <span>
