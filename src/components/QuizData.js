@@ -343,7 +343,7 @@ export default class QuizData extends Component {
             total_price: order.total_price
           };
           await axios.post(
-            "http://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO",
+            "https://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO",
             orderObj
           );
           console.log("order id not found. posting to db!!");
