@@ -6,6 +6,7 @@ import { ClipLoader } from "react-spinners";
 import DataTemplate from "./common/DataTemplate";
 import DailyData from "./common/DailyData";
 import PieGraph from "./common/PieGraph";
+import Calendar from 'react-calendar'
 
 // styling
 import "../styles/Panel.scss";
