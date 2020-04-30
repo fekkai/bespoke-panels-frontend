@@ -320,7 +320,7 @@ export default class QuizData extends Component {
           console.log(
             orderIds.includes(order.id),
             order.id,
-            order.created,
+            order.created_at,
             order.discount_applications,
             order.email,
             order.total_price
@@ -342,7 +342,7 @@ export default class QuizData extends Component {
             email: order.email,
             total_price: order.total_price
           };
-          axios.post(
+          await axios.post(
             "http://bespoke-backend.herokuapp.com/quiz-orders?apikey=AkZv1hWkkDH9W2sP9Q5WdX8L8u9lbWeO",
             orderObj
           );
