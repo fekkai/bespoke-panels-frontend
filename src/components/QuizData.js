@@ -739,7 +739,7 @@ export default class QuizData extends Component {
           // total quizzes prev day
           if (
             new Date(userResponse.data.created).getMonth() + 1 === thisMonth &&
-            new Date(userResponse.data.created).getDate() === yesterday
+            new Date(userResponse.data.created).getDate() === yesterday 
           ) {
             quizPrevDay++;
             this.setState({
@@ -1161,7 +1161,7 @@ export default class QuizData extends Component {
                 date={'today'}
               />
               <br />
-              <DailyData
+              {/* <DailyData
                 shopifyLoading={shopifyLoading}
                 quizCount={quizPrevDay}
                 completeQuizCount={completeQuizPrevDay}
@@ -1170,7 +1170,7 @@ export default class QuizData extends Component {
                 totalSales={totalSalesPrevDay}
                 orders={ordersPrevDay}
                 date={'yesterday'}
-              />
+              /> */}
 
               <br />
               <div className="quiz-data-row">
